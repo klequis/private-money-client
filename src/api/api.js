@@ -1,5 +1,6 @@
 import { fetchJson } from './apiHelpers'
-import { isEmpty } from 'validator'
+// import { isEmpty } from 'validator'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
@@ -57,6 +58,14 @@ export default {
           method: 'GET'
         })
         // orange('api.rules.read: data.length', data.length)
+        
+        // data.forEach(d => {
+        //   if (R.type(d.criteria) !== 'Array') {
+        //     orange('not an array')
+        //   } else {
+        //     // orange('YEAH', d.criteria)
+        //   }
+        // })
         return data
       } catch (e) {
         redf('api.rules.read ERROR', e.message)

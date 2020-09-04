@@ -4,7 +4,7 @@ import React, { useState } from 'react'
 import { green, redf } from 'logger'
 
 const ActionEdit = ({ action }) => {
-  green('action', action)
+  // green('action', action)
   return "ActionEdit"
 }
 

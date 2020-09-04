@@ -17,7 +17,7 @@ import { selectTransactionRuleIds } from 'features/transactions/transactionsSlic
 import Rule from './Rule'
 import { green } from 'logger'
 import styles from './Rules.module.css'
-import { ruleTmpCreate } from 'features/rules/rulesSlice'
+import { ruleTmpCreate } from 'features/rulesTmp/rulesTmpSlice'
 
 // const _ruleTmpAddClick = async () => {
 //   const tmpId = `tmp_${shortid.generate()}`
@@ -41,45 +41,56 @@ import { ruleTmpCreate } from 'features/rules/rulesSlice'
 //   _setRuleIds(newRuleIds)
 // }
 
-const createTmpRule = (tmpId) => {
-  return {
-    _id: tmpId,
-    criteria: [
-      {
-        _id: `tmp_${shortid.generate()}`,
-        field: '',
-        operation: '',
-        value: ''
-      }
-    ],
-    actions: [
-      {
-        _id: `tmp_${shortid.generate()}`
-      }
-    ]
-  }
+const _ruleTmpCreate = (tmpId) => {
+  ruleTmpCreate(tmpId)
 }
 
+const _ruleTmpUpdate = () => {
+
+}
+
+const _ruleTmpDelete = () => {
+
+}
+
+const _ruleCreate = () => {
+
+}
+
+const _ruleDelete = () => {
+
+}
+
+const _ruleUpdate = () => {
+
+}
+
+const makeTmpRuleId = () => `tmp_${shortid.generate()}`
+
 const Rules = ({ transactionId }) => {
+
+  const dispatch = useDispatch()
+
   const [_ruleIds, _setRuleIds] = useState(
     useSelector((state) => selectTransactionRuleIds(transactionId, state))
   )
 
   useEffect(() => {
     if (_ruleIds === undefined) {
-      ruleTmpCreate(`tmp_${shortid.generate()}`)
-      ruleTmpAdd(createTmpRule(tmpId))
+      const tmpId = makeTmpRuleId()
+      dispatch(ruleTmpCreate(tmpId))
+      _setRuleIds(R.append(tmpId, _ruleIds))
     }
-  })
+  }, [dispatch, ruleTmpCreate])
 
-  const _ruleTmpAddClick = async () => {
-    const tmpId = `tmp_${shortid.generate()}`
-    ruleTmpAdd(createTmpRule(tmpId))
-    const newRuleIds = append(tmpId, _ruleIds)
-    _setRuleIds(newRuleIds)
-  }
+  // const _ruleTmpAddClick = async () => {
+  //   const tmpId = `tmp_${shortid.generate()}`
+  //   ruleTmpAdd(_ruleTmpCreate(tmpId))
+  //   const newRuleIds = append(tmpId, _ruleIds)
+  //   _setRuleIds(newRuleIds)
+  // }
 
-  green('_ruleIds', _ruleIds)
+  // green('_ruleIds', _ruleIds)
 
   return (
     <>

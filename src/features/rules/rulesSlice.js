@@ -1,7 +1,6 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
-import * as R from 'ramda'
 import shortid from 'shortid'
 
 // eslint-disable-next-line
@@ -22,27 +21,7 @@ const rulesSlice = createSlice({
   name: 'rules',
   initialState,
   reducers: {
-    ruleTmpCreate(state, action) {
-      // payload will be an Id
-      const t = {
-        _id: action.payload,
-        criteria: [
-          {
-            _id: `tmp_${shortid.generate()}`,
-            field: '',
-            operation: '',
-            value: ''
-          }
-        ],
-        actions: [
-          {
-            _id: `tmp_${shortid.generate()}`
-          }
-        ]
-      }
-
-      state.push(t)
-    }
+    
   },
   extraReducers: {
     [fetchRules.pending]: (state, action) => {
@@ -91,14 +70,16 @@ export default rulesSlice.reducer
 //   })
 // }
 
-export const { ruleTmpCreate } = rulesSlice.actions
 const getRule = (ruleId, state) => state.rules.items.find(r => r._id === ruleId)
 
 export const selectRulesStatus = (state) => state.transactions.status
 export const selectRulesError = (state) => state.transactions.error
 
 export const selectRuleCriteria = (ruleId, state) => {
+  // green('selectRuleCriteria: ruleId', ruleId)
   const { criteria } = getRule(ruleId, state)
+  
+  // green('selectRuleCriteria: criteria', criteria)
   return criteria
 }
 
