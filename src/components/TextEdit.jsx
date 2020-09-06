@@ -18,7 +18,7 @@ const makeStyle = (maxWidth, minWidth, textStyle) => {
 
 
 
-const TextEdit = ({ name, value, onChange, maxWidth=null, minWidth=null }) => {
+const TextEdit = ({ name, value, onChange, placeholder = '', maxWidth=null, minWidth=null }) => {
 
   const style = makeStyle(maxWidth, minWidth, textExtraSm)
 
@@ -30,6 +30,7 @@ const TextEdit = ({ name, value, onChange, maxWidth=null, minWidth=null }) => {
       value={value}
       custom
       onChange={onChange}
+      placeholder={placeholder}
     />
   )
 }

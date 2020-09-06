@@ -15,11 +15,16 @@ const Actions = ({ ruleId }) => {
     } else {
       return selectRuleActions(ruleId, state)
     }
-
-    
   })
-  // green('actions', actions)
-  return actions.map(a => <ActionEdit key={a._id} action={a} />)
+  green(`actions ${ruleId}`, actions)
+  return (
+    <>
+      <h4>Actions</h4>
+      {actions.map((a) => (
+        <ActionEdit key={a._id} action={a} />
+      ))}
+    </>
+  )
 }
 
 export default Actions

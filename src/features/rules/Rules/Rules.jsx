@@ -90,7 +90,6 @@ const Rules = ({ transactionId }) => {
   //   _setRuleIds(newRuleIds)
   // }
 
-  // green('_ruleIds', _ruleIds)
 
   return (
     <>

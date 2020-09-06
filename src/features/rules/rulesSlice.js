@@ -76,10 +76,7 @@ export const selectRulesStatus = (state) => state.transactions.status
 export const selectRulesError = (state) => state.transactions.error
 
 export const selectRuleCriteria = (ruleId, state) => {
-  // green('selectRuleCriteria: ruleId', ruleId)
   const { criteria } = getRule(ruleId, state)
-  
-  // green('selectRuleCriteria: criteria', criteria)
   return criteria
 }
 

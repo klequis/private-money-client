@@ -5,20 +5,24 @@ import { selectRuleCriteria } from 'features/rules/rulesSlice'
 import { selectTmpRuleCriteria } from 'features/rulesTmp/rulesTmpSlice'
 import isTmpRule from '../isTmpRule'
 
-
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
 
 const Criteria = ({ ruleId }) => {
   const criteria = useSelector((state) => {
     if (isTmpRule(ruleId)) {
-      return selectTmpRuleCriteria(ruleId, state)      
+      return selectTmpRuleCriteria(ruleId, state)
     } else {
       return selectRuleCriteria(ruleId, state)
     }
   })
 
-  return criteria.map((c) => <CriterionEdit key={c._id} criterion={c} />)
+  return (
+    <>
+      <h4>Criteria</h4>
+      {criteria.map((c) => <CriterionEdit key={c._id} criterion={c} />)}
+    </>
+  )
 }
 
 export default Criteria

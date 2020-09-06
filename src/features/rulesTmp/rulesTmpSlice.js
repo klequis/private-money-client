@@ -51,15 +51,11 @@ const getTmpRule = (ruleTmpId, state) => state.rulesTmp.find(r => r._id === rule
 
 
 export const selectTmpRuleCriteria = (ruleTmpId, state) => {
-  // green('selectRuleCriteria: ruleTmpId', ruleTmpId)
   const { criteria } = getTmpRule(ruleTmpId, state)
-  
-  // green('selectRuleCriteria: criteria', criteria)
   return criteria
 }
 
 export const selectTmpRuleActions = (ruleTmpId, state) => {
-  green('************************************8')
   const { actions } = getTmpRule(ruleTmpId, state)
   return actions
 }
