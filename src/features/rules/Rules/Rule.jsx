@@ -8,10 +8,18 @@ const Rule = ({ ruleId }) => {
     <tr>
       <td colSpan="10">
         <div colSpan="10">{`RuleId: ${ruleId}`}</div>
-        <div><b>category</b></div>
-        <Categorize  />
-        <Criteria ruleId={ruleId} />
-        <Actions ruleId={ruleId} />
+        <div>
+          <b>category</b>
+        </div>
+        <div style={{ backgroundColor: 'red' }}>
+          <Categorize />
+        </div>
+        <div style={{ backgroundColor: 'green' }}>
+          <Criteria ruleId={ruleId} />
+        </div>
+        <div style={{ backgroundColor: 'blue', padding: 5 }}>
+          <Actions ruleId={ruleId} />
+        </div>
       </td>
     </tr>
   )

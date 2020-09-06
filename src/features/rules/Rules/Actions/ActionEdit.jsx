@@ -11,23 +11,23 @@ const ActionEdit = ({ action }) => {
     // tmp function
   }
   const Control = () => {
-    if (action.action === 'strip') {
+    if (action.actionType === 'strip') {
       return <Strip action={action} handleChange={_handleChange} />
-    } else if (action.action === 'replaceAll') {
+    } else if (action.actionType === 'replaceAll') {
       return <ReplaceAll action={action} handleChange={_handleChange} />
     } else {
       return null
     }
   }
   return (
-    <div>
+    <div style={{ backgroundColor: 'purple', border: '1px solid white'}}>
       <div>
         <b>action</b>
       </div>
       <div className="d-flex">
         <Select
           name="action"
-          value={action.action}
+          value={action.actionType}
           onChange={_handleChange}
           maxWidth={100}
         >

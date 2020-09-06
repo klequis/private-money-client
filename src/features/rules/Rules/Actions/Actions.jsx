@@ -20,9 +20,22 @@ const Actions = ({ ruleId }) => {
   return (
     <>
       <h4>Actions</h4>
-      {actions.map((a) => (
-        <ActionEdit key={a._id} action={a} />
-      ))}
+      {actions.map((a) => {
+        green('a', a)
+        return (
+          <div
+            style={{
+              backgroundColor: 'orange',
+              border: '1px solid orange',
+              padding: 5,
+              margin: 5
+            }}
+          >
+            
+            <ActionEdit key={a._id} action={a} />
+          </div>
+        )
+      })}
     </>
   )
 }
