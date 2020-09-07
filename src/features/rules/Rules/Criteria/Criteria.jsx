@@ -16,11 +16,13 @@ const Criteria = ({ ruleId }) => {
       return selectRuleCriteria(ruleId, state)
     }
   })
-
   return (
     <>
       <h4>Criteria</h4>
-      {criteria.map((c) => <CriterionEdit key={c._id} criterion={c} />)}
+
+      {criteria.map((c) => (
+        <CriterionEdit key={c._id} criterion={c} />
+      ))}
     </>
   )
 }
