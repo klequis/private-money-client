@@ -58,15 +58,6 @@ export default {
           method: 'GET'
         })
         // orange('api.rules.read: data.length', data.length)
-        
-        data.forEach(d => {
-          if (R.type(d.actions) !== 'Array') {
-            // orange('not an array')
-          } else {
-            // orange('d.actions', d.actions)
-            d.actions.forEach(a => console.log(a.actionType))
-          }
-        })
         return data
       } catch (e) {
         redf('api.rules.read ERROR', e.message)

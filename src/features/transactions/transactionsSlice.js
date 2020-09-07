@@ -62,10 +62,16 @@ export const selectTransactionRuleIds = (transactionId, state) => {
   return transaction.ruleIds
 }
 
-
 export const selectTransactionsStatus = (state) => state.transactions.status
 export const selectTransactionsError = (state) => state.transactions.error
 
 export const selectRowIdShow = (state) => state.transactions.rowIdShow
 
-
+export const selectTransactionFieldValue = (
+  fieldName,
+  transactionId,
+  state
+) => {
+  const t = selectOneTransaction(transactionId, state)
+  return t[fieldName]
+}

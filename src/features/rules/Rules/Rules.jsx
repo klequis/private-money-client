@@ -12,11 +12,12 @@ import shortid from 'shortid'
 // ** import ActionButton, { buttonTypes } from 'ui/elements/ActionButton'
 // ** import Omit from './Omit'
 import Form from 'react-bootstrap/Form'
-import Criteria from './Criteria'
-import { selectTransactionRuleIds } from 'features/transactions/transactionsSlice'
+import {
+  selectTransactionRuleIds,
+  selectOneTransaction
+} from 'features/transactions/transactionsSlice'
 import Rule from './Rule'
 import { green } from 'logger'
-import styles from './Rules.module.css'
 import { ruleTmpCreate } from 'features/rulesTmp/rulesTmpSlice'
 
 // const _ruleTmpAddClick = async () => {
@@ -45,40 +46,35 @@ const _ruleTmpCreate = (tmpId) => {
   ruleTmpCreate(tmpId)
 }
 
-const _ruleTmpUpdate = () => {
+const _ruleTmpUpdate = () => {}
 
-}
+const _ruleTmpDelete = () => {}
 
-const _ruleTmpDelete = () => {
+const _ruleCreate = () => {}
 
-}
+const _ruleDelete = () => {}
 
-const _ruleCreate = () => {
-
-}
-
-const _ruleDelete = () => {
-
-}
-
-const _ruleUpdate = () => {
-
-}
+const _ruleUpdate = () => {}
 
 const makeTmpRuleId = () => `tmp_${shortid.generate()}`
 
 const Rules = ({ transactionId }) => {
-
   const dispatch = useDispatch()
 
   const [_ruleIds, _setRuleIds] = useState(
     useSelector((state) => selectTransactionRuleIds(transactionId, state))
   )
 
+  const transaction = useSelector((state) =>
+    selectOneTransaction(transactionId, state)
+  )
+
   useEffect(() => {
     if (_ruleIds === undefined) {
       const tmpId = makeTmpRuleId()
-      dispatch(ruleTmpCreate(tmpId))
+      dispatch(
+        ruleTmpCreate({ tmpId, origDescription: transaction.origDescription })
+      )
       _setRuleIds(R.append(tmpId, _ruleIds))
     }
   }, [dispatch, ruleTmpCreate])
@@ -90,23 +86,12 @@ const Rules = ({ transactionId }) => {
   //   _setRuleIds(newRuleIds)
   // }
 
-
   return (
     <>
-      <tr>
-        <td colSpan="10">
-          <div className={styles.omitAndDateCheck}>
-            <Form.Check type="switch" id="omit" label="omit" />
-            <Form.Check
-              type="switch"
-              id="this-date-only"
-              label="zz/zz/zzzz only"
-            />
-          </div>
-        </td>
-      </tr>
       {_ruleIds !== undefined
-        ? _ruleIds.map((id) => <Rule key={id} ruleId={id} />)
+        ? _ruleIds.map((id) => (
+            <Rule key={id} transactionId={transactionId} ruleId={id} />
+          ))
         : null}
     </>
   )

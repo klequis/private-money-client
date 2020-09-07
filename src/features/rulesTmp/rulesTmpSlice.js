@@ -7,30 +7,49 @@ import { green, red } from 'logger'
 
 const initialState = []
 
+/*
+    Create a replaceAll action for description
+    - description
+    Create a categorize action
+
+*/
 const rulesTmpSlice = createSlice({
   name: 'rulesTmp',
   initialState,
   reducers: {
     ruleTmpCreate(state, action) {
       // payload will be an Id
-      const newRule = {
-        _id: action.payload,
+      green('ruleTmpCreate: action', action)
+      const { tmpId, origDescription} = action.payload
+      green('ruleTmpCreate: tmpId', tmpId)
+      const ruleNew = {
+        _id: tmpId,
         criteria: [
           {
             _id: `tmp_${shortid.generate()}`,
-            field: '',
-            operation: '',
-            value: ''
+            field: 'description',
+            operation: 'equals',
+            value: origDescription
           }
         ],
         actions: [
           {
-            _id: `tmp_${shortid.generate()}`
+            _id: `tmp_${shortid.generate()}`,
+            actionType: 'replaceAll',
+            field: 'description',
+            replaceWithValue: origDescription
+          },
+          {
+            _id: `tmp_${shortid.generate()}`,
+            actionType: 'categorize',
+            category1: '',
+            category2: ''
           }
         ]
       }
+      green('ruleTmpCreate: ruleNew', ruleNew)
 
-      state.push(newRule)
+      state.push(ruleNew)
     },
     // TODO:
     ruleTmpUpdate(state, action) {
