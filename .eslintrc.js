@@ -1,5 +1,5 @@
 module.exports = {
-  extends: 'standard',
+  extends: 'react-app',
   "env": {
     mocha: true
   },
