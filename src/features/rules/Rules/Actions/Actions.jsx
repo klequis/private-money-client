@@ -22,22 +22,16 @@ const Actions = ({ ruleId }) => {
       return selectRuleActions(ruleId, state)
     }
   })
-  if (isTmpRule) {
-
-  }
+  
   const Control = ({action}) => {
-    green('Control: action.field', action.field)
     if (action.field === 'description') {
-      green('control: RenameDescription')
       return <RenameDescription key={action._id} action={action} />
     } else if (action.actionType === 'categorize') {
       return <Categorize key={action._id} action={action} />
     } else {
-      green('control: ActionEdit')
       return <ActionEdit key={action._id} action={action} />
     }
   }
-
 
   return (
     <>
@@ -48,12 +42,12 @@ const Actions = ({ ruleId }) => {
       {actions.map((a) => {
         return (
           <div
-            style={{
-              backgroundColor: 'orange',
-              border: '1px solid orange',
-              padding: 5,
-              margin: 5
-            }}
+            // style={{
+            //   backgroundColor: 'orange',
+            //   border: '1px solid orange',
+            //   padding: 5,
+            //   margin: 5
+            // }}
           >
             <Control action={a} />
             {/* <ActionEdit key={a._id} action={a} /> */}

@@ -9,7 +9,8 @@ const initialState = {
   items: [],
   status: 'idle',
   error: null,
-  rowIdShow: ''
+  // rowIdShow: '',
+  activeTransactionId: null
 }
 
 const viewName = 'all-data-by-description'
@@ -26,8 +27,8 @@ const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    setRowIdShow(state, action) {
-      state.rowIdShow = action.payload
+    setActiveTransactionId(state, action) {
+      state.activeTransactionId = action.payload
     }
   },
   extraReducers: {
@@ -47,7 +48,7 @@ const transactionsSlice = createSlice({
 
 export default transactionsSlice.reducer
 
-export const { setRowIdShow } = transactionsSlice.actions
+export const { setActiveTransactionId } = transactionsSlice.actions
 
 // Selectors
 
@@ -65,7 +66,12 @@ export const selectTransactionRuleIds = (transactionId, state) => {
 export const selectTransactionsStatus = (state) => state.transactions.status
 export const selectTransactionsError = (state) => state.transactions.error
 
-export const selectRowIdShow = (state) => state.transactions.rowIdShow
+export const selectActiveTransactionId = (state) => state.transactions.activeTransactionId
+
+export const selectActiveTransaction = state => {
+  const tId = selectActiveTransactionId(state)
+  return selectOneTransaction(tId, state)
+}
 
 export const selectTransactionFieldValue = (
   fieldName,

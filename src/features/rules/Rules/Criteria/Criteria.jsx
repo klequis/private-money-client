@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import CriterionEdit from './CriterionEdit'
 import { selectRuleCriteria } from 'features/rules/rulesSlice'
 import { selectTmpRuleCriteria } from 'features/rulesTmp/rulesTmpSlice'
-import { selectTransactionFieldValue } from 'features/transactions/transactionsSlice'
+import { selectActiveTransaction } from 'features/transactions/transactionsSlice'
 import isTmpRule from '../isTmpRule'
 import styles from '../Rules.module.css'
 import Form from 'react-bootstrap/Form'
@@ -12,7 +12,7 @@ import Button from 'components/Button'
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
 
-const Criteria = ({ transactionId, ruleId }) => {
+const Criteria = ({ ruleId }) => {
   const criteria = useSelector((state) => {
     if (isTmpRule(ruleId)) {
       return selectTmpRuleCriteria(ruleId, state)
@@ -20,9 +20,9 @@ const Criteria = ({ transactionId, ruleId }) => {
       return selectRuleCriteria(ruleId, state)
     }
   })
-  const transactionDate = useSelector((state) =>
-    selectTransactionFieldValue('date', transactionId, state)
-  )
+  const activeTransaction = useSelector(selectActiveTransaction)
+  const { date } = activeTransaction
+
   return (
     <>
       <div className="d-flex">
@@ -30,7 +30,7 @@ const Criteria = ({ transactionId, ruleId }) => {
         <Button>Add</Button>
       </div>
       <div className={styles.omitAndDateCheck}>
-        <Form.Check type="switch" id="this-date-only" label={transactionDate} />
+        <Form.Check type="switch" id="this-date-only" label={date} />
         ''
       </div>
       {criteria.map((c) => (

@@ -20,7 +20,7 @@ const ActionEdit = ({ action }) => {
     }
   }
   return (
-    <div style={{ backgroundColor: 'purple', border: '1px solid white'}}>
+    <div /* style={{ backgroundColor: 'purple', border: '1px solid white'}} */>
       <div>
         <b>action</b>
       </div>

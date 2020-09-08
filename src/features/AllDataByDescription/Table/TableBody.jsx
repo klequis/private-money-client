@@ -5,8 +5,8 @@ import isNilOrEmpty from 'lib/isNilOrEmpty'
 import Rules from 'features/rules/Rules'
 import {
   selectOneTransaction,
-  setRowIdShow,
-  selectRowIdShow
+  setActiveTransactionId,
+  selectActiveTransactionId
 } from 'features/transactions/transactionsSlice'
 import styles from './TableBody.module.css'
 
@@ -15,8 +15,12 @@ import { green, red } from 'logger'
 
 const TableRow = ({ transactionId }) => {
   const dispatch = useDispatch()
-  const rowIdShow = useSelector(selectRowIdShow)
-  const showRow = rowIdShow === transactionId
+
+  const activeTransactionId = useSelector(selectActiveTransactionId)
+  
+  green('TableRow: transactionId', transactionId)
+  green('TableRow: activeTransactionId', activeTransactionId)
+  const showRow = activeTransactionId === transactionId
   const transaction = useSelector((state) =>
     selectOneTransaction(transactionId, state)
   )
@@ -36,7 +40,7 @@ const TableRow = ({ transactionId }) => {
   } = transaction
 
   const _rowClick = () => {
-    dispatch(setRowIdShow(transactionId))
+    dispatch(setActiveTransactionId(transactionId))
   }
   // #6c757d
 
@@ -48,7 +52,7 @@ const TableRow = ({ transactionId }) => {
           <TableData>{acctId}</TableData>
           <TableData align="left">
             <div>{description}</div>
-            {_id === rowIdShow ? <div>{origDescription}</div> : null}
+            {_id === activeTransactionId ? <div>{origDescription}</div> : null}
           </TableData>
           <TableData>{credit}</TableData>
           <TableData>{debit}</TableData>
@@ -62,7 +66,7 @@ const TableRow = ({ transactionId }) => {
               : ruleIds.map((id) => <div key={id}>{id}</div>)}
           </TableData>
         </tr>
-        {rowIdShow === transactionId ? (
+        {activeTransactionId === transactionId ? (
           <Rules transactionId={transactionId} />
         ) : null}
       </tbody>
