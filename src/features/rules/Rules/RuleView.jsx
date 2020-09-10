@@ -5,6 +5,7 @@ import Actions from './Actions'
 import Button from 'components/Button'
 import { selectOneRule } from 'features/rules/rulesSlice'
 import * as R from 'ramda'
+import RuleId from './RuleId'
 
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -38,6 +39,7 @@ const RuleView = ({ ruleId }) => {
       <td colSpan="10">
         <div className="d-flex">
           <div style={{ fontSize: '0.8rem'}}>{`RuleId: ${ruleId}`}</div>
+          <RuleId ruleId={ruleId} />
           <Button onClick={_handleSaveEditButtonClick}>Edit</Button>
         </div>
         <div>
