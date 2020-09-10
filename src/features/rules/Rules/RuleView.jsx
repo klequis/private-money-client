@@ -37,7 +37,7 @@ const RuleView = ({ ruleId }) => {
     <tr>
       <td colSpan="10">
         <div className="d-flex">
-          <div>{`RuleId: ${ruleId}`}</div>
+          <div style={{ fontSize: '0.8rem'}}>{`RuleId: ${ruleId}`}</div>
           <Button onClick={_handleSaveEditButtonClick}>Edit</Button>
         </div>
         <div>

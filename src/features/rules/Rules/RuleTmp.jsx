@@ -46,7 +46,7 @@ const RuleTmp = () => {
   const transaction = useSelector(selectActiveTransaction)
   const { origDescription } = transaction
   useEffect(() => {
-    const tmpRule = makeTmpRule(_tmpRuleId)
+    const tmpRule = makeTmpRule(_tmpRuleId, origDescription)
     green('tmpRule', tmpRule)
     dispatch(setRuleEdit(tmpRule))
   }, [])
