@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectRuleActions } from 'features/rules/rulesSlice'
+import { selectRuleActions, selectRuleEditActions } from 'features/rules/rulesSlice'
 import { selectTmpRuleActions } from 'features/rulesTmp/rulesTmpSlice'
 import ActionEdit from './ActionEdit'
-import isTmpRule from '../isTmpRule'
+import isTmpRule from 'lib/isTmpRule'
 import RenameDescription from './RenameDescription'
 import Categorize from './Categorize'
 import styles from '../Rules.module.css'
@@ -17,13 +17,14 @@ import { green, redf } from 'logger'
 const Actions = ({ ruleId }) => {
   const actions = useSelector((state) => {
     if (isTmpRule(ruleId)) {
-      return selectTmpRuleActions(ruleId, state)
+      return selectRuleEditActions(state)
     } else {
       return selectRuleActions(ruleId, state)
     }
   })
   
-  const Control = ({action}) => {
+  const Control = ({ action }) => {
+    green('action._id', action._id)
     if (action.field === 'description') {
       return <RenameDescription key={action._id} action={action} />
     } else if (action.actionType === 'categorize') {
@@ -33,6 +34,10 @@ const Actions = ({ ruleId }) => {
     }
   }
 
+  if (!actions) {
+    return null
+  }
+
   return (
     <>
       <h4>Actions</h4>
@@ -40,17 +45,10 @@ const Actions = ({ ruleId }) => {
         <Form.Check type="switch" id="omit" label="omit" />
       </div>
       {actions.map((a) => {
+        
         return (
-          <div
-            // style={{
-            //   backgroundColor: 'orange',
-            //   border: '1px solid orange',
-            //   padding: 5,
-            //   margin: 5
-            // }}
-          >
+          <div key={a._id}>
             <Control action={a} />
-            {/* <ActionEdit key={a._id} action={a} /> */}
           </div>
         )
       })}

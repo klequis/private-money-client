@@ -19,9 +19,9 @@ const rulesTmpSlice = createSlice({
   reducers: {
     ruleTmpCreate(state, action) {
       // payload will be an Id
-      green('ruleTmpCreate: action', action)
+      // green('ruleTmpCreate: action', action)
       const { tmpId, origDescription} = action.payload
-      green('ruleTmpCreate: tmpId', tmpId)
+      // green('ruleTmpCreate: tmpId', tmpId)
       const ruleNew = {
         _id: tmpId,
         criteria: [
@@ -47,7 +47,7 @@ const rulesTmpSlice = createSlice({
           }
         ]
       }
-      green('ruleTmpCreate: ruleNew', ruleNew)
+      // green('ruleTmpCreate: ruleNew', ruleNew)
 
       state.push(ruleNew)
     },

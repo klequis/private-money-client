@@ -6,9 +6,12 @@ import Rules from 'features/rules/Rules'
 import {
   selectOneTransaction,
   setActiveTransactionId,
-  selectActiveTransactionId
+  selectActiveTransactionId,
+  selectTransactionRuleIds
 } from 'features/transactions/transactionsSlice'
 import styles from './TableBody.module.css'
+import { setRuleEdit } from 'features/rules/rulesSlice'
+import Form from 'react-bootstrap/Form'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
@@ -17,9 +20,10 @@ const TableRow = ({ transactionId }) => {
   const dispatch = useDispatch()
 
   const activeTransactionId = useSelector(selectActiveTransactionId)
-  
-  green('TableRow: transactionId', transactionId)
-  green('TableRow: activeTransactionId', activeTransactionId)
+
+  // green('TableRow: transactionId', transactionId)
+  // green('TableRow: activeTransactionId', activeTransactionId)
+
   const showRow = activeTransactionId === transactionId
   const transaction = useSelector((state) =>
     selectOneTransaction(transactionId, state)

@@ -2,14 +2,19 @@ import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 import shortid from 'shortid'
+import isTmpRule from 'lib/isTmpRule'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
-import { green, red } from 'logger'
+import { blue, red } from 'logger'
 
 const initialState = {
   items: [],
   status: 'idle',
-  error: null
+  error: null,
+  ruleEditId: null,
+  ruleEdit: {},
+  isEditMode: false
 }
 
 export const fetchRules = createAsyncThunk('rules/get', async () => {
@@ -17,11 +22,29 @@ export const fetchRules = createAsyncThunk('rules/get', async () => {
   return r
 })
 
+/*
+    Scenarios
+    1. existing rule[s]
+    2. no rules
+       - create a tmp rule
+       - create an additional tmp rule - future?
+         - in the event that a second tmp rule is needed
+           a merge will be done (not implemented)
+*/
+
 const rulesSlice = createSlice({
   name: 'rules',
   initialState,
   reducers: {
+    // payload will be a rule as Object either existing or tmp
     
+    setRuleEdit(state, action) {
+      blue('SET RULE EDIT')
+      const { payload } = action
+      blue('setRuleEdit: payload', payload)
+      state.ruleEdit = payload || {}
+      state.ruleEditId = payload._id
+    }
   },
   extraReducers: {
     [fetchRules.pending]: (state, action) => {
@@ -40,8 +63,9 @@ const rulesSlice = createSlice({
 
 export default rulesSlice.reducer
 
+export const { setRuleEdit } = rulesSlice.actions
 
-// const transactions = (state) => state.transactions.items
+const selectIsRuleEditMode = state => state.rules.ruleEditId !== null
 
 // const rules = (state) => state.rules.items
 
@@ -70,7 +94,11 @@ export default rulesSlice.reducer
 //   })
 // }
 
-const getRule = (ruleId, state) => state.rules.items.find(r => r._id === ruleId)
+const getRulesItems = state => R.has('rules')(state) ? state.rules.items : state.items
+
+const getRule = (ruleId, state) => getRulesItems(state).find(r => r._id === ruleId)
+
+const getRules = (ruleIds, state) => state.rules.items.filter(r => ruleIds.includes(r._id))
 
 export const selectRulesStatus = (state) => state.transactions.status
 export const selectRulesError = (state) => state.transactions.error
@@ -83,4 +111,18 @@ export const selectRuleCriteria = (ruleId, state) => {
 export const selectRuleActions = (ruleId, state) => {
   const { actions } = getRule(ruleId, state)
   return actions
+}
+
+export const selectOneRule = (ruleId, state) => R.find(R.propEq('_id', ruleId))(state.rules.items)
+
+export const activeRuleId = (state) => state.rules.ruleEdit._id
+
+export const selectRuleEdit = (state) => state.rules.ruleEdit
+export const selectRuleEditCriteria = (state) => {
+  // blue('state.rules.RuleEdit.criteria', state)
+  return state.rules.ruleEdit.criteria
+}
+export const selectRuleEditActions = (state) => {
+  // blue('state.rules.RuleEdit.actions', state)
+  return state.rules.ruleEdit.actions
 }
