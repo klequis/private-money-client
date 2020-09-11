@@ -12,7 +12,7 @@ import { green, redf, yellow, blue } from 'logger'
 
 const makeTmpRuleId = () => `tmp_${shortid.generate()}`
 
-const makeTmpRule = (tmpId, origDescription) => {
+const makeTmpRule = (tmpId, origDescription, date) => {
   return {
     _id: tmpId,
     criteria: [
@@ -20,7 +20,15 @@ const makeTmpRule = (tmpId, origDescription) => {
         _id: `tmp_${shortid.generate()}`,
         field: 'description',
         operation: 'equals',
-        value: origDescription
+        value: origDescription,
+        active: true,
+      },
+      {
+        _id: `tmp_${shortid.generate()}`,
+        field: 'date',
+        operation: 'equals',
+        value: date,
+        active: false
       }
     ],
     actions: [
@@ -34,22 +42,23 @@ const makeTmpRule = (tmpId, origDescription) => {
         _id: `tmp_${shortid.generate()}`,
         actionType: 'categorize',
         category1: '',
-        category2: ''
+        category2: '',
       }
     ]
   }
 }
 
 const RuleTmp = () => {
+  // eslint-disable-next-line
   const [_tmpRuleId, _setTmpRuleId] = useState(makeTmpRuleId())
   const dispatch = useDispatch()
   const transaction = useSelector(selectActiveTransaction)
-  const { origDescription } = transaction
+  const { origDescription /*, date */ } = transaction
   useEffect(() => {
     const tmpRule = makeTmpRule(_tmpRuleId, origDescription)
-    green('tmpRule', tmpRule)
+    // green('tmpRule', tmpRule)
     dispatch(setRuleEdit(tmpRule))
-  }, [])
+  }, [_tmpRuleId, dispatch, origDescription])
 
   return <RuleEdit ruleId={_tmpRuleId} />
   // return <h1>hi</h1>

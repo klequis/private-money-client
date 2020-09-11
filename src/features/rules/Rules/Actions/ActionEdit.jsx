@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import Select from 'components/Select'
 import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'

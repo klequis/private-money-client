@@ -1,7 +1,5 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import Criteria from './Criteria'
-import Actions from './Actions'
 import Button from 'components/Button'
 import { selectOneRule } from 'features/rules/rulesSlice'
 import * as R from 'ramda'
@@ -29,7 +27,6 @@ const Rename = ({ action }) => {
 
 const RuleView = ({ ruleId }) => {
   const [_isEditMode, _setIsEditMode] = useState(false)
-  const [_omitTrue, _setOmitTrue] = useState(false)
 
   const rule = useSelector((state) => selectOneRule(ruleId, state))
   const _handleSaveEditButtonClick = () => _setIsEditMode(!_isEditMode)

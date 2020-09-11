@@ -1,36 +1,27 @@
 import React, { useState, useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import isTmpRule from 'lib/isTmpRule'
-import isNilOrEmpty from 'lib/isNilOrEmpty'
-import * as R from 'ramda'
-import shortid from 'shortid'
-import Form from 'react-bootstrap/Form'
 import {
-  selectTransactionRuleIds,
-  selectOneTransaction,
   selectActiveTransaction
 } from 'features/transactions/transactionsSlice'
-import { setRuleEdit } from 'features/rules/rulesSlice'
-import Rule from './RuleEdit'
 import RuleView from './RuleView'
 import RuleTmp from './RuleTmp'
 
-//
+// eslint-disable-next-line
 import { green } from 'logger'
 
 // const _ruleTmpCreate = (tmpId) => {
 //   ruleTmpCreate(tmpId)
 // }
 
-const _ruleTmpUpdate = () => {}
+// const _ruleTmpUpdate = () => {}
 
-const _ruleTmpDelete = () => {}
+// const _ruleTmpDelete = () => {}
 
-const _ruleCreate = () => {}
+// const _ruleCreate = () => {}
 
-const _ruleDelete = () => {}
+// const _ruleDelete = () => {}
 
-const _ruleUpdate = () => {}
+// const _ruleUpdate = () => {}
 
 
 
@@ -50,7 +41,7 @@ const Rules = () => {
       const { ruleIds } = activeTransaction
       _setRuleIds(ruleIds)
     }
-  }, [dispatch])
+  }, [dispatch, _ruleIds, activeTransaction])
 
   /*
       If it is a tmp rule than show RuleEdit

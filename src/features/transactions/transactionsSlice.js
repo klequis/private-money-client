@@ -1,9 +1,9 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk/*,  current */ } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 
 // eslint-disable-next-line
-import { green } from 'logger'
+import { yellow } from 'logger'
 
 const initialState = {
   items: [],

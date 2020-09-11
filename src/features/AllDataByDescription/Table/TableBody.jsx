@@ -7,11 +7,11 @@ import {
   selectOneTransaction,
   setActiveTransactionId,
   selectActiveTransactionId,
-  selectTransactionRuleIds
+  // selectTransactionRuleIds
 } from 'features/transactions/transactionsSlice'
 import styles from './TableBody.module.css'
-import { setRuleEdit } from 'features/rules/rulesSlice'
-import Form from 'react-bootstrap/Form'
+// import { setRuleEdit } from 'features/rules/rulesSlice'
+// import Form from 'react-bootstrap/Form'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'

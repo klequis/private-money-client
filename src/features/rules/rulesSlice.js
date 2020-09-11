@@ -1,8 +1,8 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk /*, current*/ } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
-import shortid from 'shortid'
-import isTmpRule from 'lib/isTmpRule'
+// import shortid from 'shortid'
+// import isTmpRule from 'lib/isTmpRule'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
@@ -22,6 +22,28 @@ export const fetchRules = createAsyncThunk('rules/get', async () => {
   return r
 })
 
+// const getRuleEditCriterion = (id, state) => {
+//   const { ruleEdit } = state
+//   const { criteria } = ruleEdit
+//   return R.find(R.propEq('_id', id))(criteria)
+// }
+
+const replaceObjectInList = (newObject, list) => {
+  // R.insert(2, 'x', [1,2,3,4]); //=> [1,2,'x',3,4]
+  // R.without([1, 2], [1, 2, 1, 3, 4]); //=> [3, 4]
+  // const xs = [{ a: 1 }, { a: 2 }, { a: 3 }]
+  // R.findIndex(R.propEq('a', 2))(xs) //=> 1
+  
+  const { _id } = newObject
+  // 1. find the index of the item to remove
+  const idx = R.findIndex(R.propEq('_id', _id))(list)
+  // 2. remove it
+  const wo = R.without([idx], list)
+  // 3. insert the new item at index
+  const newCriteria = R.insert(idx, newObject, wo)
+  return newCriteria
+}
+
 /*
     Scenarios
     1. existing rule[s]
@@ -37,13 +59,25 @@ const rulesSlice = createSlice({
   initialState,
   reducers: {
     // payload will be a rule as Object either existing or tmp
-    
+
     setRuleEdit(state, action) {
-      blue('SET RULE EDIT')
+      // blue('SET RULE EDIT')
       const { payload } = action
-      blue('setRuleEdit: payload', payload)
+      // blue('setRuleEdit: payload', payload)
       state.ruleEdit = payload || {}
       state.ruleEditId = payload._id
+    },
+    updateRuleEditCriterion(state, action) {
+      const newCriterion = action.payload
+      // const { payload: x } = action.payload
+      // const { ruleEdit } = state
+      // const { criteria } = ruleEdit
+      // const criterion = R.find(R.propEq('_id', _id))(criteria)
+      // const newCriterion = R.mergeRight(criterion, action.payload)
+
+
+      //
+      replaceObjectInList(newCriterion, action.payload)
     }
   },
   extraReducers: {
@@ -63,13 +97,34 @@ const rulesSlice = createSlice({
 
 export default rulesSlice.reducer
 
-export const { setRuleEdit } = rulesSlice.actions
+export const { setRuleEdit, updateRuleEditCriterion } = rulesSlice.actions
 
-const selectIsRuleEditMode = state => state.rules.ruleEditId !== null
+// is edit mode active
+// const selectIsRuleEditMode = (state) => state.rules.ruleEditId !== null
+
+// what is the _id of the rule being edited
+export const ruleEditId = (state) => state.rules.ruleEdit._id
+
+// set this rule as ruleEdit
+export const selectRuleEdit = (state) => state.rules.ruleEdit
+
+// select the criteria for ruleEdit
+export const selectRuleEditCriteria = (state) => {
+  // blue('state.rules.RuleEdit.criteria', state)
+
+  return state.rules.ruleEdit.criteria
+}
+
+// select the actions for ruleEdit
+export const selectRuleEditActions = (state) => {
+  // blue('state.rules.RuleEdit.actions', state)
+  return state.rules.ruleEdit.actions
+}
+
 
 // const rules = (state) => state.rules.items
 
-// const getRuleIds = (transactionId, state) => { 
+// const getRuleIds = (transactionId, state) => {
 //   return { ruleIds } = transactions(state).find((t) => t._id === transactionId)
 // }
 
@@ -94,11 +149,14 @@ const selectIsRuleEditMode = state => state.rules.ruleEditId !== null
 //   })
 // }
 
-const getRulesItems = state => R.has('rules')(state) ? state.rules.items : state.items
+const getRulesItems = (state) =>
+  R.has('rules')(state) ? state.rules.items : state.items
 
-const getRule = (ruleId, state) => getRulesItems(state).find(r => r._id === ruleId)
+const getRule = (ruleId, state) =>
+  getRulesItems(state).find((r) => r._id === ruleId)
 
-const getRules = (ruleIds, state) => state.rules.items.filter(r => ruleIds.includes(r._id))
+// const getRules = (ruleIds, state) =>
+//   state.rules.items.filter((r) => ruleIds.includes(r._id))
 
 export const selectRulesStatus = (state) => state.transactions.status
 export const selectRulesError = (state) => state.transactions.error
@@ -113,16 +171,6 @@ export const selectRuleActions = (ruleId, state) => {
   return actions
 }
 
-export const selectOneRule = (ruleId, state) => R.find(R.propEq('_id', ruleId))(state.rules.items)
+export const selectOneRule = (ruleId, state) =>
+  R.find(R.propEq('_id', ruleId))(state.rules.items)
 
-export const activeRuleId = (state) => state.rules.ruleEdit._id
-
-export const selectRuleEdit = (state) => state.rules.ruleEdit
-export const selectRuleEditCriteria = (state) => {
-  // blue('state.rules.RuleEdit.criteria', state)
-  return state.rules.ruleEdit.criteria
-}
-export const selectRuleEditActions = (state) => {
-  // blue('state.rules.RuleEdit.actions', state)
-  return state.rules.ruleEdit.actions
-}

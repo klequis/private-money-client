@@ -1,7 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectRuleActions, selectRuleEditActions } from 'features/rules/rulesSlice'
-import { selectTmpRuleActions } from 'features/rulesTmp/rulesTmpSlice'
 import ActionEdit from './ActionEdit'
 import isTmpRule from 'lib/isTmpRule'
 import RenameDescription from './RenameDescription'
@@ -24,7 +23,7 @@ const Actions = ({ ruleId }) => {
   })
   
   const Control = ({ action }) => {
-    green('action._id', action._id)
+    // green('action._id', action._id)
     if (action.field === 'description') {
       return <RenameDescription key={action._id} action={action} />
     } else if (action.actionType === 'categorize') {

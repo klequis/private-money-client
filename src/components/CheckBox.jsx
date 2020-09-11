@@ -1,7 +1,7 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 
-const Select = ({ name, value, onChange, maxWidth, disabled, children }) => {
+const CheckBox = ({ name, checked, onChange, maxWidth, disabled, children }) => {
 
   const selectExtraSm = {
     height: 'calc(1.5em + 0.4rem + 2px)',
@@ -14,20 +14,21 @@ const Select = ({ name, value, onChange, maxWidth, disabled, children }) => {
   }
 
   return (
-    <Form.Control
+    <Form.Check
       // className={styles.selectExtraSm}
       style={selectExtraSm}
       name={name}
-      value={value}
+      // value={true}
+      label=''
+      checked={checked}
       onChange={onChange}
-      as="select"
+      type="checkbox"
       size="sm"
       custom
-      disabled={disabled}
-    >
-      {children}
-    </Form.Control>
+      
+    />
+    
   )
 }
 
-export default Select
+export default CheckBox
