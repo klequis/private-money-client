@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 // import { useSelector, dispatch } from 'react-redux'
 import {
   operators,
@@ -11,6 +11,7 @@ import TextEdit from 'components/TextEdit'
 import CheckBox from 'components/CheckBox'
 // ruleSlice
 // import { selectRuleEditCriteria } from 'features/rules/rulesSlice'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
@@ -18,8 +19,10 @@ import { green, redf } from 'logger'
 const CriterionEdit = ({ criterion }) => {
 
   // const criterion = useSelector(selectRuleEditCriteria)
-  green('criterion', criterion)
-  const { operation, field, value, active } = criterion
+  // green('criterion', criterion)
+  const [_criterion, _setCriterion] = useState(criterion)
+  const { operation, field, value, active } = _criterion
+
   console.group('criterion')
   green('operation', operation)
   green('field', field)
@@ -41,9 +44,20 @@ const CriterionEdit = ({ criterion }) => {
   const _handleChange = (event) => {
     // eslint-disable-next-line
     const { name, value, checked } = event.target
+    console.group('_handleChange vars')
+    green('name', name)
+    green('value', value)
+    green('checked', checked)
+    console.groupEnd()
 
+    if (name === 'active') {
+      _setCriterion(R.mergeRight(_criterion, { [name]: checked }))
+    } else {
+      // mergeRight(_values, { [name]: value })
+      _setCriterion(R.mergeRight(_criterion, { [name]: value }))
+    }
 
-
+    
     // 1. merge the changes into the criterion
 
     // 2. send new criterion to updateRuleEditCriterion
@@ -60,7 +74,7 @@ const CriterionEdit = ({ criterion }) => {
 
   return (
     <div className="d-flex">
-      <CheckBox checked={active} onChange={_handleChange} />      
+      <CheckBox name="active" checked={active} onChange={_handleChange} />      
       <Select name="field" value={field} onChange={_handleChange} maxWidth={100} disabled={!active}>
         <option value={fields.description.name}>
           {fields.description.description}
