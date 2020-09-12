@@ -1,8 +1,7 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 
-const Select = ({ name, value, onChange, maxWidth, disabled, children }) => {
-
+const Select = ({ name, value, onChange, handleBlur, maxWidth, disabled, children }) => {
   const selectExtraSm = {
     height: 'calc(1.5em + 0.4rem + 2px)',
     paddingTop: 0,
@@ -20,6 +19,7 @@ const Select = ({ name, value, onChange, maxWidth, disabled, children }) => {
       name={name}
       value={value}
       onChange={onChange}
+      handleBlur={handleBlur}
       as="select"
       size="sm"
       custom

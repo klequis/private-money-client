@@ -19,6 +19,7 @@ const TextEdit = ({
   name,
   value,
   onChange,
+  onBlur,
   placeholder = '',
   maxWidth = null,
   minWidth = null,
@@ -34,6 +35,7 @@ const TextEdit = ({
       value={value}
       custom
       onChange={onChange}
+      onBlur={onBlur}
       placeholder={placeholder}
       disabled={disabled}
     />

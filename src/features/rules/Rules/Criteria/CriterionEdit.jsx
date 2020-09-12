@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-// import { useSelector, dispatch } from 'react-redux'
+import { /*useSelector,*/ useDispatch } from 'react-redux'
 import {
   operators,
   transactionFields as fields,
@@ -10,7 +10,7 @@ import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import CheckBox from 'components/CheckBox'
 // ruleSlice
-// import { selectRuleEditCriteria } from 'features/rules/rulesSlice'
+import { updateRuleEditCriterion } from 'features/rules/rulesSlice'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
@@ -18,10 +18,9 @@ import { green, redf } from 'logger'
 
 const CriterionEdit = ({ criterion }) => {
 
-  // const criterion = useSelector(selectRuleEditCriteria)
-  // green('criterion', criterion)
   const [_criterion, _setCriterion] = useState(criterion)
   const { operation, field, value, active } = _criterion
+  const dispatch = useDispatch()
 
   console.group('criterion')
   green('operation', operation)
@@ -42,7 +41,7 @@ const CriterionEdit = ({ criterion }) => {
 
 
   const _handleChange = (event) => {
-    // eslint-disable-next-line
+    
     const { name, value, checked } = event.target
     console.group('_handleChange vars')
     green('name', name)
@@ -50,12 +49,15 @@ const CriterionEdit = ({ criterion }) => {
     green('checked', checked)
     console.groupEnd()
 
-    if (name === 'active') {
-      _setCriterion(R.mergeRight(_criterion, { [name]: checked }))
-    } else {
-      // mergeRight(_values, { [name]: value })
-      _setCriterion(R.mergeRight(_criterion, { [name]: value }))
-    }
+    // let newCriterion = null
+    // if (name === 'active') {
+      const newCriterion = R.mergeRight(_criterion, { [name]: name === 'active' ? checked : value })
+      _setCriterion(newCriterion)
+      
+      green('newCriterion', newCriterion)
+    // } else {
+      // _setCriterion(R.mergeRight(_criterion, { [name]: value }))
+    // }
 
     
     // 1. merge the changes into the criterion
@@ -72,10 +74,26 @@ const CriterionEdit = ({ criterion }) => {
     // TODO: handleCriterionChange(newValues)
   }
 
+  const _handleBlur = (event) => {
+    const { name, value } = event.target
+    console.group('_handleBlur vars')
+    green('name', name)
+    green('value', value)
+    console.groupEnd()
+
+    // let newCriterion = null
+    // if (name === 'active') {
+      const newCriterion = R.mergeRight(_criterion, { [name]: value })
+      _setCriterion(newCriterion)
+      
+      dispatch(updateRuleEditCriterion(newCriterion))
+      green('newCriterion', newCriterion)
+  }
+
   return (
     <div className="d-flex">
       <CheckBox name="active" checked={active} onChange={_handleChange} />      
-      <Select name="field" value={field} onChange={_handleChange} maxWidth={100} disabled={!active}>
+      <Select name="field" value={field} onChange={_handleChange} maxWidth={100} disabled={!active} onBlur={_handleBlur}>
         <option value={fields.description.name}>
           {fields.description.description}
         </option>
@@ -86,13 +104,13 @@ const CriterionEdit = ({ criterion }) => {
         <option value={fields.date.name}>{fields.date.description}</option>
       </Select>
 
-      <Select name="operation" value={operation} onChange={_handleChange} maxWidth={100} disabled={!active}>
+      <Select name="operation" value={operation} onChange={_handleChange} maxWidth={100} disabled={!active} onBlur={_handleBlur}>
         <option value={operators.beginsWith}>Begins with</option>
         <option value={operators.contains}>Contains</option>
         <option value={operators.doesNotContain}>Does not contian</option>
         <option value={operators.equals}>Equals</option>
       </Select>
-      <TextEdit name="value" value={value} onChange={_handleChange} minWidth={'20%'} disabled={!active}/>
+      <TextEdit name="value" value={value} onChange={_handleChange} minWidth={'20%'} disabled={!active} onBlur={_handleBlur}/>
       <Button variant="primary" /*onClick={_criterionRemove}*/  size="sm">Remove</Button>
     </div>
   )

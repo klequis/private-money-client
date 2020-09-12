@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk /*, current*/ } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 // import shortid from 'shortid'
@@ -33,7 +33,7 @@ const replaceObjectInList = (newObject, list) => {
   // R.without([1, 2], [1, 2, 1, 3, 4]); //=> [3, 4]
   // const xs = [{ a: 1 }, { a: 2 }, { a: 3 }]
   // R.findIndex(R.propEq('a', 2))(xs) //=> 1
-  
+
   const { _id } = newObject
   // 1. find the index of the item to remove
   const idx = R.findIndex(R.propEq('_id', _id))(list)
@@ -68,16 +68,32 @@ const rulesSlice = createSlice({
       state.ruleEditId = payload._id
     },
     updateRuleEditCriterion(state, action) {
+      blue('updateRuleEditCriterion: state', current(state))
       const newCriterion = action.payload
+      blue('updateRuleEditCriterion: newCriterion', newCriterion)
+      blue('editRule', current(state.ruleEdit))
       // const { payload: x } = action.payload
       // const { ruleEdit } = state
       // const { criteria } = ruleEdit
       // const criterion = R.find(R.propEq('_id', _id))(criteria)
       // const newCriterion = R.mergeRight(criterion, action.payload)
 
-
       //
-      replaceObjectInList(newCriterion, action.payload)
+
+      // replaceObjectInList(newCriterion, action.payload)
+
+      const criteria = R.path(['ruleEdit', 'criteria'], state)
+
+      const idx = R.findIndex(R.propEq('_id', R.prop('_id', newCriterion)))(
+        criteria
+      )
+
+      // const c1 = R.remove(idx, idx + 1, criteria)
+      // const nC = R.insert(idx, newCriterion, c1)
+      const nC = R.update(idx, newCriterion, criteria)
+
+      const newState = R.assocPath(['ruleEdit', 'criteria'], nC, state)
+      state = newState
     }
   },
   extraReducers: {
@@ -120,7 +136,6 @@ export const selectRuleEditActions = (state) => {
   // blue('state.rules.RuleEdit.actions', state)
   return state.rules.ruleEdit.actions
 }
-
 
 // const rules = (state) => state.rules.items
 
@@ -173,4 +188,3 @@ export const selectRuleActions = (ruleId, state) => {
 
 export const selectOneRule = (ruleId, state) =>
   R.find(R.propEq('_id', ruleId))(state.rules.items)
-
