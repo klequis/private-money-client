@@ -8,6 +8,8 @@ import Categorize from './Categorize'
 import styles from '../Rules.module.css'
 import Form from 'react-bootstrap/Form'
 import { actionTypes, transactionFields as fields } from 'globalConstants'
+import * as R from 'ramda'
+import { updateRuleEditAction } from 'features/rules/rulesSlice'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
@@ -15,6 +17,7 @@ import { green, redf } from 'logger'
 
 
 const Actions = ({ ruleId }) => {
+
   const actions = useSelector((state) => {
     if (isTmpRule(ruleId)) {
       return selectRuleEditActions(state)
@@ -22,12 +25,18 @@ const Actions = ({ ruleId }) => {
       return selectRuleActions(ruleId, state)
     }
   })
+
+  // const _handleChange = (event) => {
+  //   const { name, value } = event.target
+  //   const newAction = R.mergeRight(_action, { [name]: value})
+  //   _setAction(newAction)
+  //   dispatch(updateRuleEditAction)
+  // }
   
   const Control = ({ action }) => {
-    // green('action._id', action._id)
     if (action.field === fields.description.name) {
       return <RenameDescription key={action._id} action={action} />
-    } else if (action.actionType === actionTypes.categorize) {
+    } else if (action.actionType === actionTypes.categorize.name) {
       return <Categorize key={action._id} action={action} />
     } else {
       return <ActionEdit key={action._id} action={action} />

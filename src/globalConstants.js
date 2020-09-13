@@ -77,13 +77,35 @@ export const transactionFields = {
 }
 
 export const operators = {
-  beginsWith: 'beginsWith',
-  contains: 'contains',
-  doesNotContain: 'doesNotContain',
-  equals: 'equals',
+  beginsWith: {
+    name: 'beginsWith',
+    description: 'Begins with'
+  },
+  contains: {
+    name: 'contains',
+    description: 'Contains'
+  },
+  doesNotContain: {
+    name: 'doesNotContain',
+    description: 'Does not contain'
+  },
+  equals: {
+    name: 'equals',
+    description: 'Equals'
+  },
 }
 
 export const actionTypes = {
-  replaceAll: 'replaceAll',
-  categorize: 'categorize'
+  replaceAll: {
+    name: 'replaceAll',
+    description: 'Rename'
+  },
+  categorize: {
+    name: 'categorize',
+    description: 'Categorize'
+  },
+  strip: {
+    name: 'strip',
+    descrption: 'Strip'
+  }
 }

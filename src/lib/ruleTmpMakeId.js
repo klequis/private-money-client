@@ -2,6 +2,6 @@ import shortid from 'shortid'
 // eslint-disable-next-line
 import { blue } from 'logger'
 
-const makeTmpRuleId = () => `tmp_${shortid.generate()}`
+const ruleTmpMakeId = () => `tmp_${shortid.generate()}`
 
-export default makeTmpRuleId
+export default ruleTmpMakeId

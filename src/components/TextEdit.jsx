@@ -1,6 +1,9 @@
 import React from 'react'
 import Form from 'react-bootstrap/Form'
 
+// eslint-disable-next-line
+import { green, redf } from 'logger'
+
 const textExtraSm = {
   height: 'calc(1.5em + 0.4rem + 2px)',
   paddingTop: 0,
@@ -26,7 +29,6 @@ const TextEdit = ({
   disabled
 }) => {
   const style = makeStyle(maxWidth, minWidth, textExtraSm)
-
   return (
     <Form.Control
       style={style}

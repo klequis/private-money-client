@@ -55,17 +55,17 @@ const RuleView = ({ ruleId }) => {
             return (
               <div key={a._id}>
                 <div>
-                  {actionType === actionTypes.omit ? (
+                  {actionType === actionTypes.omit.name ? (
                     <div>Transaction has been omiteed</div>
                   ) : null}
                 </div>
                 <div>
-                  {actionType === actionTypes.replaceAll ? (
+                  {actionType === actionTypes.replaceAll.name ? (
                     <Rename key={a._id} action={a} />
                   ) : null}
                 </div>
                 <div>
-                  {actionType === actionTypes.categorize ? (
+                  {actionType === actionTypes.categorize.name ? (
                     <Categories key={a._id} action={a} />
                   ) : null}
                 </div>

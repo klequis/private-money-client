@@ -34,7 +34,7 @@ const Rules = () => {
 
   useEffect(() => {
     if (_ruleIds === undefined) {
-      // const tmpId = makeTmpRuleId()
+      // const tmpId = ruleTmpMakeId()
       // const ruleIds = R.append(tmpId, _ruleIds)
       // _setRuleIds(ruleIds)
     } else {

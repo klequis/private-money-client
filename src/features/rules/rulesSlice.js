@@ -63,13 +63,16 @@ const rulesSlice = createSlice({
       return newState
     },
     updateRuleEditAction(state, action) {
+      console.group('updateRuleEditAction') // TODO:
       const newAction = action.payload
+      blue('newAction', newAction)
       const actions = R.path(['ruleEdit', 'actions'], state)
       const idx = R.findIndex(R.propEq('_id', R.prop('_id', newAction)))(
         actions
       )
       const newActions = R.update(idx, newAction, actions)
       const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
+      console.groupEnd() // TODO:
       return newState
     }
   },
@@ -90,7 +93,7 @@ const rulesSlice = createSlice({
 
 export default rulesSlice.reducer
 
-export const { setRuleEdit, updateRuleEditCriterion } = rulesSlice.actions
+export const { setRuleEdit, updateRuleEditCriterion, updateRuleEditAction } = rulesSlice.actions
 
 // is edit mode active
 // const selectIsRuleEditMode = (state) => state.rules.ruleEditId !== null

@@ -1,40 +1,54 @@
-import React from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Select from 'components/Select'
 import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'
-import { actionTypes } from 'globalConstants'
+import * as R from 'ramda'
+import { updateRuleEditAction } from 'features/rules/rulesSlice'
+import { actionTypes, trsactionFields as fiels } from 'globalConstants'
+
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
 const ActionEdit = ({ action }) => {
+  const [_action, _setAction] = useState(action)
+  const { actionType, field, repaceWithValue } = _action
 
-  const _handleChange = () => {
-    // tmp function
+  const dispatch = useDispatch()
+
+  const _handleChange = (event) => {
+    const { name, value } = event.target
+    const newAction = R.mergeRight(_action, { [name]: value })
+    _setAction(newAction)
+    dispatch(updateRuleEditAction)
   }
   const Control = () => {
-    if (action.actionType === 'strip') {
-      return <Strip action={action} handleChange={_handleChange} />
-    } else if (action.actionType === actionTypes.replaceAll) {
-      return <ReplaceAll action={action} handleChange={_handleChange} />
+    if (actionType === actionTypes.strip.name) {
+      return <Strip action={action} onChange={_handleChange} />
+    } else if (actionType === actionTypes.replaceAll.name) {
+      return <ReplaceAll action={action} onChange={_handleChange} />
     } else {
       return null
     }
   }
   return (
-    <div /* style={{ backgroundColor: 'purple', border: '1px solid white'}} */>
+    <div>
       <div>
         <b>action</b>
       </div>
       <div className="d-flex">
         <Select
           name="action"
-          value={action.actionType}
+          value={actionType}
           onChange={_handleChange}
           maxWidth={100}
         >
-          <option value="strip">Strip</option>
-          <option value="replaceAll">Replace all</option>
+          <option value={actionTypes.strip.name}>
+            {actionTypes.strip.description}
+          </option>
+          <option value={actionTypes.replaceAll.name}>
+            {actionTypes.replaceAll.description}
+          </option>
         </Select>
         <Control />
       </div>

@@ -7,12 +7,12 @@ import {
 import { setRuleEdit } from 'features/rules/rulesSlice'
 import RuleEdit from './RuleEdit'
 import { operators, actionTypes, transactionFields as fields } from 'globalConstants'
-import makeTmpRuleId from 'lib/makeTmpRuleId'
+import ruleTmpMakeId from 'lib/ruleTmpMakeId'
 
 // eslint-disable-next-line
 import { green, redf, yellow, blue } from 'logger'
 
-const makeTmpRule = (tmpId, origDescription, date) => {
+const ruleTmpMake = (tmpId, origDescription, date) => {
   return {
     _id: tmpId,
     criteria: [
@@ -34,13 +34,13 @@ const makeTmpRule = (tmpId, origDescription, date) => {
     actions: [
       {
         _id: `tmp_${shortid.generate()}`,
-        actionType: actionTypes.replaceAll,
+        actionType: actionTypes.replaceAll.name,
         field: fields.description.name,
         replaceWithValue: origDescription
       },
       {
         _id: `tmp_${shortid.generate()}`,
-        actionType: actionTypes.categorize,
+        actionType: actionTypes.categorize.name,
         category1: '',
         category2: '',
       }
@@ -50,12 +50,12 @@ const makeTmpRule = (tmpId, origDescription, date) => {
 
 const RuleTmp = () => {
   // eslint-disable-next-line
-  const [_tmpRuleId, _setTmpRuleId] = useState(makeTmpRuleId())
+  const [_tmpRuleId, _setTmpRuleId] = useState(ruleTmpMakeId())
   const dispatch = useDispatch()
   const transaction = useSelector(selectActiveTransaction)
   const { origDescription /*, date */ } = transaction
   useEffect(() => {
-    const tmpRule = makeTmpRule(_tmpRuleId, origDescription)
+    const tmpRule = ruleTmpMake(_tmpRuleId, origDescription)
     // green('tmpRule', tmpRule)
     dispatch(setRuleEdit(tmpRule))
   }, [_tmpRuleId, dispatch, origDescription])

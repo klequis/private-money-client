@@ -12,7 +12,6 @@ const CheckBox = ({
   disabled,
   children
 }) => {
-  green('CheckBox: onChange', onChange)
   // const selectExtraSm = {
   //   height: 'calc(1.5em + 0.4rem + 2px)',
   //   paddingTop: 0,
