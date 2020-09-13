@@ -7,6 +7,7 @@ import RenameDescription from './RenameDescription'
 import Categorize from './Categorize'
 import styles from '../Rules.module.css'
 import Form from 'react-bootstrap/Form'
+import { actionTypes, transactionFields as fields } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
@@ -24,9 +25,9 @@ const Actions = ({ ruleId }) => {
   
   const Control = ({ action }) => {
     // green('action._id', action._id)
-    if (action.field === 'description') {
+    if (action.field === fields.description.name) {
       return <RenameDescription key={action._id} action={action} />
-    } else if (action.actionType === 'categorize') {
+    } else if (action.actionType === actionTypes.categorize) {
       return <Categorize key={action._id} action={action} />
     } else {
       return <ActionEdit key={action._id} action={action} />

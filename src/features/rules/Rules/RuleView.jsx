@@ -4,6 +4,7 @@ import Button from 'components/Button'
 import { selectOneRule } from 'features/rules/rulesSlice'
 import * as R from 'ramda'
 import RuleId from './RuleId'
+import { actionTypes } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -54,17 +55,17 @@ const RuleView = ({ ruleId }) => {
             return (
               <div key={a._id}>
                 <div>
-                  {actionType === 'omit' ? (
+                  {actionType === actionTypes.omit ? (
                     <div>Transaction has been omiteed</div>
                   ) : null}
                 </div>
                 <div>
-                  {actionType === 'replaceAll' ? (
+                  {actionType === actionTypes.replaceAll ? (
                     <Rename key={a._id} action={a} />
                   ) : null}
                 </div>
                 <div>
-                  {actionType === 'categorize' ? (
+                  {actionType === actionTypes.categorize ? (
                     <Categories key={a._id} action={a} />
                   ) : null}
                 </div>

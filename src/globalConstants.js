@@ -1,3 +1,5 @@
+import { format } from 'date-fns'
+
 export const requestStatus = {
   error: 'request-error',
   fulfilled: 'request-fulfilled',
@@ -79,5 +81,9 @@ export const operators = {
   contains: 'contains',
   doesNotContain: 'doesNotContain',
   equals: 'equals',
-  regex: 'regex',
+}
+
+export const actionTypes = {
+  replaceAll: 'replaceAll',
+  categorize: 'categorize'
 }

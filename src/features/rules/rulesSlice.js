@@ -1,8 +1,6 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
-// import shortid from 'shortid'
-// import isTmpRule from 'lib/isTmpRule'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
@@ -22,27 +20,16 @@ export const fetchRules = createAsyncThunk('rules/get', async () => {
   return r
 })
 
-// const getRuleEditCriterion = (id, state) => {
-//   const { ruleEdit } = state
-//   const { criteria } = ruleEdit
-//   return R.find(R.propEq('_id', id))(criteria)
+// const replaceObjectInList = (newObject, list) => {
+//   const { _id } = newObject
+//   // 1. find the index of the item to remove
+//   const idx = R.findIndex(R.propEq('_id', _id))(list)
+//   // 2. remove it
+//   const wo = R.without([idx], list)
+//   // 3. insert the new item at index
+//   const newCriteria = R.insert(idx, newObject, wo)
+//   return newCriteria
 // }
-
-const replaceObjectInList = (newObject, list) => {
-  // R.insert(2, 'x', [1,2,3,4]); //=> [1,2,'x',3,4]
-  // R.without([1, 2], [1, 2, 1, 3, 4]); //=> [3, 4]
-  // const xs = [{ a: 1 }, { a: 2 }, { a: 3 }]
-  // R.findIndex(R.propEq('a', 2))(xs) //=> 1
-
-  const { _id } = newObject
-  // 1. find the index of the item to remove
-  const idx = R.findIndex(R.propEq('_id', _id))(list)
-  // 2. remove it
-  const wo = R.without([idx], list)
-  // 3. insert the new item at index
-  const newCriteria = R.insert(idx, newObject, wo)
-  return newCriteria
-}
 
 /*
     Scenarios
@@ -61,39 +48,29 @@ const rulesSlice = createSlice({
     // payload will be a rule as Object either existing or tmp
 
     setRuleEdit(state, action) {
-      // blue('SET RULE EDIT')
       const { payload } = action
-      // blue('setRuleEdit: payload', payload)
       state.ruleEdit = payload || {}
       state.ruleEditId = payload._id
     },
     updateRuleEditCriterion(state, action) {
-      blue('updateRuleEditCriterion: state', current(state))
       const newCriterion = action.payload
-      blue('updateRuleEditCriterion: newCriterion', newCriterion)
-      blue('editRule', current(state.ruleEdit))
-      // const { payload: x } = action.payload
-      // const { ruleEdit } = state
-      // const { criteria } = ruleEdit
-      // const criterion = R.find(R.propEq('_id', _id))(criteria)
-      // const newCriterion = R.mergeRight(criterion, action.payload)
-
-      //
-
-      // replaceObjectInList(newCriterion, action.payload)
-
       const criteria = R.path(['ruleEdit', 'criteria'], state)
-
       const idx = R.findIndex(R.propEq('_id', R.prop('_id', newCriterion)))(
         criteria
       )
-
-      // const c1 = R.remove(idx, idx + 1, criteria)
-      // const nC = R.insert(idx, newCriterion, c1)
-      const nC = R.update(idx, newCriterion, criteria)
-
-      const newState = R.assocPath(['ruleEdit', 'criteria'], nC, state)
-      state = newState
+      const newCriteria = R.update(idx, newCriterion, criteria)
+      const newState = R.assocPath(['ruleEdit', 'criteria'], newCriteria, state)
+      return newState
+    },
+    updateRuleEditAction(state, action) {
+      const newAction = action.payload
+      const actions = R.path(['ruleEdit', 'actions'], state)
+      const idx = R.findIndex(R.propEq('_id', R.prop('_id', newAction)))(
+        actions
+      )
+      const newActions = R.update(idx, newAction, actions)
+      const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
+      return newState
     }
   },
   extraReducers: {
@@ -137,41 +114,11 @@ export const selectRuleEditActions = (state) => {
   return state.rules.ruleEdit.actions
 }
 
-// const rules = (state) => state.rules.items
-
-// const getRuleIds = (transactionId, state) => {
-//   return { ruleIds } = transactions(state).find((t) => t._id === transactionId)
-// }
-
-// const getRulesForTransaction = (transactionId, state) => {
-//   const ruleIds = getRuleIds(transactionId, state)
-//   const matchedRules = R.filter((rule) => R.includes(rule._id, ruleIds), rules(state))
-// }
-
-// export const selectCriteria = (transactionId, state) => {
-//   return matchedRules.map((r) => {
-//     return r.criteria
-//   })
-// }
-
-// export const selectActions = (transactionId, state) => {
-//   const ruleIds = getRuleIds(transactionId, state)
-
-//   const matchedRules = R.filter((rule) => R.includes(rule._id, ruleIds), rules(state))
-
-//   return matchedRules.map((r) => {
-//     return r.actions
-//   })
-// }
-
 const getRulesItems = (state) =>
   R.has('rules')(state) ? state.rules.items : state.items
 
 const getRule = (ruleId, state) =>
   getRulesItems(state).find((r) => r._id === ruleId)
-
-// const getRules = (ruleIds, state) =>
-//   state.rules.items.filter((r) => ruleIds.includes(r._id))
 
 export const selectRulesStatus = (state) => state.transactions.status
 export const selectRulesError = (state) => state.transactions.error

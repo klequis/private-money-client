@@ -6,11 +6,11 @@ import {
 } from 'features/transactions/transactionsSlice'
 import { setRuleEdit } from 'features/rules/rulesSlice'
 import RuleEdit from './RuleEdit'
+import { operators, actionTypes, transactionFields as fields } from 'globalConstants'
+import makeTmpRuleId from 'lib/makeTmpRuleId'
 
 // eslint-disable-next-line
 import { green, redf, yellow, blue } from 'logger'
-
-const makeTmpRuleId = () => `tmp_${shortid.generate()}`
 
 const makeTmpRule = (tmpId, origDescription, date) => {
   return {
@@ -18,15 +18,15 @@ const makeTmpRule = (tmpId, origDescription, date) => {
     criteria: [
       {
         _id: `tmp_${shortid.generate()}`,
-        field: 'description',
-        operation: 'equals',
+        field: fields.description.name,
+        operation: operators.equals,
         value: origDescription,
         active: true,
       },
       {
         _id: `tmp_${shortid.generate()}`,
-        field: 'date',
-        operation: 'equals',
+        field: fields.date.name,
+        operation: operators.equals,
         value: date,
         active: false
       }
@@ -34,13 +34,13 @@ const makeTmpRule = (tmpId, origDescription, date) => {
     actions: [
       {
         _id: `tmp_${shortid.generate()}`,
-        actionType: 'replaceAll',
-        field: 'description',
+        actionType: actionTypes.replaceAll,
+        field: fields.description.name,
         replaceWithValue: origDescription
       },
       {
         _id: `tmp_${shortid.generate()}`,
-        actionType: 'categorize',
+        actionType: actionTypes.categorize,
         category1: '',
         category2: '',
       }

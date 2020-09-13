@@ -19,7 +19,7 @@ const Select = ({ name, value, onChange, handleBlur, maxWidth, disabled, childre
       name={name}
       value={value}
       onChange={onChange}
-      handleBlur={handleBlur}
+      onBlur={handleBlur}
       as="select"
       size="sm"
       custom

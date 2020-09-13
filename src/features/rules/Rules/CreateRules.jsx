@@ -41,7 +41,7 @@ const CreateRules = () => {
   // tmp code - end
   
   return (
-    <div className={styles.page} style={styleRed}>
+    <div className={styles.page}>
       <div className={styles.rules}>
         <h1 className={styles.sectionTitle}>Rules</h1>
         <Rules />

@@ -1,7 +1,9 @@
 import React from 'react'
+import { useDispatch } from 'react-redux'
 import Select from 'components/Select'
 import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'
+import { actionTypes } from 'globalConstants'
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
@@ -13,7 +15,7 @@ const ActionEdit = ({ action }) => {
   const Control = () => {
     if (action.actionType === 'strip') {
       return <Strip action={action} handleChange={_handleChange} />
-    } else if (action.actionType === 'replaceAll') {
+    } else if (action.actionType === actionTypes.replaceAll) {
       return <ReplaceAll action={action} handleChange={_handleChange} />
     } else {
       return null
