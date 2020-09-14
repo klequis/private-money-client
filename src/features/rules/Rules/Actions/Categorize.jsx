@@ -46,7 +46,7 @@ const Categorize = ({ action }) => {
         />
       </Form.Group>
       <Form.Group controlId={fields.category2.name}>
-        <Form.Label>fields.category2.description</Form.Label>
+        <Form.Label>{fields.category2.description}</Form.Label>
         <TextEdit
           name={fields.category2.name}
           value={category2}

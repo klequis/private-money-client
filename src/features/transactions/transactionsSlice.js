@@ -24,15 +24,6 @@ export const fetchTransactions = createAsyncThunk(
   }
 )
 
-export const fetchCriteriaResult = createAsyncThunk(
-  'criteriaResult/get',
-  async (criteria) => {
-    yellow('fetchCriteriaResult: criteria', criteria)
-    const r = await api.criteria.read(criteria)
-    return r
-  }
-)
-
 const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
@@ -53,17 +44,6 @@ const transactionsSlice = createSlice({
       state.status = requestStatus.error
       state.error = action.payload
     },
-    [fetchCriteriaResult.pending]: (state, action) => {
-      state.status = requestStatus.pending
-    },
-    [fetchCriteriaResult.fulfilled]: (state, action) => {
-      state.status = requestStatus.fulfilled
-      state.criteriaTest = action.payload
-    },
-    [fetchCriteriaResult.rejected]: (state, action) => {
-      state.status = requestStatus.error
-      state.error = action.payload
-    }
   }
 })
 
@@ -72,13 +52,17 @@ export default transactionsSlice.reducer
 export const { setActiveTransactionId } = transactionsSlice.actions
 
 // Selectors
-
-export const selectCriteriaResult = state => state.transactions.criteriaResult
-
 export const selectAllTransactions = (state) => state.transactions.items
 
 export const selectOneTransaction = (transactionId, state) => {
   return state.transactions.items.find((t) => t._id === transactionId)
+}
+
+export const selectCriteriaResultsTransactions = (state)  => {
+  // return state.transactions.filter(t => transactionIds.includes(t._id))
+  const ids = state.criteriaResults.items
+  return state.transactions.items.filter(t => ids.includes(t._id))
+  
 }
 
 export const selectTransactionRuleIds = (transactionId, state) => {

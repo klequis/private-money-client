@@ -48,7 +48,8 @@ const Rules = () => {
 
   // if ruleIds is undefiend then there will be no
   // rules to map so just render TmpRule
-  if (ruleIds === undefined) {
+  // if (ruleIds === undefined) {
+  if (true) {
     return <RuleTmp />
   }
 
