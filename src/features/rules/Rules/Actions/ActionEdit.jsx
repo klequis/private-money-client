@@ -5,14 +5,14 @@ import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'
 import * as R from 'ramda'
 import { updateRuleEditAction } from 'features/rules/rulesSlice'
-import { actionTypes, trsactionFields as fiels } from 'globalConstants'
+import { actionTypes /*, trsactionFields as fiels*/ } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
 const ActionEdit = ({ action }) => {
   const [_action, _setAction] = useState(action)
-  const { actionType, field, repaceWithValue } = _action
+  const { actionType } = _action
 
   const dispatch = useDispatch()
 
@@ -20,7 +20,7 @@ const ActionEdit = ({ action }) => {
     const { name, value } = event.target
     const newAction = R.mergeRight(_action, { [name]: value })
     _setAction(newAction)
-    dispatch(updateRuleEditAction)
+    dispatch(updateRuleEditAction(newAction))
   }
   const Control = () => {
     if (actionType === actionTypes.strip.name) {

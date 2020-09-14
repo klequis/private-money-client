@@ -1,6 +1,6 @@
 import { fetchJson } from './apiHelpers'
 // import { isEmpty } from 'validator'
-import * as R from 'ramda'
+// import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
@@ -22,7 +22,7 @@ export default {
   duplicates: {
     async read() {
       try {
-        const url = `/api/duplicates`
+        const url = '/api/duplicates'
         const data = await fetchJson(url, {
           method: 'GET'
         })
@@ -36,13 +36,14 @@ export default {
   },
   criteria: {
     async read(criteria) {
-      // orange('criteria.read: criteria', criteria)
+      orange('criteria.read: criteria', criteria)
       try {
-        const url = `/api/criteria/criteria-test/`
+        const url = '/api/criteria/criteria-test/'
         const data = await fetchJson(url, {
           method: 'POST',
           body: JSON.stringify(criteria)
         })
+        orange('criteria.read: data', data)
         return data
       } catch (e) {
         redf('api.criteria.read ERROR', e.message)
@@ -53,7 +54,7 @@ export default {
   rules: {
     async read() {
       try {
-        const url = `/api/rules`
+        const url = '/api/rules'
         const data = await fetchJson(url, {
           method: 'GET'
         })
@@ -73,7 +74,7 @@ export default {
     },
     async create(rule) {
       // orange('api.rules.create: rule', rule)
-      const url = `api/rules/new-rule`
+      const url = 'api/rules/new-rule'
       const data = await fetchJson(url, {
         method: 'POST',
         body: JSON.stringify(rule)
@@ -150,7 +151,7 @@ export default {
     //   }
     // },
     async importData() {
-      const data = await fetchJson(`api/import`, {
+      const data = await fetchJson('api/import', {
         method: 'GET'
       })
       orange('importData: data', data)

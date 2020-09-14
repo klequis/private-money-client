@@ -4,13 +4,13 @@ import TextEdit from 'components/TextEdit'
 import Form from 'react-bootstrap/Form'
 import * as R from 'ramda'
 import { updateRuleEditAction } from 'features/rules/rulesSlice'
-import { actionTypes, transactionFields as fields } from 'globalConstants'
+import { /*actionTypes,*/ transactionFields as fields } from 'globalConstants'
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
 const Categorize = ({ action }) => {
   const [_action, _setAction] = useState(action)
-  const { actionType, category1, category2 } = _action
+  const { category1, category2 } = _action
   const dispatch = useDispatch()
   
   const _handleEvent = (event) => {

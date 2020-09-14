@@ -18,8 +18,7 @@ const Criteria = ({ ruleId }) => {
       return selectRuleCriteria(ruleId, state)
     }
   })
-  // const activeTransaction = useSelector(selectActiveTransaction)
-  // const { date } = activeTransaction
+  
   if (!criteria) {
     return null
   }
@@ -29,10 +28,6 @@ const Criteria = ({ ruleId }) => {
         <h4>Criteria</h4>
         <Button>Add</Button>
       </div>
-      {/* <div className={styles.omitAndDateCheck}>
-        <Form.Check type="switch" id="this-date-only" label={date} />
-      </div> */}
-      
       {criteria.map((c) => (
         <CriterionEdit key={c._id} criterion={c} />
       ))}
@@ -41,35 +36,3 @@ const Criteria = ({ ruleId }) => {
 }
 
 export default Criteria
-
-/*
-
-const Criteria = ({ ruleId }) => {
-  const criteria = useSelector((state) => {
-    if (isTmpRule(ruleId)) {
-      return selectRuleEditCriteria(state)
-    } else {
-      return selectRuleCriteria(ruleId, state)
-    }
-  })
-  const activeTransaction = useSelector(selectActiveTransaction)
-  const { date } = activeTransaction
-
-  return (
-    <>
-      <div className="d-flex">
-        <h4>Criteria</h4>
-        <Button>Add</Button>
-      </div>
-      <div className={styles.omitAndDateCheck}>
-        <Form.Check type="switch" id="this-date-only" label={date} />
-      </div>
-      {criteria.map((c) => (
-        <CriterionEdit key={c._id} criterion={c} />
-      ))}
-    </>
-  )
-}
-
-export default Criteria
-*/

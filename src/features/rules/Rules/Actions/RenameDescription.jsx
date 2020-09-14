@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import TextEdit from 'components/TextEdit'
 import Form from 'react-bootstrap/Form'
 import { updateRuleEditAction } from 'features/rules/rulesSlice'
-import { operators } from 'globalConstants'
+import { actionFields } from 'globalConstants'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
@@ -31,11 +31,11 @@ const RenameDescription = ({ action }) => {
 
   return (
     <div className="d-flex">
-      <Form.Group controlId="formBasicEmail">
+      <Form.Group controlId="bla">
         <Form.Label>Rename: </Form.Label>
         {/* <Form.Control type="email" placeholder="Enter email" size='sm' /> */}
         <TextEdit
-          name={operators.replaceWithValue}
+          name={actionFields.replaceWithValue.name}
           value={replaceWithValue}
           onChange={_handleEvent}
           onBlur={_handleEvent}

@@ -42,7 +42,7 @@ const CriterionEdit = ({
   const [values, setValues] = useState({
     _id,
     field: field || fields.description,
-    operation: operation || operators.beginsWith,
+    operation: operation || operators.beginsWith.name,
     value
   })
 

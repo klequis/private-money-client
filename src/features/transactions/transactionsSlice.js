@@ -10,7 +10,8 @@ const initialState = {
   status: 'idle',
   error: null,
   // rowIdShow: '',
-  activeTransactionId: null
+  activeTransactionId: null,
+  criteriaResult: []
 }
 
 const viewName = 'all-data-by-description'
@@ -19,6 +20,15 @@ export const fetchTransactions = createAsyncThunk(
   'transactions/get',
   async () => {
     const r = await api.views.read(viewName)
+    return r
+  }
+)
+
+export const fetchCriteriaResult = createAsyncThunk(
+  'criteriaResult/get',
+  async (criteria) => {
+    yellow('fetchCriteriaResult: criteria', criteria)
+    const r = await api.criteria.read(criteria)
     return r
   }
 )
@@ -42,6 +52,17 @@ const transactionsSlice = createSlice({
     [fetchTransactions.rejected]: (state, action) => {
       state.status = requestStatus.error
       state.error = action.payload
+    },
+    [fetchCriteriaResult.pending]: (state, action) => {
+      state.status = requestStatus.pending
+    },
+    [fetchCriteriaResult.fulfilled]: (state, action) => {
+      state.status = requestStatus.fulfilled
+      state.criteriaTest = action.payload
+    },
+    [fetchCriteriaResult.rejected]: (state, action) => {
+      state.status = requestStatus.error
+      state.error = action.payload
     }
   }
 })
@@ -51,6 +72,8 @@ export default transactionsSlice.reducer
 export const { setActiveTransactionId } = transactionsSlice.actions
 
 // Selectors
+
+export const selectCriteriaResult = state => state.transactions.criteriaResult
 
 export const selectAllTransactions = (state) => state.transactions.items
 

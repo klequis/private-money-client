@@ -8,8 +8,6 @@ import Categorize from './Categorize'
 import styles from '../Rules.module.css'
 import Form from 'react-bootstrap/Form'
 import { actionTypes, transactionFields as fields } from 'globalConstants'
-import * as R from 'ramda'
-import { updateRuleEditAction } from 'features/rules/rulesSlice'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
@@ -26,13 +24,6 @@ const Actions = ({ ruleId }) => {
     }
   })
 
-  // const _handleChange = (event) => {
-  //   const { name, value } = event.target
-  //   const newAction = R.mergeRight(_action, { [name]: value})
-  //   _setAction(newAction)
-  //   dispatch(updateRuleEditAction)
-  // }
-  
   const Control = ({ action }) => {
     if (action.field === fields.description.name) {
       return <RenameDescription key={action._id} action={action} />

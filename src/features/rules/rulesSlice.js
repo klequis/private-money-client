@@ -10,8 +10,7 @@ const initialState = {
   items: [],
   status: 'idle',
   error: null,
-  ruleEditId: null,
-  ruleEdit: {},
+  ruleEdit: null,
   isEditMode: false
 }
 
@@ -20,33 +19,10 @@ export const fetchRules = createAsyncThunk('rules/get', async () => {
   return r
 })
 
-// const replaceObjectInList = (newObject, list) => {
-//   const { _id } = newObject
-//   // 1. find the index of the item to remove
-//   const idx = R.findIndex(R.propEq('_id', _id))(list)
-//   // 2. remove it
-//   const wo = R.without([idx], list)
-//   // 3. insert the new item at index
-//   const newCriteria = R.insert(idx, newObject, wo)
-//   return newCriteria
-// }
-
-/*
-    Scenarios
-    1. existing rule[s]
-    2. no rules
-       - create a tmp rule
-       - create an additional tmp rule - future?
-         - in the event that a second tmp rule is needed
-           a merge will be done (not implemented)
-*/
-
 const rulesSlice = createSlice({
   name: 'rules',
   initialState,
   reducers: {
-    // payload will be a rule as Object either existing or tmp
-
     setRuleEdit(state, action) {
       const { payload } = action
       state.ruleEdit = payload || {}
@@ -93,29 +69,13 @@ const rulesSlice = createSlice({
 
 export default rulesSlice.reducer
 
-export const { setRuleEdit, updateRuleEditCriterion, updateRuleEditAction } = rulesSlice.actions
+export const {
+  setRuleEdit,
+  updateRuleEditCriterion,
+  updateRuleEditAction
+} = rulesSlice.actions
 
-// is edit mode active
-// const selectIsRuleEditMode = (state) => state.rules.ruleEditId !== null
-
-// what is the _id of the rule being edited
-export const ruleEditId = (state) => state.rules.ruleEdit._id
-
-// set this rule as ruleEdit
-export const selectRuleEdit = (state) => state.rules.ruleEdit
-
-// select the criteria for ruleEdit
-export const selectRuleEditCriteria = (state) => {
-  // blue('state.rules.RuleEdit.criteria', state)
-
-  return state.rules.ruleEdit.criteria
-}
-
-// select the actions for ruleEdit
-export const selectRuleEditActions = (state) => {
-  // blue('state.rules.RuleEdit.actions', state)
-  return state.rules.ruleEdit.actions
-}
+// const ruleEditId = (state) => state.rules.ruleEdit._id
 
 const getRulesItems = (state) =>
   R.has('rules')(state) ? state.rules.items : state.items
@@ -123,7 +83,28 @@ const getRulesItems = (state) =>
 const getRule = (ruleId, state) =>
   getRulesItems(state).find((r) => r._id === ruleId)
 
+const hasRuleEdit = state => !(state.rules.ruleEdit === null)
+
+export const selectRuleEdit = (state) => state.rules.ruleEdit
+
+export const selectRuleEditCriteria = (state) => {
+  return hasRuleEdit(state) ? state.rules.ruleEdit.criteria : null
+
+  // if (hasRuleEdit(state)) {
+  //   blue('hasRuleEdit', true)
+  //   return state.rules.ruleEdit.criteria
+  // } else {
+  //   blue('hasRuleEdit', false)
+  //   return null
+  // }
+}
+
+export const selectRuleEditActions = (state) => {
+  return hasRuleEdit(state) ? state.rules.ruleEdit.actions : null
+}
+
 export const selectRulesStatus = (state) => state.transactions.status
+
 export const selectRulesError = (state) => state.transactions.error
 
 export const selectRuleCriteria = (ruleId, state) => {

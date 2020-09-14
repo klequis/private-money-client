@@ -19,14 +19,14 @@ const ruleTmpMake = (tmpId, origDescription, date) => {
       {
         _id: `tmp_${shortid.generate()}`,
         field: fields.description.name,
-        operation: operators.equals,
+        operation: operators.equals.name,
         value: origDescription,
         active: true,
       },
       {
         _id: `tmp_${shortid.generate()}`,
         field: fields.date.name,
-        operation: operators.equals,
+        operation: operators.equals.name,
         value: date,
         active: false
       }

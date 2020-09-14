@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react'
-import { useDispatch, useSelector } from 'react-redux'
+import { useSelector } from 'react-redux'
 import {
   selectActiveTransaction
 } from 'features/transactions/transactionsSlice'
@@ -26,22 +26,20 @@ import { green } from 'logger'
 
 
 const Rules = () => {
-  const dispatch = useDispatch()
-
   const activeTransaction = useSelector(selectActiveTransaction)
   const { ruleIds } = activeTransaction
   const [_ruleIds, _setRuleIds] = useState(ruleIds)
 
   useEffect(() => {
-    if (_ruleIds === undefined) {
-      // const tmpId = ruleTmpMakeId()
-      // const ruleIds = R.append(tmpId, _ruleIds)
-      // _setRuleIds(ruleIds)
-    } else {
+    // if (_ruleIds === undefined) {
+    //   // const tmpId = ruleTmpMakeId()
+    //   // const ruleIds = R.append(tmpId, _ruleIds)
+    //   // _setRuleIds(ruleIds)
+    // } else {
       const { ruleIds } = activeTransaction
       _setRuleIds(ruleIds)
-    }
-  }, [dispatch, _ruleIds, activeTransaction])
+    // }
+  }, [_ruleIds, activeTransaction])
 
   /*
       If it is a tmp rule than show RuleEdit

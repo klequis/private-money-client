@@ -64,10 +64,10 @@ const CriterionEdit = ({ criterion }) => {
         disabled={!active}
         onBlur={_handleBlur}
       >
-        <option value={operators.beginsWith}>Begins with</option>
-        <option value={operators.contains}>Contains</option>
-        <option value={operators.doesNotContain}>Does not contian</option>
-        <option value={operators.equals}>Equals</option>
+        <option value={operators.beginsWith.name}>Begins with</option>
+        <option value={operators.contains.name}>Contains</option>
+        <option value={operators.doesNotContain.name}>Does not contian</option>
+        <option value={operators.equals.name}>Equals</option>
       </Select>
       <TextEdit
         name="value"
