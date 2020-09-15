@@ -9,9 +9,25 @@ import {
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
+import BSTable from 'react-bootstrap/Table'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
+
+const TableHead = () => {
+  return (
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Description</th>
+        <th>Debit</th>
+        <th>Credit</th>
+        <th>Category 1</th>
+        <th>Category 2</th>
+      </tr>
+    </thead>
+  )
+}
 
 const getActiveCriteria = (criteria) =>
   criteria === null ? [] : criteria.filter((c) => c.active === true)
@@ -45,14 +61,21 @@ const CriteriaResults = () => {
       <div>
         {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
-        {criteriaResultsTransactions.map((t) => (
-          <div className="d-flex">
-            <div className="flex-fill">{t.date}</div>
-            <div className="flex-fill">{t.description}</div>
-            <div className="flex-fill">{t.category1}</div>
-            <div className="flex-fill">{t.category2}</div>
-          </div>
-        ))}
+        <BSTable  size="sm" variant="dark">
+          <TableHead />
+          <tbody>
+            {criteriaResultsTransactions.map((t) => (
+              <tr key={t._id}>
+                <td>{t.date}</td>
+                <td>{t.description}</td>
+                <td>{t.debit}</td>
+                <td>{t.credit}</td>
+                <td>{t.category1}</td>
+                <td>{t.category2}</td>
+              </tr>
+            ))}
+          </tbody>
+        </BSTable>
       </div>
     )
   }
