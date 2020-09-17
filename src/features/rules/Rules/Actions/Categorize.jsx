@@ -16,19 +16,19 @@ const Categorize = ({ action }) => {
   const _handleEvent = (event) => {
     const { name, value } = event.target
     const { type: eventType } = event
-    console.group('_handleEvent')
-    green('_handleEvent: name', name)
-    green('_handleEvent: value', value)
-    green('_handleEvent: eventType', eventType)
+    // console.group('_handleEvent')
+    // green('_handleEvent: name', name)
+    // green('_handleEvent: value', value)
+    // green('_handleEvent: eventType', eventType)
     const newAction = R.mergeRight(_action, { [name]: value })
     
     _setAction(newAction)
 
     if (eventType === 'blur') {
-      green('typeIsBlur')
+      // green('typeIsBlur')
       dispatch(updateRuleEditAction(newAction))
     }
-    console.groupEnd()
+    // console.groupEnd()
   }
 
   

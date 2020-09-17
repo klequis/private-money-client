@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { operators, transactionFields as fields } from 'globalConstants'
+import { criteriaSelectFields, operatorSelectFields } from 'globalConstants'
 import Button from 'components/Button'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
@@ -13,6 +13,10 @@ import * as R from 'ramda'
 import { green, redf } from 'logger'
 
 const CriterionEdit = ({ criterion }) => {
+
+  // green('criteriaSelectFields', criteriaSelectFields)
+  // green('operatorFields', operatorSelectFields)
+
   const [_criterion, _setCriterion] = useState(criterion)
   const { operation, field, value, active } = _criterion
   const dispatch = useDispatch()
@@ -27,6 +31,7 @@ const CriterionEdit = ({ criterion }) => {
   }
 
   const _handleBlur = (event) => {
+    // green('CriterionEdit: _handleBlur')
     const { name, value } = event.target
     const newCriterion = R.mergeRight(_criterion, { [name]: value })
     _setCriterion(newCriterion)
@@ -46,14 +51,10 @@ const CriterionEdit = ({ criterion }) => {
         disabled={!active}
         onBlur={_handleBlur}
       >
-        <option value={fields.description.name}>
-          {fields.description.description}
-        </option>
-        <option value={fields.type.name}>{fields.type.description}</option>
-        <option value={fields.credit.name}>{fields.credit.description}</option>
-        <option value={fields.debit.name}>{fields.debit.description}</option>
-        <option value={fields.acctId.name}>{fields.acctId.description}</option>
-        <option value={fields.date.name}>{fields.date.description}</option>
+        {
+          criteriaSelectFields.map(f => <option key={f.name} value={f.name}>{f.description}</option>)
+        }
+        
       </Select>
 
       <Select
@@ -64,10 +65,9 @@ const CriterionEdit = ({ criterion }) => {
         disabled={!active}
         onBlur={_handleBlur}
       >
-        <option value={operators.beginsWith.name}>Begins with</option>
-        <option value={operators.contains.name}>Contains</option>
-        <option value={operators.doesNotContain.name}>Does not contian</option>
-        <option value={operators.equals.name}>Equals</option>
+        {
+          operatorSelectFields.map(o => <option key={o.name} value={o.name}>{o.description}</option>)
+        }
       </Select>
       <TextEdit
         name="value"
@@ -76,6 +76,7 @@ const CriterionEdit = ({ criterion }) => {
         minWidth={'20%'}
         disabled={!active}
         onBlur={_handleBlur}
+        minChars={3}
       />
       <Button variant="primary" /*onClick={_criterionRemove}*/ size="sm">
         Remove

@@ -1,6 +1,5 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import './App.css'
 import AllDataByDescription from 'features/AllDataByDescription'
 import Container from 'react-bootstrap/Container'
 import Rules from 'features/rules/Rules'

@@ -1,10 +1,10 @@
 import React from 'react'
 import { useDispatch } from 'react-redux'
-import styles from './CreateRules.module.css'
 import Rules from './Rules'
 import {
   setActiveTransactionId,
 } from 'features/transactions/transactionsSlice'
+import Container from 'react-bootstrap/Container'
 
 
 import CriteriaResults from './CriteriaResults'
@@ -12,11 +12,26 @@ import CriteriaResults from './CriteriaResults'
 // eslint-disable-next-line
 import { green, redf, yellow, blue } from 'logger'
 
-// const styleRed = { backgroundColor: 'red' }
-// const styleGreen = { backgroundColor: 'green' }
-// const styleBlue = { backgroundColor: 'blue' }
-// const stylePurple = { backgroundColor: 'purple' }
-// const styleOrange = { backgroundColor: 'orange' }
+// .page {
+//   width: 100vw;
+//   height: 100vh;
+//   display: flex;
+// }
+
+// .sectionTitle {
+//   text-align: center;
+//   width: 100%;
+//   /* background-color: blue; */
+// }
+
+// .rules {
+//   flex-basis: 30%;
+//   border-right: 1px solid white;
+// }
+
+// .transactions {
+//   flex-basis: 100%;
+// }
 
 const CreateRules = () => {
   // TODO: tmp code - start
@@ -31,14 +46,14 @@ const CreateRules = () => {
   // tmp code - end
 
   return (
-    <div className={styles.page}>
-      <div className={styles.rules}>
-        <h1 className={styles.sectionTitle}>Rules</h1>
+    <div>
+      <Container>
+        <h1>Rules</h1>
         <Rules />
-      </div>
-      <div className={styles.transactions}>
+      </Container>
+      <Container>
         <CriteriaResults />
-      </div>
+      </Container>
     </div>
   )
 }

@@ -9,15 +9,11 @@ import * as R from 'ramda'
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
-
 const RenameDescription = ({ action }) => {
   
   const [_action, _setAction] = useState(action)
   const { replaceWithValue } = _action
   const dispatch = useDispatch()
-
-  green('RenameDescription: replaceWithValue', replaceWithValue)
-
 
   const _handleEvent = (event) => {
     const { value, type } = event.target
@@ -26,20 +22,19 @@ const RenameDescription = ({ action }) => {
     if (type === 'blur') {
       dispatch(updateRuleEditAction(newAction))
     }
-    
   }
 
   return (
     <div className="d-flex">
       <Form.Group controlId="bla">
         <Form.Label>Rename: </Form.Label>
-        {/* <Form.Control type="email" placeholder="Enter email" size='sm' /> */}
         <TextEdit
           name={actionFields.replaceWithValue.name}
           value={replaceWithValue}
           onChange={_handleEvent}
           onBlur={_handleEvent}
           minWidth={300}
+          minChars={1}
         />
       </Form.Group>
     </div>

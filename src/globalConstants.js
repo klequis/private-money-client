@@ -1,10 +1,11 @@
 import { format } from 'date-fns'
+import * as R from 'ramda'
 
 export const requestStatus = {
   error: 'request-error',
   fulfilled: 'request-fulfilled',
   idle: 'idle',
-  pending: 'request-pending',
+  pending: 'request-pending'
 }
 
 export const transactionFields = {
@@ -14,36 +15,8 @@ export const transactionFields = {
   },
   acctId: {
     name: 'acctId',
-    description: 'AccountId'
-  },
-  date: {
-    name: 'date',
-    description: 'Date',
-    formatFn: d => format(new Date(d), 'MM/dd/yyyy')
-  },
-  description: {
-    name: 'description',
-    description: 'Description'
-  },
-  duplicate: {
-    name: 'duplicate',
-    description: 'Duplicate'
-  },
-  duplicateStatus: {
-    name: 'duplicateStatus',
-    description: 'DuplicateStatus'
-  },
-  origDescription: {
-    name: 'origDescription',
-    description: 'OrigDescription'
-  },
-  credit: {
-    name: 'credit',
-    description: 'Credidt'
-  },
-  debit: {
-    name: 'debit',
-    description: 'Debit'
+    description: 'AccountId',
+    isCriteriaField: true
   },
   category1: {
     name: 'category1',
@@ -57,6 +30,44 @@ export const transactionFields = {
     name: 'checkNumber',
     description: 'Check#'
   },
+  credit: {
+    name: 'credit',
+    description: 'Credidt',
+    isCriteriaField: true
+  },
+  date: {
+    name: 'date',
+    description: 'Date',
+    formatFn: (d) => format(new Date(d), 'MM/dd/yyyy'),
+    isCriteriaField: true
+  },
+  debit: {
+    name: 'debit',
+    description: 'Debit',
+    isCriteriaField: true
+  },
+  description: {
+    name: 'description',
+    description: 'Description',
+    isCriteriaField: true
+  },
+  duplicate: {
+    name: 'duplicate',
+    description: 'Duplicate'
+  },
+  duplicateStatus: {
+    name: 'duplicateStatus',
+    description: 'DuplicateStatus'
+  },
+  omit: {
+    name: 'omit',
+    description: 'Omit',
+    formatFn: (d) => (d ? 'yes' : 'no')
+  },
+  origDescription: {
+    name: 'origDescription',
+    description: 'OrigDescription'
+  },
   ruleIds: {
     name: 'ruleIds',
     description: 'RuleIds'
@@ -67,14 +78,18 @@ export const transactionFields = {
   },
   type: {
     name: 'type',
-    description: 'Type'
-  },
-  omit: {
-    name: 'omit',
-    description: 'Omit',
-    formatFn: d => d ? 'yes' : 'no'
+    description: 'Type',
+    isCriteriaField: true
   }
 }
+
+export const criteriaSelectFields = R.values(
+  R.filter((x) => x.isCriteriaField === true, transactionFields)
+)
+export const criteriaSelectFieldNames = R.map(
+  (f) => f.name,
+  criteriaSelectFields
+)
 
 export const operators = {
   beginsWith: {
@@ -92,8 +107,14 @@ export const operators = {
   equals: {
     name: 'equals',
     description: 'Equals'
-  },
+  }
 }
+
+export const operatorSelectFields = R.values(operators)
+export const operatorSelectFieldNames = R.map(
+  (f) => f.name,
+  operatorSelectFields
+)
 
 export const actionTypes = {
   replaceAll: {
@@ -109,6 +130,8 @@ export const actionTypes = {
     descrption: 'Strip'
   }
 }
+
+export const actionTypeSelectFields = R.values(actionTypes)
 
 export const actionFields = {
   actionType: {
@@ -140,3 +163,4 @@ export const actionFields = {
     description: 'Category 2'
   }
 }
+

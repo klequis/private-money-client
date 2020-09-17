@@ -1,4 +1,4 @@
-import React, { useEffect /*, useState*/ } from 'react'
+import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 // import styles from './CreateRules.module.css'
 // import Button from 'components/Button'
@@ -10,6 +10,7 @@ import {
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
 import BSTable from 'react-bootstrap/Table'
+import criteriaValidation from './criteriaValidation'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
@@ -33,25 +34,24 @@ const getActiveCriteria = (criteria) =>
   criteria === null ? [] : criteria.filter((c) => c.active === true)
 
 const CriteriaResults = () => {
+  const [_areCriteriValid, _setAreCriteriaValid] = useState(false)
+
   const dispatch = useDispatch()
   const criteria = useSelector(selectRuleEditCriteria)
 
   useEffect(() => {
-    const c = getActiveCriteria(criteria)
-    if (!isNilOrEmpty(c)) {
-      dispatch(fetchCriteriaResults(getActiveCriteria(criteria)))
+    if (criteria !== null) {
+      const activeCriteria = getActiveCriteria(criteria)
+      const validationResult = criteriaValidation(activeCriteria)
+      green('validationResult', validationResult)
+      if (!isNilOrEmpty(activeCriteria)) {
+        dispatch(fetchCriteriaResults(activeCriteria))
+      }
     }
   }, [criteria, dispatch])
 
-  // const criteriaResults = useSelector(selectCriteriaResults)
-  // green('CriteriaResults: criteriaResults', criteriaResults)
-
   const criteriaResultsTransactions = useSelector(
     selectCriteriaResultsTransactions
-  )
-  green(
-    'CriteriaResults: criteriaResultsTransactions',
-    criteriaResultsTransactions
   )
 
   if (criteria === null) {
@@ -61,7 +61,7 @@ const CriteriaResults = () => {
       <div>
         {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
-        <BSTable  size="sm" variant="dark">
+        <BSTable size="sm" variant="dark">
           <TableHead />
           <tbody>
             {criteriaResultsTransactions.map((t) => (

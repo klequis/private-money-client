@@ -27,6 +27,7 @@ const Criteria = ({ ruleId }) => {
       <div className="d-flex">
         <h4>Criteria</h4>
         <Button>Add</Button>
+        <Button>Reset</Button>
       </div>
       {criteria.map((c) => (
         <CriterionEdit key={c._id} criterion={c} />

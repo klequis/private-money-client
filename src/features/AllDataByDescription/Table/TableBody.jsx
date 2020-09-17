@@ -46,7 +46,6 @@ const TableRow = ({ transactionId }) => {
   const _rowClick = () => {
     dispatch(setActiveTransactionId(transactionId))
   }
-  // #6c757d
 
   return (
     <>
