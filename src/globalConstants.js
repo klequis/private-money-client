@@ -86,6 +86,7 @@ export const transactionFields = {
 export const criteriaSelectFields = R.values(
   R.filter((x) => x.isCriteriaField === true, transactionFields)
 )
+
 export const criteriaSelectFieldNames = R.map(
   (f) => f.name,
   criteriaSelectFields
@@ -163,4 +164,3 @@ export const actionFields = {
     description: 'Category 2'
   }
 }
-
