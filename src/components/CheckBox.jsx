@@ -1,8 +1,20 @@
 import React from 'react'
-import FormCheck from 'react-bootstrap/FormCheck'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
+
+const Wrapper = styled.div`
+  @media (min-width: 601px) {
+    margin-bottom: 29.1665;
+  }
+
+  @media (max-width: 600px) {
+    margin-bottom: 0;
+    text-align: center;
+  }
+`
+// style={{ marginBottom: 29.1665 }}
 
 const CheckBox = ({
   name,
@@ -21,19 +33,9 @@ const CheckBox = ({
   //   // backgroundColor: 'green'
   //   maxWidth: maxWidth
   // }
-
-  return (
-    <FormCheck>
-      <FormCheck.Input
-        isInvalid
-        type={'checkbox'}
-        checked={checked}
-        onChange={onChange}
-        name={name}
-      />
-    </FormCheck>
-  )
+  const _handleChange = (event) => onChange(event)
+    
+  return <Wrapper> <input type="checkbox" name={name} checked={checked} onChange={_handleChange}/></Wrapper>
 }
 
 export default CheckBox
-

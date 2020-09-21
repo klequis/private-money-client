@@ -43,7 +43,6 @@ const CriteriaResults = () => {
     if (criteria !== null) {
       const activeCriteria = getActiveCriteria(criteria)
       const validationResult = criteriaValidation(activeCriteria)
-      green('validationResult', validationResult)
       if (!isNilOrEmpty(activeCriteria)) {
         dispatch(fetchCriteriaResults(activeCriteria))
       }

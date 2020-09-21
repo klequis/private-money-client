@@ -46,14 +46,14 @@ const CreateRules = () => {
   // tmp code - end
 
   return (
-    <div>
-      <Container>
+    <div id="CreateRules">
+      <div id="CreateRules.Rules">
         <h1>Rules</h1>
         <Rules />
-      </Container>
-      <Container>
+      </div>
+      <div id="CreateRules.Transactions">
         <CriteriaResults />
-      </Container>
+      </div>
     </div>
   )
 }

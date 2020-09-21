@@ -5,13 +5,22 @@ import ActionEdit from './ActionEdit'
 import isTmpRule from 'lib/isTmpRule'
 import RenameDescription from './RenameDescription'
 import Categorize from './Categorize'
-import styles from '../Rules.module.css'
-import Form from 'react-bootstrap/Form'
 import { actionTypes, transactionFields as fields } from 'globalConstants'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
+const Wrapper = styled.div`
+  padding-top: 15px;
+  @media (min-width: 601px) {
+
+  }
+
+  @media (max-width: 600px) {
+
+  }
+`
 
 
 const Actions = ({ ruleId }) => {
@@ -39,11 +48,10 @@ const Actions = ({ ruleId }) => {
   }
 
   return (
-    <>
-      <h4>Actions</h4>
-      <div className={styles.omitAndDateCheck}>
+    <Wrapper>
+      {/* <div className={styles.omitAndDateCheck}>
         <Form.Check type="switch" id="omit" label="omit" />
-      </div>
+      </div> */}
       {actions.map((a) => {
         
         return (
@@ -52,7 +60,7 @@ const Actions = ({ ruleId }) => {
           </div>
         )
       })}
-    </>
+    </Wrapper>
   )
 }
 

@@ -1,33 +1,10 @@
 import React, { useEffect, useState } from 'react'
-import Form from 'react-bootstrap/Form'
-// import { createUseStyles, useTheme } from 'react-jss'
-import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 import { props } from 'ramda'
 
-// const useStyles = createUseStyles(theme => ({
-//   wrapper: {
-//     display: 'flex',
-//     flexDirection: 'column'
-//   },
-//   feedback: {
-//     marginLeft: 4,
-//     fontSize: '0.8375rem',
-//     color: theme.colors.text.danger
-//   },
-//   controlInvalid: {
-//     backgroundColor: theme.colors.background.danger
-//   }
-// }))
-
-const Wrapper = styled.div`
-  display: 'flex';
-  flexDirection: 'column';
-`;
-
-const FormControl = styled(Form.Control)`
+const tmp = `
   height: calc(1.5em + 0.35rem + 2px);
   padding-top: 0;
   padding-bottom: 0;
@@ -36,21 +13,12 @@ const FormControl = styled(Form.Control)`
   &is-invalid {
     background-color: red;
   }
-  
-  
 `
 
 const makeStyle = (maxWidth, minWidth) => {
-  // const textStyle = {
-  //   height: 'calc(1.5em + 0.35rem + 2px)',
-  //   paddingTop: 0,
-  //   paddingBottom: 0,
-  //   paddingRight: 0,
-  //   fontSize: '0.675rem'
-  // }
   const max = maxWidth ? { maxWidth } : {}
   const min = minWidth ? { minWidth } : {}
-  return { /*...textStyle,*/ ...max, ...min }
+  return { ...max, ...min }
 }
 
 const TextEdit = ({
@@ -63,13 +31,10 @@ const TextEdit = ({
   placeholder = '',
   value = ''
 }) => {
-  const [_value, _setValue] = useState(value)
-  const [_touched, _setTouched] = useState(false)
-  const [_isMinLength, _setIsMinLength] = useState(true)
   const [_isValid, _setIsValid] = useState(true)
-
-  const classes = {}
-  const style = makeStyle(maxWidth, minWidth)
+  const [_touched, _setTouched] = useState(false)
+  const [_value, _setValue] = useState(value)
+  const [_isMinLength, _setIsMinLength] = useState(true)
 
   const _handleChange = (event) => {
     const { value } = event.target
@@ -84,32 +49,40 @@ const TextEdit = ({
     onBlur(event)
   }
 
-  // const _isValid = _touched ? _isMinLength : true
   useEffect(() => {
     _setIsValid(_touched ? _isMinLength : true)
   }, [_setIsValid, _touched, _isMinLength])
 
   return (
-    <Wrapper>
-      <FormControl
-        // style={style}
-        // className={_isValid ? '' : classes.controlInvalid }
-        type="text"
-        name={name}
-        value={_value}
-        custom
-        onChange={_handleChange}
-        onBlur={_handleBlur}
-        placeholder={placeholder}
-        disabled={disabled}
-        invalid={true}
-        isInvalid={true}
-      />
-      {
-        _isValid ? null : <span className={classes.feedback}>Minimum 3 characters</span>
-      }
-      
-    </Wrapper>
+    <>
+
+      <div  style={{ backgroundColor: 'blue' }}>
+        <input
+          type="text"
+          name={name}
+          value={_value}
+          onChange={_handleChange}
+          className="form-control form-control-sm"
+          disabled={disabled}
+          style={
+            _isValid
+              ? { backgroundColor: '#fff', color: '#444' }
+              : { backgroundColor: '#e74c3c', color: 'white' }
+          }
+          onBlur={_handleBlur}
+        />
+      </div>
+
+      <div style={{ backgroundColor: 'green', border: '1px solid white'  }}>
+        <label
+          style={
+            _isValid ? { visibility: 'hidden' } : { visibility: 'visible' }
+          }
+        >
+          Minimum 3 characters
+        </label>
+      </div>
+    </>
   )
 }
 

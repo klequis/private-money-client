@@ -1,28 +1,62 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { criteriaSelectFields, operatorSelectFields } from 'globalConstants'
-import Button from 'components/Button'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import CheckBox from 'components/CheckBox'
-// ruleSlice
 import { updateRuleEditCriterion } from 'features/rules/rulesSlice'
 import * as R from 'ramda'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
+const Row = styled.div`
+  display: flex;
+  border: 1px solid white;
+  background-color: blue;
+  
+  @media (min-width: 601px) {
+    align-items: center;
+  }
+  
+
+  @media (max-width: 600px) {
+    flex-direction: column;
+    aligh-items: flex-start; 
+  }
+`
+
+const CheckDiv = styled.div`
+  padding-right: 5px;
+  padding-left: 5px;
+  @media (max-width: 600px) {
+    align-items: center;
+    padding-top: 10px;
+    padding-bottom: 5px;
+  }
+`
+
+const SelectDiv = styled.div`
+  flex-basis: 30%;
+`
+
+const TextEditDiv = styled.div`
+  flex-basis: 65%;
+`
+
 const CriterionEdit = ({ criterion }) => {
 
-  // green('criteriaSelectFields', criteriaSelectFields)
-  // green('operatorFields', operatorSelectFields)
-
   const [_criterion, _setCriterion] = useState(criterion)
-  const { operation, field, value, active } = _criterion
+  const { _id, operation, field, value, active } = _criterion
   const dispatch = useDispatch()
 
   const _handleChange = (event) => {
     const { name, value, checked, type } = event.target
+
+    green('_handleChange: name', name)
+    green('_handleChange: value', value)
+    green('_handleChange: checked', checked)
     const newCriterion = R.mergeRight(_criterion, {
       [name]: type === 'checkbox' ? checked : value
     })
@@ -31,8 +65,9 @@ const CriterionEdit = ({ criterion }) => {
   }
 
   const _handleBlur = (event) => {
-    // green('CriterionEdit: _handleBlur')
     const { name, value } = event.target
+    green('_handleBlue: name', name)
+    green('_handleBlue: value', value)
     const newCriterion = R.mergeRight(_criterion, { [name]: value })
     _setCriterion(newCriterion)
     if (newCriterion.active) {
@@ -40,49 +75,65 @@ const CriterionEdit = ({ criterion }) => {
     }
   }
 
-  return (
-    <div className="d-flex">
-      <CheckBox name="active" checked={active} onChange={_handleChange} />
-      <Select
-        name="field"
-        value={field}
-        onChange={_handleChange}
-        maxWidth={100}
-        disabled={!active}
-        onBlur={_handleBlur}
-      >
-        {
-          criteriaSelectFields.map(f => <option key={f.name} value={f.name}>{f.description}</option>)
-        }
-        
-      </Select>
+  green('CriterionEdit: active', active)
 
-      <Select
-        name="operation"
-        value={operation}
-        onChange={_handleChange}
-        maxWidth={100}
-        disabled={!active}
-        onBlur={_handleBlur}
-      >
-        {
-          operatorSelectFields.map(o => <option key={o.name} value={o.name}>{o.description}</option>)
-        }
-      </Select>
-      <TextEdit
-        name="value"
-        value={value}
-        onChange={_handleChange}
-        minWidth={'20%'}
-        disabled={!active}
-        onBlur={_handleBlur}
-        minChars={3}
-      />
-      <Button variant="primary" /*onClick={_criterionRemove}*/ size="sm">
-        Remove
-      </Button>
-    </div>
+  return (
+    <Row id="CriterionEdit">
+      <CheckDiv>
+        <CheckBox
+          name="active"
+          checked={active}
+          onChange={_handleChange}
+        />
+      </CheckDiv>
+      <SelectDiv>
+        <Select
+          name="field"
+          value={field}
+          onChange={_handleChange}
+          disabled={!active}
+          onBlur={_handleBlur}
+        >
+          {criteriaSelectFields.map((f) => (
+            <option key={f.name} value={f.name}>
+              {f.description}
+            </option>
+          ))}
+        </Select>
+      </SelectDiv>
+      <SelectDiv>
+        <Select
+          name="operation"
+          value={operation}
+          onChange={_handleChange}
+          disabled={!active}
+          onBlur={_handleBlur}
+        >
+          {operatorSelectFields.map((o) => (
+            <option key={o.name} value={o.name}>
+              {o.description}
+            </option>
+          ))}
+        </Select>
+      </SelectDiv>
+      <TextEditDiv>
+        <TextEdit
+          name="value"
+          value={value}
+          onChange={_handleChange}
+          disabled={!active}
+          onBlur={_handleBlur}
+          minChars={3}
+        />
+      </TextEditDiv>
+    </Row>
   )
 }
 
 export default CriterionEdit
+
+/*
+<Button variant="primary" onClick={_criterionRemove} size="sm">
+Remove
+</Button>
+*/

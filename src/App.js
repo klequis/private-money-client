@@ -52,7 +52,7 @@ function App() {
       return <h1>Loading</h1>
     case requestStatus.fulfilled:
       return (
-        <Container fluid>
+        <Container id="App" fluid>
           <Router>
             <Switch>
               <Route path="/create-rule">

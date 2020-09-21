@@ -13,7 +13,7 @@ const RuleEdit = ({ ruleId }) => {
 
   return (
     <>
-      <div className="d-flex">
+      <div id="CriterionEdit" className="d-flex">
         <RuleId ruleId={ruleId} />
         <Button onClick={_handleSaveEditButtonClick}>Save</Button>
         <svg
