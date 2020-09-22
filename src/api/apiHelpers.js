@@ -90,6 +90,7 @@ const getIt = async (url, options = {}) => {
       ...options,
       headers
     })
+    purple('apiHelpers.getIt: r1', r1)
     logResponse({from: 'getIt', res: r1})
     return r1
   } catch (e) {
@@ -107,17 +108,27 @@ export const fetchJson = async (url, options = {}) => {
   const { status, statusText, url: resUrl } = r
 
   if (status >= 200 && status < 300) {
-    return await r.json()
+    const json = await r.json()
+    return { data: json, error: null, errorNumber: null }
   }
   if (status === 422) {
-    const body = await r.json()
-    const { errors } = body
-    purple('>> apiHelpers: THROWING')
-    const apiErr = new ApiError({ status, statusText, resUrl, errors })
-    logApiError('fetchJson 422', apiErr)
-    throw apiErr
+    const json = await r.json()
+    // const { errors } = body
+    // purple('>> apiHelpers: THROWING')
+    // const apiErr = new ApiError({ status, statusText, resUrl, errors })
+    // logApiError('fetchJson 422', apiErr)
+    // throw apiErr
+    purple('apiHelpers.fetchJson: 422 json', json)    
+    // return json
+    throw new Error(json.error)
+
+
   } else {
     // TODO: decide what to do here
+    const json = await r.json()
+    purple('apiHelpers.fetchJson: else json', json)
+    // return json
+    throw new Error(json.error)
   }
 }
 

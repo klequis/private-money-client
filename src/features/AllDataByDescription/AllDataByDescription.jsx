@@ -21,37 +21,37 @@ const getRequestStatus = (slices = [], state) => {
 }
 
 const AllDataByDescription = () => {
-  const dispatch = useDispatch()
-  const transactionsStatus = useSelector((state) => selectTransactionsStatus(state))
-  const transactionsError = useSelector((state) => selectTransactionsError(state))
-  const rulesError = useSelector((state) => selectRulesError(state))
-  const state = useSelector((state) => state)
+  // const dispatch = useDispatch()
+  // const transactionsStatus = useSelector((state) => selectTransactionsStatus(state))
+  // const transactionsError = useSelector((state) => selectTransactionsError(state))
+  // const rulesError = useSelector((state) => selectRulesError(state))
+  // const state = useSelector((state) => state)
 
   
 
-  useEffect(() => {
-    if (transactionsStatus === 'idle') {
-      dispatch(fetchTransactions())
-      dispatch(fetchRules())
-    }
-  }, [fetchTransactions, dispatch])
+  // useEffect(() => {
+  //   if (transactionsStatus === 'idle') {
+  //     dispatch(fetchTransactions())
+  //     dispatch(fetchRules())
+  //   }
+  // }, [fetchTransactions, dispatch])
 
-  const status = getRequestStatus(['transactions', 'rules'], state)
+  // const status = getRequestStatus(['transactions', 'rules'], state)
 
-  switch (status) {
-    case requestStatus.pending:
-      return <h1>Loading</h1>
-    case requestStatus.fulfilled:
+  // switch (status) {
+  //   case requestStatus.pending:
+  //     return <h1>Loading</h1>
+  //   case requestStatus.fulfilled:
       return <Table />
-    case requestStatus.error:
-    default:
-      return (
-        <div>
-          <div>transactions error: {transactionsError}</div>
-          <div>rules error: {rulesError}</div>
-        </div>
-      )
-  }
+    // case requestStatus.error:
+    // default:
+    //   return (
+    //     <div>
+    //       <div>transactions error: {transactionsError}</div>
+    //       <div>rules error: {rulesError}</div>
+    //     </div>
+    //   )
+  
 }
 
 export default AllDataByDescription

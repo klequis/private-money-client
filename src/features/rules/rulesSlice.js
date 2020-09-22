@@ -6,6 +6,13 @@ import * as R from 'ramda'
 // eslint-disable-next-line
 import { blue, red } from 'logger'
 
+const logFetchResults = (groupName, state, action) => {
+  console.group(groupName)
+  blue('state', current(state))
+  blue('action', action)
+  console.groupEnd()
+}
+
 const initialState = {
   items: [],
   status: 'idle',
@@ -54,15 +61,18 @@ const rulesSlice = createSlice({
   },
   extraReducers: {
     [fetchRules.pending]: (state, action) => {
+      logFetchResults('pending', state, action)      
       state.status = requestStatus.pending
     },
     [fetchRules.fulfilled]: (state, action) => {
+      logFetchResults('fulfilled', state, action)      
       state.status = requestStatus.fulfilled
       state.items = action.payload
     },
     [fetchRules.rejected]: (state, action) => {
-      state.status = requestStatus.pending
-      state.error = action.payload
+      logFetchResults('rejected', state, action)      
+      state.status = requestStatus.error
+      state.error = action.error.message
     }
   }
 })

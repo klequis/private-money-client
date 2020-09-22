@@ -3,6 +3,7 @@ import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AllDataByDescription from 'features/AllDataByDescription'
 import Container from 'react-bootstrap/Container'
 import Rules from 'features/rules/Rules'
+import * as R from 'ramda'
 
 //
 
@@ -14,10 +15,20 @@ import {
 } from 'features/transactions/transactionsSlice'
 import { fetchRules, selectRulesError } from 'features/rules/rulesSlice'
 import { requestStatus } from 'globalConstants'
+import { green } from 'logger'
 
+const INTERNAL_SERVER_ERROR = 'internal server error'
+
+/**
+ *
+ * @param {array} slices names as string of redux slices to check
+ * @param {object} state all if Redux state
+ * @description Will return status as a `requestStatus`. First priority: If error in any slice, returns error. Second priority: If pending in any slice returns pending. Returns fulfilled only if first and second priorities are false.
+ */
 const getRequestStatus = (slices = [], state) => {
   const any = (status) =>
     slices.map((s) => state[s].status === status).some((x) => x === true)
+
   if (any(requestStatus.error)) {
     return requestStatus.error
   } else if (any(requestStatus.pending || any(requestStatus.idle))) {
@@ -26,6 +37,29 @@ const getRequestStatus = (slices = [], state) => {
     return requestStatus.fulfilled
   }
 }
+
+const log = msg => value => console.log(msg, value)
+
+/**
+ *
+ * @param {object} state all if Redux state
+ *
+ */
+const getAllSliceErrors = (state) => {
+  const mod = R.pipe(
+    // R.map((s) => s.error),
+    R.tap(log('1')),
+    x => x.error === null ? '' : x.error,
+    R.tap(log('2')),
+    // R.values,
+    R.tap(log('3')),
+    // R.filter((x) => x !== null),
+    // R.tap(log('4'))
+
+  )
+  return R.values(R.map(mod, state))
+}
+  
 
 function App() {
   const dispatch = useDispatch()
@@ -46,35 +80,51 @@ function App() {
   }, [dispatch, transactionsStatus])
 
   const status = getRequestStatus(['transactions', 'rules'], state)
+  const errors = getAllSliceErrors(state)
+  green('App: status', status)
+  green('App: errors', errors)
+  green('App: R.includes', R.includes('internal server error', errors))
 
-  switch (status) {
-    case requestStatus.pending:
-      return <h1>Loading</h1>
-    case requestStatus.fulfilled:
-      return (
-        <Container id="App" fluid>
-          <Router>
-            <Switch>
-              <Route path="/create-rule">
-                <Rules />
-              </Route>
-              <Route path="/">
-                <AllDataByDescription />
-              </Route>
-            </Switch>
-          </Router>
-        </Container>
-      )
-
-    case requestStatus.error:
-    default:
-      return (
-        <div>
-          <div>transactions error: {transactionsError}</div>
-          <div>rules error: {rulesError}</div>
-        </div>
-      )
+  if (status === requestStatus.pending || status === undefined) {
+    return (
+      <Container fluid>
+        <h1>Loading</h1>
+      </Container>
+    )
   }
+
+  if (status === requestStatus.fulfilled) {
+    return (
+      <Container id="App" fluid>
+        <Router>
+          <Switch>
+            <Route path="/create-rule">
+              <Rules />
+            </Route>
+            <Route path="/">
+              <AllDataByDescription />
+            </Route>
+          </Switch>
+        </Router>
+      </Container>
+    )
+  }
+
+  if (R.includes('internal server error', errors)) {
+    return (
+      <Container id="App" fluid>
+        <h1>Internal Server Error</h1>
+      </Container>
+    )
+  }
+
+  return (
+    <Container id="App" fluid>
+      <h1>I don't know what went wrong</h1>
+      <div>transactions error: {transactionsError}</div>
+      <div>rules error: {rulesError}</div>
+    </Container>
+  )
 }
 
 export default App

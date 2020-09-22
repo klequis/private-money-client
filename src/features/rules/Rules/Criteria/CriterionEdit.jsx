@@ -15,12 +15,9 @@ const Row = styled.div`
   display: flex;
   border: 1px solid white;
   background-color: blue;
-  
   @media (min-width: 601px) {
     align-items: center;
   }
-  
-
   @media (max-width: 600px) {
     flex-direction: column;
     aligh-items: flex-start; 
@@ -46,7 +43,7 @@ const TextEditDiv = styled.div`
 `
 
 const CriterionEdit = ({ criterion }) => {
-
+  // green('CriterionEdit: criterion', criterion)
   const [_criterion, _setCriterion] = useState(criterion)
   const { _id, operation, field, value, active } = _criterion
   const dispatch = useDispatch()
@@ -54,9 +51,9 @@ const CriterionEdit = ({ criterion }) => {
   const _handleChange = (event) => {
     const { name, value, checked, type } = event.target
 
-    green('_handleChange: name', name)
-    green('_handleChange: value', value)
-    green('_handleChange: checked', checked)
+    // green('_handleChange: name', name)
+    // green('_handleChange: value', value)
+    // green('_handleChange: checked', checked)
     const newCriterion = R.mergeRight(_criterion, {
       [name]: type === 'checkbox' ? checked : value
     })
@@ -66,8 +63,11 @@ const CriterionEdit = ({ criterion }) => {
 
   const _handleBlur = (event) => {
     const { name, value } = event.target
-    green('_handleBlue: name', name)
-    green('_handleBlue: value', value)
+    // console.group('_handleBlur')
+    // green('_criterion', _criterion)
+    // green('name', name)
+    // green('value', value)
+    // console.groupEnd()
     const newCriterion = R.mergeRight(_criterion, { [name]: value })
     _setCriterion(newCriterion)
     if (newCriterion.active) {
@@ -75,7 +75,7 @@ const CriterionEdit = ({ criterion }) => {
     }
   }
 
-  green('CriterionEdit: active', active)
+  // green('CriterionEdit: active', active)
 
   return (
     <Row id="CriterionEdit">

@@ -34,20 +34,21 @@ export default {
       }
     }
   },
-  criteria: {
+  transactions: {
     async read(criteria) {
-      orange('criteria.read: criteria', criteria)
+      orange('transactions.read: criteria', criteria)
       try {
         const url = '/api/criteria/criteria-test/'
         const data = await fetchJson(url, {
           method: 'POST',
           body: JSON.stringify(criteria)
         })
-        orange('criteria.read: data', data)
+        orange('transactions.read: data', data)
         return data
       } catch (e) {
-        redf('api.criteria.read ERROR', e.message)
-        console.log(e)
+        throw e
+        // redf('api.transactions.read ERROR', e.message)
+        // console.log(e)
       }
     }
   },
@@ -58,11 +59,12 @@ export default {
         const data = await fetchJson(url, {
           method: 'GET'
         })
-        // orange('api.rules.read: data.length', data.length)
+        orange('api.rules.read: data', data)
         return data
       } catch (e) {
-        redf('api.rules.read ERROR', e.message)
-        console.log(e)
+        throw e
+        // redf('api.rules.read ERROR', e.message)
+        // console.log(e)
       }
     },
     async rulesReadById(ruleId) {
@@ -87,7 +89,7 @@ export default {
       const data = await fetchJson(url, {
         method: 'DELETE'
       })
-      // orange('rules.delete: data.length', data.length)
+      // orange('rules.delete: data', data)
       return data
     },
     async update(_id, rule) {
@@ -96,7 +98,7 @@ export default {
         method: 'PATCH',
         body: JSON.stringify(rule)
       })
-      // orange('api.rules.update: data.length', data.length)
+      // orange('api.rules.update: data', data)
       return data
     }
   },
@@ -108,54 +110,55 @@ export default {
         const data = await fetchJson(url, {
           method: 'GET'
         })
-        // orange('api.views.read: data.length', data.length)
+        orange('api.views.read: data', data)
         return data
       } catch (e) {
-        redf('api.transactions.views ERROR', e.message)
-        console.log(e)
+        throw e
+        // redf('api.transactions.views ERROR', e.message)
+        // console.log(e)
       }
     }
   },
-  transactions: {
-    // async read(description, showOmitted, view) {
-    //   try {
-    //     // /description/:description/showOmitted/:showOmitted
-    //     const descriptionPart = isEmpty(description)
-    //       ? ''
-    //       : `/description/${description}`
-    //     const showOmittedPart = `/showOmitted/${showOmitted}`
-    //     const viewPart = isEmpty(view) ? '' : `/view/${view}`
-    //     orange('api.transactions.read')
-    //     const url = `/api/data${descriptionPart}${showOmittedPart}${viewPart}`
-    //     orange('api.transactions.read: url', url)
-    //     const data = await fetchJson(url, {
-    //       method: 'GET'
-    //     })
-    //     return data
-    //   } catch (e) {
-    //     redf('api.transactions.read ERROR', e.message)
-    //     console.log(e)
-    //   }
-    // },
-    // async readByCriteria(criteria) {
-    //   try {
-    //     const url = `/api/data/criteria/`
-    //     const data = await fetchJson(url, {
-    //       method: 'POST',
-    //       body: JSON.stringify(criteria)
-    //     })
-    //     return data
-    //   } catch (e) {
-    //     redf('api.transactions.readByCriteria ERROR', e.message)
-    //     console.log(e)
-    //   }
-    // },
-    async importData() {
-      const data = await fetchJson('api/import', {
-        method: 'GET'
-      })
-      orange('importData: data', data)
-      return data
-    }
+  async importData() {
+    const data = await fetchJson('api/import', {
+      method: 'GET'
+    })
+    orange('importData: data', data)
+    return data
   }
 }
+
+// transactions: {
+// async read(description, showOmitted, view) {
+//   try {
+//     // /description/:description/showOmitted/:showOmitted
+//     const descriptionPart = isEmpty(description)
+//       ? ''
+//       : `/description/${description}`
+//     const showOmittedPart = `/showOmitted/${showOmitted}`
+//     const viewPart = isEmpty(view) ? '' : `/view/${view}`
+//     orange('api.transactions.read')
+//     const url = `/api/data${descriptionPart}${showOmittedPart}${viewPart}`
+//     orange('api.transactions.read: url', url)
+//     const data = await fetchJson(url, {
+//       method: 'GET'
+//     })
+//     return data
+//   } catch (e) {
+//     redf('api.transactions.read ERROR', e.message)
+//     console.log(e)
+//   }
+// },
+// async readByCriteria(criteria) {
+//   try {
+//     const url = `/api/data/criteria/`
+//     const data = await fetchJson(url, {
+//       method: 'POST',
+//       body: JSON.stringify(criteria)
+//     })
+//     return data
+//   } catch (e) {
+//     redf('api.transactions.readByCriteria ERROR', e.message)
+//     console.log(e)
+//   }
+// },

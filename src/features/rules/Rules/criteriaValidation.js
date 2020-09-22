@@ -3,9 +3,10 @@ import {
   operatorSelectFieldNames,
   criteriaSelectFieldNames
 } from 'globalConstants'
+import isNilOrEmpty from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
-import { blue, redf } from 'logger'
+import { blue, yellow, redf } from 'logger'
 
 const isCriterionFieldPropValueValid = (criterion) => {
   // log('       isCriterionFieldPropValueValid', 1)
@@ -20,9 +21,21 @@ const isCriterionValuePropValueLongEnough = (criterion) => {
     return "Criterion is missing required property 'value'"
   }
   const { value } = criterion
-  blue('_isCriterionValuePropValueLongEnough: value', value)
-  const r = value.length > 2
-  return r ? '' : `criterion: value prop must be 3 or more characters, received ${value} with length ${value.length}`
+  
+  console.group("_isCriterionValuePropValueLongEnough")
+    yellow('value', value)
+    yellow('isNilOrEmpty(value)', isNilOrEmpty(value))
+    yellow('typeof value', typeof value)
+  console.groupEnd()
+  
+  let msg = ''
+
+  if (isNilOrEmpty(value)) {
+    msg = `criterion: value prop must be 3 or more characters, received ${value} with length 0`
+  } else if (!value.length > 2) {
+    msg = `criterion: value prop must be 3 or more characters, received ${value} with length ${value.length}`
+  }
+  return msg === '' ? '' : msg
 }
 
 const isCriterionOperationPropValueValid = (criterion) => {

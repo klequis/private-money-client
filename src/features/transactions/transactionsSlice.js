@@ -3,13 +3,13 @@ import api from 'api'
 import { requestStatus } from 'globalConstants'
 
 // eslint-disable-next-line
+// @ts-ignore
 import { yellow } from 'logger'
 
 const initialState = {
   items: [],
   status: 'idle',
   error: null,
-  // rowIdShow: '',
   activeTransactionId: null,
   criteriaResult: []
 }
@@ -33,16 +33,19 @@ const transactionsSlice = createSlice({
     }
   },
   extraReducers: {
+    // @ts-ignore
     [fetchTransactions.pending]: (state, action) => {
       state.status = requestStatus.pending
     },
+    // @ts-ignore
     [fetchTransactions.fulfilled]: (state, action) => {
       state.status = requestStatus.fulfilled
       state.items = action.payload
     },
+    // @ts-ignore
     [fetchTransactions.rejected]: (state, action) => {
       state.status = requestStatus.error
-      state.error = action.payload
+      state.error = action.error.message
     },
   }
 })

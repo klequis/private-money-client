@@ -1,11 +1,8 @@
 import React, { useEffect, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-// import styles from './CreateRules.module.css'
-// import Button from 'components/Button'
 import { selectRuleEditCriteria } from 'features/rules/rulesSlice'
 import {
   fetchCriteriaResults
-  // selectCriteriaResults
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
@@ -42,7 +39,8 @@ const CriteriaResults = () => {
   useEffect(() => {
     if (criteria !== null) {
       const activeCriteria = getActiveCriteria(criteria)
-      const validationResult = criteriaValidation(activeCriteria)
+      green('CriteriaResults: activeCriteria', activeCriteria)
+      // const validationResult = criteriaValidation(activeCriteria)
       if (!isNilOrEmpty(activeCriteria)) {
         dispatch(fetchCriteriaResults(activeCriteria))
       }
