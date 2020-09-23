@@ -4,6 +4,8 @@ import { requestStatus } from 'globalConstants'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
+
+// @ts-ignore
 import { blue, red } from 'logger'
 
 const logFetchResults = (groupName, state, action) => {
@@ -33,7 +35,6 @@ const rulesSlice = createSlice({
     setRuleEdit(state, action) {
       const { payload } = action
       state.ruleEdit = payload || {}
-      state.ruleEditId = payload._id
     },
     updateRuleEditCriterion(state, action) {
       const newCriterion = action.payload
@@ -60,15 +61,18 @@ const rulesSlice = createSlice({
     }
   },
   extraReducers: {
+    // @ts-ignore
     [fetchRules.pending]: (state, action) => {
       logFetchResults('pending', state, action)      
       state.status = requestStatus.pending
     },
+    // @ts-ignore
     [fetchRules.fulfilled]: (state, action) => {
       logFetchResults('fulfilled', state, action)      
       state.status = requestStatus.fulfilled
-      state.items = action.payload
+      state.items = action.payload.data
     },
+    // @ts-ignore
     [fetchRules.rejected]: (state, action) => {
       logFetchResults('rejected', state, action)      
       state.status = requestStatus.error

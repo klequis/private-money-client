@@ -40,7 +40,7 @@ const transactionsSlice = createSlice({
     // @ts-ignore
     [fetchTransactions.fulfilled]: (state, action) => {
       state.status = requestStatus.fulfilled
-      state.items = action.payload
+      state.items = action.payload.data
     },
     // @ts-ignore
     [fetchTransactions.rejected]: (state, action) => {

@@ -15,6 +15,9 @@ import {
 } from 'features/transactions/transactionsSlice'
 import { fetchRules, selectRulesError } from 'features/rules/rulesSlice'
 import { requestStatus } from 'globalConstants'
+
+// eslint-disable-next-line
+// @ts-ignore
 import { green } from 'logger'
 
 const INTERNAL_SERVER_ERROR = 'internal server error'
@@ -47,15 +50,8 @@ const log = msg => value => console.log(msg, value)
  */
 const getAllSliceErrors = (state) => {
   const mod = R.pipe(
-    // R.map((s) => s.error),
-    R.tap(log('1')),
     x => x.error === null ? '' : x.error,
-    R.tap(log('2')),
-    // R.values,
-    R.tap(log('3')),
-    // R.filter((x) => x !== null),
-    // R.tap(log('4'))
-
+    R.toLower
   )
   return R.values(R.map(mod, state))
 }

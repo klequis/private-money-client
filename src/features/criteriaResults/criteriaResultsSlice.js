@@ -3,6 +3,7 @@ import api from 'api'
 import { requestStatus } from 'globalConstants'
 
 // eslint-disable-next-line
+// @ts-ignore
 import { yellow } from 'logger'
 
 const initialState = {
@@ -27,26 +28,17 @@ const criteriaResultsSlice = createSlice({
 
   },
   extraReducers: {
+    // @ts-ignore
     [fetchCriteriaResults.pending]: (state, action) => {
-      console.group('fetchCriteriaResults.pending')
-      yellow('state', current(state))
-      yellow('action', action)
-      console.groupEnd()
       state.status = requestStatus.pending
     },
+    // @ts-ignore
     [fetchCriteriaResults.fulfilled]: (state, action) => {
-      console.group('fetchCriteriaResults.fulfilled')
-      yellow('state', current(state))
-      yellow('action', action)
-      console.groupEnd()
       state.status = requestStatus.fulfilled
-      state.items = action.payload
+      state.items = action.payload.data
     },
+    // @ts-ignore
     [fetchCriteriaResults.rejected]: (state, action) => {
-      console.group('fetchCriteriaResults.rejected')
-      yellow('state', current(state))
-      yellow('action', action)
-      console.groupEnd()
       state.status = requestStatus.error
       state.error = action.payload
     }  
