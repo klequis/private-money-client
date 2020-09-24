@@ -5,17 +5,11 @@ import {
   criteriaSelectFieldNames
 } from 'globalConstants'
 
+import { ICriterion } from 'interfaces'
+
 // @ts-ignore
 // eslint-disable-next-line
 import { blue, yellow, redf } from 'logger'
-
-interface ICriterion {
-  _id: String,
-  field: String,
-  operation: String,
-  value: String,
-  active: Boolean
-}
 
 /**
  * 
@@ -33,7 +27,7 @@ const isValidFieldPropValue = (criterion: ICriterion) => {
  * 
  * @param {object} criterion 
  */
-const isValidValuePropValue = (criterion) => {
+const isValidValuePropValue = (criterion: ICriterion) => {
   if (!R.has('value')(criterion)) {
     return "Criterion is missing required property 'value'"
   }
@@ -44,14 +38,14 @@ const isValidValuePropValue = (criterion) => {
     : `criterion: value prop must be 3 or more characters, received ${value} with length ${value.length}`
 }
 
-const isValidOperationPropValue = (criterion) => {
+const isValidOperationPropValue = (criterion: ICriterion) => {
   const { operation } = criterion
   return R.includes(operation, operatorSelectFieldNames)
     ? ''
     : `${operation} is not a valid value for criterion.value`
 }
 
-const isActive = (criterion) => {
+const isActive = (criterion: ICriterion) => {
   const { active } = criterion
   return active
     ? ''
@@ -65,17 +59,22 @@ const predicates = [
   isValidOperationPropValue
 ]
 
+// @ts-ignore
+const log = message => value => console.log(message, value)
+
 const check = R.pipe(
-  (x) => ({
+  (x: ICriterion) => ({
     _id: x._id,
     errors: predicates.map((p) => p(x))
   }),
-  (x) => ({ _id: x._id, errors: R.filter((e) => e !== '', x.errors) })
+  (x) => ({ _id: x._id, errors: R.filter((e) => e !== '', x.errors) }),
 )
 
-const criteriaValidation = (criteria) => {
+const criteriaValidation = (criteria: ICriterion): string[] => {
   // yellow('criteriaTest.validation: criteria', criteria)
+  // @ts-ignore
   const _is = R.filter((e) => e.errors.length > 0)(R.map(check, criteria))
+  // @ts-ignore
   return _is
 }
 

@@ -12,7 +12,7 @@ import ruleTmpMakeId from 'lib/ruleTmpMakeId'
 // eslint-disable-next-line
 import { green, redf, yellow, blue } from 'logger'
 
-const ruleTmpMake = (tmpId, origDescription, date) => {
+const ruleTmpMake = (tmpId: string, origDescription: string, date?: string) => {
   return {
     _id: tmpId,
     criteria: [

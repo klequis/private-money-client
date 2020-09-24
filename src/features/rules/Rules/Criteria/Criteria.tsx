@@ -8,6 +8,7 @@ import {
 import isTmpRule from 'lib/isTmpRule'
 import Button from 'components/Button'
 import styled from 'styled-components'
+import { ICriterion } from 'interfaces'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
@@ -18,7 +19,7 @@ const Row = styled.div`
   background-color: red;
 `
 
-const Criteria = ({ ruleId }) => {
+const Criteria = ({ ruleId }: { ruleId: string }) => {
   const criteria = useSelector((state) => {
     if (isTmpRule(ruleId)) {
       return selectRuleEditCriteria(state)
@@ -27,6 +28,8 @@ const Criteria = ({ ruleId }) => {
     }
   })
 
+  const _handleButtonClick = () => {}
+
   if (!criteria) {
     return null
   }
@@ -34,11 +37,12 @@ const Criteria = ({ ruleId }) => {
     <div id="Criteria">
       <Row id="Criteria.Row">
         <h4>Criteria</h4>
-        <Button>Add</Button>
-        <Button>Reset</Button>
+
+        <Button onClick={_handleButtonClick}>Add</Button>
+        <Button onClick={_handleButtonClick}>Reset</Button>
       </Row>
 
-      {criteria.map((c) => (
+      {criteria.map((c: ICriterion) => (
         <CriterionEdit key={c._id} criterion={c} />
       ))}
     </div>

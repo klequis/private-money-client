@@ -28,34 +28,38 @@ const INTERNAL_SERVER_ERROR = 'internal server error'
  * @param {object} state all if Redux state
  * @description Will return status as a `requestStatus`. First priority: If error in any slice, returns error. Second priority: If pending in any slice returns pending. Returns fulfilled only if first and second priorities are false.
  */
-const getRequestStatus = (slices = [], state) => {
-  const any = (status) =>
-    slices.map((s) => state[s].status === status).some((x) => x === true)
+const getRequestStatus = (slices: string[], state: object) => {
+
+  const any = (status: string): boolean => {
+    // @ts-ignore
+    return slices.map((s) => state[s].status === status).some((x) => x === true)
+  }
 
   if (any(requestStatus.error)) {
     return requestStatus.error
-  } else if (any(requestStatus.pending || any(requestStatus.idle))) {
+  } else if (any(requestStatus.pending) || any(requestStatus.idle)) {
     return requestStatus.pending
   } else if (any(requestStatus.fulfilled)) {
     return requestStatus.fulfilled
   }
 }
 
-const log = msg => value => console.log(msg, value)
 
 /**
  *
  * @param {object} state all if Redux state
  *
  */
-const getAllSliceErrors = (state) => {
+const getAllSliceErrors = (state: object): string[] => {
   const mod = R.pipe(
+    // @ts-ignore
     x => x.error === null ? '' : x.error,
     R.toLower
   )
+  // @ts-ignore
   return R.values(R.map(mod, state))
 }
-  
+
 
 function App() {
   const dispatch = useDispatch()

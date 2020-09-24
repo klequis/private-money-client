@@ -7,7 +7,7 @@ import RuleId from './RuleId'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-const RuleEdit = ({ ruleId }) => {
+const RuleEdit = ({ ruleId }: { ruleId: string }) => {
 
   const _handleSaveEditButtonClick = () => {}
 
