@@ -5,7 +5,7 @@ import { logFetchResults } from 'lib/logFetchResults'
 
 // @ts-ignore
 // eslint-disable-next-line
-import { yellow } from 'logger'
+import { blue, yellow } from 'logger'
 
 const initialState = {
   items: [],
@@ -16,7 +16,7 @@ const initialState = {
 export const fetchCriteriaResults = createAsyncThunk(
   'criteriaResult/get',
   async (criteria) => {
-    // yellow('fetchCriteriaResults: criteria', criteria)
+    yellow('fetchCriteriaResults: criteria', criteria)
     const r = await api.transactions.read(criteria)
     return r
   }
@@ -26,7 +26,10 @@ const criteriaResultsSlice = createSlice({
   name: 'criteriaResult',
   initialState,
   reducers: {
-
+    criteriaResultsClear(state, action) {
+      blue('criteriaResultsClear')
+      state.items = []
+    }
   },
   extraReducers: {
     // @ts-ignore
@@ -46,10 +49,13 @@ const criteriaResultsSlice = createSlice({
       logFetchResults('fetchCriteriaResults.rejected', state, action)
       state.status = requestStatus.error
       state.error = action.error.message
+      state.items = []
     }  
   }
 })
 
 export default criteriaResultsSlice.reducer
+
+export const { criteriaResultsClear } = criteriaResultsSlice.actions
 
 export const selectCriteriaResults = state => state.criteriaResults.items

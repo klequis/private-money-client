@@ -44,16 +44,13 @@ const rulesSlice = createSlice({
       return newState
     },
     updateRuleEditAction(state, action) {
-      console.group('updateRuleEditAction') // TODO:
       const newAction = action.payload
-      blue('newAction', newAction)
       const actions = R.path(['ruleEdit', 'actions'], state)
       const idx = R.findIndex(R.propEq('_id', R.prop('_id', newAction)))(
         actions
       )
       const newActions = R.update(idx, newAction, actions)
       const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
-      console.groupEnd() // TODO:
       return newState
     }
   },
@@ -72,9 +69,10 @@ const rulesSlice = createSlice({
     },
     // @ts-ignore
     [fetchRules.rejected]: (state, action) => {
-      logFetchResults('fetchRules.rejected', state, action)      
+      // logFetchResults('fetchRules.rejected', state, action)      
       state.status = requestStatus.error
       state.error = action.error.message
+      state.items = []
     }
   }
 })
@@ -100,7 +98,7 @@ const hasRuleEdit = state => !(state.rules.ruleEdit === null)
 export const selectRuleEdit = (state) => state.rules.ruleEdit
 
 export const selectRuleEditCriteria = (state) => {
-  return hasRuleEdit(state) ? state.rules.ruleEdit.criteria : null
+  return hasRuleEdit(state) ? state.rules.ruleEdit.criteria : []
 
   // if (hasRuleEdit(state)) {
   //   blue('hasRuleEdit', true)

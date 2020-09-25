@@ -51,6 +51,7 @@ const transactionsSlice = createSlice({
       logFetchResults('transactions.rejected', state, action)
       state.status = requestStatus.error
       state.error = action.error.message
+      state.items = []
     },
   }
 })

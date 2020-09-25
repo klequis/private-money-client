@@ -2,7 +2,8 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectRuleEditCriteria } from 'features/rules/rulesSlice'
 import {
-  fetchCriteriaResults
+  fetchCriteriaResults,
+  criteriaResultsClear
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
@@ -35,49 +36,50 @@ const CriteriaResults = () => {
 
   const dispatch = useDispatch()
   const criteria = useSelector(selectRuleEditCriteria)
-
+  green('CriteriaResults: criteria', criteria)
   useEffect(() => {
-    if (criteria !== null) {
-      const activeCriteria = getActiveCriteria(criteria)
-      // green('CriteriaResults: activeCriteria', activeCriteria)
-      const validationResult = criteriaValidation(activeCriteria)
-      // green('CriteriaResults: validationResults', validationResult)
-      
-      if (!isNilOrEmpty(activeCriteria)) {
-        dispatch(fetchCriteriaResults(activeCriteria))
-      }
+    // if (criteria !== null) {
+
+    const activeCriteria = getActiveCriteria(criteria)
+    green('CriteriaResults: activeCriteria', activeCriteria)
+    const validationResult = criteriaValidation(activeCriteria)
+    // green('CriteriaResults: validationResults', validationResult)
+
+    if (isNilOrEmpty(activeCriteria)) {
+      dispatch(criteriaResultsClear())
+    } else {
+      dispatch(fetchCriteriaResults(activeCriteria))
     }
+    // }
   }, [criteria, dispatch])
 
   const criteriaResultsTransactions = useSelector(
     selectCriteriaResultsTransactions
   )
 
-  if (criteria === null) {
-    return null
-  } else {
-    return (
-      <div>
-        {/* <h1 className={styles.sectionTitle}>Transactions</h1>
+
+  return (
+    <div>
+      {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
-        <BSTable size="sm" variant="dark">
-          <TableHead />
-          <tbody>
-            {criteriaResultsTransactions.map((t) => (
-              <tr key={t._id}>
-                <td>{t.date}</td>
-                <td>{t.description}</td>
-                <td>{t.debit}</td>
-                <td>{t.credit}</td>
-                <td>{t.category1}</td>
-                <td>{t.category2}</td>
-              </tr>
-            ))}
-          </tbody>
-        </BSTable>
-      </div>
-    )
-  }
+      <BSTable size="sm" variant="dark">
+        <TableHead />
+        <tbody>
+          {criteriaResultsTransactions.map((t) => (
+            <tr key={t._id}>
+              <td>{t.date}</td>
+              <td>{t.description}</td>
+              <td>{t.debit}</td>
+              <td>{t.credit}</td>
+              <td>{t.category1}</td>
+              <td>{t.category2}</td>
+            </tr>
+          ))}
+        </tbody>
+      </BSTable>
+    </div>
+  )
+  // }
 }
 
 export default CriteriaResults
