@@ -128,38 +128,3 @@ export default {
     return data
   }
 }
-
-// transactions: {
-// async read(description, showOmitted, view) {
-//   try {
-//     // /description/:description/showOmitted/:showOmitted
-//     const descriptionPart = isEmpty(description)
-//       ? ''
-//       : `/description/${description}`
-//     const showOmittedPart = `/showOmitted/${showOmitted}`
-//     const viewPart = isEmpty(view) ? '' : `/view/${view}`
-//     orange('api.transactions.read')
-//     const url = `/api/data${descriptionPart}${showOmittedPart}${viewPart}`
-//     orange('api.transactions.read: url', url)
-//     const data = await fetchJson(url, {
-//       method: 'GET'
-//     })
-//     return data
-//   } catch (e) {
-//     redf('api.transactions.read ERROR', e.message)
-//     console.log(e)
-//   }
-// },
-// async readByCriteria(criteria) {
-//   try {
-//     const url = `/api/data/criteria/`
-//     const data = await fetchJson(url, {
-//       method: 'POST',
-//       body: JSON.stringify(criteria)
-//     })
-//     return data
-//   } catch (e) {
-//     redf('api.transactions.readByCriteria ERROR', e.message)
-//     console.log(e)
-//   }
-// },

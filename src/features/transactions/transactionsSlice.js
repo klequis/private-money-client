@@ -38,10 +38,11 @@ const transactionsSlice = createSlice({
     // @ts-ignore
     [fetchTransactions.pending]: (state, action) => {
       state.status = requestStatus.pending
+      state.items = []
     },
     // @ts-ignore
     [fetchTransactions.fulfilled]: (state, action) => {
-      logFetchResults('transactions.rejected', state, action)
+      logFetchResults('transactions.fulfilled', state, action)
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },

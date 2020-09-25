@@ -31,20 +31,21 @@ const criteriaResultsSlice = createSlice({
   extraReducers: {
     // @ts-ignore
     [fetchCriteriaResults.pending]: (state, action) => {
-      // logFetchResults('fetchRules.pending', state, action)      
+      logFetchResults('fetchCriteriaResults.pending', state, action)
       state.status = requestStatus.pending
+      state.items = []
     },
     // @ts-ignore
     [fetchCriteriaResults.fulfilled]: (state, action) => {
-      // logFetchResults('fetchRules.fulfilled', state, action)      
+      logFetchResults('fetchCriteriaResults.fulfilled', state, action)
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     // @ts-ignore
     [fetchCriteriaResults.rejected]: (state, action) => {
-      logFetchResults('fetchRules.rejected', state, action)      
+      logFetchResults('fetchCriteriaResults.rejected', state, action)
       state.status = requestStatus.error
-      state.error = action.error.payload
+      state.error = action.error.message
     }  
   }
 })

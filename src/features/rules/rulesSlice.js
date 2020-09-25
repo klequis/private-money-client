@@ -62,6 +62,7 @@ const rulesSlice = createSlice({
     [fetchRules.pending]: (state, action) => {
       // logFetchResults('fetchRules.pending', state, action)      
       state.status = requestStatus.pending
+      state.items = []
     },
     // @ts-ignore
     [fetchRules.fulfilled]: (state, action) => {

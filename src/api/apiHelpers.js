@@ -104,30 +104,26 @@ export const fetchJson = async (url, options = {}) => {
     options,
   })
   const r = await getIt(url, options)
+  purple('apiHelpers.fetchJson: r', r)
   const { status /*, statusText ,  url: resUrl */ } = r
-
+  const json = await r.json()
+  purple('apiHelpers.fetchJson: json', json)
   if (status >= 200 && status < 300) {
-    const json = await r.json()
-    // return { data: json, error: null, errorNumber: null }
     return json
   }
-  if (status === 422) {
-    const json = await r.json()
-    // const { errors } = body
-    // purple('>> apiHelpers: THROWING')
-    // const apiErr = new ApiError({ status, statusText, resUrl, errors })
-    // logApiError('fetchJson 422', apiErr)
-    // throw apiErr
-    purple('apiHelpers.fetchJson: 422 json', json)    
-    // return json
+  if (status >= 400 && status < 500) {
+    purple('apiHelpers.fetchJson: 4xx json', json)    
+    // throw new Error(json.error)
     throw new Error(json.error)
+    // throw new Error('400 error *********')
 
-
+  } else if (status >= 400 && status < 500) {
+    purple('apiHelpers.fetchJson: 4xx json', json)    
+    // throw new Error(json.error)
+    throw new Error(json.error)
   } else {
-    // TODO: decide what to do here
-    const json = await r.json()
-    purple('apiHelpers.fetchJson: else json', json)
-    // return json
+    purple('apiHelpers.fetchJson: >500 json', json)
+    // throw new Error(json.error)
     throw new Error(json.error)
   }
 }
