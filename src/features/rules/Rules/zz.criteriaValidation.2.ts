@@ -38,7 +38,7 @@ const isValidValuePropValue = (criterion: ICriterion) => {
   }
   const { value } = criterion
   blue('value', typeof value)
-  if (isNilOrEmpty(value)) {
+  if (isNilOrEmpty(field)) {
     return 'null is not a valid '   
   }
   return value.length > 2
@@ -78,13 +78,8 @@ const check = R.pipe(
   (x) => ({ _id: x._id, errors: R.filter((e) => e !== '', x.errors) })
 )
 
-// What fields are required?
-
-// Are there any extra fields present
-
 const criteriaValidation = (criteria: ICriterion): string[] => {
   // yellow('criteriaTest.validation: criteria', criteria)
-  
   // @ts-ignore
   const _is = R.filter((e) => e.errors.length > 0)(R.map(check, criteria))
   // @ts-ignore

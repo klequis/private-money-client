@@ -31,7 +31,7 @@ const getActiveCriteria = (criteria) =>
   criteria === null ? [] : criteria.filter((c) => c.active === true)
 
 const CriteriaResults = () => {
-  const [_areCriteriValid, _setAreCriteriaValid] = useState(false)
+  // const [_areCriteriValid, _setAreCriteriaValid] = useState(false)
 
   const dispatch = useDispatch()
   const criteria = useSelector(selectRuleEditCriteria)
@@ -39,9 +39,9 @@ const CriteriaResults = () => {
   useEffect(() => {
     if (criteria !== null) {
       const activeCriteria = getActiveCriteria(criteria)
-      green('CriteriaResults: activeCriteria', activeCriteria)
+      // green('CriteriaResults: activeCriteria', activeCriteria)
       const validationResult = criteriaValidation(activeCriteria)
-
+      green('CriteriaResults: validationResults', validationResult)
       
       if (!isNilOrEmpty(activeCriteria)) {
         dispatch(fetchCriteriaResults(activeCriteria))

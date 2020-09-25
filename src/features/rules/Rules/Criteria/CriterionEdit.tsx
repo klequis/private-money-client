@@ -1,3 +1,4 @@
+// @ts-nocheck
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { criteriaSelectFields, operatorSelectFields } from 'globalConstants'
@@ -7,6 +8,7 @@ import CheckBox from 'components/CheckBox'
 import { updateRuleEditCriterion } from 'features/rules/rulesSlice'
 import * as R from 'ramda'
 import styled from 'styled-components'
+import { ICriterion } from 'interfaces'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
@@ -20,7 +22,7 @@ const Row = styled.div`
   }
   @media (max-width: 600px) {
     flex-direction: column;
-    aligh-items: flex-start; 
+    aligh-items: flex-start;
   }
 `
 
@@ -42,33 +44,36 @@ const TextEditDiv = styled.div`
   flex-basis: 65%;
 `
 
-const CriterionEdit = ({ criterion }) => {
-  // green('CriterionEdit: criterion', criterion)
-  const [_criterion, _setCriterion] = useState(criterion)
+// @ts-ignore
+const mergeCriterionProp = (newProp, criterion) => {
+  return R.mergeRight(criterion, newProp)
+}
+
+const CriterionEdit = ({ criterion }: { criterion: ICriterion }) => {
+  const [_criterion, _setCriterion] = useState<ICriterion>(criterion)
   const { _id, operation, field, value, active } = _criterion
   const dispatch = useDispatch()
 
-  const _handleChange = (event) => {
-    const { name, value, checked, type } = event.target
+  const _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const { name, value, checked, type } = event.currentTarget
 
-    // green('_handleChange: name', name)
-    // green('_handleChange: value', value)
-    // green('_handleChange: checked', checked)
-    const newCriterion = R.mergeRight(_criterion, {
-      [name]: type === 'checkbox' ? checked : value
-    })
+    const newProp = { [name]: type === 'checkbox' ? checked : value }
+
+    const newCriterion = mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
     dispatch(updateRuleEditCriterion(newCriterion))
   }
 
-  const _handleBlur = (event) => {
-    const { name, value } = event.target
+  const _handleBlur = (event: React.FormEvent<HTMLInputElement>) => {
+    const { name, value } = event.currentTarget
     // console.group('_handleBlur')
     // green('_criterion', _criterion)
     // green('name', name)
     // green('value', value)
     // console.groupEnd()
-    const newCriterion = R.mergeRight(_criterion, { [name]: value })
+    const newProp = { [name]: value }
+    // const newCriterion = R.mergeRight(_criterion, { [name]: value })
+    const newCriterion = mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
     if (newCriterion.active) {
       dispatch(updateRuleEditCriterion(newCriterion))
@@ -76,15 +81,10 @@ const CriterionEdit = ({ criterion }) => {
   }
 
   // green('CriterionEdit: active', active)
-
   return (
     <Row id="CriterionEdit">
       <CheckDiv>
-        <CheckBox
-          name="active"
-          checked={active}
-          onChange={_handleChange}
-        />
+        <CheckBox name="active" checked={active} onChange={_handleChange} />
       </CheckDiv>
       <SelectDiv>
         <Select

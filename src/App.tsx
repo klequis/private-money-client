@@ -16,11 +16,10 @@ import {
 import { fetchRules, selectRulesError } from 'features/rules/rulesSlice'
 import { requestStatus } from 'globalConstants'
 
-// eslint-disable-next-line
-// @ts-ignore
-import { green } from 'logger'
 
-const INTERNAL_SERVER_ERROR = 'internal server error'
+// @ts-ignore
+// eslint-disable-next-line
+import { green } from 'logger'
 
 /**
  *
@@ -81,9 +80,6 @@ function App() {
 
   const status = getRequestStatus(['transactions', 'rules'], state)
   const errors = getAllSliceErrors(state)
-  green('App: status', status)
-  green('App: errors', errors)
-  green('App: R.includes', R.includes('internal server error', errors))
 
   if (status === requestStatus.pending || status === undefined) {
     return (

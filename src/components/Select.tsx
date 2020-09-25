@@ -1,4 +1,15 @@
+// @ts-nocheck
 import React from 'react'
+
+// type Props = {
+//   name: string,
+//   value: number | string,
+//   onChange: React.ChangeEventHandler<HTMLInputElement>,
+//   handleBlur: React.FormEventHandler<HTMLInputElement>,
+//   maxWidth: number | null,
+//   disabled: boolean,
+//   children: React.ReactNode
+// }
 
 const Select = ({
   name,

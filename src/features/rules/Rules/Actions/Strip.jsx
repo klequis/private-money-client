@@ -9,7 +9,7 @@ const Strip = ({ action, handleChange }) => {
   redf('Strip: action', action)
   return (
     <>
-      <Select name="field" value={field} onChange={handleChange} maxWidth={100}>
+      <Select name="field" value={action.field} onChange={handleChange} maxWidth={100}>
         <option value={fields.description.name}>Description</option>
         <option value={fields.type.name}>Type</option>
       </Select>

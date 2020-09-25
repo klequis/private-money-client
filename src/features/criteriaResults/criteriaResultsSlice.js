@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk,  current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk/*,  current*/ } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 
