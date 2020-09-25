@@ -1,9 +1,11 @@
 import { createSlice, createAsyncThunk/*,  current */ } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
+import { logFetchResults } from 'lib/logFetchResults'
 
-// eslint-disable-next-line
+
 // @ts-ignore
+// eslint-disable-next-line
 import { yellow } from 'logger'
 
 const initialState = {
@@ -39,11 +41,13 @@ const transactionsSlice = createSlice({
     },
     // @ts-ignore
     [fetchTransactions.fulfilled]: (state, action) => {
+      logFetchResults('transactions.rejected', state, action)
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     // @ts-ignore
     [fetchTransactions.rejected]: (state, action) => {
+      logFetchResults('transactions.rejected', state, action)
       state.status = requestStatus.error
       state.error = action.error.message
     },

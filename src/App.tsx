@@ -55,6 +55,7 @@ const getAllSliceErrors = (state: object): string[] => {
     x => x.error === null ? '' : x.error,
     R.toLower
   )
+  // green('state', state)
   // @ts-ignore
   return R.values(R.map(mod, state))
 }
@@ -79,6 +80,7 @@ function App() {
   }, [dispatch, transactionsStatus])
 
   const status = getRequestStatus(['transactions', 'rules'], state)
+  // green('status', status)
   const errors = getAllSliceErrors(state)
 
   if (status === requestStatus.pending || status === undefined) {

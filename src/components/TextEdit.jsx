@@ -2,24 +2,12 @@ import React, { useEffect, useState } from 'react'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
-import { props } from 'ramda'
 
-const tmp = `
-  height: calc(1.5em + 0.35rem + 2px);
-  padding-top: 0;
-  padding-bottom: 0;
-  padding-right: 0;
-  font-size: 0.675rem;
-  &is-invalid {
-    background-color: red;
-  }
-`
-
-const makeStyle = (maxWidth, minWidth) => {
-  const max = maxWidth ? { maxWidth } : {}
-  const min = minWidth ? { minWidth } : {}
-  return { ...max, ...min }
-}
+// const makeStyle = (maxWidth, minWidth) => {
+//   const max = maxWidth ? { maxWidth } : {}
+//   const min = minWidth ? { minWidth } : {}
+//   return { ...max, ...min }
+// }
 
 const TextEdit = ({
   disabled,

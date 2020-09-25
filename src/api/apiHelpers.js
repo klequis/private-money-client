@@ -1,20 +1,19 @@
 import fetch from 'cross-fetch'
 // import { getTokenSilently } from 'react-auth0-spa'
 import config from 'config'
-import ApiError from './apiError'
 
 // eslint-disable-next-line
 import { orange, red, redf, purple } from 'logger'
 
-const logApiError = (from = 'not specified', e) => {
-  console.group(`API Error from: ${from}`)
-  purple('message', e.message)
-  purple('statusNumber', e.statusNumber)
-  purple('statusText', e.statusText)
-  purple('url', e.url)
-  purple('validationErrors', e.validationErrors)
-  console.groupEnd()
-}
+// const logApiError = (from = 'not specified', e) => {
+//   console.group(`API Error from: ${from}`)
+//   purple('message', e.message)
+//   purple('statusNumber', e.statusNumber)
+//   purple('statusText', e.statusText)
+//   purple('url', e.url)
+//   purple('validationErrors', e.validationErrors)
+//   console.groupEnd()
+// }
 
 const logRequest = ({from='not specified', url, options, headers}) => {
   if (config.dev.logRequest) {
@@ -90,7 +89,7 @@ const getIt = async (url, options = {}) => {
       ...options,
       headers
     })
-    purple('apiHelpers.getIt: r1', r1)
+    // purple('apiHelpers.getIt: r1', r1)
     logResponse({from: 'getIt', res: r1})
     return r1
   } catch (e) {
@@ -105,11 +104,12 @@ export const fetchJson = async (url, options = {}) => {
     options,
   })
   const r = await getIt(url, options)
-  const { status, statusText, url: resUrl } = r
+  const { status /*, statusText ,  url: resUrl */ } = r
 
   if (status >= 200 && status < 300) {
     const json = await r.json()
-    return { data: json, error: null, errorNumber: null }
+    // return { data: json, error: null, errorNumber: null }
+    return json
   }
   if (status === 422) {
     const json = await r.json()

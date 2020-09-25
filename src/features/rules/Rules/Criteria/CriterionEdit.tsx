@@ -51,7 +51,7 @@ const mergeCriterionProp = (newProp, criterion) => {
 
 const CriterionEdit = ({ criterion }: { criterion: ICriterion }) => {
   const [_criterion, _setCriterion] = useState<ICriterion>(criterion)
-  const { _id, operation, field, value, active } = _criterion
+  const { operation, field, value, active } = _criterion
   const dispatch = useDispatch()
 
   const _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {

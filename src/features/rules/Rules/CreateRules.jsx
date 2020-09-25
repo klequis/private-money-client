@@ -4,7 +4,6 @@ import Rules from './Rules'
 import {
   setActiveTransactionId,
 } from 'features/transactions/transactionsSlice'
-import Container from 'react-bootstrap/Container'
 
 
 import CriteriaResults from './CriteriaResults'

@@ -1,19 +1,16 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 import * as R from 'ramda'
+import { logFetchResults } from 'lib/logFetchResults'
 
+
+// 
+// @ts-ignore 
 // eslint-disable-next-line
-
-// @ts-ignore
 import { blue, red } from 'logger'
 
-const logFetchResults = (groupName, state, action) => {
-  console.group(groupName)
-  blue('state', current(state))
-  blue('action', action)
-  console.groupEnd()
-}
+
 
 const initialState = {
   items: [],
@@ -63,18 +60,18 @@ const rulesSlice = createSlice({
   extraReducers: {
     // @ts-ignore
     [fetchRules.pending]: (state, action) => {
-      logFetchResults('pending', state, action)      
+      // logFetchResults('fetchRules.pending', state, action)      
       state.status = requestStatus.pending
     },
     // @ts-ignore
     [fetchRules.fulfilled]: (state, action) => {
-      logFetchResults('fulfilled', state, action)      
+      // logFetchResults('fetchRules.fulfilled', state, action)      
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     // @ts-ignore
     [fetchRules.rejected]: (state, action) => {
-      logFetchResults('rejected', state, action)      
+      logFetchResults('fetchRules.rejected', state, action)      
       state.status = requestStatus.error
       state.error = action.error.message
     }

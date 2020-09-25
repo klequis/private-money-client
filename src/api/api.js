@@ -36,7 +36,7 @@ export default {
   },
   transactions: {
     async read(criteria) {
-      orange('transactions.read: criteria', criteria)
+      // orange('transactions.read: criteria', criteria)
       try {
         const url = '/api/criteria/criteria-test/'
         const data = await fetchJson(url, {
@@ -81,7 +81,7 @@ export default {
         method: 'POST',
         body: JSON.stringify(rule)
       })
-      orange('rules.create: data', data)
+      // orange('rules.create: data', data)
       return data
     },
     async delete(ruleId) {
@@ -107,6 +107,7 @@ export default {
       // orange('api.views.read: viewUrlPart', viewUrlPart)
       try {
         const url = `/api/views/${viewUrlPart}`
+        // orange('api.views.read: url', url)
         const data = await fetchJson(url, {
           method: 'GET'
         })
@@ -123,7 +124,7 @@ export default {
     const data = await fetchJson('api/import', {
       method: 'GET'
     })
-    orange('importData: data', data)
+    // orange('importData: data', data)
     return data
   }
 }

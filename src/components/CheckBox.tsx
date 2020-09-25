@@ -3,7 +3,6 @@ import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
-import { Interface } from 'readline'
 
 const Wrapper = styled.div`
   @media (min-width: 601px) {

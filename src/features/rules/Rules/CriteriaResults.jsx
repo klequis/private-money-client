@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { selectRuleEditCriteria } from 'features/rules/rulesSlice'
 import {
@@ -41,7 +41,7 @@ const CriteriaResults = () => {
       const activeCriteria = getActiveCriteria(criteria)
       // green('CriteriaResults: activeCriteria', activeCriteria)
       const validationResult = criteriaValidation(activeCriteria)
-      green('CriteriaResults: validationResults', validationResult)
+      // green('CriteriaResults: validationResults', validationResult)
       
       if (!isNilOrEmpty(activeCriteria)) {
         dispatch(fetchCriteriaResults(activeCriteria))

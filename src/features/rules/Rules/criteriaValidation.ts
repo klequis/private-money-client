@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 import {
-  transactionFields as tFields,
+  // transactionFields as tFields,
   operatorSelectFieldNames,
   criteriaSelectFieldNames
 } from 'globalConstants'
@@ -34,10 +34,11 @@ const isValidFieldPropValue = (criterion: ICriterion) => {
  */
 const isValidValuePropValue = (criterion: ICriterion) => {
   if (!R.has('value')(criterion)) {
+    // eslint-disable-next-line
     return "Criterion is missing required property 'value'"
   }
   const { value } = criterion
-  blue('value', typeof value)
+  // blue('value', typeof value)
   if (isNilOrEmpty(value)) {
     return 'null is not a valid '   
   }
@@ -68,7 +69,7 @@ const predicates = [
 ]
 
 // @ts-ignore
-const log = (message) => (value) => console.log(message, value)
+// const log = (message) => (value) => console.log(message, value)
 
 const check = R.pipe(
   (x: ICriterion) => ({
@@ -82,9 +83,16 @@ const check = R.pipe(
 
 // Are there any extra fields present
 
+// const newWay = (criteria) => {
+//   const pairs = R.toPairs(criteria)
+//   yellow('pairs', pairs)
+// }
+
 const criteriaValidation = (criteria: ICriterion): string[] => {
   // yellow('criteriaTest.validation: criteria', criteria)
   
+  // const newRet = newWay(criteria)
+
   // @ts-ignore
   const _is = R.filter((e) => e.errors.length > 0)(R.map(check, criteria))
   // @ts-ignore

@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import Form from 'react-bootstrap/Form'
 import { transactionFields as fields } from 'globalConstants'
 
@@ -25,7 +25,7 @@ const ColumnHeading = ({ fieldName, setFilter }) => {
   // }, [fieldName])
 
   const _valueChanged = (event) => {
-    const name = event.target.name
+    // const name = event.target.name
     const value = event.target.value
     // if (name === fields.omit.name) {
     // value === 'true' ? _setValue(true) : _setValue(false)

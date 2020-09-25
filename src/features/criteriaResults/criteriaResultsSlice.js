@@ -1,9 +1,10 @@
 import { createSlice, createAsyncThunk/*,  current*/ } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
+import { logFetchResults } from 'lib/logFetchResults'
 
-// eslint-disable-next-line
 // @ts-ignore
+// eslint-disable-next-line
 import { yellow } from 'logger'
 
 const initialState = {
@@ -15,7 +16,7 @@ const initialState = {
 export const fetchCriteriaResults = createAsyncThunk(
   'criteriaResult/get',
   async (criteria) => {
-    yellow('fetchCriteriaResults: criteria', criteria)
+    // yellow('fetchCriteriaResults: criteria', criteria)
     const r = await api.transactions.read(criteria)
     return r
   }
@@ -30,17 +31,20 @@ const criteriaResultsSlice = createSlice({
   extraReducers: {
     // @ts-ignore
     [fetchCriteriaResults.pending]: (state, action) => {
+      // logFetchResults('fetchRules.pending', state, action)      
       state.status = requestStatus.pending
     },
     // @ts-ignore
     [fetchCriteriaResults.fulfilled]: (state, action) => {
+      // logFetchResults('fetchRules.fulfilled', state, action)      
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     // @ts-ignore
     [fetchCriteriaResults.rejected]: (state, action) => {
+      logFetchResults('fetchRules.rejected', state, action)      
       state.status = requestStatus.error
-      state.error = action.payload
+      state.error = action.error.payload
     }  
   }
 })
