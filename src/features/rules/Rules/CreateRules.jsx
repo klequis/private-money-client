@@ -41,7 +41,8 @@ const CreateRules = () => {
   const dispatch = useDispatch()
   // dispatch(setActiveTransactionId('5f0e673cd6c7ae2de0a57b92'))
   
-  dispatch(setActiveTransactionId('5f0e673cd6c7ae2de0a57b5c'))
+  dispatch(setActiveTransactionId('5f6f68ee05d7ed3057add41d'))
+                                   
   // tmp code - end
 
   return (
