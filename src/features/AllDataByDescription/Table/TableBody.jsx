@@ -31,11 +31,10 @@ const TableRow = ({ transactionId }) => {
   const {
     _id,
     acctId,
+    amount,
     category1,
     category2,
-    credit,
     date,
-    debit,
     description,
     omit,
     origDescription,
@@ -57,8 +56,7 @@ const TableRow = ({ transactionId }) => {
             <div>{description}</div>
             {_id === activeTransactionId ? <div>{origDescription}</div> : null}
           </TableData>
-          <TableData>{credit}</TableData>
-          <TableData>{debit}</TableData>
+          <TableData>{amount}</TableData>
           <TableData>{category1}</TableData>
           <TableData>{category2}</TableData>
           <TableData>{type}</TableData>

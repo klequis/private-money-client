@@ -12,8 +12,7 @@ const TableHead = ({ setFilter }) => {
           fieldName={fields.description.name}
           setFilter={setFilter}
         />
-        <ColumnHeading fieldName={fields.credit.name} setFilter={setFilter} />
-        <ColumnHeading fieldName={fields.debit.name} setFilter={setFilter} />
+        <ColumnHeading fieldName={fields.amount.name} setFilter={setFilter} />
         <ColumnHeading
           fieldName={fields.category1.name}
           setFilter={setFilter}

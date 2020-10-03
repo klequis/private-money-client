@@ -18,6 +18,11 @@ export const transactionFields = {
     description: 'AccountId',
     isCriteriaField: true
   },
+  amount: {
+    name: 'amount',
+    description: 'Amount',
+    isCriteriaField: true
+  },
   category1: {
     name: 'category1',
     description: 'Category1'
@@ -30,22 +35,22 @@ export const transactionFields = {
     name: 'checkNumber',
     description: 'Check#'
   },
-  credit: {
-    name: 'credit',
-    description: 'Credidt',
-    isCriteriaField: true
-  },
+  // credit: {
+  //   name: 'credit',
+  //   description: 'Credidt',
+  //   isCriteriaField: true
+  // },
   date: {
     name: 'date',
     description: 'Date',
     formatFn: (d) => format(new Date(d), 'MM/dd/yyyy'),
     isCriteriaField: true
   },
-  debit: {
-    name: 'debit',
-    description: 'Debit',
-    isCriteriaField: true
-  },
+  // debit: {
+  //   name: 'debit',
+  //   description: 'Debit',
+  //   isCriteriaField: true
+  // },
   description: {
     name: 'description',
     description: 'Description',
