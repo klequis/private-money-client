@@ -39,9 +39,8 @@ const CreateRules = () => {
     - activeTransactionId will be set by <TableBody>
   */
   const dispatch = useDispatch()
-  // dispatch(setActiveTransactionId('5f0e673cd6c7ae2de0a57b92'))
-  
-  dispatch(setActiveTransactionId('5f6f68ee05d7ed3057add41d'))
+  green('setting active transaction id')
+  dispatch(setActiveTransactionId('5f77bee16b52d522df1c2af6'))
                                    
   // tmp code - end
 

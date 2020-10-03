@@ -19,8 +19,7 @@ const TableHead = () => {
       <tr>
         <th>Date</th>
         <th>Description</th>
-        <th>Debit</th>
-        <th>Credit</th>
+        <th>Amount</th>
         <th>Category 1</th>
         <th>Category 2</th>
       </tr>
@@ -69,8 +68,7 @@ const CriteriaResults = () => {
             <tr key={t._id}>
               <td>{t.date}</td>
               <td>{t.description}</td>
-              <td>{t.debit}</td>
-              <td>{t.credit}</td>
+              <td>{t.amount}</td>
               <td>{t.category1}</td>
               <td>{t.category2}</td>
             </tr>
