@@ -13,6 +13,8 @@ import { green, redf } from 'logger'
 
 const Wrapper = styled.div`
   padding-top: 15px;
+  display: flex;
+  width: 100%;
   @media (min-width: 601px) {
 
   }
@@ -20,6 +22,12 @@ const Wrapper = styled.div`
   @media (max-width: 600px) {
 
   }
+
+  background-color: orange;
+`
+
+const FormGroup = styled.div`
+  // flex-basis: 33%;
 `
 
 
@@ -55,9 +63,9 @@ const Actions = ({ ruleId }) => {
       {actions.map((a) => {
         
         return (
-          <div key={a._id}>
+          <FormGroup key={a._id}>
             <Control action={a} />
-          </div>
+          </FormGroup>
         )
       })}
     </Wrapper>

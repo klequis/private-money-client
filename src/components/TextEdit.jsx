@@ -1,20 +1,25 @@
 import React, { useEffect, useState } from 'react'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
-// const makeStyle = (maxWidth, minWidth) => {
-//   const max = maxWidth ? { maxWidth } : {}
-//   const min = minWidth ? { minWidth } : {}
-//   return { ...max, ...min }
-// }
+const Wrapper = styled.div`
+  background-color: blue;
+`
+
+const ErrorLabel = styled.label`
+  background-color: green; 
+  border: 1px solid white;
+  width: 100%;
+`
 
 const TextEdit = ({
   disabled,
   onBlur,
-  maxWidth = null,
+  // maxWidth = null,
   minChars = 0,
-  minWidth = null,
+  // minWidth = null,
   name,
   placeholder = '',
   value = ''
@@ -42,9 +47,9 @@ const TextEdit = ({
   }, [_setIsValid, _touched, _isMinLength])
 
   return (
-    <>
+    <Wrapper>
 
-      <div  style={{ backgroundColor: 'blue' }}>
+      <div>
         <input
           type="text"
           name={name}
@@ -61,7 +66,7 @@ const TextEdit = ({
         />
       </div>
 
-      <div style={{ backgroundColor: 'green', border: '1px solid white'  }}>
+      <ErrorLabel>
         <label
           style={
             _isValid ? { visibility: 'hidden' } : { visibility: 'visible' }
@@ -69,8 +74,8 @@ const TextEdit = ({
         >
           Minimum 3 characters
         </label>
-      </div>
-    </>
+      </ErrorLabel>
+    </Wrapper>
   )
 }
 
