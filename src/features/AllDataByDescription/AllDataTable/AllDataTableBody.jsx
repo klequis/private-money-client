@@ -10,7 +10,6 @@ import {
 } from 'features/transactions/transactionsSlice'
 import styles from './AllDataTableBody.module.css'
 // import { setRuleEdit } from 'features/rules/rulesSlice'
-// import Form from 'react-bootstrap/Form'
 import AllDataTableData from './AllDataTableData'
 
 // eslint-disable-next-line

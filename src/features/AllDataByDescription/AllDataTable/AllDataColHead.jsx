@@ -1,9 +1,20 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form'
 import { transactionFields as fields } from 'globalConstants'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green } from 'logger'
+
+const TH = styled.th`
+  width: 100%;
+
+`
+
+const TextInput = styled.input`
+  width: 90%;
+`
+// display: flex;
+  // flex-flow: column now;
 
 const AllDataColHead = ({ fieldName, setFilter }) => {
   // const [_state, _setState] = useState({
@@ -51,17 +62,16 @@ const AllDataColHead = ({ fieldName, setFilter }) => {
           //   value={_value}
           //   onChange={_valueChanged}
           // />
-          <Form.Control
+          <TextInput
             id={fieldName}
             name={fieldName}
             placeholder="filter"
             onChange={_valueChanged}
-            size="sm"
             type="text"
             value={_value}
           />
         )}
-        <span>{fieldName}</span>
+        <div>{fieldName}</div>
         {/* <SortButtons updateSort={_updateSort} fieldName={fieldName} /> */}
       </div>
     </th>

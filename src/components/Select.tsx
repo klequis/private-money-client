@@ -1,22 +1,11 @@
 // @ts-nocheck
 import React from 'react'
 
-// type Props = {
-//   name: string,
-//   value: number | string,
-//   onChange: React.ChangeEventHandler<HTMLInputElement>,
-//   handleBlur: React.FormEventHandler<HTMLInputElement>,
-//   maxWidth: number | null,
-//   disabled: boolean,
-//   children: React.ReactNode
-// }
-
 const Select = ({
   name,
   value,
   onChange,
   handleBlur,
-  maxWidth = null,
   disabled,
   children
 }) => {
@@ -45,14 +34,3 @@ const Select = ({
 }
 
 export default Select
-
-// style={selectExtraSm}
-// const selectExtraSm = {
-//   height: 'calc(1.5em + 0.4rem + 2px)',
-//   paddingTop: 0,
-//   paddingBottom: 0,
-//   paddingRight: 0,
-//   fontSize: '0.675rem',
-//   // backgroundColor: 'green'
-//   maxWidth: maxWidth
-// }

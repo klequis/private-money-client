@@ -1,5 +1,5 @@
 import React from 'react'
-import BsButton from 'react-bootstrap/Button'
+import classNames from 'classnames'
 
 const buttonExtraSml = {
   paddingTop: 3,
@@ -7,10 +7,11 @@ const buttonExtraSml = {
   fontSize: '0.675rem',
 }
 const Button = ({ onClick, children }) => {
+  // style={buttonExtraSml}
   return (
-    <BsButton style={buttonExtraSml} variant="primary" onClick={onClick}>
+    <button className={classNames('btn', 'btn-info', 'btn-sm')}  onClick={onClick}>
       {children}
-    </BsButton>
+    </button>
   )
 }
 

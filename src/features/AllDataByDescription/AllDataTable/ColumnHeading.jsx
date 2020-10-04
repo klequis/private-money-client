@@ -1,5 +1,4 @@
 import React, { useState } from 'react'
-import Form from 'react-bootstrap/Form'
 import { transactionFields as fields } from 'globalConstants'
 
 // eslint-disable-next-line
@@ -44,14 +43,7 @@ const ColumnHeading = ({ fieldName, setFilter }) => {
         {fieldName === fields.omit.name ? (
           ''
         ) : (
-          // <input
-          //   id={fieldName}
-          //   type="text"
-          //   name={fieldName}
-          //   value={_value}
-          //   onChange={_valueChanged}
-          // />
-          <Form.Control
+          <input
             id={fieldName}
             name={fieldName}
             placeholder="filter"
