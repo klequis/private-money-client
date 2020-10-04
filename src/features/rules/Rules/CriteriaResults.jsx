@@ -7,8 +7,8 @@ import {
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
-import BSTable from 'react-bootstrap/Table'
 import criteriaValidation from './criteriaValidation'
+import Table from 'components/Table'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
@@ -61,7 +61,7 @@ const CriteriaResults = () => {
     <div>
       {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
-      <BSTable size="sm" variant="dark">
+      <Table size="sm" variant="dark">
         <TableHead />
         <tbody>
           {criteriaResultsTransactions.map((t) => (
@@ -74,7 +74,7 @@ const CriteriaResults = () => {
             </tr>
           ))}
         </tbody>
-      </BSTable>
+      </Table>
     </div>
   )
   // }

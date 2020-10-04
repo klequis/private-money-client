@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import TableBody from './TableBody.jsx'
-import BSTable from 'react-bootstrap/Table'
-import TableHead from './TableHead'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
 import { selectAllTransactions } from 'features/transactions/transactionsSlice'
 import * as R from 'ramda'
+import Table from 'components/Table'
+import AllDataTableBody from './AllDataTableBody'
+import AllDataTableHead from './AllDataTableHead'
 
-const Table = () => {
+const AllDataTable = () => {
   const [_filter, _setFilter] = useState({
     field: '',
     value: '',
@@ -56,14 +56,25 @@ const Table = () => {
   }
 
   return (
+    <Table>
+      <AllDataTableHead setFilter={setFilter} />
+      {/* TODO: tmp code. Sort is hard coded */}
+      {filteredData().map((t) => (
+        <AllDataTableBody key={t._id} transactionId={t._id} />
+      ))}
+    </Table>
+  )
+}
+
+export default AllDataTable
+
+/*
+return (
     <BSTable size="sm" variant="dark" hover>
       <TableHead setFilter={setFilter} />
-      {/* TODO: tmp code. Sort is hard coded */}
       {filteredData().map((t) => (
         <TableBody key={t._id} transactionId={t._id} />
       ))}
     </BSTable>
   )
-}
-
-export default Table
+*/

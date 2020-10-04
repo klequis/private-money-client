@@ -1,11 +1,11 @@
 import React from 'react'
-import Table from './Table'
+import AllDataTable from './AllDataTable'
 
 // eslint-disable-next-line
 import { green } from 'logger'
 
 const AllDataByDescription = () => {
-  return <Table />
+  return <AllDataTable />
 }
 
 export default AllDataByDescription

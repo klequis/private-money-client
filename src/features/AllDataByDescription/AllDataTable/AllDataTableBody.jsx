@@ -1,6 +1,5 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import TableData from './TableData'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
 import Rules from 'features/rules/Rules'
 import {
@@ -9,9 +8,10 @@ import {
   selectActiveTransactionId,
   // selectTransactionRuleIds
 } from 'features/transactions/transactionsSlice'
-import styles from './TableBody.module.css'
+import styles from './AllDataTableBody.module.css'
 // import { setRuleEdit } from 'features/rules/rulesSlice'
 // import Form from 'react-bootstrap/Form'
+import AllDataTableData from './AllDataTableData'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
@@ -50,22 +50,22 @@ const TableRow = ({ transactionId }) => {
     <>
       <tbody onClick={_rowClick} className={showRow ? styles.rowIdShow : ''}>
         <tr>
-          <TableData>{date}</TableData>
-          <TableData>{acctId}</TableData>
-          <TableData align="left">
+          <AllDataTableData>{date}</AllDataTableData>
+          <AllDataTableData>{acctId}</AllDataTableData>
+          <AllDataTableData align="left">
             <div>{description}</div>
             {_id === activeTransactionId ? <div>{origDescription}</div> : null}
-          </TableData>
-          <TableData>{amount}</TableData>
-          <TableData>{category1}</TableData>
-          <TableData>{category2}</TableData>
-          <TableData>{type}</TableData>
-          <TableData>{omit ? 'yes' : 'no'}</TableData>
-          <TableData align="center">
+          </AllDataTableData>
+          <AllDataTableData>{amount}</AllDataTableData>
+          <AllDataTableData>{category1}</AllDataTableData>
+          <AllDataTableData>{category2}</AllDataTableData>
+          <AllDataTableData>{type}</AllDataTableData>
+          <AllDataTableData>{omit ? 'yes' : 'no'}</AllDataTableData>
+          <AllDataTableData align="center">
             {isNilOrEmpty(ruleIds)
               ? null
               : ruleIds.map((id) => <div key={id}>{id}</div>)}
-          </TableData>
+          </AllDataTableData>
         </tr>
         {activeTransactionId === transactionId ? (
           <Rules transactionId={transactionId} />

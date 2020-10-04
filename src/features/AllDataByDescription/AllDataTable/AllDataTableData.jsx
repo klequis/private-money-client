@@ -3,8 +3,10 @@ import React from 'react'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-const TableData = ({ align, children }) => {
+// TODO: implement 'align'
+
+const AllDataTableData = ({ align, children }) => {
   return <td>{children}</td>
 }
 
-export default TableData
+export default AllDataTableData

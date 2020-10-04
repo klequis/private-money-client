@@ -1,9 +1,9 @@
 import React, { useEffect } from 'react'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import AllDataByDescription from 'features/AllDataByDescription'
-import Container from 'react-bootstrap/Container'
 import Rules from 'features/rules/Rules'
 import * as R from 'ramda'
+import ContainerFluid from 'components/ContainerFluid'
 
 //
 
@@ -85,15 +85,15 @@ function App() {
 
   if (status === requestStatus.pending || status === undefined) {
     return (
-      <Container fluid>
+      <ContainerFluid id="App">
         <h1>Loading</h1>
-      </Container>
+      </ContainerFluid>
     )
   }
 
   if (status === requestStatus.fulfilled) {
     return (
-      <Container id="App" fluid>
+      <ContainerFluid id="App">
         <Router>
           <Switch>
             <Route path="/create-rule">
@@ -104,25 +104,36 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </Container>
+      </ContainerFluid>
     )
   }
 
   if (R.includes('internal server error', errors)) {
     return (
-      <Container id="App" fluid>
+      <ContainerFluid id="App">
         <h1>Internal Server Error</h1>
-      </Container>
+      </ContainerFluid>
     )
   }
 
   return (
+    <div id="App" className="container-fluid">
+      <h1>I don't know what went wrong</h1>
+      <div>transactions error: {transactionsError}</div>
+      <div>rules error: {rulesError}</div>
+    </div>
+  )
+}
+
+export default App
+
+
+/*
+return (
     <Container id="App" fluid>
       <h1>I don't know what went wrong</h1>
       <div>transactions error: {transactionsError}</div>
       <div>rules error: {rulesError}</div>
     </Container>
   )
-}
-
-export default App
+*/
