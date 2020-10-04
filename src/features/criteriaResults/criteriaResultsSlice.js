@@ -16,7 +16,7 @@ const initialState = {
 export const fetchCriteriaResults = createAsyncThunk(
   'criteriaResult/get',
   async (criteria) => {
-    yellow('fetchCriteriaResults: criteria', criteria)
+    // yellow('fetchCriteriaResults: criteria', criteria)
     const r = await api.transactions.read(criteria)
     return r
   }
@@ -27,7 +27,7 @@ const criteriaResultsSlice = createSlice({
   initialState,
   reducers: {
     criteriaResultsClear(state, action) {
-      blue('criteriaResultsClear')
+      // blue('criteriaResultsClear')
       state.items = []
     }
   },

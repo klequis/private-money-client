@@ -10,17 +10,19 @@ import styled from 'styled-components'
 import { green, redf } from 'logger'
 
 const Wrapper = styled.div`
-  display: flex;
-  background-color: red;
+  // display: flex;
+  
+  width: 100%;
 `
+// background-color: red;
 
-const Categorize = ({ action }) => {
+const Categorize = ({ action, minChars }) => {
   const [_action, _setAction] = useState(action)
   const { category1, category2 } = _action
   const dispatch = useDispatch()
-  
 
-  
+
+
 
   const _handleEvent = (event) => {
     const { name, value } = event.target
@@ -30,7 +32,7 @@ const Categorize = ({ action }) => {
     // green('_handleEvent: value', value)
     // green('_handleEvent: eventType', eventType)
     const newAction = R.mergeRight(_action, { [name]: value })
-    
+
     _setAction(newAction)
 
     if (eventType === 'blur') {
@@ -40,10 +42,38 @@ const Categorize = ({ action }) => {
     // console.groupEnd()
   }
 
-  
+
 
   return (
-    <Wrapper>
+    <>
+      <TextEdit
+        name={fields.category1.name}
+        labelText='Category 1'
+        value={category1}
+        minChars={minChars}
+        onBlur={_handleEvent}
+        onChange={_handleEvent}
+      // minWidth={300}
+      />
+      <TextEdit
+        name={fields.category2.name}
+        labelText='Category 2'
+        value={category2}
+        minChars={minChars}
+        onBlur={_handleEvent}
+        onChange={_handleEvent}
+      // minWidth={300}
+      />
+    </>
+  )
+}
+
+export default Categorize
+
+/*
+
+return (
+    <>
       <div>
         <label>{fields.category1.description}</label>
         <TextEdit
@@ -64,8 +94,7 @@ const Categorize = ({ action }) => {
           // minWidth={300}
         />
       </div>
-    </Wrapper>
+    </>
   )
-}
 
-export default Categorize
+*/

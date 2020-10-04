@@ -12,23 +12,20 @@ import styled from 'styled-components'
 import { green, redf } from 'logger'
 
 const Wrapper = styled.div`
-  padding-top: 15px;
   display: flex;
-  width: 100%;
   @media (min-width: 601px) {
-
+    
   }
-
   @media (max-width: 600px) {
-
+    flex-direction: column;
+    
   }
-
   background-color: orange;
 `
+// padding-top: 15px;
+// display: flex;
+// width: 100%;
 
-const FormGroup = styled.div`
-  // flex-basis: 33%;
-`
 
 
 const Actions = ({ ruleId }) => {
@@ -43,9 +40,9 @@ const Actions = ({ ruleId }) => {
 
   const Control = ({ action }) => {
     if (action.field === fields.description.name) {
-      return <RenameDescription key={action._id} action={action} />
+      return <RenameDescription key={action._id} action={action} minChars={3} />
     } else if (action.actionType === actionTypes.categorize.name) {
-      return <Categorize key={action._id} action={action} />
+      return <Categorize key={action._id} action={action} minChars={3} />
     } else {
       return <ActionEdit key={action._id} action={action} />
     }
@@ -57,15 +54,9 @@ const Actions = ({ ruleId }) => {
 
   return (
     <Wrapper>
-      {/* <div className={styles.omitAndDateCheck}>
-        <Form.Check type="switch" id="omit" label="omit" />
-      </div> */}
       {actions.map((a) => {
-        
         return (
-          <FormGroup key={a._id}>
-            <Control action={a} />
-          </FormGroup>
+          <Control action={a} />
         )
       })}
     </Wrapper>
@@ -73,3 +64,8 @@ const Actions = ({ ruleId }) => {
 }
 
 export default Actions
+
+/*
+
+
+*/

@@ -1,22 +1,26 @@
 import React, { useEffect, useState } from 'react'
 import styled from 'styled-components'
+import classNames from 'classnames'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
 const Wrapper = styled.div`
-  background-color: blue;
+  width: 100%;  
 `
+// background-color: blue;
 
 const ErrorLabel = styled.label`
   background-color: green; 
-  border: 1px solid white;
+  // border: 1px solid white;
   width: 100%;
+  
 `
 
 const TextEdit = ({
   disabled,
   onBlur,
+  labelText,
   // maxWidth = null,
   minChars = 0,
   // minWidth = null,
@@ -27,35 +31,56 @@ const TextEdit = ({
   const [_isValid, _setIsValid] = useState(true)
   const [_touched, _setTouched] = useState(false)
   const [_value, _setValue] = useState(value)
-  const [_isMinLength, _setIsMinLength] = useState(true)
+  const [_isMinChars, _setIsMinChars] = useState(true)
 
   const _handleChange = (event) => {
     const { value } = event.target
     _setValue(value)
-    _setIsMinLength(value.length >= minChars)
+    _setIsMinChars(value.length >= minChars)
   }
 
   const _handleBlur = (event) => {
     const { value } = event.target
-    _setIsMinLength(value.length >= minChars)
+    _setIsMinChars(value.length >= minChars)
     _setTouched(true)
     onBlur(event)
   }
 
   useEffect(() => {
-    _setIsValid(_touched ? _isMinLength : true)
-  }, [_setIsValid, _touched, _isMinLength])
-
+    green('_isValue', _isValid)
+    green('_touched', _touched)
+    green('_value', _value)
+    green('_isMinChars', _isMinChars)
+    _setIsValid(_touched ? _isMinChars : true)
+  }, [_setIsValid, _touched, _isMinChars])
+  /*
+  <div class="form-group">
+    <fieldset disabled="">
+      <label class="control-label" for="disabledInput">Disabled input</label>
+      <input 
+        class="form-control" 
+        id="disabledInput" 
+        type="text" 
+        placeholder="Disabled input here..." 
+        disabled=""
+      >
+    </fieldset>
+  </div>
+  
+  */
   return (
     <Wrapper>
-
-      <div>
+      <div class="form-group">
+        <label
+          class="col-form-label col-form-label-sm"
+          for={`TextEdit-${name}`}>{labelText}</label>
         <input
+          id={`TextEdit-${name}`}
           type="text"
           name={name}
           value={_value}
           onChange={_handleChange}
-          className="form-control form-control-sm"
+          className={classNames('form-control', 'form-control-sm')}
           disabled={disabled}
           style={
             _isValid
@@ -64,17 +89,16 @@ const TextEdit = ({
           }
           onBlur={_handleBlur}
         />
+        <ErrorLabel>
+          <label
+            style={
+              _isValid ? { visibility: 'hidden' } : { visibility: 'visible' }
+            }
+          >
+            Minimum 3 characters
+          </label>
+        </ErrorLabel>
       </div>
-
-      <ErrorLabel>
-        <label
-          style={
-            _isValid ? { visibility: 'hidden' } : { visibility: 'visible' }
-          }
-        >
-          Minimum 3 characters
-        </label>
-      </ErrorLabel>
     </Wrapper>
   )
 }

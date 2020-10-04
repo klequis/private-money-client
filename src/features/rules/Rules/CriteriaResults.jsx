@@ -35,12 +35,12 @@ const CriteriaResults = () => {
 
   const dispatch = useDispatch()
   const criteria = useSelector(selectRuleEditCriteria)
-  green('CriteriaResults: criteria', criteria)
+  // green('CriteriaResults: criteria', criteria)
   useEffect(() => {
     // if (criteria !== null) {
 
     const activeCriteria = getActiveCriteria(criteria)
-    green('CriteriaResults: activeCriteria', activeCriteria)
+    // green('CriteriaResults: activeCriteria', activeCriteria)
     const validationResult = criteriaValidation(activeCriteria)
     // green('CriteriaResults: validationResults', validationResult)
 

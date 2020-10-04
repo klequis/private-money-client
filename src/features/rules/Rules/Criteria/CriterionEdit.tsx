@@ -128,6 +128,7 @@ const CriterionEdit = ({ criterion }: { criterion: ICriterion }) => {
       </TextEditDiv>
     </Row>
   )
+  
 }
 
 export default CriterionEdit
@@ -136,4 +137,10 @@ export default CriterionEdit
 <Button variant="primary" onClick={_criterionRemove} size="sm">
 Remove
 </Button>
+*/
+
+
+/*
+
+
 */

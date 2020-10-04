@@ -21,11 +21,12 @@ import { green, redf } from 'logger'
 // `
 
 const Wrapper = styled.div`
-  background-color: blue;
+  
   width: 100%;
-  flex-basis: 33.333333%;
+  
 `
-
+// background-color: blue;
+// flex-basis: 33.333333%;
 
 const RenameDescription = ({ action }) => {
 
@@ -43,18 +44,33 @@ const RenameDescription = ({ action }) => {
   }
 
   return (
-    <Wrapper>
-      <label>Rename: </label>
-      <TextEdit
-        name={actionFields.replaceWithValue.name}
-        value={replaceWithValue}
-        onChange={_handleEvent}
-        onBlur={_handleEvent}
-        minWidth={300}
-        minChars={1}
-      />
-    </Wrapper>
+    <TextEdit
+      name={actionFields.replaceWithValue.name}
+      labelText="Rename Description As"
+      value={replaceWithValue}
+      onChange={_handleEvent}
+      onBlur={_handleEvent}
+      minWidth={300}
+      minChars={1}
+    />
   )
 }
 
 export default RenameDescription
+
+/*
+return (
+  <div>
+    <label>Rename: </label>
+    <TextEdit
+      name={actionFields.replaceWithValue.name}
+      value={replaceWithValue}
+      onChange={_handleEvent}
+      onBlur={_handleEvent}
+      minWidth={300}
+      minChars={1}
+    />
+  </div>
+)
+
+*/
