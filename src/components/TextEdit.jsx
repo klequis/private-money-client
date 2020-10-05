@@ -15,16 +15,31 @@ const ErrorLabel = styled.label`
   width: 100%;
 `
 
+const _getStyle = (touched, isValid) => {
+  // console.group('**')
+  // green('touched', touched)
+  // green('isValid', isValid)
+  // console.groupEnd()
+  if (touched && !isValid) {
+    return { backgroundColor: '#e74c3c', color: 'white' }
+  } 
+  return { backgroundColor: '#fff', color: '#444' }
+}
+
 const TextEdit = ({
   disabled,
-  onBlur,
+  onBlur: passedOnBlur,
   labelText,
   minChars = 0,
   name,
   placeholder = '',
   value = ''
 }) => {
-  const [_touched, _setTouched] = useState(false)
+  const [_touched, _setTouched] = useState((x) => {
+    console.log('_setTouched: x', x)
+
+    return false
+  })
   const [_value, _setValue] = useState(value)
 
   const _handleChange = (event) => {
@@ -33,12 +48,14 @@ const TextEdit = ({
   }
 
   const _handleBlur = (event) => {
+    const { name, value } = event.target
+    const { type: eventType } = event
+    green('onBlur')
     _setTouched(true)
-    // onBlur(event)
+    // passedOnBlur(name, valule, eventType)
   }
-
-  const _isValid = _touched && _value.length < minChars
-  green('_isValid', _isValid)
+  green('_touched', _touched)
+  const _isValid = _touched ? _value.length < minChars : true
   
   return (
     <Wrapper>
@@ -55,10 +72,9 @@ const TextEdit = ({
           className={classNames('form-control', 'form-control-sm')}
           disabled={disabled}
           placeholder={placeholder}
+          style={ _isValid ? { backgroundColor: 'red' } : {}}
           style={
-            _isValid
-              ? { backgroundColor: '#e74c3c', color: 'white' }
-              : { backgroundColor: '#fff', color: '#444' }
+            _getStyle(_touched, _isValid)
           }
           onBlur={_handleBlur}
         />

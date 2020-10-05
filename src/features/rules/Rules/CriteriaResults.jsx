@@ -7,11 +7,13 @@ import {
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
-import criteriaValidation from './criteriaValidation'
+// import criteriaValidation from './criteriaValidation'
 import Table from 'components/Table'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
+import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
 
 const TableHead = () => {
   return (
@@ -30,6 +32,31 @@ const TableHead = () => {
 const getActiveCriteria = (criteria) =>
   criteria === null ? [] : criteria.filter((c) => c.active === true)
 
+
+
+const checkCriterionValid = (criterion) => {
+  const { _id, field, operation, value, active} = criterion
+  const conditions = [
+    R.type(_id) === 'String',
+    R.includes(field, criteriaSelectFieldNames),
+    R.includes(operation, operatorSelectFieldNames),
+    !isNilOrEmpty(value),
+    active === true
+  ]
+}
+const isCriteriaValid = (criteria) => {
+  // _id is a string
+  // field is one of
+  // operation is on of
+  // value !isEmptyOrNull
+  // active = true
+  
+  const check = R.map(checkCriterionValid, criteria)
+  green('check', check)
+  
+}
+
+
 const CriteriaResults = () => {
   // const [_areCriteriValid, _setAreCriteriaValid] = useState(false)
 
@@ -41,10 +68,10 @@ const CriteriaResults = () => {
 
     const activeCriteria = getActiveCriteria(criteria)
     // green('CriteriaResults: activeCriteria', activeCriteria)
-    const validationResult = criteriaValidation(activeCriteria)
+    // const validationResult = criteriaValidation(activeCriteria)
     // green('CriteriaResults: validationResults', validationResult)
 
-    if (isNilOrEmpty(activeCriteria)) {
+    if (isCriteriaValid(activeCriteria)) {
       dispatch(criteriaResultsClear())
     } else {
       dispatch(fetchCriteriaResults(activeCriteria))

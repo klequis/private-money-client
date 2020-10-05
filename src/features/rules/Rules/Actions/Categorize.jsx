@@ -24,9 +24,9 @@ const Categorize = ({ action, minChars }) => {
 
 
 
-  const _handleEvent = (event) => {
-    const { name, value } = event.target
-    const { type: eventType } = event
+  const _handleEvent = (name, value, eventType) => {
+    // const { name, value } = event.target
+    // const { type: eventType } = event
     // console.group('_handleEvent')
     // green('_handleEvent: name', name)
     // green('_handleEvent: value', value)
