@@ -22,11 +22,78 @@ const _getStyle = (touched, isValid) => {
   // console.groupEnd()
   if (touched && !isValid) {
     return { backgroundColor: '#e74c3c', color: 'white' }
-  } 
+  }
   return { backgroundColor: '#fff', color: '#444' }
 }
 
-const TextEdit = ({
+const TextEdit = React.memo(({
+  disabled,
+  handleBlur,
+  labelText,
+  minChars = 0,
+  name,
+  placeholder = '',
+  value = ''
+}) => {
+  const [_touched, _setTouched] = useState(false)
+  const [_value, _setValue] = useState(value)
+
+  // events
+  const _handleChange = (event) => {
+    const { value } = event.target
+    _setValue(value)
+  }
+
+  const _handleBlur = (event) => {
+    const { name, value } = event.target
+    const { type: eventType } = event
+    // green('onBlur')
+    _setTouched(true)
+    handleBlur(name, value, eventType)
+  }
+
+  console.group('**')
+  // green('_touched', _touched)
+  // // const _isValid = !_touched ? true : _value.length < minChars
+  // green('_value.length', _value.length)
+  const _isValid = _touched ? _value.length >= 3 : true
+  // green('_isValid', _isValid)
+  console.groupEnd()
+
+  return (<Wrapper>
+    <div className="form-group">
+      <label
+          className="col-form-label col-form-label-sm"
+          htmlFor={`TextEdit-${name}`}>{labelText}</label>
+      <input
+        id={`TextEdit-${name}`}
+        type="text"
+        name={name}
+        value={_value}
+        onChange={_handleChange}
+        className={classNames('form-control', 'form-control-sm')}
+        disabled={disabled}
+        placeholder={placeholder}
+        // style={_isValid ? { backgroundColor: 'white' } : { backgroundColor: '#e74c3c' } }
+        // style={
+        //   _getStyle(_touched, _isValid)
+        // }
+        onBlur={_handleBlur}
+      />
+      {/* <ErrorLabel>
+          <label
+          // style={
+          //   _isValid ? { visibility: 'hidden' } : { visibility: 'visible' }
+          // }
+          >
+            {_isValid ? 'valid' : 'not valid'}
+          </label>
+        </ErrorLabel> */}
+    </div>
+  </Wrapper>)
+})
+
+const TextEditZZ = React.memo(() => ({
   disabled,
   onBlur: passedOnBlur,
   labelText,
@@ -56,7 +123,7 @@ const TextEdit = ({
   }
   green('_touched', _touched)
   const _isValid = _touched ? _value.length < minChars : true
-  
+
   return (
     <Wrapper>
       <div className="form-group">
@@ -72,7 +139,7 @@ const TextEdit = ({
           className={classNames('form-control', 'form-control-sm')}
           disabled={disabled}
           placeholder={placeholder}
-          style={ _isValid ? { backgroundColor: 'red' } : {}}
+          style={_isValid ? { backgroundColor: '#e74c3c' } : {}}
           style={
             _getStyle(_touched, _isValid)
           }
@@ -80,9 +147,9 @@ const TextEdit = ({
         />
         <ErrorLabel>
           <label
-            // style={
-            //   _isValid ? { visibility: 'hidden' } : { visibility: 'visible' }
-            // }
+          // style={
+          //   _isValid ? { visibility: 'hidden' } : { visibility: 'visible' }
+          // }
           >
             {_isValid ? 'valid' : 'not valid'}
           </label>
@@ -90,6 +157,6 @@ const TextEdit = ({
       </div>
     </Wrapper>
   )
-}
+})
 // Minimum 3 characters
 export default TextEdit
