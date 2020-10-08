@@ -7,7 +7,7 @@ import RuleView from './RuleView'
 import RuleTmp from './RuleTmp'
 
 // eslint-disable-next-line
-import { green } from 'logger'
+import { green, purple } from 'logger'
 
 // const _ruleTmpCreate = (tmpId) => {
 //   ruleTmpCreate(tmpId)
@@ -26,6 +26,8 @@ import { green } from 'logger'
 
 
 const Rules = () => {
+  purple('Rules', 'render')
+
   const activeTransaction = useSelector(selectActiveTransaction)
   const { ruleIds } = activeTransaction
   const [_ruleIds, _setRuleIds] = useState(ruleIds)
@@ -50,6 +52,7 @@ const Rules = () => {
   // rules to map so just render TmpRule
   // if (ruleIds === undefined) {
   if (true) {
+    
     return <RuleTmp />
   }
 

@@ -8,7 +8,7 @@ import { updateRuleEditAction } from 'features/rules/rulesSlice'
 import { actionTypes /*, trsactionFields as fiels*/ } from 'globalConstants'
 
 // eslint-disable-next-line
-import { green, redf } from 'logger'
+import { green, redf, purple } from 'logger'
 
 const ActionEdit = ({ action }) => {
   const [_action, _setAction] = useState(action)
@@ -31,6 +31,7 @@ const ActionEdit = ({ action }) => {
       return null
     }
   }
+  purple('>>> ActionEdit', 'render')
   return (
     <div>
       <div>

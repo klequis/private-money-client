@@ -5,10 +5,11 @@ import Button from 'components/Button'
 import RuleId from './RuleId'
 
 // eslint-disable-next-line
-import { green } from 'logger'
+import { green, purple } from 'logger'
 
 const RuleEdit = ({ ruleId }: { ruleId: string }) => {
-
+  purple('RuleEdit', 'render')
+  
   const _handleSaveEditButtonClick = () => {}
 
   return (

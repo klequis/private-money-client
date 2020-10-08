@@ -9,7 +9,7 @@ import { actionTypes, transactionFields as fields } from 'globalConstants'
 import styled from 'styled-components'
 
 // eslint-disable-next-line
-import { green, redf } from 'logger'
+import { green, redf, purple } from 'logger'
 
 const Wrapper = styled.div`
   display: flex;
@@ -51,12 +51,12 @@ const Actions = ({ ruleId }) => {
   if (!actions) {
     return null
   }
-
+  purple('>>> Actions', 'render')
   return (
     <Wrapper>
       {actions.map((a) => {
         return (
-          <Control action={a} />
+          <Control key={a._id} action={a} />
         )
       })}
     </Wrapper>

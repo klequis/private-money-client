@@ -1,15 +1,16 @@
 import React from 'react'
-import { useDispatch } from 'react-redux'
+// import { useDispatch } from 'react-redux'
 import Rules from './Rules'
-import {
-  setActiveTransactionId,
-} from 'features/transactions/transactionsSlice'
+// import {
+//   setActiveTransactionId,
+// } from 'features/transactions/transactionsSlice'
 
 
-import CriteriaResults from './CriteriaResults'
+// import CriteriaResults from './CriteriaResults'
 
+// @ts-ignore
 // eslint-disable-next-line
-import { green, redf, yellow, blue } from 'logger'
+import { purple, green, redf, yellow, blue } from 'logger'
 
 // .page {
 //   width: 100vw;
@@ -33,15 +34,8 @@ import { green, redf, yellow, blue } from 'logger'
 // }
 
 const CreateRules = () => {
-  // TODO: tmp code - start
-  /*
-    In final version
-    - activeTransactionId will be set by <TableBody>
-  */
-  const dispatch = useDispatch()
-  dispatch(setActiveTransactionId('5f77bee16b52d522df1c2af6'))
-                                   
-  // tmp code - end
+  purple('>>> CreateRules', 'render')
+  
 
   return (
     <div id="CreateRules">
@@ -50,7 +44,7 @@ const CreateRules = () => {
         <Rules />
       </div>
       <div id="CreateRules.Transactions">
-        <CriteriaResults />
+        {/* <CriteriaResults /> */}
       </div>
     </div>
   )

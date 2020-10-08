@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import { ICriterion } from 'interfaces'
 
 // eslint-disable-next-line
-import { green, redf } from 'logger'
+import { green, redf, purple } from 'logger'
 
 const Row = styled.div`
   display: flex;
@@ -50,6 +50,7 @@ const mergeCriterionProp = (newProp, criterion) => {
 }
 
 const CriterionEdit = ({ criterion }: { criterion: ICriterion }) => {
+  purple('>>> CriterionEdit', 'render')
   const [_criterion, _setCriterion] = useState<ICriterion>(criterion)
   const { operation, field, value, active } = _criterion
   const dispatch = useDispatch()

@@ -7,13 +7,14 @@ import RuleId from './RuleId'
 import { actionTypes } from 'globalConstants'
 
 // eslint-disable-next-line
-import { green } from 'logger'
+import { green, purple } from 'logger'
 
 const TextField = ({ children }) => (
   <div style={{ marginRight: 5 }}>{children}</div>
 )
 
 const Categories = ({ action }) => {
+  purple('>>> Categories', 'render')
   return (
     <div>
       <div>category1: {action.category1}</div>
@@ -23,20 +24,23 @@ const Categories = ({ action }) => {
 }
 
 const Rename = ({ action }) => {
+  purple('>>> Rename', 'render')
   return <div>Rename as: {action.replaceWithValue}</div>
 }
 
 const RuleView = ({ ruleId }) => {
+  purple('>>> RuleView', 'render')
   const [_isEditMode, _setIsEditMode] = useState(false)
 
   const rule = useSelector((state) => selectOneRule(ruleId, state))
   const _handleSaveEditButtonClick = () => _setIsEditMode(!_isEditMode)
   const { criteria, actions } = rule
+  
   return (
     <tr>
       <td colSpan="10">
         <div className="d-flex">
-          <div style={{ fontSize: '0.8rem'}}>{`RuleId: ${ruleId}`}</div>
+          <div style={{ fontSize: '0.8rem' }}>{`RuleId: ${ruleId}`}</div>
           <RuleId ruleId={ruleId} />
           <Button onClick={_handleSaveEditButtonClick}>Edit</Button>
         </div>

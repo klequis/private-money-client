@@ -4,10 +4,10 @@ import TextEdit from 'components/TextEdit'
 import { updateRuleEditAction } from 'features/rules/rulesSlice'
 import { actionFields } from 'globalConstants'
 import * as R from 'ramda'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
 // eslint-disable-next-line
-import { green, redf } from 'logger'
+import { purple, green, redf } from 'logger'
 
 
 // const Wrapper = styled.div`
@@ -20,16 +20,16 @@ import { green, redf } from 'logger'
 //   }
 // `
 
-const Wrapper = styled.div`
+// const Wrapper = styled.div`
   
-  width: 100%;
+//   width: 100%;
   
-`
+// `
 // background-color: blue;
 // flex-basis: 33.333333%;
 
 const RenameDescription = ({ action }) => {
-
+  purple('>>> RenameDescription', 'render')
   const [_action, _setAction] = useState(action)
   const { replaceWithValue } = _action
   const dispatch = useDispatch()

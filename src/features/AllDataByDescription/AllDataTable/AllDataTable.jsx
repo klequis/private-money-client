@@ -8,7 +8,7 @@ import AllDataTableBody from './AllDataTableBody'
 import AllDataTableHead from './AllDataTableHead'
 
 const AllDataTable = () => {
-  const [_filter, _setFilter] = useState({
+  const [/*_filter,*/ _setFilter] = useState({
     field: '',
     value: '',
     active: false
@@ -17,17 +17,19 @@ const AllDataTable = () => {
   // const transactions = useSelector((state) => state.transactions.items)
   const transactions = useSelector(selectAllTransactions)
 
-  const sortCompare = (a, b) => {
-    if (a.description < b.description) {
-      return -1
-    } else if (a < b) {
-      return 1
-    }
-    return 0
-  }
+  // const sortCompare = (a, b) => {
+  //   if (a.description < b.description) {
+  //     return -1
+  //   } else if (a < b) {
+  //     return 1
+  //   }
+  //   return 0
+  // }
+  /*
   const sortByDescription = (data) => {
     return data.sort((a, b) => sortCompare(a, b))
   }
+  // */
 
   // ORIGINAL
   // const filteredData = () => {

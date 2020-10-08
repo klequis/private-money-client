@@ -5,10 +5,10 @@ import styled from 'styled-components'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-const TH = styled.th`
-  width: 100%;
+// const TH = styled.th`
+//   width: 100%;
 
-`
+// `
 
 const TextInput = styled.input`
   width: 90%;

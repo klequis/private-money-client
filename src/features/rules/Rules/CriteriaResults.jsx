@@ -6,16 +6,17 @@ import {
   criteriaResultsClear
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
-import isNilOrEmpty from 'lib/isNilOrEmpty'
+// import isNilOrEmpty from 'lib/isNilOrEmpty'
 // import criteriaValidation from './criteriaValidation'
 import Table from 'components/Table'
-import * as R from 'ramda'
+// import * as R from 'ramda'
 
 // eslint-disable-next-line
-import { green, redf, yellow } from 'logger'
-import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
+import { green, redf, yellow, purple } from 'logger'
+// import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
 
 const TableHead = () => {
+  purple('TableHead', 'render')
   return (
     <thead>
       <tr>
@@ -34,30 +35,33 @@ const getActiveCriteria = (criteria) =>
 
 
 
-const checkCriterionValid = (criterion) => {
-  const { _id, field, operation, value, active} = criterion
-  const conditions = [
-    R.type(_id) === 'String',
-    R.includes(field, criteriaSelectFieldNames),
-    R.includes(operation, operatorSelectFieldNames),
-    !isNilOrEmpty(value),
-    active === true
-  ]
-}
+// const checkCriterionValid = (criterion) => {
+//   const { _id, field, operation, value, active} = criterion
+//   const conditions = [
+//     R.type(_id) === 'String',
+//     R.includes(field, criteriaSelectFieldNames),
+//     R.includes(operation, operatorSelectFieldNames),
+//     !isNilOrEmpty(value),
+//     active === true
+//   ]
+// }
 const isCriteriaValid = (criteria) => {
+  // tmp code
+  return true
   // _id is a string
   // field is one of
   // operation is on of
   // value !isEmptyOrNull
   // active = true
   
-  const check = R.map(checkCriterionValid, criteria)
-  green('check', check)
+  // const check = R.map(checkCriterionValid, criteria)
+  // green('check', check)
   
 }
 
 
 const CriteriaResults = () => {
+  purple('CriteriaResults', 'render')
   // const [_areCriteriValid, _setAreCriteriaValid] = useState(false)
 
   const dispatch = useDispatch()
@@ -83,7 +87,7 @@ const CriteriaResults = () => {
     selectCriteriaResultsTransactions
   )
 
-
+  
   return (
     <div>
       {/* <h1 className={styles.sectionTitle}>Transactions</h1>

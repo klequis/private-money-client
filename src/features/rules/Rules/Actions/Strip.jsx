@@ -3,10 +3,10 @@ import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import { transactionFields as fields } from 'globalConstants'
 // eslint-disable-next-line
-import { green, redf } from 'logger'
+import { green, redf, purple } from 'logger'
 
 const Strip = ({ action, handleChange }) => {
-  redf('Strip: action', action)
+  purple('>>> Strip', 'render')
   return (
     <>
       <Select name="field" value={action.field} onChange={handleChange} maxWidth={100}>

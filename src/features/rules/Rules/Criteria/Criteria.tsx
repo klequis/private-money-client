@@ -11,7 +11,7 @@ import styled from 'styled-components'
 import { ICriterion } from 'interfaces'
 
 // eslint-disable-next-line
-import { green, redf, yellow } from 'logger'
+import { green, redf, yellow, purple } from 'logger'
 
 const Row = styled.div`
   display: flex;
@@ -20,6 +20,7 @@ const Row = styled.div`
 `
 
 const Criteria = ({ ruleId }: { ruleId: string }) => {
+  purple('>>> Criteria', 'render')
   const criteria = useSelector((state) => {
     if (isTmpRule(ruleId)) {
       return selectRuleEditCriteria(state)

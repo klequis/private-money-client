@@ -11,7 +11,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchTransactions,
   selectTransactionsStatus,
-  selectTransactionsError
+  selectTransactionsError,
+  setActiveTransactionId // tmp code
 } from 'features/transactions/transactionsSlice'
 import { fetchRules, selectRulesError } from 'features/rules/rulesSlice'
 import { requestStatus } from 'globalConstants'
@@ -72,10 +73,21 @@ function App() {
   const rulesError = useSelector((state) => selectRulesError(state))
   const state = useSelector((state) => state)
 
+
+
+
   useEffect(() => {
     if (transactionsStatus === 'idle') {
       dispatch(fetchTransactions())
       dispatch(fetchRules())
+      // TODO: tmp code - start
+      /*
+        In final version
+        - activeTransactionId will be set by <TableBody>
+      */
+      dispatch(setActiveTransactionId('5f77bee16b52d522df1c2af6'))
+
+      // tmp code - end
     }
   }, [dispatch, transactionsStatus])
 

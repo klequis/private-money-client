@@ -4,16 +4,16 @@ import TextEdit from 'components/TextEdit'
 import * as R from 'ramda'
 import { updateRuleEditAction } from 'features/rules/rulesSlice'
 import { /*actionTypes,*/ transactionFields as fields } from 'globalConstants'
-import styled from 'styled-components'
+// import styled from 'styled-components'
 
 // eslint-disable-next-line
-import { green, redf } from 'logger'
+import { green, redf, purple } from 'logger'
 
-const Wrapper = styled.div`
-  // display: flex;
+// const Wrapper = styled.div`
+//   // display: flex;
   
-  width: 100%;
-`
+//   width: 100%;
+// `
 // background-color: red;
 
 const Categorize = ({ action, minChars }) => {
@@ -43,7 +43,7 @@ const Categorize = ({ action, minChars }) => {
   }
 
 
-
+  purple('>>> Categorize', 'render')
   return (
     <>
       <TextEdit
