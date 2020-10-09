@@ -15,12 +15,7 @@ import { purple, green, redf, yellow, blue } from 'logger'
 // .page {
 //   width: 100vw;
 //   height: 100vh;
-//   display: flex;
-// }
-
-// .sectionTitle {
-//   text-align: center;
-//   width: 100%;
+//   display: flex;purple('App', 'render-1')
 //   /* background-color: blue; */
 // }
 

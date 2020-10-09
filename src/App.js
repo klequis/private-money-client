@@ -1,51 +1,19 @@
-/* eslint-disable */ 
 
-import React, { useEffect } from 'react'
-import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import AllDataByDescription from 'features/AllDataByDescription'
-import Rules from 'features/rules/Rules'
+
+import React, { useState, useEffect } from 'react'
 import * as R from 'ramda'
-import ContainerFluid from 'components/ContainerFluid'
-
-//
 
 import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchTransactions,
   selectTransactionsStatus,
-  selectTransactionsError,
-  setActiveTransactionId // tmp code
+  setActiveTransactionId
 } from 'features/transactions/transactionsSlice'
-import { fetchRules, selectRulesError } from 'features/rules/rulesSlice'
+import { fetchRules, selectRulesStatus, selectRulesError } from 'features/rules/rulesSlice'
 import { requestStatus } from 'globalConstants'
 
-
-
-// eslint-disable-next-line
-import { green, purple } from 'logger'
-
-/**
- *
- * @param {array} slices names as string of redux slices to check
- * @param {object} state all if Redux state
- * @description Will return status as a `requestStatus`. First priority: If error in any slice, returns error. Second priority: If pending in any slice returns pending. Returns fulfilled only if first and second priorities are false.
- */
-const getRequestStatus = (slices, state) => {
-
-  const any = (status) => {
-    // @ts-ignore
-    return slices.map((s) => state[s].status === status).some((x) => x === true)
-  }
-
-  if (any(requestStatus.error)) {
-    return requestStatus.error
-  } else if (any(requestStatus.pending) || any(requestStatus.idle)) {
-    return requestStatus.pending
-  } else if (any(requestStatus.fulfilled)) {
-    return requestStatus.fulfilled
-  }
-}
-
+import { green } from 'logger'
+import { request } from 'http'
 
 /**
  *
@@ -54,7 +22,6 @@ const getRequestStatus = (slices, state) => {
  */
 const getAllSliceErrors = (state) => {
   const mod = R.pipe(
-    // @ts-ignore
     x => x.error === null ? '' : x.error,
     R.toLower
   )
@@ -62,93 +29,106 @@ const getAllSliceErrors = (state) => {
   return R.values(R.map(mod, state))
 }
 
+let count = 0
+
+const getSliceStatus = (slice, state) => state[slice.status]
+
+const log = R.curry((msg, value) => console.log(msg, value))
+
+const statusAll = (status, state) => {
+
+  return R.pipe(
+    R.values,
+    R.all(R.equals(R.__, status))
+  )(R.map(x => R.prop('status')(x), state))
+}
+
+/**
+ * 
+ * @param {string} status a member of requestStatus
+ * @param {array} state one or more slices as Object from redux state
+ */
+const statusAny = (status, slices) => {
+  return R.pipe(
+    R.values,
+    R.filter(x => x !== undefined),
+    R.any(R.equals(R.__, status))
+  )(R.map(x => R.prop('status')(x), slices))
+}
+
+
+
+
+/**
+ * 
+ * @param {object} slices An array of strings which are Redux slice names
+ * @returns {string}
+ * if >=1 = error -> error
+ * if 'all' = idle -> idle
+ * if >=1 = pending -> pending
+ * if 'all' = fulfilled -> fulfilled
+ */
+const getRequestStatus = (slices) => {
+  // green('state', state)
+  // const filteredSlices = R.filter(R.any(slices), slices)
+  // green('filteredSlices', filteredSlices)
+  // error
+
+  // green('slices', slices)
+  // return requestStatus.fulfilled
+  if (statusAny(requestStatus.error, slices)) {
+    green('getRequestStatus', 'error')
+    return requestStatus.error
+    // idle
+  } else if (statusAll(requestStatus.idle, slices)) {
+    return requestStatus.idle
+    // pending
+  } else if (statusAny(requestStatus.pending, slices)) {
+    return requestStatus.pending
+    // fulfilled
+  } else if (statusAll(requestStatus.fulfilled, slices)) {
+    return requestStatus.fulfilled
+  }
+}
+
+
 
 function App() {
-  purple('App', 'render')
 
-  // const dispatch = useDispatch()
-  // const transactionsStatus = useSelector((state) =>
-  //   selectTransactionsStatus(state)
-  // )
-  // const transactionsError = useSelector((state) =>
-  //   selectTransactionsError(state)
-  // )
-  // const rulesError = useSelector((state) => selectRulesError(state))
-  // const state = useSelector((state) => state)
+  const dispatch = useDispatch()
 
+  // get request status
+  const state = useSelector(state => state)
+  const slices = R.pick(['rules', 'transactions'])(state)
+  const status = getRequestStatus(slices)
 
+  useEffect(() => {
+    if (status === requestStatus.idle) {
+      dispatch(fetchTransactions())
+      dispatch(fetchRules())
+    }
+  }, [dispatch, status, state])
 
+  if (status === requestStatus.pending) {
+    return <h1>Loading</h1>
+  }
 
-  // useEffect(() => {
-  //   if (transactionsStatus === 'idle') {
-  //     dispatch(fetchTransactions())
-  //     dispatch(fetchRules())
-  
-  //     // TODO: tmp code - start
-  //     /*
-  //       In final version
-  //       - activeTransactionId will be set by <TableBody>
-  //     */
-  //     dispatch(setActiveTransactionId('5f77bee16b52d522df1c2af6'))
+  if (status === requestStatus.error) {
+    return <h1>Error</h1>
+  }
 
-  //     // tmp code - end
-  //   }
-  // }, [dispatch, transactionsStatus])
-
-  // const status = getRequestStatus(['transactions', 'rules'], state)
-  // const errors = getAllSliceErrors(state)
-
-  // if (status === requestStatus.pending || status === undefined) {
-  //   return (
-  //     <ContainerFluid id="App">
-  //       <h1>Loading</h1>
-  //     </ContainerFluid>
-  //   )
-  // }
-
-  // if (status === requestStatus.fulfilled) {
+  count = count + 1
+  if (status === requestStatus.fulfilled) {
     return (
-      <ContainerFluid id="App">
-        <Router>
-          <Switch>
-            <Route path="/create-rule">
-              <Rules />
-            </Route>
-            <Route path="/">
-              <AllDataByDescription />
-            </Route>
-          </Switch>
-        </Router>
-      </ContainerFluid>
+      <div>
+        <h1>App: {count}</h1>
+      </div>
     )
-  // }
+  }
 
-  // if (R.includes('internal server error', errors)) {
-  //   return (
-  //     <ContainerFluid id="App">
-  //       <h1>Internal Server Error</h1>
-  //     </ContainerFluid>
-  //   )
-  // }
+  return <h1>I don't know that status ?</h1>
 
-  // return (
-  //   <div id="App" className="container-fluid">
-  //     <h1>I don't know what went wrong</h1>
-  //     <div>transactions error: {transactionsError}</div>
-  //     <div>rules error: {rulesError}</div>
-  //   </div>
-  // )
+
 }
 
 export default App
-
-
-/*
-return (
-    <Container id="App" fluid>
-      <h1>I don't know what went wrong</h1>
-      <div>transactions error: {transactionsError}</div>
-      <div>rules error: {rulesError}</div>
-    </Container>
-  )
-*/
