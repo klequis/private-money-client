@@ -29,7 +29,6 @@ import { purple, green, redf } from 'logger'
 // flex-basis: 33.333333%;
 
 const RenameDescription = ({ action }) => {
-  purple('>>> RenameDescription', 'render')
   const [_action, _setAction] = useState(action)
   const { replaceWithValue } = _action
   const dispatch = useDispatch()

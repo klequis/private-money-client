@@ -5,6 +5,7 @@ import {
 } from 'features/transactions/transactionsSlice'
 import RuleView from './RuleView'
 import RuleTmp from './RuleTmp'
+import RenderCount from 'components/RenderCount'
 
 // eslint-disable-next-line
 import { green, purple } from 'logger'
@@ -23,12 +24,17 @@ import { green, purple } from 'logger'
 
 // const _ruleUpdate = () => {}
 
-
+let countTotal = 0
+const countTotalExpected = 2
+let countReturn = 0
+const countReturnExpected = 2
 
 const Rules = () => {
-  purple('Rules', 'render')
+  countTotal = countTotal + 1
+
 
   const activeTransaction = useSelector(selectActiveTransaction)
+
   const { ruleIds } = activeTransaction
   const [_ruleIds, _setRuleIds] = useState(ruleIds)
 
@@ -38,8 +44,8 @@ const Rules = () => {
     //   // const ruleIds = R.append(tmpId, _ruleIds)
     //   // _setRuleIds(ruleIds)
     // } else {
-      const { ruleIds } = activeTransaction
-      _setRuleIds(ruleIds)
+    const { ruleIds } = activeTransaction
+    _setRuleIds(ruleIds)
     // }
   }, [_ruleIds, activeTransaction])
 
@@ -51,9 +57,21 @@ const Rules = () => {
   // if ruleIds is undefiend then there will be no
   // rules to map so just render TmpRule
   // if (ruleIds === undefined) {
+  
   if (true) {
-    
-    return <RuleTmp />
+    countReturn = countReturn + 1
+    return (
+      
+      <div>
+        <RenderCount
+          name="Rules"
+          countTotal={countTotal}
+          countTotalExpected={countTotalExpected}
+          countReturn={countReturn}
+          countReturnExpected={countReturnExpected}
+        />
+        <RuleTmp />
+      </div>)
   }
 
   /*
@@ -66,8 +84,8 @@ const Rules = () => {
       {_ruleIds !== undefined
         ? _ruleIds.map((id) => {
 
-            return <RuleView key={id} ruleId={id} />
-          })
+          return <RuleView key={id} ruleId={id} />
+        })
         : null}
     </>
   )

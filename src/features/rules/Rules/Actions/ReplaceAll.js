@@ -6,7 +6,6 @@ import { transactionFields as fields } from 'globalConstants'
 import { purple } from 'logger'
 
 const ReplaceAll = ({ action, handleChange }) => {
-  purple('>>> ReplaceAll', 'render')
   return (
     <>
       <Select

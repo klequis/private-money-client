@@ -6,9 +6,9 @@ import Rules from './Rules'
 // } from 'features/transactions/transactionsSlice'
 
 
-// import CriteriaResults from './CriteriaResults'
+import CriteriaResults from './CriteriaResults'
+import RenderCount from 'components/RenderCount'
 
-// @ts-ignore
 // eslint-disable-next-line
 import { purple, green, redf, yellow, blue } from 'logger'
 
@@ -28,22 +28,23 @@ import { purple, green, redf, yellow, blue } from 'logger'
 //   flex-basis: 100%;
 // }
 
-const CreateRules = () => {
-  purple('>>> CreateRules', 'render')
-  
+let count = 0
+const expected = 1
 
+const CreateRules = React.memo(() => {
+  count = count + 1
   return (
     <div id="CreateRules">
+      <RenderCount name='CreateRules' countTotal={count} countTotalExpected={expected} />
       <div id="CreateRules.Rules">
-        <h1>Rules</h1>
         <Rules />
       </div>
       <div id="CreateRules.Transactions">
-        {/* <CriteriaResults /> */}
+        <CriteriaResults />
       </div>
     </div>
   )
-}
+})
 
 export default CreateRules
 

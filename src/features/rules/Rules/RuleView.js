@@ -14,7 +14,6 @@ const TextField = ({ children }) => (
 )
 
 const Categories = ({ action }) => {
-  purple('>>> Categories', 'render')
   return (
     <div>
       <div>category1: {action.category1}</div>
@@ -24,12 +23,10 @@ const Categories = ({ action }) => {
 }
 
 const Rename = ({ action }) => {
-  purple('>>> Rename', 'render')
   return <div>Rename as: {action.replaceWithValue}</div>
 }
 
 const RuleView = ({ ruleId }) => {
-  purple('>>> RuleView', 'render')
   const [_isEditMode, _setIsEditMode] = useState(false)
 
   const rule = useSelector((state) => selectOneRule(ruleId, state))

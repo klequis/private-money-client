@@ -14,9 +14,9 @@ import Table from 'components/Table'
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
 // import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
+import RenderCount from 'components/RenderCount'
 
 const TableHead = () => {
-  purple('TableHead', 'render')
   return (
     <thead>
       <tr>
@@ -53,43 +53,53 @@ const isCriteriaValid = (criteria) => {
   // operation is on of
   // value !isEmptyOrNull
   // active = true
-  
+
   // const check = R.map(checkCriterionValid, criteria)
   // green('check', check)
-  
+
 }
 
+let countTotal = 0
+const countTotalExpected = 4
+let countReturn = 0
+const countReturnExpected = 2
 
 const CriteriaResults = () => {
-  purple('CriteriaResults', 'render')
-  // const [_areCriteriValid, _setAreCriteriaValid] = useState(false)
-
+  countTotal = countTotal + 1
   const dispatch = useDispatch()
   const criteria = useSelector(selectRuleEditCriteria)
-  // green('CriteriaResults: criteria', criteria)
+
   useEffect(() => {
-    // if (criteria !== null) {
-
-    const activeCriteria = getActiveCriteria(criteria)
-    // green('CriteriaResults: activeCriteria', activeCriteria)
-    // const validationResult = criteriaValidation(activeCriteria)
-    // green('CriteriaResults: validationResults', validationResult)
-
-    if (isCriteriaValid(activeCriteria)) {
-      dispatch(criteriaResultsClear())
-    } else {
-      dispatch(fetchCriteriaResults(activeCriteria))
+    if (criteria) {
+      const activeCriteria = getActiveCriteria(criteria)
+      if (isCriteriaValid(activeCriteria)) {
+        dispatch(fetchCriteriaResults(activeCriteria))
+        
+      } else {
+        dispatch(criteriaResultsClear())
+      }
     }
-    // }
   }, [criteria, dispatch])
+
 
   const criteriaResultsTransactions = useSelector(
     selectCriteriaResultsTransactions
   )
 
-  
+  if (!criteria) {
+    return null
+  }
+
+  countReturn = countReturn + 1
   return (
     <div>
+      <RenderCount
+          name="CriteriaResults"
+          countTotal={countTotal}
+          countTotalExpected={countTotalExpected}
+          countReturn={countReturn}
+          countReturnExpected={countReturnExpected}
+        />
       {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
       <Table size="sm" variant="dark">

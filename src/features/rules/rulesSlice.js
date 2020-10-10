@@ -6,7 +6,6 @@ import * as R from 'ramda'
 
 
 // 
-// @ts-ignore 
 // eslint-disable-next-line
 import { blue, red } from 'logger'
 
@@ -55,19 +54,16 @@ const rulesSlice = createSlice({
     }
   },
   extraReducers: {
-    // @ts-ignore
     [fetchRules.pending]: (state, action) => {
       // logFetchResults('fetchRules.pending', state, action)      
       state.status = requestStatus.pending
       state.items = []
     },
-    // @ts-ignore
     [fetchRules.fulfilled]: (state, action) => {
       // logFetchResults('fetchRules.fulfilled', state, action)      
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
-    // @ts-ignore
     [fetchRules.rejected]: (state, action) => {
       // logFetchResults('fetchRules.rejected', state, action)      
       state.status = requestStatus.error
@@ -88,17 +84,17 @@ export const {
 // const ruleEditId = (state) => state.rules.ruleEdit._id
 
 const getRulesItems = (state) =>
-  R.has('rules')(state) ? state.rules.items : state.items
+  R.has('rules')(state) ? state.rules.items : R.path(['state', 'items'], state)
 
 const getRule = (ruleId, state) =>
   getRulesItems(state).find((r) => r._id === ruleId)
 
-const hasRuleEdit = state => !(state.rules.ruleEdit === null)
+const hasRuleEdit = state => !(R.path(['state', 'rules', 'ruleEdit']) === null)
 
-export const selectRuleEdit = (state) => state.rules.ruleEdit
+export const selectRuleEdit = (state) => R.path(['state', 'rules', 'ruleEdit'], state)
 
 export const selectRuleEditCriteria = (state) => {
-  return hasRuleEdit(state) ? state.rules.ruleEdit.criteria : []
+  return hasRuleEdit(state) ? R.path(['rules', 'ruleEdit', 'criteria'], state) : []
 
   // if (hasRuleEdit(state)) {
   //   blue('hasRuleEdit', true)
@@ -110,12 +106,12 @@ export const selectRuleEditCriteria = (state) => {
 }
 
 export const selectRuleEditActions = (state) => {
-  return hasRuleEdit(state) ? state.rules.ruleEdit.actions : null
+  return hasRuleEdit(state) ? R.path([state.rules.ruleEdit.actions], state) : null
 }
 
-export const selectRulesStatus = (state) => state.transactions.status
+export const selectRulesStatus = (state) => R.path(['state', 'transactions', 'status'], state)
 
-export const selectRulesError = (state) => state.transactions.error
+export const selectRulesError = (state) => R.path(['state', 'transactions', 'error'], state)
 
 export const selectRuleCriteria = (ruleId, state) => {
   const { criteria } = getRule(ruleId, state)
@@ -128,4 +124,8 @@ export const selectRuleActions = (ruleId, state) => {
 }
 
 export const selectOneRule = (ruleId, state) =>
-  R.find(R.propEq('_id', ruleId))(state.rules.items)
+  R.find(R.propEq('_id', ruleId))(R.path(['state', 'rules', 'items'], state))
+
+export const selectRuleEditId = (state) => {
+  return R.path(['rules', 'ruleEdit', '_id'], state)
+}

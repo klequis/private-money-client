@@ -1,42 +1,39 @@
-
-
-import React, { useState, useEffect } from 'react'
+import React, { useEffect } from 'react'
 import * as R from 'ramda'
 
 import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchTransactions,
-  selectTransactionsStatus,
   setActiveTransactionId
 } from 'features/transactions/transactionsSlice'
-import { fetchRules, selectRulesStatus, selectRulesError } from 'features/rules/rulesSlice'
+import { fetchRules } from 'features/rules/rulesSlice'
 import { requestStatus } from 'globalConstants'
 
-import { green } from 'logger'
-import { request } from 'http'
+// eslint-disable-next-line
+import { green, yellow } from 'logger'
+import isNilOrEmpty from 'lib/isNilOrEmpty'
+import CreateRules from 'features/rules/Rules/CreateRules'
+import RenderCount from 'components/RenderCount'
 
-/**
- *
- * @param {object} state all if Redux state
- * @returns {[]} an array of strings
- */
-const getAllSliceErrors = (state) => {
-  const mod = R.pipe(
-    x => x.error === null ? '' : x.error,
-    R.toLower
-  )
-  // green('state', state)
-  return R.values(R.map(mod, state))
-}
+// /**
+//  *
+//  * @param {object} state all if Redux state
+//  * @returns {[]} an array of strings
+//  */
+// const getAllSliceErrors = (state) => {
+//   const mod = R.pipe(
+//     x => x.error === null ? '' : x.error,
+//     R.toLower
+//   )
+//   // green('state', state)
+//   return R.values(R.map(mod, state))
+// }
 
-let count = 0
+// const getSliceStatus = (slice, state) => state[slice.status]
 
-const getSliceStatus = (slice, state) => state[slice.status]
-
-const log = R.curry((msg, value) => console.log(msg, value))
+// const log = R.curry((msg, value) => console.log(msg, value))
 
 const statusAll = (status, state) => {
-
   return R.pipe(
     R.values,
     R.all(R.equals(R.__, status))
@@ -56,9 +53,6 @@ const statusAny = (status, slices) => {
   )(R.map(x => R.prop('status')(x), slices))
 }
 
-
-
-
 /**
  * 
  * @param {object} slices An array of strings which are Redux slice names
@@ -77,24 +71,33 @@ const getRequestStatus = (slices) => {
   // green('slices', slices)
   // return requestStatus.fulfilled
   if (statusAny(requestStatus.error, slices)) {
-    green('getRequestStatus', 'error')
+    // green('getRequestStatus', 'error')
     return requestStatus.error
     // idle
   } else if (statusAll(requestStatus.idle, slices)) {
+    // green('getRequestStatus', 'idle')
     return requestStatus.idle
     // pending
   } else if (statusAny(requestStatus.pending, slices)) {
+    // green('getRequestStatus', 'pending')
     return requestStatus.pending
     // fulfilled
   } else if (statusAll(requestStatus.fulfilled, slices)) {
+    // green('getRequestStatus', 'fulfilled')
     return requestStatus.fulfilled
   }
+  return requestStatus.error
+
 }
 
 
+let countTotal = 0
+const countTotalExpected = 10
+let countReturn = 0
+const countReturnExpected = 6
 
-function App() {
-
+const App = () => {
+  countTotal = countTotal + 1
   const dispatch = useDispatch()
 
   // get request status
@@ -106,9 +109,11 @@ function App() {
     if (status === requestStatus.idle) {
       dispatch(fetchTransactions())
       dispatch(fetchRules())
+      dispatch(setActiveTransactionId('5f77bee16b52d522df1c2bb1'))
+      
     }
   }, [dispatch, status, state])
-
+  
   if (status === requestStatus.pending) {
     return <h1>Loading</h1>
   }
@@ -117,13 +122,30 @@ function App() {
     return <h1>Error</h1>
   }
 
-  count = count + 1
+  countReturn = countReturn + 1
   if (status === requestStatus.fulfilled) {
     return (
+
       <div>
-        <h1>App: {count}</h1>
+        <RenderCount
+          name="App"
+          countTotal={countTotal}
+          countTotalExpected={countTotalExpected}
+          countReturn={countReturn}
+          countReturnExpected={countReturnExpected}
+        />
+        <CreateRules />
       </div>
     )
+  }
+
+  // these are error conditions
+  if (isNilOrEmpty(status)) {
+    return <h1>status is empty string</h1>
+  }
+
+  if (status === 'idle') {
+    return <h1>status is idle</h1>
   }
 
   return <h1>I don't know that status ?</h1>

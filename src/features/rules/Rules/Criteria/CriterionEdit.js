@@ -8,7 +8,6 @@ import CheckBox from 'components/CheckBox'
 import { updateRuleEditCriterion } from 'features/rules/rulesSlice'
 import * as R from 'ramda'
 import styled from 'styled-components'
-import { ICriterion } from 'interfaces'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
@@ -49,13 +48,12 @@ const mergeCriterionProp = (newProp, criterion) => {
   return R.mergeRight(criterion, newProp)
 }
 
-const CriterionEdit = ({ criterion }: { criterion: ICriterion }) => {
-  purple('>>> CriterionEdit', 'render')
-  const [_criterion, _setCriterion] = useState<ICriterion>(criterion)
+const CriterionEdit = ({ criterion }) => {
+  const [_criterion, _setCriterion] = useState(criterion)
   const { operation, field, value, active } = _criterion
   const dispatch = useDispatch()
 
-  const _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
+  const _handleChange = (event) => {
     const { name, value, checked, type } = event.currentTarget
 
     const newProp = { [name]: type === 'checkbox' ? checked : value }
@@ -65,7 +63,7 @@ const CriterionEdit = ({ criterion }: { criterion: ICriterion }) => {
     dispatch(updateRuleEditCriterion(newCriterion))
   }
 
-  const _handleBlur = (event: React.FormEvent<HTMLInputElement>) => {
+  const _handleBlur = (event) => {
     const { name, value } = event.currentTarget
     // console.group('_handleBlur')
     // green('_criterion', _criterion)

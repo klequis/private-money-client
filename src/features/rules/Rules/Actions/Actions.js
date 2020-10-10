@@ -51,7 +51,6 @@ const Actions = ({ ruleId }) => {
   if (!actions) {
     return null
   }
-  purple('>>> Actions', 'render')
   return (
     <Wrapper>
       {actions.map((a) => {

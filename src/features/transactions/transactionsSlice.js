@@ -6,7 +6,7 @@ import { requestStatus } from 'globalConstants'
 
 // @ts-ignore
 // eslint-disable-next-line
-import { yellow } from 'logger'
+import { blue, yellow } from 'logger'
 
 const initialState = {
   items: [],
@@ -82,10 +82,14 @@ export const selectTransactionRuleIds = (transactionId, state) => {
 export const selectTransactionsStatus = (state) => state.transactions.status
 export const selectTransactionsError = (state) => state.transactions.error
 
-export const selectActiveTransactionId = (state) => state.transactions.activeTransactionId
+export const selectActiveTransactionId = (state) => {
+  return state.transactions.activeTransactionId
+}
 
 export const selectActiveTransaction = state => {
+  // blue('state', state)
   const tId = selectActiveTransactionId(state)
+  // blue('tId', tId)
   return selectOneTransaction(tId, state)
 }
 

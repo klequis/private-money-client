@@ -6,7 +6,6 @@ import { transactionFields as fields } from 'globalConstants'
 import { green, redf, purple } from 'logger'
 
 const Strip = ({ action, handleChange }) => {
-  purple('>>> Strip', 'render')
   return (
     <>
       <Select name="field" value={action.field} onChange={handleChange} maxWidth={100}>

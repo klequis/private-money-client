@@ -3,15 +3,15 @@ import { useSelector } from 'react-redux'
 import CriterionEdit from './CriterionEdit'
 import {
   selectRuleCriteria,
-  selectRuleEditCriteria
+  selectRuleEditCriteria,
+//   selectRuleEdit
 } from 'features/rules/rulesSlice'
-import isTmpRule from 'lib/isTmpRule'
 import Button from 'components/Button'
 import styled from 'styled-components'
-import { ICriterion } from 'interfaces'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
+import RenderCount from 'components/RenderCount'
 
 const Row = styled.div`
   display: flex;
@@ -19,23 +19,33 @@ const Row = styled.div`
   background-color: red;
 `
 
-const Criteria = ({ ruleId }: { ruleId: string }) => {
-  purple('>>> Criteria', 'render')
-  const criteria = useSelector((state) => {
-    if (isTmpRule(ruleId)) {
-      return selectRuleEditCriteria(state)
-    } else {
-      return selectRuleCriteria(ruleId, state)
-    }
-  })
+let countTotal = 0
+const countTotalExpected = 2
+let countReturn = 0
+const countReturnExpected = 2
 
+const Criteria = () => {
+    
+  countTotal = countTotal + 1
+
+  const criteria = useSelector(selectRuleEditCriteria)
+  // green('Criteria: criteria', criteria)
   const _handleButtonClick = () => {}
 
   if (!criteria) {
     return null
   }
+  
+  countReturn = countReturn + 1
   return (
     <div id="Criteria">
+        <RenderCount
+          name="Criteria"
+          countTotal={countTotal}
+          countTotalExpected={countTotalExpected}
+          countReturn={countReturn}
+          countReturnExpected={countReturnExpected}
+        />
       <Row id="Criteria.Row">
         <h4>Criteria</h4>
 
@@ -43,7 +53,7 @@ const Criteria = ({ ruleId }: { ruleId: string }) => {
         <Button onClick={_handleButtonClick}>Reset</Button>
       </Row>
 
-      {criteria.map((c: ICriterion) => (
+      {criteria.map((c) => (
         <CriterionEdit key={c._id} criterion={c} />
       ))}
     </div>

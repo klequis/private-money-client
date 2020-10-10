@@ -43,7 +43,6 @@ const Categorize = ({ action, minChars }) => {
   }
 
 
-  purple('>>> Categorize', 'render')
   return (
     <>
       <TextEdit

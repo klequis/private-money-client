@@ -31,7 +31,6 @@ const ActionEdit = ({ action }) => {
       return null
     }
   }
-  purple('>>> ActionEdit', 'render')
   return (
     <div>
       <div>

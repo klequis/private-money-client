@@ -1,20 +1,46 @@
-import React from 'react'
+import React, { useMemo } from 'react'
+import { useSelector } from 'react-redux'
 import Criteria from './Criteria'
+
 import Actions from './Actions'
 import Button from 'components/Button'
 import RuleId from './RuleId'
+import { selectRuleEditId } from 'features/rules/rulesSlice'
 
 // eslint-disable-next-line
 import { green, purple } from 'logger'
+import RenderCount from 'components/RenderCount'
 
-const RuleEdit = ({ ruleId }: { ruleId: string }) => {
-  purple('RuleEdit', 'render')
+let countTotal = 0
+const countTotalExpected = 4
+let countReturn = 0
+const countReturnExpected = 4
+
+/**
+ * 
+ * @param {string} ruleId 
+ */
+const RuleEdit = () => {
+  countTotal = countTotal + 1
+  // const ruleTmpId = useSelector(selectRuleEditId)
+  // green('ruleTmpId', ruleTmpId)
+
   
-  const _handleSaveEditButtonClick = () => {}
+  const ruleId = useSelector(selectRuleEditId)
 
+
+  const _handleSaveEditButtonClick = () => { return 1 }
+  countReturn = countReturn + 1
   return (
     <>
-      <div id="CriterionEdit" className="d-flex">
+      <div id="RuleEdit" className="d-flex">
+        <RenderCount
+          name="RuleEdit"
+          countTotal={countTotal}
+          countTotalExpected={countTotalExpected}
+          countReturn={countReturn}
+          countReturnExpected={countReturnExpected}
+        />
         <RuleId ruleId={ruleId} />
         <Button onClick={_handleSaveEditButtonClick}>Save</Button>
         <svg
@@ -31,7 +57,7 @@ const RuleEdit = ({ ruleId }: { ruleId: string }) => {
           />
         </svg>
         {/* <svg
-            class="bi bi-alert-triangle text-success"
+            className="bi bi-alert-triangle text-success"
             width="32"
             height="32"
             viewBox="0 0 20 20"
@@ -41,45 +67,11 @@ const RuleEdit = ({ ruleId }: { ruleId: string }) => {
             ...
           </svg> */}
       </div>
-      <Criteria ruleId={ruleId} />
-      <Actions ruleId={ruleId} />
+      <Criteria />
+      {/* <Actions ruleId={ruleId} /> */}
     </>
   )
 }
 
 export default RuleEdit
 
-/*
-
-
-const RuleEdit = ({ ruleId }) => {
-  const [_isEditMode, _setIsEditMode] = useState(false)
-
-  const _handleSaveEditButtonClick = () => _setIsEditMode(!_isEditMode)
-
-  return (
-    <tr>
-      <td colSpan="10">
-        <div className="d-flex">
-          <div>{`RuleId: ${ruleId}`}</div>
-          {_isEditMode ? (
-            <Button onClick={_handleSaveEditButtonClick}>Save</Button>
-          ) : (
-            <Button onClick={_handleSaveEditButtonClick}>Edit</Button>
-          )}
-        </div>
-
-        <div>
-          <Criteria ruleId={ruleId} />
-        </div>
-        <div>
-          <Actions ruleId={ruleId} isEditMode={_isEditMode} />
-        </div>
-      </td>
-    </tr>
-  )
-}
-
-export default RuleEdit
-
-*/
