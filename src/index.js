@@ -1,6 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
+// import App from './App'
+import DevTmp from './DevTmp'
 import store from './app/store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'react-jss'
@@ -8,6 +9,8 @@ import * as serviceWorker from './serviceWorker'
 
 import './index.css'
 import './bootstrap/bootstrap.min.css'
+
+// TODO: Replace DevTmp with App
 
 const theme = {
   colors: {
@@ -37,7 +40,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <App />
+        <DevTmp />
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

@@ -9,7 +9,9 @@ import { selectCriteriaResultsTransactions } from 'features/transactions/transac
 // import isNilOrEmpty from 'lib/isNilOrEmpty'
 // import criteriaValidation from './criteriaValidation'
 import Table from 'components/Table'
-// import * as R from 'ramda'
+import * as R from 'ramda'
+import { requestStatus } from 'globalConstants'
+import getRequestStatus from 'lib/getRequestStatus'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
@@ -67,6 +69,12 @@ const countReturnExpected = 2
 const CriteriaResults = () => {
   countTotal = countTotal + 1
   const dispatch = useDispatch()
+
+  // get request status
+  const state = useSelector(state => state)
+  const slices = R.pick(['criteriaResults'])(state)
+  const status = getRequestStatus(slices)
+
   const criteria = useSelector(selectRuleEditCriteria)
 
   useEffect(() => {
@@ -85,6 +93,14 @@ const CriteriaResults = () => {
   const criteriaResultsTransactions = useSelector(
     selectCriteriaResultsTransactions
   )
+
+  if (status === requestStatus.pending) {
+    return <h1>Loading</h1>
+  }
+
+  if (status === requestStatus.error) {
+    return <h1>Error</h1>
+  }
 
   if (!criteria) {
     return null

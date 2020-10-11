@@ -25,9 +25,9 @@ import { green, purple } from 'logger'
 // const _ruleUpdate = () => {}
 
 let countTotal = 0
-const countTotalExpected = 2
+const countTotalExpected = 1
 let countReturn = 0
-const countReturnExpected = 2
+const countReturnExpected = 1
 
 const Rules = () => {
   countTotal = countTotal + 1

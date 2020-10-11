@@ -9,12 +9,14 @@ import {
 } from 'features/transactions/transactionsSlice'
 import { fetchRules } from 'features/rules/rulesSlice'
 import { setRuleEdit } from 'features/ruleEdit/ruleEditSlice'
-import { requestStatus } from 'globalConstants'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
 import CreateRules from 'features/rules/Rules/CreateRules'
+import { requestStatus } from 'globalConstants'
+import getRequestStatus from 'lib/getRequestStatus'
+import RequestStatus from 'components/RequestStatus'
 
 // eslint-disable-next-line
-import { green, yellow } from 'logger'
+import { green, yellow, red } from 'logger'
 import RenderCount from 'components/RenderCount'
 
 // tmp
@@ -22,63 +24,18 @@ import ruleTmpMakeId from 'lib/ruleTmpMakeId'
 import { ruleTmpMake } from 'lib/ruleTmpMake'
 //
 
-/**
- * 
- * @param {string} status a member of requestStatus
- * @param {array} state one or more slices as Object from redux state
- * @returns {boolean}
- */
-const statusAll = (status, state) => {
-  return R.pipe(
-    R.values,
-    R.all(R.equals(R.__, status))
-  )(R.map(x => R.prop('status')(x), state))
-}
 
-/**
- * 
- * @param {string} status a member of requestStatus
- * @param {array} state one or more slices as Object from redux state
- * @returns {boolean}
- */
-const statusAny = (status, slices) => {
-  return R.pipe(
-    R.values,
-    R.filter(x => x !== undefined),
-    R.any(R.equals(R.__, status))
-  )(R.map(x => R.prop('status')(x), slices))
-}
-
-/**
- * 
- * @param {object} slices An array of strings which are Redux slice names
- * @returns {string}
- * if >=1 = error -> error
- * if 'all' = idle -> idle
- * if >=1 = pending -> pending
- * if 'all' = fulfilled -> fulfilled
- */
-const getRequestStatus = (slices) => {
-  if (statusAny(requestStatus.error, slices)) {
-    return requestStatus.error
-  } else if (statusAll(requestStatus.idle, slices)) {
-    return requestStatus.idle
-  } else if (statusAny(requestStatus.pending, slices)) {
-    return requestStatus.pending
-  } else if (statusAll(requestStatus.fulfilled, slices)) {
-    return requestStatus.fulfilled
-  }
-  return requestStatus.error
-}
 
 
 let countTotal = 0
-const countTotalExpected = 10
+const countTotalExpected = 8
 let countReturn = 0
-const countReturnExpected = 6
+const countReturnExpected = 4
 
-const App = () => {
+const App = ({ activeTransactionId }) => {
   countTotal = countTotal + 1
+  red('App: activeTransactionId', activeTransactionId)
+
   const dispatch = useDispatch()
 
   // get request status
@@ -93,28 +50,31 @@ const App = () => {
     }
   }, [dispatch, status, state])
 
+  /* start tmp code */
+  
   const transaction = useSelector(selectActiveTransaction)
-  // tmp
+  green('App: transaction', transaction)
   useEffect(() => {
-    dispatch(setActiveTransactionId('5f77bee16b52d522df1c2bb1'))
-    const origDescription = 'hillo'
-    const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
-    dispatch(setRuleEdit(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
-  }, [])
-  // tmp
+    if (R.type(transaction) !== 'Null') {
+      const origDescription = 'origDescription' // transaction.origDescription
+      const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
+      green('tmpRule', tmpRule)
+      dispatch(setRuleEdit(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
+    }
+  }, [dispatch, transaction])
 
-  if (status === requestStatus.pending) {
-    return <h1>Loading</h1>
-  }
+  /* end tmp code */
 
-  if (status === requestStatus.error) {
-    return <h1>Error</h1>
+  if (R.type(transaction) === 'Null') {
+    return <h1>transaction is Null</h1>
   }
+  
+  // <RequestStatus status={status} />
 
   countReturn = countReturn + 1
+
   if (status === requestStatus.fulfilled) {
     return (
-
       <div>
         <RenderCount
           name="App"

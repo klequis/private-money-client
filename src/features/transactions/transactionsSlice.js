@@ -90,7 +90,7 @@ export const selectActiveTransaction = state => {
   // blue('state', state)
   const tId = selectActiveTransactionId(state)
   // blue('tId', tId)
-  return selectOneTransaction(tId, state)
+  return selectOneTransaction(tId, state) || null
 }
 
 export const selectTransactionFieldValue = (

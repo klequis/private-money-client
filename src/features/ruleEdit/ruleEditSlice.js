@@ -1,7 +1,10 @@
-import { createSlice } from '@reduxjs/toolkit'
+import { createSlice, current } from '@reduxjs/toolkit'
 import * as R from 'ramda'
 
-const initialState = null
+// eslint-disable-next-line
+import { blue } from 'logger'
+
+const initialState = {}
 
 const ruleEditSlice = createSlice({
   name: 'ruleEdit',
@@ -9,7 +12,7 @@ const ruleEditSlice = createSlice({
   reducers: {
     setRuleEdit(state, action) {
       const { payload } = action
-      state.ruleEdit = payload || {}
+      state.ruleEdit = payload // || {}
     },
     updateRuleEditCriterion(state, action) {
       const newCriterion = action.payload
@@ -34,23 +37,25 @@ const ruleEditSlice = createSlice({
   }
 })
 
+export default ruleEditSlice.reducer
+
 export const {
   setRuleEdit,
   updateRuleEditCriterion,
   updateRuleEditAction
 } = ruleEditSlice.actions
 
-const hasRuleEdit = state => !(R.path(['state', 'rules', 'ruleEdit']) === null)
-export const selectRuleEdit = (state) => R.path(['state', 'rules', 'ruleEdit'], state)
+const hasRuleEdit = state => !(R.path(['state', 'ruleEdit']) === null)
+export const selectRuleEdit = (state) => R.path(['state', 'ruleEdit', 'ruleEdit',], state)
 
 export const selectRuleEditCriteria = (state) => {
-  return hasRuleEdit(state) ? R.path(['rules', 'ruleEdit', 'criteria'], state) : []
+  return R.path(['ruleEdit', 'ruleEdit', 'criteria'], state) || []
 }
 
 export const selectRuleEditActions = (state) => {
-  return hasRuleEdit(state) ? R.path([state.rules.ruleEdit.actions], state) : null
+  return R.path(['ruleEdit', 'ruleEdit', 'actions'], state) || null
 }
 
 export const selectRuleEditId = (state) => {
-  return R.path(['rules', 'ruleEdit', '_id'], state)
+  return R.path(['ruleEdit', 'ruleEdit', '_id'], state)
 }
