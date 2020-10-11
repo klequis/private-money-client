@@ -1,11 +1,6 @@
 import React from 'react'
 // import { useDispatch } from 'react-redux'
 import Rules from './Rules'
-// import {
-//   setActiveTransactionId,
-// } from 'features/transactions/transactionsSlice'
-
-
 import CriteriaResults from './CriteriaResults'
 import RenderCount from 'components/RenderCount'
 

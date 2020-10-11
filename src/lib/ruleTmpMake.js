@@ -9,7 +9,7 @@ import {
 // eslint-disable-next-line
 import { green, redf, yellow, blue, purple } from 'logger'
 
-export const ruleTmpMake = (tmpId: string, origDescription: string, date?: string) => {
+export const ruleTmpMake = (tmpId, origDescription, date) => {
   return {
     _id: tmpId,
     criteria: [

@@ -5,7 +5,7 @@ import { criteriaSelectFields, operatorSelectFields } from 'globalConstants'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import CheckBox from 'components/CheckBox'
-import { updateRuleEditCriterion } from 'features/rules/rulesSlice'
+import { updateRuleEditCriterion } from 'features/ruleEdit/ruleEditSlice'
 import * as R from 'ramda'
 import styled from 'styled-components'
 

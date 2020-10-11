@@ -4,7 +4,7 @@ import Select from 'components/Select'
 import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'
 import * as R from 'ramda'
-import { updateRuleEditAction } from 'features/rules/rulesSlice'
+import { updateRuleEditAction } from 'features/ruleEdit/ruleEditSlice'
 import { actionTypes /*, trsactionFields as fiels*/ } from 'globalConstants'
 
 // eslint-disable-next-line

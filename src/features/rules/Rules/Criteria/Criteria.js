@@ -2,10 +2,9 @@ import React from 'react'
 import { useSelector } from 'react-redux'
 import CriterionEdit from './CriterionEdit'
 import {
-  selectRuleCriteria,
   selectRuleEditCriteria,
 //   selectRuleEdit
-} from 'features/rules/rulesSlice'
+} from 'features/ruleEdit/ruleEditSlice'
 import Button from 'components/Button'
 import styled from 'styled-components'
 
@@ -29,7 +28,7 @@ const Criteria = () => {
   countTotal = countTotal + 1
 
   const criteria = useSelector(selectRuleEditCriteria)
-  // green('Criteria: criteria', criteria)
+  green('Criteria: criteria', criteria)
   const _handleButtonClick = () => {}
 
   if (!criteria) {

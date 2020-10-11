@@ -4,35 +4,30 @@ import * as R from 'ramda'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchTransactions,
-  setActiveTransactionId
+  setActiveTransactionId,
+  selectActiveTransaction
 } from 'features/transactions/transactionsSlice'
 import { fetchRules } from 'features/rules/rulesSlice'
+import { setRuleEdit } from 'features/ruleEdit/ruleEditSlice'
 import { requestStatus } from 'globalConstants'
+import isNilOrEmpty from 'lib/isNilOrEmpty'
+import CreateRules from 'features/rules/Rules/CreateRules'
 
 // eslint-disable-next-line
 import { green, yellow } from 'logger'
-import isNilOrEmpty from 'lib/isNilOrEmpty'
-import CreateRules from 'features/rules/Rules/CreateRules'
 import RenderCount from 'components/RenderCount'
 
-// /**
-//  *
-//  * @param {object} state all if Redux state
-//  * @returns {[]} an array of strings
-//  */
-// const getAllSliceErrors = (state) => {
-//   const mod = R.pipe(
-//     x => x.error === null ? '' : x.error,
-//     R.toLower
-//   )
-//   // green('state', state)
-//   return R.values(R.map(mod, state))
-// }
+// tmp
+import ruleTmpMakeId from 'lib/ruleTmpMakeId'
+import { ruleTmpMake } from 'lib/ruleTmpMake'
+//
 
-// const getSliceStatus = (slice, state) => state[slice.status]
-
-// const log = R.curry((msg, value) => console.log(msg, value))
-
+/**
+ * 
+ * @param {string} status a member of requestStatus
+ * @param {array} state one or more slices as Object from redux state
+ * @returns {boolean}
+ */
 const statusAll = (status, state) => {
   return R.pipe(
     R.values,
@@ -44,6 +39,7 @@ const statusAll = (status, state) => {
  * 
  * @param {string} status a member of requestStatus
  * @param {array} state one or more slices as Object from redux state
+ * @returns {boolean}
  */
 const statusAny = (status, slices) => {
   return R.pipe(
@@ -63,31 +59,16 @@ const statusAny = (status, slices) => {
  * if 'all' = fulfilled -> fulfilled
  */
 const getRequestStatus = (slices) => {
-  // green('state', state)
-  // const filteredSlices = R.filter(R.any(slices), slices)
-  // green('filteredSlices', filteredSlices)
-  // error
-
-  // green('slices', slices)
-  // return requestStatus.fulfilled
   if (statusAny(requestStatus.error, slices)) {
-    // green('getRequestStatus', 'error')
     return requestStatus.error
-    // idle
   } else if (statusAll(requestStatus.idle, slices)) {
-    // green('getRequestStatus', 'idle')
     return requestStatus.idle
-    // pending
   } else if (statusAny(requestStatus.pending, slices)) {
-    // green('getRequestStatus', 'pending')
     return requestStatus.pending
-    // fulfilled
   } else if (statusAll(requestStatus.fulfilled, slices)) {
-    // green('getRequestStatus', 'fulfilled')
     return requestStatus.fulfilled
   }
   return requestStatus.error
-
 }
 
 
@@ -109,11 +90,19 @@ const App = () => {
     if (status === requestStatus.idle) {
       dispatch(fetchTransactions())
       dispatch(fetchRules())
-      dispatch(setActiveTransactionId('5f77bee16b52d522df1c2bb1'))
-      
     }
   }, [dispatch, status, state])
-  
+
+  const transaction = useSelector(selectActiveTransaction)
+  // tmp
+  useEffect(() => {
+    dispatch(setActiveTransactionId('5f77bee16b52d522df1c2bb1'))
+    const origDescription = 'hillo'
+    const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
+    dispatch(setRuleEdit(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
+  }, [])
+  // tmp
+
   if (status === requestStatus.pending) {
     return <h1>Loading</h1>
   }

@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectRuleActions, selectRuleEditActions } from 'features/rules/rulesSlice'
+import { selectRuleEditActions } from 'features/ruleEdit/ruleEditSlice'
 import ActionEdit from './ActionEdit'
 import isTmpRule from 'lib/isTmpRule'
 import RenameDescription from './RenameDescription'
@@ -30,13 +30,7 @@ const Wrapper = styled.div`
 
 const Actions = ({ ruleId }) => {
 
-  const actions = useSelector((state) => {
-    if (isTmpRule(ruleId)) {
-      return selectRuleEditActions(state)
-    } else {
-      return selectRuleActions(ruleId, state)
-    }
-  })
+  const actions = useSelector((state) => selectRuleEditActions(state))
 
   const Control = ({ action }) => {
     if (action.field === fields.description.name) {
@@ -63,8 +57,3 @@ const Actions = ({ ruleId }) => {
 }
 
 export default Actions
-
-/*
-
-
-*/

@@ -1,6 +1,6 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectRuleEditCriteria } from 'features/rules/rulesSlice'
+import { selectRuleEditCriteria } from 'features/ruleEdit/ruleEditSlice'
 import {
   fetchCriteriaResults,
   criteriaResultsClear

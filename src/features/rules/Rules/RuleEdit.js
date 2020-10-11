@@ -5,7 +5,7 @@ import Criteria from './Criteria'
 import Actions from './Actions'
 import Button from 'components/Button'
 import RuleId from './RuleId'
-import { selectRuleEditId } from 'features/rules/rulesSlice'
+import { selectRuleEditId } from 'features/ruleEdit/ruleEditSlice'
 
 // eslint-disable-next-line
 import { green, purple } from 'logger'
