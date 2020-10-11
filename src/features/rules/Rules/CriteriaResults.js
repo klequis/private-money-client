@@ -12,10 +12,11 @@ import Table from 'components/Table'
 import * as R from 'ramda'
 import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
+import RequestStatus from 'components/RequestStatus'
+// import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
-// import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
 import RenderCount from 'components/RenderCount'
 
 const TableHead = () => {
@@ -82,7 +83,7 @@ const CriteriaResults = () => {
       const activeCriteria = getActiveCriteria(criteria)
       if (isCriteriaValid(activeCriteria)) {
         dispatch(fetchCriteriaResults(activeCriteria))
-        
+
       } else {
         dispatch(criteriaResultsClear())
       }
@@ -94,47 +95,41 @@ const CriteriaResults = () => {
     selectCriteriaResultsTransactions
   )
 
-  if (status === requestStatus.pending) {
-    return <h1>Loading</h1>
-  }
-
-  if (status === requestStatus.error) {
-    return <h1>Error</h1>
-  }
-
   if (!criteria) {
     return null
   }
 
+
   countReturn = countReturn + 1
   return (
-    <div>
-      <RenderCount
+    <RequestStatus status={status}>
+      <div>
+        <RenderCount
           name="CriteriaResults"
           countTotal={countTotal}
           countTotalExpected={countTotalExpected}
           countReturn={countReturn}
           countReturnExpected={countReturnExpected}
         />
-      {/* <h1 className={styles.sectionTitle}>Transactions</h1>
+        {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
-      <Table size="sm" variant="dark">
-        <TableHead />
-        <tbody>
-          {criteriaResultsTransactions.map((t) => (
-            <tr key={t._id}>
-              <td>{t.date}</td>
-              <td>{t.description}</td>
-              <td>{t.amount}</td>
-              <td>{t.category1}</td>
-              <td>{t.category2}</td>
-            </tr>
-          ))}
-        </tbody>
-      </Table>
-    </div>
+        <Table size="sm" variant="dark">
+          <TableHead />
+          <tbody>
+            {criteriaResultsTransactions.map((t) => (
+              <tr key={t._id}>
+                <td>{t.date}</td>
+                <td>{t.description}</td>
+                <td>{t.amount}</td>
+                <td>{t.category1}</td>
+                <td>{t.category2}</td>
+              </tr>
+            ))}
+          </tbody>
+        </Table>
+      </div>
+    </RequestStatus>
   )
-  // }
 }
 
 export default CriteriaResults

@@ -51,7 +51,7 @@ const App = ({ activeTransactionId }) => {
   }, [dispatch, status, state])
 
   /* start tmp code */
-  
+
   const transaction = useSelector(selectActiveTransaction)
   green('App: transaction', transaction)
   useEffect(() => {
@@ -68,12 +68,34 @@ const App = ({ activeTransactionId }) => {
   if (R.type(transaction) === 'Null') {
     return <h1>transaction is Null</h1>
   }
-  
-  // <RequestStatus status={status} />
+
 
   countReturn = countReturn + 1
 
-  if (status === requestStatus.fulfilled) {
+  return (
+    <RequestStatus status={status}>
+
+      <div>
+        <RenderCount
+          name="App"
+          countTotal={countTotal}
+          countTotalExpected={countTotalExpected}
+          countReturn={countReturn}
+          countReturnExpected={countReturnExpected}
+        />
+        <CreateRules />
+      </div>
+    </RequestStatus>
+  )
+
+
+
+}
+
+export default App
+
+/*
+if (status === requestStatus.fulfilled) {
     return (
       <div>
         <RenderCount
@@ -87,19 +109,4 @@ const App = ({ activeTransactionId }) => {
       </div>
     )
   }
-
-  // these are error conditions
-  if (isNilOrEmpty(status)) {
-    return <h1>status is empty string</h1>
-  }
-
-  if (status === 'idle') {
-    return <h1>status is idle</h1>
-  }
-
-  return <h1>I don't know that status ?</h1>
-
-
-}
-
-export default App
+  */

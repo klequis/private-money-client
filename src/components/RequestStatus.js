@@ -2,11 +2,16 @@ import React from 'react'
 import { requestStatus } from 'globalConstants'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
 
-import { yellow } from 'logger'
+// import { yellow } from 'logger'
 
-const RequestStatus = ({ status }) => {
-  yellow('RequestStatus', 'render')
-  
+const RequestStatus = ({ status, children }) => {
+  // yellow('RequestStatus: status', status)
+  // yellow('RequestStatus: children', children)
+
+  if (status === requestStatus.fulfilled) {
+    return React.Children.only(children)
+  }
+
   if (status === requestStatus.pending) {
     return <h1>Pending</h1>
   }
