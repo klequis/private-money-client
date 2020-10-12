@@ -65,10 +65,8 @@ const Rules = () => {
       <div>
         <RenderCount
           name="Rules"
-          countTotal={countTotal}
-          countTotalExpected={countTotalExpected}
-          countReturn={countReturn}
-          countReturnExpected={countReturnExpected}
+          countTotal={{ actual: countTotal, min: 1, max: 1}}
+          countReturn={{ actual: countReturn, min: 1 , max: 1 }}
         />
 
         <RuleEdit />

@@ -12,9 +12,7 @@ import { green, purple } from 'logger'
 import RenderCount from 'components/RenderCount'
 
 let countTotal = 0
-const countTotalExpected = 2
 let countReturn = 0
-const countReturnExpected = 2
 
 const RuleEdit = () => {
   countTotal = countTotal + 1
@@ -22,16 +20,14 @@ const RuleEdit = () => {
 //   const ruleId = useSelector(selectRuleEditId)
 
 //   const _handleSaveEditButtonClick = () => { return 1 }
-//   countReturn = countReturn + 1
+  countReturn = countReturn + 1
   return (
     <>
       <div id="RuleEdit" className="d-flex">
         <RenderCount
           name="RuleEdit"
-          countTotal={countTotal}
-          countTotalExpected={countTotalExpected}
-          countReturn={countReturn}
-          countReturnExpected={countReturnExpected}
+          countTotal={{ actual: countTotal, min: 1, max: 2 }}
+          countReturn={{ actual: countReturn, min: 1, max: 1 }}
         />
         {/* <RuleId ruleId={ruleId} /> */}
         {/* <Button onClick={_handleSaveEditButtonClick}>Save</Button> */}

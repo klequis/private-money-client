@@ -49,8 +49,9 @@ const getActiveCriteria = (criteria) =>
 //   ]
 // }
 const isCriteriaValid = (criteria) => {
-  // tmp code
   return true
+  // tmp code
+  // return true
   // _id is a string
   // field is one of
   // operation is on of
@@ -63,35 +64,36 @@ const isCriteriaValid = (criteria) => {
 }
 
 let countTotal = 0
-const countTotalExpected = 4
 let countReturn = 0
-const countReturnExpected = 2
 
 const CriteriaResults = () => {
   countTotal = countTotal + 1
   const dispatch = useDispatch()
 
-  // get request status
+  // get status
   const state = useSelector(state => state)
   const slices = R.pick(['criteriaResults'])(state)
   const status = getRequestStatus(slices)
 
+  // get criteria
   const criteria = useSelector(selectRuleEditCriteria)
 
-  useEffect(() => {
-    if (criteria) {
-      const activeCriteria = getActiveCriteria(criteria)
-      if (isCriteriaValid(activeCriteria)) {
-        dispatch(fetchCriteriaResults(activeCriteria))
 
-      } else {
-        dispatch(criteriaResultsClear())
+
+  
+
+  useEffect(() => {
+    if (status === 'idle') {
+      const activeCriteria = getActiveCriteria(criteria)
+      const valid = isCriteriaValid(activeCriteria)
+      if (valid) {
+        green('fetch')
+        dispatch(fetchCriteriaResults(activeCriteria))
       }
     }
-  }, [criteria, dispatch])
+  }, [dispatch])
 
-
-  const criteriaResultsTransactions = useSelector(
+  const transactions = useSelector(
     selectCriteriaResultsTransactions
   )
 
@@ -99,24 +101,21 @@ const CriteriaResults = () => {
     return null
   }
 
-
   countReturn = countReturn + 1
   return (
     <RequestStatus status={status}>
       <div>
         <RenderCount
           name="CriteriaResults"
-          countTotal={countTotal}
-          countTotalExpected={countTotalExpected}
-          countReturn={countReturn}
-          countReturnExpected={countReturnExpected}
+          countTotal={{ actual: countTotal, min: 6, max: 6 }}
+          countReturn={{ actual: countReturn, min: 6, max: 6 }}
         />
         {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
         <Table size="sm" variant="dark">
           <TableHead />
           <tbody>
-            {criteriaResultsTransactions.map((t) => (
+            {transactions.map((t) => (
               <tr key={t._id}>
                 <td>{t.date}</td>
                 <td>{t.description}</td>

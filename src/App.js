@@ -1,10 +1,9 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useMemo } from 'react'
 import * as R from 'ramda'
 
 import { useSelector, useDispatch } from 'react-redux'
 import {
   fetchTransactions,
-  setActiveTransactionId,
   selectActiveTransaction
 } from 'features/transactions/transactionsSlice'
 import { fetchRules } from 'features/rules/rulesSlice'
@@ -32,9 +31,8 @@ const countTotalExpected = 8
 let countReturn = 0
 const countReturnExpected = 4
 
-const App = ({ activeTransactionId }) => {
+const App = () => {
   countTotal = countTotal + 1
-  red('App: activeTransactionId', activeTransactionId)
 
   const dispatch = useDispatch()
 
@@ -48,17 +46,16 @@ const App = ({ activeTransactionId }) => {
       dispatch(fetchTransactions())
       dispatch(fetchRules())
     }
-  }, [dispatch, status, state])
+  }, [dispatch, state])
 
   /* start tmp code */
 
   const transaction = useSelector(selectActiveTransaction)
-  green('App: transaction', transaction)
+
   useEffect(() => {
     if (R.type(transaction) !== 'Null') {
-      const origDescription = 'origDescription' // transaction.origDescription
+      const origDescription = transaction.origDescription
       const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
-      green('tmpRule', tmpRule)
       dispatch(setRuleEdit(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
     }
   }, [dispatch, transaction])
@@ -69,19 +66,15 @@ const App = ({ activeTransactionId }) => {
     return <h1>transaction is Null</h1>
   }
 
-
   countReturn = countReturn + 1
 
   return (
     <RequestStatus status={status}>
-
       <div>
         <RenderCount
           name="App"
-          countTotal={countTotal}
-          countTotalExpected={countTotalExpected}
-          countReturn={countReturn}
-          countReturnExpected={countReturnExpected}
+          countTotal={{ actual: countTotal, min: 12, max: 14 }}
+          countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />
         <CreateRules />
       </div>
@@ -93,20 +86,3 @@ const App = ({ activeTransactionId }) => {
 }
 
 export default App
-
-/*
-if (status === requestStatus.fulfilled) {
-    return (
-      <div>
-        <RenderCount
-          name="App"
-          countTotal={countTotal}
-          countTotalExpected={countTotalExpected}
-          countReturn={countReturn}
-          countReturnExpected={countReturnExpected}
-        />
-        <CreateRules />
-      </div>
-    )
-  }
-  */

@@ -24,13 +24,16 @@ import { purple, green, redf, yellow, blue } from 'logger'
 // }
 
 let count = 0
-const expected = 1
 
 const CreateRules = React.memo(() => {
   count = count + 1
   return (
     <div id="CreateRules">
-      <RenderCount name='CreateRules' countTotal={count} countTotalExpected={expected} />
+      <RenderCount 
+        name='CreateRules' 
+        countTotal={{ actual: count, min: 1, max: 1 }}
+        // countReturn={{ actual: count, min: 1, max: 1 }}
+      />
       <div id="CreateRules.Rules">
         <Rules />
       </div>

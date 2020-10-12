@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk/*,  current */ } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 // import { logFetchResults } from 'lib/logFetchResults'
+import * as R from 'ramda'
 
 
 // @ts-ignore
@@ -64,7 +65,13 @@ export const { setActiveTransactionId } = transactionsSlice.actions
 export const selectAllTransactions = (state) => state.transactions.items
 
 export const selectOneTransaction = (transactionId, state) => {
-  return state.transactions.items.find((t) => t._id === transactionId)
+  // blue('selectOneTransaction: transactionId', transactionId)
+  const tItems = (R.path(['transactions', 'items'], state))
+  // blue('selectOneTransaction: tItems', tItems)
+  // return state.transactions.items.find((t) => t._id === transactionId)
+  const ret = R.find(R.propEq('_id', transactionId))(tItems)
+  // blue('selectOneTransaction: ret', R.type(ret))
+  return R.equals(R.type(ret), 'Undefined') ? null : ret
 }
 
 export const selectCriteriaResultsTransactions = (state)  => {
@@ -76,21 +83,21 @@ export const selectCriteriaResultsTransactions = (state)  => {
 
 export const selectTransactionRuleIds = (transactionId, state) => {
   const transaction = selectOneTransaction(transactionId, state)
-  return transaction.ruleIds
+  return R.path(['ruleIds'], transaction)
 }
 
-export const selectTransactionsStatus = (state) => state.transactions.status
-export const selectTransactionsError = (state) => state.transactions.error
+export const selectTransactionsStatus = (state) => R.path(['transactions', 'status'], state)
+export const selectTransactionsError = (state) => R.path(['transactions', 'error'], state)
 
 export const selectActiveTransactionId = (state) => {
-  return state.transactions.activeTransactionId
+  return R.path(['transactions', 'activeTransactionId'], state) || null
 }
 
 export const selectActiveTransaction = state => {
   // blue('state', state)
   const tId = selectActiveTransactionId(state)
-  // blue('tId', tId)
-  return selectOneTransaction(tId, state) || null
+  // blue('tId', R.type(tId))
+  return R.type(tId) === 'Null' ? null : selectOneTransaction(tId, state)
 }
 
 export const selectTransactionFieldValue = (
