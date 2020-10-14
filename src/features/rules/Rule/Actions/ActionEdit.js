@@ -4,7 +4,7 @@ import Select from 'components/Select'
 import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'
 import * as R from 'ramda'
-import { updateRuleEditAction } from 'features/ruleEdit/ruleEditSlice'
+import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
 import { actionTypes /*, trsactionFields as fiels*/ } from 'globalConstants'
 
 // eslint-disable-next-line
@@ -20,7 +20,7 @@ const ActionEdit = ({ action }) => {
     const { name, value } = event.target
     const newAction = R.mergeRight(_action, { [name]: value })
     _setAction(newAction)
-    dispatch(updateRuleEditAction(newAction))
+    dispatch(ruleEditActionUpdate(newAction))
   }
   const Control = () => {
     if (actionType === actionTypes.strip.name) {

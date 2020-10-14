@@ -1,7 +1,7 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import TextEdit from 'components/TextEdit'
-import { updateRuleEditAction } from 'features/ruleEdit/ruleEditSlice'
+import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
 import { actionFields } from 'globalConstants'
 import * as R from 'ramda'
 // import styled from 'styled-components'
@@ -37,7 +37,7 @@ const RenameDescription = ({ action }) => {
     const { value } = event.target
     const newAction = R.mergeRight(_action, { replaceWithValue: value })
     _setAction(newAction)
-    dispatch(updateRuleEditAction(newAction))
+    dispatch(ruleEditActionUpdate(newAction))
   }
 
   return (

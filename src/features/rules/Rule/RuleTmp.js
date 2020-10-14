@@ -37,7 +37,7 @@ const RuleTmp = React.memo(() => {
   return (
     <div>
       <RenderCount
-          name="RuleTmp"
+          componentName="RuleTmp"
           countTotal={countTotal}
           countTotalExpected={countTotalExpected}
           countReturn={countReturn}

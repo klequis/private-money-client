@@ -15,7 +15,6 @@ import RenderCount from 'components/RenderCount'
 const Row = styled.div`
   display: flex;
   align-items: center;
-  background-color: red;
 `
 
 let countTotal = 0
@@ -36,7 +35,7 @@ const Criteria = () => {
   return (
     <div id="Criteria">
       <RenderCount
-        name="Criteria"
+        componentName="Criteria"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />

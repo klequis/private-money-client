@@ -103,7 +103,7 @@ const CriteriaResults = () => {
     <RequestStatus status={status}>
       <div>
         <RenderCount
-          name="CriteriaResults"
+          componentName="CriteriaResults"
           countTotal={{ actual: countTotal, min: 6, max: 6 }}
           countReturn={{ actual: countReturn, min: 6, max: 6 }}
         />

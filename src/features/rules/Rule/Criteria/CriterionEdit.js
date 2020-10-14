@@ -5,7 +5,7 @@ import { criteriaSelectFields, operatorSelectFields } from 'globalConstants'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import CheckBox from 'components/CheckBox'
-import { updateRuleEditCriterion } from 'features/ruleEdit/ruleEditSlice'
+import { ruleEditCriterionUpdate } from 'features/ruleEdit/ruleEditSlice'
 import * as R from 'ramda'
 import styled from 'styled-components'
 import RenderCount from 'components/RenderCount'
@@ -18,8 +18,6 @@ let countReturn = 0
 
 const Row = styled.div`
   display: flex;
-  border: 1px solid white;
-  background-color: blue;
   @media (min-width: 601px) {
     align-items: center;
   }
@@ -65,7 +63,7 @@ const CriterionEdit = ({ criterion }) => {
     const newProp = { [name]: type === 'checkbox' ? checked : value }
     const newCriterion = mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
-    dispatch(updateRuleEditCriterion(newCriterion))
+    dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
   const _handleBlur = (event) => {
@@ -74,7 +72,7 @@ const CriterionEdit = ({ criterion }) => {
     const newCriterion = mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
     if (newCriterion.active) {
-      dispatch(updateRuleEditCriterion(newCriterion))
+      dispatch(ruleEditCriterionUpdate(newCriterion))
     }
   }
 
@@ -82,9 +80,9 @@ const CriterionEdit = ({ criterion }) => {
   return (
     <div>
       <RenderCount
-        name="CriterionEdit"
-        countTotal={{ actual: countTotal, min: 2, max: 2 }}
-        countReturn={{ actual: countReturn, min: 2, max: 2 }}
+        componentName="CriterionEdit"
+        countTotal={{ actual: countTotal, min: 4, max: 4 }}
+        countReturn={{ actual: countReturn, min: 4, max: 4 }}
       />
 
       <Row id="CriterionEdit">

@@ -7,7 +7,7 @@ import {
   selectActiveTransaction
 } from 'features/transactions/transactionsSlice'
 import { fetchRules } from 'features/rules/rulesSlice'
-import { setRuleEdit } from 'features/ruleEdit/ruleEditSlice'
+import { ruleEditSet } from 'features/ruleEdit/ruleEditSlice'
 import CreateRule from 'features/rules/Rule/CreateRule'
 
 import { requestStatus } from 'globalConstants'
@@ -54,7 +54,7 @@ const App = () => {
     if (R.type(transaction) !== 'Null') {
       const origDescription = transaction.origDescription
       const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
-      dispatch(setRuleEdit(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
+      dispatch(ruleEditSet(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
     }
   }, [dispatch, transaction])
 
@@ -70,7 +70,7 @@ const App = () => {
     <RequestStatus status={status}>
       <div>
         <RenderCount
-          name="App"
+          componentName="App"
           countTotal={{ actual: countTotal, min: 12, max: 14 }}
           countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />

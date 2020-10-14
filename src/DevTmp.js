@@ -32,7 +32,7 @@ const DevTmp = () => {
   return (
     <div>
       <RenderCount
-        name="DevTmp"
+        componentName="DevTmp"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />

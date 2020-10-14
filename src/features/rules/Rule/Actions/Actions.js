@@ -20,7 +20,6 @@ const Wrapper = styled.div`
     flex-direction: column;
     
   }
-  background-color: orange;
 `
 // padding-top: 15px;
 // display: flex;
@@ -53,7 +52,7 @@ const Actions = () => {
   return (
     <div>
       <RenderCount
-        name="Actions"
+        componentName="Actions"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />

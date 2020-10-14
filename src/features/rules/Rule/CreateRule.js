@@ -28,7 +28,7 @@ const CreateRule = React.memo(() => {
   return (
     <div id="CreateRules">
       <RenderCount 
-        name='CreateRules' 
+        componentName='CreateRules' 
         countTotal={{ actual: count, min: 1, max: 1 }}
         // countReturn={{ actual: count, min: 1, max: 1 }}
       />

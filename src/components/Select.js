@@ -10,7 +10,7 @@ const Select = ({
   return (
     <>
 
-      <div style={{ backgroundColor: 'blue' }}>
+      <div>
         <select
           className="custom-select custom-select-sm"
           name={name}
@@ -22,7 +22,7 @@ const Select = ({
         </select>
       </div>
 
-      <div style={{ backgroundColor: 'green', border: '1px solid white' }}>
+      <div>
         <label style={{ visibility: 'hidden' }}>Error!</label>
       </div>
 

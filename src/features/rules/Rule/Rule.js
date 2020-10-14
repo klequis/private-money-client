@@ -19,14 +19,17 @@ const Rule = () => {
 
   const ruleId = useSelector(selectRuleEditId)
 
-  const _handleSaveEditButtonClick = () => { return 1 }
+  const _handleSaveEditButtonClick = () => { 
+    // 1. call ruleEditSave.ruleEditSave 
+
+  }
 
   countReturn = countReturn + 1
   return (
     <div>
       <div id="RuleEdit">
         <RenderCount
-          name="RuleEdit"
+          componentName="RuleEdit"
           countTotal={{ actual: countTotal, min: 1, max: 2 }}
           countReturn={{ actual: countReturn, min: 2, max: 2 }}
         />

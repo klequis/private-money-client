@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import TextEdit from 'components/TextEdit'
 import * as R from 'ramda'
-import { updateRuleEditAction } from 'features/ruleEdit/ruleEditSlice'
+import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
 import { /*actionTypes,*/ transactionFields as fields } from 'globalConstants'
 // import styled from 'styled-components'
 
@@ -37,7 +37,7 @@ const Categorize = ({ action, minChars }) => {
 
     if (eventType === 'blur') {
       // green('typeIsBlur')
-      dispatch(updateRuleEditAction(newAction))
+      dispatch(ruleEditActionUpdate(newAction))
     }
     // console.groupEnd()
   }
