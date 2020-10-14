@@ -17,7 +17,6 @@ const ActionEdit = ({ action }) => {
   const dispatch = useDispatch()
 
   const _handleChange = (event) => {
-    green('ACtionEdit._handleChange', 'called')
     const { name, value } = event.target
     const newAction = R.mergeRight(_action, { [name]: value })
     _setAction(newAction)

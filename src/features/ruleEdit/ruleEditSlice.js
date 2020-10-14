@@ -45,7 +45,7 @@ export const {
   updateRuleEditAction
 } = ruleEditSlice.actions
 
-const hasRuleEdit = state => !(R.path(['state', 'ruleEdit']) === null)
+// const hasRuleEdit = state => !(R.path(['state', 'ruleEdit']) === null)
 export const selectRuleEdit = (state) => R.path(['state', 'ruleEdit', 'ruleEdit',], state)
 
 export const selectRuleEditCriteria = (state) => {

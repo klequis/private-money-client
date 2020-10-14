@@ -3,14 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { selectRuleEditCriteria } from 'features/ruleEdit/ruleEditSlice'
 import {
   fetchCriteriaResults,
-  criteriaResultsClear
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
 // import isNilOrEmpty from 'lib/isNilOrEmpty'
 // import criteriaValidation from './criteriaValidation'
 import Table from 'components/Table'
 import * as R from 'ramda'
-import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 // import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
@@ -90,7 +88,7 @@ const CriteriaResults = () => {
         dispatch(fetchCriteriaResults(activeCriteria))
       }
     }
-  }, [dispatch])
+  }, [dispatch, criteria, status])
 
   const transactions = useSelector(
     selectCriteriaResultsTransactions

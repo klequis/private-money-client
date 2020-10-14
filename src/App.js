@@ -1,4 +1,4 @@
-import React, { useEffect, useMemo } from 'react'
+import React, { useEffect } from 'react'
 import * as R from 'ramda'
 
 import { useSelector, useDispatch } from 'react-redux'
@@ -8,7 +8,6 @@ import {
 } from 'features/transactions/transactionsSlice'
 import { fetchRules } from 'features/rules/rulesSlice'
 import { setRuleEdit } from 'features/ruleEdit/ruleEditSlice'
-import isNilOrEmpty from 'lib/isNilOrEmpty'
 import CreateRule from 'features/rules/Rule/CreateRule'
 
 import { requestStatus } from 'globalConstants'
@@ -28,9 +27,7 @@ import { ruleTmpMake } from 'lib/ruleTmpMake'
 
 
 let countTotal = 0
-const countTotalExpected = 8
 let countReturn = 0
-const countReturnExpected = 4
 
 const App = () => {
   countTotal = countTotal + 1
@@ -47,7 +44,7 @@ const App = () => {
       dispatch(fetchTransactions())
       dispatch(fetchRules())
     }
-  }, [dispatch, state])
+  }, [dispatch, state, status])
 
   /* start tmp code */
 

@@ -16,7 +16,6 @@ const TextEditInput = ({
 
   // events
   const _handleChange = (event) => {
-    green('TextEdit._handleChange', 'called')
     const { value } = event.target
     _setValue(value)
   }

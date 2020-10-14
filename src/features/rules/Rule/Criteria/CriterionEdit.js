@@ -53,16 +53,15 @@ const mergeCriterionProp = (newProp, criterion) => {
 }
 
 const CriterionEdit = ({ criterion }) => {
-
   countTotal = countTotal + 1
   
   const [_criterion, _setCriterion] = useState(criterion)
   const { operation, field, value, active } = _criterion
+
   const dispatch = useDispatch()
 
   const _handleChange = (event) => {
     const { name, value, checked, type } = event.currentTarget
-    
     const newProp = { [name]: type === 'checkbox' ? checked : value }
     const newCriterion = mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
@@ -70,14 +69,8 @@ const CriterionEdit = ({ criterion }) => {
   }
 
   const _handleBlur = (event) => {
-    const { name, value } = event.currentTarget
-    // console.group('_handleBlur')
-    // green('_criterion', _criterion)
-    // green('name', name)
-    // green('value', value)
-    // console.groupEnd()
+    const { name, value } = event.target
     const newProp = { [name]: value }
-    // const newCriterion = R.mergeRight(_criterion, { [name]: value })
     const newCriterion = mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
     if (newCriterion.active) {
@@ -85,12 +78,11 @@ const CriterionEdit = ({ criterion }) => {
     }
   }
 
-  // green('CriterionEdit: active', active)
   countReturn = countReturn + 1
   return (
     <div>
       <RenderCount
-        name="Criteria"
+        name="CriterionEdit"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
@@ -137,7 +129,7 @@ const CriterionEdit = ({ criterion }) => {
             disabled={!active}
             onBlur={_handleBlur}
             minChars={3}
-          />m
+          />
         </TextEditDiv>
       </Row>
     </div>

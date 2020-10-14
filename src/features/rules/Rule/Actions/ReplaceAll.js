@@ -3,11 +3,9 @@ import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import { transactionFields as fields } from 'globalConstants'
 
-import { purple } from 'logger'
-
 const ReplaceAll = ({ action, onChange }) => {
 
-  const _handleBlur = () => {}
+  const _handleBlur = () => { }
   return (
     <>
       <Select

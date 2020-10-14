@@ -26,7 +26,6 @@ const Criteria = () => {
   countTotal = countTotal + 1
 
   const criteria = useSelector(selectRuleEditCriteria)
-  // green('Criteria: criteria', criteria)
   const _handleButtonClick = () => { }
 
   if (!criteria) {
