@@ -5,13 +5,15 @@ import { transactionFields as fields } from 'globalConstants'
 
 import { purple } from 'logger'
 
-const ReplaceAll = ({ action, handleChange }) => {
+const ReplaceAll = ({ action, onChange }) => {
+
+  const _handleBlur = () => {}
   return (
     <>
       <Select
         name="field"
         value={action.field}
-        onChange={handleChange}
+        onChange={onChange}
         maxWidth={100}
       >
         <option value={fields.description.name}>Description</option>
@@ -20,16 +22,17 @@ const ReplaceAll = ({ action, handleChange }) => {
       <TextEdit
         name="findValue"
         label="findValue"
-        onChange={handleChange}
         placeholder="find value"
         value={action.findValue}
+        onBlur={_handleBlur}
       />
       <TextEdit
         name="numAdditionalChars"
         label="numAdditionalChars"
         placeholder="numAdditionalChars"
         value={action.numAdditionalChars}
-        onChange={handleChange}
+        onChange={onChange}
+        onBlur={_handleBlur}
       />
     </>
   )

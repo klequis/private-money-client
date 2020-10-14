@@ -16,21 +16,20 @@ const Wrapper = styled.div`
 `
 // style={{ marginBottom: 29.1665 }}
 
-type TProps = {
-  name: string,
-  checked: boolean,
-  onChange: React.FormEventHandler<HTMLInputElement>
-}
-
-
 const CheckBox = ({
   name,
   checked,
   onChange,
-}: TProps ) => {
-  const _handleChange = (event: React.ChangeEvent<HTMLInputElement>) => onChange(event)
-    
-  return <Wrapper> <input type="checkbox" name={name} checked={checked} onChange={_handleChange}/></Wrapper>
+}) => {
+  // const _handleChange = (event) => onChange(event)
+  return <Wrapper>
+    <input 
+      type="checkbox" 
+      name={name} 
+      checked={checked} 
+      onChange={onChange}
+    />
+  </Wrapper>
 }
 
 export default CheckBox

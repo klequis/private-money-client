@@ -1,11 +1,9 @@
-// @ts-nocheck
 import React from 'react'
 
 const Select = ({
   name,
   value,
   onChange,
-  handleBlur,
   disabled,
   children
 }) => {
@@ -18,7 +16,6 @@ const Select = ({
           name={name}
           value={value}
           onChange={onChange}
-          onBlur={handleBlur}
           disabled={disabled}
         >
           {children}

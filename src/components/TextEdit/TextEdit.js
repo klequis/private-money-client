@@ -1,9 +1,11 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import styled from 'styled-components'
 import TextEditInput from './TextEditInput'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
-import { green, redf } from 'logger'
+import { green, redf, yellow } from 'logger'
 
 const Wrapper = styled.div`
   width: 100%;  
@@ -26,14 +28,14 @@ const Wrapper = styled.div`
 
 const TextEdit = React.memo(({
   disabled,
-  handleBlur,
   labelText,
   minChars = 0,
   name,
   placeholder = '',
-  value = ''
+  initialValue = '',
+  onBlur,
 }) => {
-
+  // green('TextEdit: initialValue', typeof initialValue)
 
   // console.group('**')
   // green('_touched', _touched)
@@ -50,11 +52,11 @@ const TextEdit = React.memo(({
         htmlFor={`TextEdit-${name}`}>{labelText}
       </label>
       <TextEditInput
-        value={value}
+        initialValue={initialValue}
         name={name}
         disabled={disabled}
         placeholder={placeholder}
-        handleBlur={handleBlur}
+        onBlur={onBlur}
       />
       {/* <ErrorLabel>
           <label
@@ -70,3 +72,34 @@ const TextEdit = React.memo(({
 })
 
 export default TextEdit
+
+// const isValidInitialValue = value => {
+//   green('isValidInitialValue: value', value)
+//   green('isValidInitialValue: typeof value', R.type(value))
+//   const a = R.type(value) === 'String' || R.type(value) === 'Number' || R.type(value) === 'Undefined'
+  
+//   green('b', b)
+//   // green('a', a)
+//   return a
+// }
+
+function isValidInitialValue(props, propName, componentName) {
+  // yellow('value', value)
+  // yellow('type', R.type(value))
+  const a = ['String', 'Number', 'Undefined'].includes(R.type(props[propName]))
+  // yellow('a', a)
+  if (!a) {
+    return new Error(`The prop '${propName}' in component ${componentName} is marked as requred and must be a number or string.`)
+  }
+
+}
+
+TextEdit.propTypes = {
+  disabled: PropTypes.bool,
+  labelText: PropTypes.string,
+  minChars: PropTypes.number,
+  name: PropTypes.string.isRequired,
+  placeholder: PropTypes.string,
+  initialValue: isValidInitialValue,
+  onBlur: PropTypes.func.isRequired
+}

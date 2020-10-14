@@ -48,7 +48,7 @@ const Categorize = ({ action, minChars }) => {
       <TextEdit
         name={fields.category1.name}
         labelText='Category 1'
-        value={category1}
+        initialValue={category1}
         minChars={minChars}
         onBlur={_handleEvent}
         onChange={_handleEvent}
@@ -57,7 +57,7 @@ const Categorize = ({ action, minChars }) => {
       <TextEdit
         name={fields.category2.name}
         labelText='Category 2'
-        value={category2}
+        initialValue={category2}
         minChars={minChars}
         onBlur={_handleEvent}
         onChange={_handleEvent}

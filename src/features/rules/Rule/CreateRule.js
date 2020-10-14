@@ -1,6 +1,6 @@
 import React from 'react'
 // import { useDispatch } from 'react-redux'
-import Rules from './Rules'
+import Rule from './Rule'
 import CriteriaResults from './CriteriaResults'
 import RenderCount from 'components/RenderCount'
 
@@ -20,12 +20,10 @@ import { purple, green, redf, yellow, blue } from 'logger'
 // }
 
 // .transactions {
-//   flex-basis: 100%;
-// }
-
+//   f>
 let count = 0
 
-const CreateRules = React.memo(() => {
+const CreateRule = React.memo(() => {
   count = count + 1
   return (
     <div id="CreateRules">
@@ -35,7 +33,7 @@ const CreateRules = React.memo(() => {
         // countReturn={{ actual: count, min: 1, max: 1 }}
       />
       <div id="CreateRules.Rules">
-        <Rules />
+        <Rule />
       </div>
       <div id="CreateRules.Transactions">
         <CriteriaResults />
@@ -44,7 +42,7 @@ const CreateRules = React.memo(() => {
   )
 })
 
-export default CreateRules
+export default CreateRule
 
 /*
 

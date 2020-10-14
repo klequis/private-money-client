@@ -10,6 +10,7 @@ import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
+import RenderCount from 'components/RenderCount'
 
 const Wrapper = styled.div`
   display: flex;
@@ -26,9 +27,12 @@ const Wrapper = styled.div`
 // display: flex;
 // width: 100%;
 
+let countTotal = 0
+let countReturn = 0
 
+const Actions = () => {
 
-const Actions = ({ ruleId }) => {
+  countTotal = countTotal + 1
 
   const actions = useSelector((state) => selectRuleEditActions(state))
 
@@ -45,14 +49,24 @@ const Actions = ({ ruleId }) => {
   if (!actions) {
     return null
   }
+
+  countReturn = countReturn + 1
   return (
-    <Wrapper>
-      {actions.map((a) => {
-        return (
-          <Control key={a._id} action={a} />
-        )
-      })}
-    </Wrapper>
+    <div>
+      <RenderCount
+        name="Actions"
+        countTotal={{ actual: countTotal, min: 2, max: 2 }}
+        countReturn={{ actual: countReturn, min: 2, max: 2 }}
+      />
+      <Wrapper>
+        {actions.map((a) => {
+          return (
+            <Control key={a._id} action={a} />
+          )
+        })}
+      </Wrapper>
+    </div>
+
   )
 }
 

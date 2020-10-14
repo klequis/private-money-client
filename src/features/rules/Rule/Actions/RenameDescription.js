@@ -21,9 +21,9 @@ import { purple, green, redf } from 'logger'
 // `
 
 // const Wrapper = styled.div`
-  
+
 //   width: 100%;
-  
+
 // `
 // background-color: blue;
 // flex-basis: 33.333333%;
@@ -33,22 +33,19 @@ const RenameDescription = ({ action }) => {
   const { replaceWithValue } = _action
   const dispatch = useDispatch()
 
-  const _handleEvent = (event) => {
-    const { value, type } = event.target
+  const _handleBlur = (event) => {
+    const { value } = event.target
     const newAction = R.mergeRight(_action, { replaceWithValue: value })
     _setAction(newAction)
-    if (type === 'blur') {
-      dispatch(updateRuleEditAction(newAction))
-    }
+    dispatch(updateRuleEditAction(newAction))
   }
 
   return (
     <TextEdit
       name={actionFields.replaceWithValue.name}
       labelText="Rename Description As"
-      value={replaceWithValue}
-      onChange={_handleEvent}
-      onBlur={_handleEvent}
+      initialValue={replaceWithValue}
+      onBlur={_handleBlur}
       minWidth={300}
       minChars={1}
     />
@@ -56,20 +53,3 @@ const RenameDescription = ({ action }) => {
 }
 
 export default RenameDescription
-
-/*
-return (
-  <div>
-    <label>Rename: </label>
-    <TextEdit
-      name={actionFields.replaceWithValue.name}
-      value={replaceWithValue}
-      onChange={_handleEvent}
-      onBlur={_handleEvent}
-      minWidth={300}
-      minChars={1}
-    />
-  </div>
-)
-
-*/

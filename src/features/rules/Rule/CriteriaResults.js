@@ -87,7 +87,6 @@ const CriteriaResults = () => {
       const activeCriteria = getActiveCriteria(criteria)
       const valid = isCriteriaValid(activeCriteria)
       if (valid) {
-        green('fetch')
         dispatch(fetchCriteriaResults(activeCriteria))
       }
     }

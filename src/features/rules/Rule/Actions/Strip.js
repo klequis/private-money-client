@@ -5,20 +5,20 @@ import { transactionFields as fields } from 'globalConstants'
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 
-const Strip = ({ action, handleChange }) => {
+const Strip = ({ action, onChange }) => {
   return (
     <>
-      <Select name="field" value={action.field} onChange={handleChange} maxWidth={100}>
+      <Select name="field" value={action.field} onChange={onChange} maxWidth={100}>
         <option value={fields.description.name}>Description</option>
         <option value={fields.type.name}>Type</option>
       </Select>
-      <TextEdit name="findValue" label="findValue" onChange={handleChange} placeholder="find value" value={action.findValue} />
+      <TextEdit name="findValue" label="findValue" onChange={onChange} placeholder="find value" value={action.findValue} />
       <TextEdit
         name="numAdditionalChars"
         label="numAdditionalChars"
         placeholder="numAdditionalChars"
         value={action.numAdditionalChars}
-        onChange={handleChange}
+        onChange={onChange}
       />
     </>
   )

@@ -9,7 +9,8 @@ import {
 import { fetchRules } from 'features/rules/rulesSlice'
 import { setRuleEdit } from 'features/ruleEdit/ruleEditSlice'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
-import CreateRules from 'features/rules/Rules/CreateRules'
+import CreateRule from 'features/rules/Rule/CreateRule'
+
 import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
@@ -76,7 +77,7 @@ const App = () => {
           countTotal={{ actual: countTotal, min: 12, max: 14 }}
           countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />
-        <CreateRules />
+        <CreateRule/>
       </div>
     </RequestStatus>
   )
