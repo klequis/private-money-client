@@ -5,7 +5,7 @@ import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'
 import * as R from 'ramda'
 import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
-import { actionTypes /*, trsactionFields as fiels*/ } from 'globalConstants'
+import { actionTypes } from 'fields/actionFields'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'

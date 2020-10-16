@@ -5,13 +5,12 @@ import {
   fetchCriteriaResults,
 } from 'features/criteriaResults/criteriaResultsSlice'
 import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
-// import isNilOrEmpty from 'lib/isNilOrEmpty'
-// import criteriaValidation from './criteriaValidation'
 import Table from 'components/Table'
 import * as R from 'ramda'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
-// import { criteriaSelectFieldNames, operatorSelectFieldNames } from 'globalConstants'
+import { transactionFields as tFields } from 'fields/transactionFields'
+import criteria from 'fields/criteria'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
@@ -35,29 +34,42 @@ const getActiveCriteria = (criteria) =>
   criteria === null ? [] : criteria.filter((c) => c.active === true)
 
 
-
-// const checkCriterionValid = (criterion) => {
-//   const { _id, field, operation, value, active} = criterion
-//   const conditions = [
-//     R.type(_id) === 'String',
-//     R.includes(field, criteriaSelectFieldNames),
-//     R.includes(operation, operatorSelectFieldNames),
-//     !isNilOrEmpty(value),
-//     active === true
-//   ]
+// const isIdString = (value) => {
+//   return R.type(R.prop('_id')(value)) === 'String'
 // }
-const isCriteriaValid = (criteria) => {
+
+// const isFieldSelectFieldName = obj => 
+//   R.includes(R.prop('field')(obj), fieldSelectFieldNames)
+
+const checkCriterionValid = (criterion) => {
+  
+  console.group('isCriteriaValid')
+  // _id is a string
+  green('_id', tFields._id.validate(criterion._id))
+  
+
+  // green('field', tFields.)
+  console.groupEnd( )
   return true
+}
+
+
+
+const isCriteriaValid = (criteria) => {
+  green('criteria', criteria)
+  return true
+
+  
   // tmp code
   // return true
-  // _id is a string
+  
   // field is one of
   // operation is on of
   // value !isEmptyOrNull
   // active = true
-
-  // const check = R.map(checkCriterionValid, criteria)
-  // green('check', check)
+  // green('criteriaSelectFieldNames', criteriaSelectFieldNames)
+  const check = R.map(checkCriterionValid, criteria)
+  green('check', check)
 
 }
 
@@ -75,10 +87,6 @@ const CriteriaResults = () => {
 
   // get criteria
   const criteria = useSelector(selectRuleEditCriteria)
-
-
-
-  
 
   useEffect(() => {
     if (status === 'idle') {

@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
-import { transactionFields as fields } from 'globalConstants'
+import { transactionFields as fields } from 'fields/transactionFields'
 
 const ReplaceAll = ({ action, onChange }) => {
 

@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import TextEdit from 'components/TextEdit'
 import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
-import { actionFields } from 'globalConstants'
+import { actionFields } from 'fields/actionFields'
 import * as R from 'ramda'
 // import styled from 'styled-components'
 

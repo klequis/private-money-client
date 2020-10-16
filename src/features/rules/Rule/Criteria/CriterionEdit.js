@@ -1,7 +1,8 @@
 // @ts-nocheck
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import { criteriaSelectFields, operatorSelectFields } from 'globalConstants'
+// import { operatorSelectFields } from 'fields/operatorFields'
+// import { criteriaSelectFields } from 'fields/transactionFields'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import CheckBox from 'components/CheckBox'
@@ -9,6 +10,7 @@ import { ruleEditCriterionUpdate } from 'features/ruleEdit/ruleEditSlice'
 import * as R from 'ramda'
 import styled from 'styled-components'
 import RenderCount from 'components/RenderCount'
+import criteria from 'fields/criteria'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
@@ -52,7 +54,7 @@ const mergeCriterionProp = (newProp, criterion) => {
 
 const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
-  
+  const { fields: cFields } = criteria
   const [_criterion, _setCriterion] = useState(criterion)
   const { operation, field, value, active } = _criterion
 
@@ -77,6 +79,7 @@ const CriterionEdit = ({ criterion }) => {
   }
 
   countReturn = countReturn + 1
+  green('criteria', criteria)
   return (
     <div>
       <RenderCount
@@ -97,7 +100,7 @@ const CriterionEdit = ({ criterion }) => {
             disabled={!active}
             onBlur={_handleBlur}
           >
-            {criteriaSelectFields.map((f) => (
+            {cFields.map((f) => (
               <option key={f.name} value={f.name}>
                 {f.description}
               </option>
@@ -112,7 +115,7 @@ const CriterionEdit = ({ criterion }) => {
             disabled={!active}
             onBlur={_handleBlur}
           >
-            {operatorSelectFields.map((o) => (
+            {criteria.operators.map((o) => (
               <option key={o.name} value={o.name}>
                 {o.description}
               </option>

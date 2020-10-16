@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { transactionFields as fields } from 'globalConstants'
+import { transactionFields as fields } from 'fields/transactionFields'
 
 // eslint-disable-next-line
 import { green } from 'logger'

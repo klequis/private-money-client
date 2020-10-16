@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { transactionFields as fields } from 'globalConstants'
+import { transactionFields as fields } from 'fields/transactionFields'
 import styled from 'styled-components'
 
 // eslint-disable-next-line

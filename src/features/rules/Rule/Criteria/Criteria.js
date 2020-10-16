@@ -34,14 +34,13 @@ const Criteria = () => {
   countReturn = countReturn + 1
   return (
     <div id="Criteria">
+      <h4>Criteria</h4>
       <RenderCount
         componentName="Criteria"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
       <Row id="Criteria.Row">
-        <h4>Criteria</h4>
-
         <Button onClick={_handleButtonClick}>Add</Button>
         <Button onClick={_handleButtonClick}>Reset</Button>
       </Row>

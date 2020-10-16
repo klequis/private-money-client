@@ -4,7 +4,8 @@ import { selectRuleEditActions } from 'features/ruleEdit/ruleEditSlice'
 import ActionEdit from './ActionEdit'
 import RenameDescription from './RenameDescription'
 import Categorize from './Categorize'
-import { actionTypes, transactionFields as fields } from 'globalConstants'
+import { actionTypes } from 'fields/actionFields'
+import { transactionFields as fields } from 'fields/transactionFields'
 import styled from 'styled-components'
 
 // eslint-disable-next-line
@@ -51,11 +52,13 @@ const Actions = () => {
   countReturn = countReturn + 1
   return (
     <div>
+      <h4>Actions</h4>
       <RenderCount
         componentName="Actions"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
+      
       <Wrapper>
         {actions.map((a) => {
           return (

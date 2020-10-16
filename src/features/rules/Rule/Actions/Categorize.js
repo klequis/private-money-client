@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import TextEdit from 'components/TextEdit'
 import * as R from 'ramda'
 import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
-import { /*actionTypes,*/ transactionFields as fields } from 'globalConstants'
+import { /*actionTypes,*/ transactionFields as fields } from 'fields/transactionFields'
 // import styled from 'styled-components'
 
 // eslint-disable-next-line

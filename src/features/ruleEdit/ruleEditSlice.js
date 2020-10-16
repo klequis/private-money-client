@@ -1,8 +1,26 @@
-import { createSlice, current } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { blue } from 'logger'
+import api from 'api'
+
+export const ruleCreate = createAsyncThunk(
+  'ruleEdit/rule-create',
+  async (rule) => {
+    const newRule = R.has('_id')
+      ? R.dissoc('_id', rule)
+      : rule
+    const r = await api.rules.create(newRule)
+  }
+)
+
+export const ruleUpdate = createAsyncThunk(
+  'ruleEdit/rule-update',
+  async (rule) => {
+    const r = await api.rules.update(rule._id, rule)
+  }
+)
 
 const initialState = {}
 

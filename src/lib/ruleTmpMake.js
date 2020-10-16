@@ -1,29 +1,34 @@
 
 import shortid from 'shortid'
 import { 
-  operators, 
   actionTypes, 
+} from 'fields/actionFields'
+import criteria from 'fields/criteria'
+import { 
   transactionFields as fields
-} from 'globalConstants'
+} from 'fields/transactionFields'
 
 // eslint-disable-next-line
 import { green, redf, yellow, blue, purple } from 'logger'
 
 export const ruleTmpMake = (tmpId, origDescription, date) => {
+  const { operatorFields: oFields } = criteria
+
+  green('oFields', oFields)
   return {
     _id: tmpId,
     criteria: [
       {
         _id: `tmp_${shortid.generate()}`,
-        field: fields.description.name,
-        operation: operators.equals.name,
+        field: oFields.description.name,
+        operation: oFields.equals.name,
         value: origDescription,
         active: true,
       },
       {
         _id: `tmp_${shortid.generate()}`,
-        field: fields.date.name,
-        operation: operators.equals.name,
+        field: oFields.date.name,
+        operation: oFields.equals.name,
         value: date,
         active: false
       }
@@ -32,7 +37,7 @@ export const ruleTmpMake = (tmpId, origDescription, date) => {
       {
         _id: `tmp_${shortid.generate()}`,
         actionType: actionTypes.replaceAll.name,
-        field: fields.description.name,
+        field: oFields.description.name,
         replaceWithValue: origDescription
       },
       {

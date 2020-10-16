@@ -1,6 +1,6 @@
 import React from 'react'
 import AllDataColHead from './AllDataColHead'
-import { transactionFields as fields } from 'globalConstants'
+import { transactionFields as fields } from 'fields/transactionFields'
 
 const TableHead = ({ setFilter }) => {
   return (
