@@ -1,8 +1,6 @@
 // @ts-nocheck
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-// import { operatorSelectFields } from 'fields/operatorFields'
-// import { criteriaSelectFields } from 'fields/transactionFields'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
 import CheckBox from 'components/CheckBox'
@@ -47,6 +45,17 @@ const TextEditDiv = styled.div`
   flex-basis: 65%;
 `
 
+const Options = ({ thingsToMap }) => {
+
+  R.map(o =>
+    <option key={o.name} value={o.name}>
+      {o.description}
+    </option>,
+    thingsToMap
+  )
+
+}
+
 // @ts-ignore
 const mergeCriterionProp = (newProp, criterion) => {
   return R.mergeRight(criterion, newProp)
@@ -54,9 +63,16 @@ const mergeCriterionProp = (newProp, criterion) => {
 
 const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
-  const { fields: cFields } = criteria
+  const { fields: cFields, operators: oFields } = criteria
   const [_criterion, _setCriterion] = useState(criterion)
   const { operation, field, value, active } = _criterion
+
+  green('criteria', criteria)
+  green('criteria.operators', criteria.operators)
+  const v = R.values(criteria.operators)
+  green('v', v)
+
+  // return null
 
   const dispatch = useDispatch()
 
@@ -100,11 +116,17 @@ const CriterionEdit = ({ criterion }) => {
             disabled={!active}
             onBlur={_handleBlur}
           >
-            {cFields.map((f) => (
-              <option key={f.name} value={f.name}>
-                {f.description}
-              </option>
-            ))}
+
+            {
+              R.map(f => {
+                green('f', typeof f)
+                return (<option key={f.name} value={f.name}>
+                  {f.description}
+                </option>)
+              },
+                R.values(cFields)
+              )
+            }
           </Select>
         </SelectDiv>
         <SelectDiv>
@@ -114,12 +136,15 @@ const CriterionEdit = ({ criterion }) => {
             onChange={_handleChange}
             disabled={!active}
             onBlur={_handleBlur}
-          >
-            {criteria.operators.map((o) => (
-              <option key={o.name} value={o.name}>
-                {o.description}
-              </option>
-            ))}
+          >{
+            R.map((
+              f => (<option key={f.name} value={f.name}>
+                  {f.description}
+                </option>)
+            ),
+              R.values(criteria.operators)
+            )
+          }
           </Select>
         </SelectDiv>
         <TextEditDiv>

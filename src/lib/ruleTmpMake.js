@@ -5,14 +5,14 @@ import {
 } from 'fields/actionFields'
 import criteria from 'fields/criteria'
 import { 
-  transactionFields as fields
+  transactionFields as tFields
 } from 'fields/transactionFields'
 
 // eslint-disable-next-line
 import { green, redf, yellow, blue, purple } from 'logger'
 
 export const ruleTmpMake = (tmpId, origDescription, date) => {
-  const { operatorFields: oFields } = criteria
+  const { operators: oFields } = criteria
 
   green('oFields', oFields)
   return {
@@ -20,14 +20,14 @@ export const ruleTmpMake = (tmpId, origDescription, date) => {
     criteria: [
       {
         _id: `tmp_${shortid.generate()}`,
-        field: oFields.description.name,
+        field: tFields.description.name,
         operation: oFields.equals.name,
         value: origDescription,
         active: true,
       },
       {
         _id: `tmp_${shortid.generate()}`,
-        field: oFields.date.name,
+        field: tFields.date.name,
         operation: oFields.equals.name,
         value: date,
         active: false
@@ -37,7 +37,7 @@ export const ruleTmpMake = (tmpId, origDescription, date) => {
       {
         _id: `tmp_${shortid.generate()}`,
         actionType: actionTypes.replaceAll.name,
-        field: oFields.description.name,
+        field: tFields.description.name,
         replaceWithValue: origDescription
       },
       {

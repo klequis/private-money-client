@@ -8,6 +8,12 @@ import { isString } from 'dataTypes'
     criteriaFields: the are derived
 */
 
+// .fields { }
+// .fieldNames []
+// .operators { }
+// .operatorNames []
+// .validate
+
 /**
  * @returns {array} a list of transactionFields that can be used in criteria fields
  * @description Derived from transactionFields where isCriteraField === true
@@ -22,6 +28,32 @@ const fieldNames = R.map(
   (f) => f.name,
   fields
 )
+
+
+const operators = {
+  beginsWith: {
+    name: 'beginsWith',
+    description: 'Begins with'
+  },
+  contains: {
+    name: 'contains',
+    description: 'Contains'
+  },
+  doesNotContain: {
+    name: 'doesNotContain',
+    description: 'Does not contain'
+  },
+  equals: {
+    name: 'equals',
+    description: 'Equals'
+  }
+}
+
+const operatorNames = R.map(
+  (f) => f.name,
+  fields
+)
+
 
 const hasField = R.has('field')
 const hasOperator = R.has('operator')
@@ -61,56 +93,11 @@ const isValidCriteriaField = (fieldName) =>
 const isValidCriteriaFieldValue = (fieldName, value) => 
   tFields[fieldName].validate(value)
 
-
-const operatorFields = {
-  beginsWith: {
-    name: 'beginsWith',
-    description: 'Begins with'
-  },
-  contains: {
-    name: 'contains',
-    description: 'Contains'
-  },
-  doesNotContain: {
-    name: 'doesNotContain',
-    description: 'Does not contain'
-  },
-  equals: {
-    name: 'equals',
-    description: 'Equals'
-  }
-}
-
-const operators = R.values(operatorFields)
-
-// /**
-//  * @returns {array} a list of operators { name, description }
-//  */
-// const operatorSelectFields = R.values(operators)
-
-/**
- * @returns {array} a list of operator field names
- */
-// const operatorSelectFieldNames = R.map(
-//   (f) => f.name,
-//   operatorSelectFields
-// )
-
-// // const isValidOperatorField = (fieldName) => 
-//   R.includes(fieldName, operatorSelectFieldNames)
-
-// const isValidOperatorFieldValue = (fieldName, value) => 
-
 const criteria = {
   fields,
   fieldNames,
   operators,
-  operatorFields,
-  // operatorSelectFieldNames,
-  // operatorSelectFields,
-  // isValidCriteriaField,
-  // isValidCriteriaFieldValue,
-  // isValidOperatorField,
+  operatorNames,
   validate
 }
 
