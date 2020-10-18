@@ -13,6 +13,7 @@ import CreateRule from 'features/rules/Rule/CreateRule'
 import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
+import ContainerFluid from 'components/ContainerFluid'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
@@ -22,9 +23,6 @@ import RenderCount from 'components/RenderCount'
 import ruleTmpMakeId from 'lib/ruleTmpMakeId'
 import { ruleTmpMake } from 'lib/ruleTmpMake'
 //
-
-
-
 
 let countTotal = 0
 let countReturn = 0
@@ -67,16 +65,17 @@ const App = () => {
   countReturn = countReturn + 1
 
   return (
-    <RequestStatus status={status}>
-      <div>
-        <RenderCount
-          componentName="App"
-          countTotal={{ actual: countTotal, min: 12, max: 14 }}
-          countReturn={{ actual: countReturn, min: 8, max: 10 }}
-        />
-        <CreateRule/>
-      </div>
-    </RequestStatus>
+    <ContainerFluid id="App">
+      <RequestStatus status={status} className='container-fluid'>
+          {/* <RenderCount
+            componentName="App"
+            countTotal={{ actual: countTotal, min: 12, max: 14 }}
+            countReturn={{ actual: countReturn, min: 8, max: 10 }}
+          /> */}
+
+          <CreateRule />
+      </RequestStatus>
+    </ContainerFluid>
   )
 
 

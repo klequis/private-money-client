@@ -12,10 +12,13 @@ import styled from 'styled-components'
 import { green, redf, yellow, purple } from 'logger'
 import RenderCount from 'components/RenderCount'
 
-const Row = styled.div`
-  display: flex;
-  align-items: center;
+const ButtonRow = styled.div`
+  
 `
+/*
+  display: flex;
+  align-items: flex-start;
+*/ 
 
 let countTotal = 0
 let countReturn = 0
@@ -35,15 +38,15 @@ const Criteria = () => {
   return (
     <div id="Criteria">
       <h4>Criteria</h4>
-      <RenderCount
+      {/* <RenderCount
         componentName="Criteria"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
-      />
-      <Row id="Criteria.Row">
+      /> */}
+      <ButtonRow id="Criteria.Row">
         <Button onClick={_handleButtonClick}>Add</Button>
         <Button onClick={_handleButtonClick}>Reset</Button>
-      </Row>
+      </ButtonRow>
 
       {criteria.map((c) => (
         <CriterionEdit key={c._id} criterion={c} />

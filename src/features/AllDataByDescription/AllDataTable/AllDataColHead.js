@@ -11,10 +11,13 @@ import { green } from 'logger'
 // `
 
 const TextInput = styled.input`
-  width: 90%;
+  
 `
-// display: flex;
-  // flex-flow: column now;
+/*
+  width: 90%;
+  display: flex;
+  flex-flow: column now;
+*/
 
 const AllDataColHead = ({ fieldName, setFilter }) => {
   // const [_state, _setState] = useState({

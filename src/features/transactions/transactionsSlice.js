@@ -4,8 +4,6 @@ import { requestStatus } from 'globalConstants'
 // import { logFetchResults } from 'lib/logFetchResults'
 import * as R from 'ramda'
 
-
-// @ts-ignore
 // eslint-disable-next-line
 import { blue, yellow } from 'logger'
 
@@ -36,18 +34,15 @@ const transactionsSlice = createSlice({
     }
   },
   extraReducers: {
-    // @ts-ignore
     [fetchTransactions.pending]: (state, action) => {
       state.status = requestStatus.pending
       state.items = []
     },
-    // @ts-ignore
     [fetchTransactions.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
-    // @ts-ignore
     [fetchTransactions.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       state.status = requestStatus.error

@@ -13,7 +13,10 @@ import { green, redf, purple } from 'logger'
 import RenderCount from 'components/RenderCount'
 
 const Wrapper = styled.div`
-  display: flex;
+  
+`
+/*
+display: flex;
   @media (min-width: 601px) {
     
   }
@@ -21,7 +24,7 @@ const Wrapper = styled.div`
     flex-direction: column;
     
   }
-`
+*/
 // padding-top: 15px;
 // display: flex;
 // width: 100%;

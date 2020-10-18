@@ -14,7 +14,6 @@ import { green, redf, yellow, blue, purple } from 'logger'
 export const ruleTmpMake = (tmpId, origDescription, date) => {
   const { operators: oFields } = criteria
 
-  green('oFields', oFields)
   return {
     _id: tmpId,
     criteria: [

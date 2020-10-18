@@ -1,8 +1,9 @@
 import * as R from 'ramda'
 import tFields from './transactionFields'
-import { yellow } from 'logger'
-import { green } from 'logger'
 import { isString } from 'dataTypes'
+
+// eslint-disable-next-line
+import { green, redf, yellow, blue, purple } from 'logger'
 
 /*
     criteriaFields: the are derived
@@ -18,13 +19,16 @@ import { isString } from 'dataTypes'
  * @returns {array} a list of transactionFields that can be used in criteria fields
  * @description Derived from transactionFields where isCriteraField === true
  */
-const _fields = R.values(
+export const fieldList = R.values(
   R.filter((x) => x.isCriteriaField === true, tFields)
 )
+blue('fieldList', fieldList)
 
-const fields = R.mergeAll(_fields)
+export const fields = R.mergeAll(fieldList)
+blue('fields', fields)
 
-const fieldNames = R.map(
+
+export const fieldNames = R.map(
   (f) => f.name,
   fields
 )
@@ -49,7 +53,9 @@ const operators = {
   }
 }
 
-const operatorNames = R.map(
+export const operatorList = R.values(operators)
+
+export const operatorNames = R.map(
   (f) => f.name,
   fields
 )
@@ -94,8 +100,6 @@ const isValidCriteriaFieldValue = (fieldName, value) =>
   tFields[fieldName].validate(value)
 
 const criteria = {
-  fields,
-  fieldNames,
   operators,
   operatorNames,
   validate

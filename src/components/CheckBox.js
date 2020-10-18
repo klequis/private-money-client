@@ -4,8 +4,12 @@ import styled from 'styled-components'
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
-const Wrapper = styled.div`
-  @media (min-width: 601px) {
+const CheckBoxDiv = styled.div`
+  
+`
+
+/*
+@media (min-width: 601px) {
     margin-bottom: 29.1665;
   }
 
@@ -13,23 +17,21 @@ const Wrapper = styled.div`
     margin-bottom: 0;
     text-align: center;
   }
-`
-// style={{ marginBottom: 29.1665 }}
+*/
 
 const CheckBox = ({
   name,
   checked,
   onChange,
 }) => {
-  // const _handleChange = (event) => onChange(event)
-  return <Wrapper>
+  return <CheckBoxDiv>
     <input 
       type="checkbox" 
       name={name} 
       checked={checked} 
       onChange={onChange}
     />
-  </Wrapper>
+  </CheckBoxDiv>
 }
 
 export default CheckBox

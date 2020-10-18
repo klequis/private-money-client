@@ -1,4 +1,3 @@
-// @ts-nocheck
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import Select from 'components/Select'
@@ -8,7 +7,11 @@ import { ruleEditCriterionUpdate } from 'features/ruleEdit/ruleEditSlice'
 import * as R from 'ramda'
 import styled from 'styled-components'
 import RenderCount from 'components/RenderCount'
+
 import criteria from 'fields/criteria'
+import CriteriaFieldSelect from 'components/CriteriaFieldSelect'
+import CriteriaOperatorSelect from 'components/CriteriaOperatorSelect'
+import CriterionRow from './CriterionRow'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
@@ -16,63 +19,54 @@ import { green, redf, purple } from 'logger'
 let countTotal = 0
 let countReturn = 0
 
-const Row = styled.div`
-  display: flex;
-  @media (min-width: 601px) {
-    align-items: center;
-  }
-  @media (max-width: 600px) {
-    flex-direction: column;
-    aligh-items: flex-start;
-  }
-`
+// const CriterionRow = styled.div`
+//   display: flex;
+//   width: 100%;  
+//   background-color: red;
+//   border: 1px solid white
+  
+// `
 
 const CheckDiv = styled.div`
-  padding-right: 5px;
-  padding-left: 5px;
-  @media (max-width: 600px) {
-    align-items: center;
-    padding-top: 10px;
-    padding-bottom: 5px;
-  }
+  
+  flex-basis: 1%;
+  flex-grow: 0;
 `
+/*
+  background-color: green;
+  border: 1px solid white;
+*/
 
 const SelectDiv = styled.div`
-  flex-basis: 30%;
+  
+  flex-basis: 20%;
+  flex-grow: 0;
 `
+/*
+background-color: blue;
+  border: 1px solid white;
+*/
 
 const TextEditDiv = styled.div`
-  flex-basis: 65%;
+  
+  flex-basis: 79%;
+  flex-grow: 1;
 `
 
-const Options = ({ thingsToMap }) => {
+/*
+background-color: orange;
+  border: 1px solid white;
+  */
 
-  R.map(o =>
-    <option key={o.name} value={o.name}>
-      {o.description}
-    </option>,
-    thingsToMap
-  )
-
-}
-
-// @ts-ignore
 const mergeCriterionProp = (newProp, criterion) => {
   return R.mergeRight(criterion, newProp)
 }
 
 const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
-  const { fields: cFields, operators: oFields } = criteria
+  
   const [_criterion, _setCriterion] = useState(criterion)
   const { operation, field, value, active } = _criterion
-
-  green('criteria', criteria)
-  green('criteria.operators', criteria.operators)
-  const v = R.values(criteria.operators)
-  green('v', v)
-
-  // return null
 
   const dispatch = useDispatch()
 
@@ -95,57 +89,33 @@ const CriterionEdit = ({ criterion }) => {
   }
 
   countReturn = countReturn + 1
-  green('criteria', criteria)
   return (
-    <div>
-      <RenderCount
-        componentName="CriterionEdit"
-        countTotal={{ actual: countTotal, min: 4, max: 4 }}
-        countReturn={{ actual: countReturn, min: 4, max: 4 }}
-      />
-
-      <Row id="CriterionEdit">
-        <CheckDiv>
+      
+      <CriterionRow>
+        {/* <RenderCount
+          componentName="CriterionEdit"
+          countTotal={{ actual: countTotal, min: 4, max: 4 }}
+          countReturn={{ actual: countReturn, min: 4, max: 4 }}
+        /> */}
+        <CheckDiv id='CheckDiv'>
           <CheckBox name="active" checked={active} onChange={_handleChange} />
         </CheckDiv>
-        <SelectDiv>
-          <Select
+        <SelectDiv id='SelectDiv-Fields'>
+          <CriteriaFieldSelect
             name="field"
             value={field}
             onChange={_handleChange}
             disabled={!active}
             onBlur={_handleBlur}
-          >
-
-            {
-              R.map(f => {
-                green('f', typeof f)
-                return (<option key={f.name} value={f.name}>
-                  {f.description}
-                </option>)
-              },
-                R.values(cFields)
-              )
-            }
-          </Select>
+          />
         </SelectDiv>
-        <SelectDiv>
-          <Select
-            name="operation"
-            value={operation}
-            onChange={_handleChange}
+        <SelectDiv id='SelectDiv-Operators'>
+          <CriteriaOperatorSelect
             disabled={!active}
             onBlur={_handleBlur}
-          >{
-            R.map((
-              f => (<option key={f.name} value={f.name}>
-                  {f.description}
-                </option>)
-            ),
-              R.values(criteria.operators)
-            )
-          }
-          </Select>
+            onChange={_handleChange}
+            value={operation}
+          />
         </SelectDiv>
         <TextEditDiv>
           <TextEdit
@@ -157,8 +127,7 @@ const CriterionEdit = ({ criterion }) => {
             minChars={3}
           />
         </TextEditDiv>
-      </Row>
-    </div>
+      </CriterionRow>
   )
 
 }
@@ -172,7 +141,3 @@ Remove
 */
 
 
-/*
-
-
-*/
