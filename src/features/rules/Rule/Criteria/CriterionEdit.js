@@ -41,6 +41,7 @@ const SelectDiv = styled.div`
   
   flex-basis: 20%;
   flex-grow: 0;
+  min-width: 110px;
 `
 /*
 background-color: blue;

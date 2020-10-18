@@ -1,6 +1,6 @@
 import React from 'react'
 import Select from './Select'
-import { operatorList } from 'fields/criteria'
+import { fieldList } from 'fields/criteria'
 import styled from 'styled-components'
 
 const CriteriaFieldSelectDiv = styled.div`
@@ -33,7 +33,7 @@ const CriteriaFieldSelect = ({
         value={value}
       >
         {
-          operatorList.map(f =>
+          fieldList.map(f =>
             (
               <option key={f.name} value={f.name}>
                 {f.description}

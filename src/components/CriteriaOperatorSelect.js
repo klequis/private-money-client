@@ -25,23 +25,23 @@ const CriteriaFieldSelect = ({
 
   return (
     <Wrapper>
-    <Select
-      disabled={disabled}
-      name="field"
-      onBlur={onBlur}
-      onChange={onChange}
-      value={value}
-    >
-      {
-        operatorList.map(f =>
-          (
-            <option key={f.name} value={f.name}>
-              {f.description}
-            </option>
+      <Select
+        disabled={disabled}
+        name="operation"
+        onBlur={onBlur}
+        onChange={onChange}
+        value={value}
+      >
+        {
+          operatorList.map(o =>
+            (
+              <option key={o.name} value={o.name}>
+                {o.description}
+              </option>
+            )
           )
-        )
-      }
-    </Select>
+        }
+      </Select>
     </Wrapper>
   )
 }
