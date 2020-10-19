@@ -1,5 +1,5 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import Criteria from './Criteria'
 import Actions from './Actions'
 import Button from 'components/Button'
@@ -28,15 +28,20 @@ const Rule = () => {
 
   const ruleEdit = useSelector(selectRuleEdit)
 
+  const dispatch = useDispatch()
+  if (!ruleEdit) {
+    return null
+  }
+  
   const { _id: ruleId } = ruleEdit
 
-  const _handleSaveEditButtonClick = async () => { 
-    if (isTmpRule(ruleId)) {
-      await ruleCreate(ruleEdit)
+  const _handleSaveEditButtonClick = () => { 
+    green('Rule: ruleEdit', ruleEdit)
+    if (isTmpRule(ruleEdit)) {
+      dispatch(ruleCreate(ruleEdit))
     } else {
-      await ruleUpdate(ruleEdit)
+      dispatch(ruleUpdate(ruleEdit))
     }
-
   }
 
   countReturn = countReturn + 1

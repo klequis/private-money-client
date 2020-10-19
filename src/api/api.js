@@ -82,7 +82,7 @@ export default {
         body: JSON.stringify(rule)
       })
       // orange('rules.create: data', data)
-      return data
+      // return data
     },
     async delete(ruleId) {
       const url = `api/rules/ruleid/${ruleId}`
@@ -93,6 +93,7 @@ export default {
       return data
     },
     async update(_id, rule) {
+      orange('api.rules.update: _id', _id)
       const url = `api/rules/ruleid/${_id}`
       const data = await fetchJson(url, {
         method: 'PATCH',

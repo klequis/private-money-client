@@ -20,6 +20,7 @@ const viewName = 'all-data-by-description'
 export const transactionsFetch = createAsyncThunk(
   'transactions/get',
   async () => {
+    yellow('fetching transactions **')
     const r = await api.views.read(viewName)
     return r
   }
