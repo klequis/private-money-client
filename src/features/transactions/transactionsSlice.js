@@ -17,7 +17,7 @@ const initialState = {
 
 const viewName = 'all-data-by-description'
 
-export const fetchTransactions = createAsyncThunk(
+export const transactionsFetch = createAsyncThunk(
   'transactions/get',
   async () => {
     const r = await api.views.read(viewName)
@@ -34,16 +34,16 @@ const transactionsSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchTransactions.pending]: (state, action) => {
+    [transactionsFetch.pending]: (state, action) => {
       state.status = requestStatus.pending
       state.items = []
     },
-    [fetchTransactions.fulfilled]: (state, action) => {
+    [transactionsFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
-    [fetchTransactions.rejected]: (state, action) => {
+    [transactionsFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       state.status = requestStatus.error
       state.error = action.error.message

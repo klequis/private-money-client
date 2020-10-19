@@ -1,12 +1,19 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import Criteria from './Criteria'
-
 import Actions from './Actions'
 import Button from 'components/Button'
 import RuleId from './RuleId'
-import { selectRuleEditId } from 'features/ruleEdit/ruleEditSlice'
+import { 
+  selectRuleEdit, 
+} from 'features/ruleEdit/ruleEditSlice'
+import { 
+  ruleUpdate,
+  ruleCreate
+} from 'features/ruleEdit/ruleEditSlice'
 import styled from 'styled-components'
+import { isTmpRule } from 'fields/rules'
+
 // eslint-disable-next-line
 import { green, purple } from 'logger'
 import RenderCount from 'components/RenderCount'
@@ -19,10 +26,16 @@ let countReturn = 0
 const Rule = () => {
   countTotal = countTotal + 1
 
-  const ruleId = useSelector(selectRuleEditId)
+  const ruleEdit = useSelector(selectRuleEdit)
 
-  const _handleSaveEditButtonClick = () => { 
-    // 1. call ruleEditSave.ruleEditSave 
+  const { _id: ruleId } = ruleEdit
+
+  const _handleSaveEditButtonClick = async () => { 
+    if (isTmpRule(ruleId)) {
+      await ruleCreate(ruleEdit)
+    } else {
+      await ruleUpdate(ruleEdit)
+    }
 
   }
 

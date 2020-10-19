@@ -3,10 +3,10 @@ import * as R from 'ramda'
 
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  fetchTransactions,
+  transactionsFetch,
   selectActiveTransaction
 } from 'features/transactions/transactionsSlice'
-import { fetchRules } from 'features/rules/rulesSlice'
+import { rulesFetch } from 'features/rules/rulesSlice'
 import { ruleEditSet } from 'features/ruleEdit/ruleEditSlice'
 import CreateRule from 'features/rules/Rule/CreateRule'
 
@@ -39,8 +39,8 @@ const App = () => {
 
   useEffect(() => {
     if (status === requestStatus.idle) {
-      dispatch(fetchTransactions())
-      dispatch(fetchRules())
+      dispatch(transactionsFetch())
+      dispatch(rulesFetch())
     }
   }, [dispatch, state, status])
 

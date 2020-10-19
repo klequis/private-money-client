@@ -6,7 +6,7 @@ import { blue } from 'logger'
 import api from 'api'
 
 export const ruleCreate = createAsyncThunk(
-  'ruleEdit/rule-create',
+  'rules/rule-create',
   async (rule) => {
     const newRule = R.has('_id')
       ? R.dissoc('_id', rule)
@@ -16,7 +16,7 @@ export const ruleCreate = createAsyncThunk(
 )
 
 export const ruleUpdate = createAsyncThunk(
-  'ruleEdit/rule-update',
+  'rules/rule-update',
   async (rule) => {
     const r = await api.rules.update(rule._id, rule)
   }
@@ -68,7 +68,7 @@ export const {
 } = ruleEditSlice.actions
 
 // const hasRuleEdit = state => !(R.path(['state', 'ruleEdit']) === null)
-export const selectRuleEdit = (state) => R.path(['state', 'ruleEdit', 'ruleEdit',], state)
+export const selectRuleEdit = (state) => R.path(['ruleEdit', 'ruleEdit',], state)
 
 export const selectRuleEditCriteria = (state) => {
   return R.path(['ruleEdit', 'ruleEdit', 'criteria'], state) || []

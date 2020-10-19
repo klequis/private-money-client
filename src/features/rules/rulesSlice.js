@@ -14,7 +14,7 @@ const initialState = {
   isEditMode: false
 }
 
-export const fetchRules = createAsyncThunk('rules/get', async () => {
+export const rulesFetch = createAsyncThunk('rules/get', async () => {
   const r = await api.rules.read()
   return r
 })
@@ -22,19 +22,23 @@ export const fetchRules = createAsyncThunk('rules/get', async () => {
 const rulesSlice = createSlice({
   name: 'rules',
   initialState,
-  reducers: {},
+  reducers: {
+    ruleSave(state, action) {
+
+    }
+  },
   extraReducers: {
-    [fetchRules.pending]: (state, action) => {
+    [rulesFetch.pending]: (state, action) => {
       // logFetchResults('fetchRules.pending', state, action)      
       state.status = requestStatus.pending
       state.items = []
     },
-    [fetchRules.fulfilled]: (state, action) => {
+    [rulesFetch.fulfilled]: (state, action) => {
       // logFetchResults('fetchRules.fulfilled', state, action)      
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
-    [fetchRules.rejected]: (state, action) => {
+    [rulesFetch.rejected]: (state, action) => {
       // logFetchResults('fetchRules.rejected', state, action)      
       state.status = requestStatus.error
       state.error = action.error.message
