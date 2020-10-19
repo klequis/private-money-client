@@ -10,6 +10,7 @@ import * as R from 'ramda'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 import { transactionFields as tFields } from 'fields/transactionFields'
+import { requestStatus } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
@@ -88,14 +89,14 @@ const CriteriaResults = () => {
   const criteria = useSelector(selectRuleEditCriteria)
 
   useEffect(() => {
-    if (status === 'idle') {
+    // if (status === requestStatus.idle || status === requestStatus.fulfilled) {
       const activeCriteria = getActiveCriteria(criteria)
       const valid = isCriteriaValid(activeCriteria)
       if (valid) {
         dispatch(fetchCriteriaResults(activeCriteria))
       }
-    }
-  }, [dispatch, criteria, status])
+    // }
+  }, [criteria])
 
   const transactions = useSelector(
     selectCriteriaResultsTransactions
