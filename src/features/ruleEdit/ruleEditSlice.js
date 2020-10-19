@@ -1,8 +1,9 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import * as R from 'ramda'
-import { Promise } from "bluebird"
+
 import { transactionsFetch } from 'features/transactions/transactionsSlice'
 import { rulesFetch } from 'features/rules/rulesSlice'
+import * as Promise from 'bluebird'
 
 // eslint-disable-next-line
 import { blue } from 'logger'
@@ -26,34 +27,27 @@ const removeTmpIdField = (rule) => {
 export const ruleCreate = createAsyncThunk(
   'rules/rule-create',
   async (rule) => {
-    // blue('ruleCreate: rule', rule)
     const newRule = R.pipe(
       removeInactiveCriteria,
       removeTmpIdField
     )(rule)
-
-    // blue('ruleCreate: newRule', newRule)
-
-    // api.rules.create(newRule).then(() => Promise.all([
-    //   transactionsFetch(),
-    //   rulesFetch()
-    // ]))
-
-    // const x = await api.rules.create(newRule).then(result => {
-    //   console.log('result', result)
-    //   transactionsFetch()
-    // })
-    
-    const x = await api.rules.create(newRule)  // .then(() => transactionsFetch())
-    blue('x', x)
+    await api.rules.create(newRule)
+    Promise.all([
+      api.views.read('all-data-by-description'),
+      api.rules.read()
+    ])
   }
 )
 
 export const ruleUpdate = createAsyncThunk(
   'rules/rule-update',
   async (rule) => {
-    // blue('updateRule: rule', rule)
-    const r = await api.rules.update(rule._id, rule)
+    const newRule = removeInactiveCriteria(rule)
+    await api.rules.update(rule._id, newRule)
+    Promise.all([
+      api.views.read('all-data-by-description'),
+      api.rules.read()
+    ])
   }
 )
 

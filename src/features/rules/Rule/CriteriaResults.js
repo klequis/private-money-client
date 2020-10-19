@@ -10,7 +10,6 @@ import * as R from 'ramda'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 import { transactionFields as tFields } from 'fields/transactionFields'
-import criteria from 'fields/criteria'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'

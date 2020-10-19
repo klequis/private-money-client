@@ -14,6 +14,11 @@ import {
 import styled from 'styled-components'
 import { isTmpRule } from 'fields/rules'
 
+// try
+import {
+  fetchCriteriaResults,
+} from 'features/criteriaResults/criteriaResultsSlice'
+
 // eslint-disable-next-line
 import { green, purple } from 'logger'
 import RenderCount from 'components/RenderCount'
@@ -36,13 +41,18 @@ const Rule = () => {
   const { _id: ruleId } = ruleEdit
 
   const _handleSaveEditButtonClick = () => { 
-    green('Rule: ruleEdit', ruleEdit)
+    // green('Rule: ruleEdit', ruleEdit)
     if (isTmpRule(ruleEdit)) {
+      
       dispatch(ruleCreate(ruleEdit))
+      green('CREATED')
     } else {
       dispatch(ruleUpdate(ruleEdit))
+      green('UPDATED')
     }
   }
+
+  
 
   countReturn = countReturn + 1
   return (
