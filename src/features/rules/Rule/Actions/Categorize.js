@@ -28,12 +28,12 @@ const Categorize = ({ action, minChars }) => {
     const { name, value } = event.target
     const { type: eventType } = event
     console.group('_handleEvent')
-    green('name', name)
-    green('value', value)
-    green('eventType', eventType)
+    // green('name', name)
+    // green('value', value)
+    // green('eventType', eventType)
     
     const newAction = R.mergeRight(_action, { [name]: value })
-    green('_handleEvent: newAction', newAction)
+    // green('_handleEvent: newAction', newAction)
     console.groupEnd()
     _setAction(newAction)
 

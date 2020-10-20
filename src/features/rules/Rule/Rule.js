@@ -45,10 +45,10 @@ const Rule = () => {
     if (isTmpRule(ruleEdit)) {
       
       dispatch(ruleCreate(ruleEdit))
-      green('CREATED')
+      // green('CREATED')
     } else {
       dispatch(ruleUpdate(ruleEdit))
-      green('UPDATED')
+      // green('UPDATED')
     }
   }
 

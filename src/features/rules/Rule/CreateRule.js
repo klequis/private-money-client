@@ -1,6 +1,6 @@
 import React from 'react'
 import Rule from './Rule'
-import CriteriaResults from './CriteriaResults'
+import CriteriaResults from 'features/criteriaResults'
 // import RenderCount from 'components/RenderCount'
 import styled from 'styled-components'
 

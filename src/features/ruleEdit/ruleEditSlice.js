@@ -1,8 +1,14 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import { 
+  createSlice, 
+  createAsyncThunk, 
+  current } from '@reduxjs/toolkit'
 import * as R from 'ramda'
 
-import { transactionsFetch } from 'features/transactions/transactionsSlice'
-import { rulesFetch } from 'features/rules/rulesSlice'
+// import { 
+//   transactionsFetch
+// }
+// from 'features/transactions/transactionsSlice'
+// import { rulesFetch } from 'features/rules/rulesSlice'
 import * as Promise from 'bluebird'
 
 // eslint-disable-next-line
@@ -109,4 +115,9 @@ export const selectRuleEditActions = (state) => {
 
 export const selectRuleEditId = (state) => {
   return R.path(['ruleEdit', 'ruleEdit', '_id'], state)
+}
+
+export const selectActiveCriteria = (state) => {
+  const criteria = R.path(['ruleEdit', 'ruleEdit', 'criteria'], state)
+  return getActiveCriteria(criteria)
 }

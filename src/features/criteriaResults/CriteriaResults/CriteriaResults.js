@@ -1,16 +1,25 @@
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { selectRuleEditCriteria } from 'features/ruleEdit/ruleEditSlice'
+import {
+  selectRuleEditCriteria,
+  selectRuleEditActions,
+  selectActiveCriteria
+} from 'features/ruleEdit/ruleEditSlice'
 import {
   fetchCriteriaResults,
 } from 'features/criteriaResults/criteriaResultsSlice'
-import { selectCriteriaResultsTransactions } from 'features/transactions/transactionsSlice'
+import {
+  selectCriteriaResultsTransactions
+} from 'features/transactions/transactionsSlice'
 import Table from 'components/Table'
 import * as R from 'ramda'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
-import { transactionFields as tFields } from 'fields/transactionFields'
-import { requestStatus } from 'globalConstants'
+import {
+  transactionFields as tFields
+} from 'fields/transactionFields'
+// import { requestStatus } from 'globalConstants'
+import TableBody from './TableBody'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
@@ -30,8 +39,6 @@ const TableHead = () => {
   )
 }
 
-const getActiveCriteria = (criteria) =>
-  criteria === null ? [] : criteria.filter((c) => c.active === true)
 
 
 // const isIdString = (value) => {
@@ -42,34 +49,26 @@ const getActiveCriteria = (criteria) =>
 //   R.includes(R.prop('field')(obj), fieldSelectFieldNames)
 
 const checkCriterionValid = (criterion) => {
-  
   console.group('isCriteriaValid')
   // _id is a string
-  green('_id', tFields._id.validate(criterion._id))
-  
-
+  // green('_id', tFields._id.validate(criterion._id))
   // green('field', tFields.)
-  console.groupEnd( )
+  console.groupEnd()
   return true
 }
 
-
-
 const isCriteriaValid = (criteria) => {
-  green('criteria', criteria)
+  // green('criteria', criteria)
   return true
-
-  
   // tmp code
   // return true
-  
   // field is one of
   // operation is on of
   // value !isEmptyOrNull
   // active = true
   // green('criteriaSelectFieldNames', criteriaSelectFieldNames)
   const check = R.map(checkCriterionValid, criteria)
-  green('check', check)
+  // green('check', check)
 
 }
 
@@ -85,16 +84,17 @@ const CriteriaResults = () => {
   const slices = R.pick(['criteriaResults'])(state)
   const status = getRequestStatus(slices)
 
-  // get criteria
   const criteria = useSelector(selectRuleEditCriteria)
+  const actions = useSelector(selectRuleEditActions)
+  const activeCriteria = useSelector(selectActiveCriteria)
 
   useEffect(() => {
     // if (status === requestStatus.idle || status === requestStatus.fulfilled) {
-      const activeCriteria = getActiveCriteria(criteria)
-      const valid = isCriteriaValid(activeCriteria)
-      if (valid) {
-        dispatch(fetchCriteriaResults(activeCriteria))
-      }
+    
+    const valid = isCriteriaValid(activeCriteria)
+    if (valid) {
+      dispatch(fetchCriteriaResults(activeCriteria))
+    }
     // }
   }, [criteria])
 
@@ -119,17 +119,12 @@ const CriteriaResults = () => {
         <Button>Test</Button> */}
         <Table size="sm" variant="dark">
           <TableHead />
-          <tbody>
-            {transactions.map((t) => (
-              <tr key={t._id}>
-                <td>{t.date}</td>
-                <td>{t.description}</td>
-                <td>{t.amount}</td>
-                <td>{t.category1}</td>
-                <td>{t.category2}</td>
-              </tr>
-            ))}
-          </tbody>
+            {
+              transactions.map((t) => <TableBody
+                actions={actions}
+                transaction={t}
+              />)
+            }
         </Table>
       </div>
     </RequestStatus>
