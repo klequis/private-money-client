@@ -1,11 +1,13 @@
 import * as R from 'ramda'
 
 export const dataTypes = {
-  String: 'String',
-  Number: 'Number',
-  Date: 'Date',
   Array: 'Array',
   Boolean: 'Boolean',
+  Date: 'Date',
+  Null: 'Null',
+  Number: 'Number',
+  String: 'String',
+  Undefined: 'Undefined',
 }
 
 /**
@@ -37,6 +39,18 @@ export const isNumber = value => R.type(value) === dataTypes.Number
  * @returns {boolean}
  */
 export const isString = value => R.type(value) === dataTypes.String
+
+/**
+ * @param {any} value 
+ * @returns {boolean}
+ */
+export const isNull = value => R.type(value) === dataTypes.Null
+
+/**
+ * @param {any} value 
+ * @returns {boolean}
+ */
+export const isUndefined = value => R.type(value) === dataTypes.Undefined
 
 
 

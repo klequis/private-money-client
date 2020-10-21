@@ -1,7 +1,7 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
-import Rules from 'features/rules/Rules'
+import Rules from 'features/rules/Rule'
 import {
   selectOneTransaction,
   setActiveTransactionId,
@@ -9,8 +9,8 @@ import {
   // selectTransactionRuleIds
 } from 'features/transactions/transactionsSlice'
 import styles from './AllDataTableBody.module.css'
-// import { setRuleEdit } from 'features/rules/rulesSlice'
 import AllDataTableData from './AllDataTableData'
+// import { setRuleEdit } from 'features/rules/rulesSlice'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
@@ -66,9 +66,6 @@ const TableRow = ({ transactionId }) => {
               : ruleIds.map((id) => <div key={id}>{id}</div>)}
           </AllDataTableData>
         </tr>
-        {activeTransactionId === transactionId ? (
-          <Rules transactionId={transactionId} />
-        ) : null}
       </tbody>
     </>
   )

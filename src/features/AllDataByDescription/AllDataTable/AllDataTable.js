@@ -43,8 +43,6 @@ const AllDataTable = () => {
   // }
 
   // HARD CODED SORT. DELETE THESE FUNCTIONS
-
-
   const filteredData = () => {
     const sorted = R.sortBy(R.prop('origDescription'))(transactions)
 
@@ -56,6 +54,7 @@ const AllDataTable = () => {
       ? _setFilter({ field: '', value: '', active: false })
       : _setFilter({ field: field, value: value, active: true })
   }
+  // HARD CODED SORT. DELETE THESE FUNCTIONS
 
   return (
     <Table>
@@ -69,14 +68,3 @@ const AllDataTable = () => {
 }
 
 export default AllDataTable
-
-/*
-return (
-    <BSTable size="sm" variant="dark" hover>
-      <TableHead setFilter={setFilter} />
-      {filteredData().map((t) => (
-        <TableBody key={t._id} transactionId={t._id} />
-      ))}
-    </BSTable>
-  )
-*/

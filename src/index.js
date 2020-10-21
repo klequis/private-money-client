@@ -1,7 +1,7 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-// import App from './App'
-import DevTmp from './DevTmp'
+import App from './App'
+// import DevTmp from './DevTmp'
 import store from './app/store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'react-jss'
@@ -40,7 +40,7 @@ ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
       <ThemeProvider theme={theme}>
-        <DevTmp />
+        <App />
       </ThemeProvider>
     </Provider>
   </React.StrictMode>,

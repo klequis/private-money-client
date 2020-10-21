@@ -1,19 +1,21 @@
 import React, { useEffect } from 'react'
 import * as R from 'ramda'
-
 import { useSelector, useDispatch } from 'react-redux'
 import {
   transactionsFetch,
-  selectActiveTransaction
+  selectActiveTransaction,
+  selectActiveTransactionId
 } from 'features/transactions/transactionsSlice'
 import { rulesFetch } from 'features/rules/rulesSlice'
 import { ruleEditSet } from 'features/ruleEdit/ruleEditSlice'
 import CreateRule from 'features/rules/Rule/CreateRule'
-
 import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 import ContainerFluid from 'components/ContainerFluid'
+import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
+import AllDataByDescription from 'features/AllDataByDescription'
+import { isNull } from 'dataTypes'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
@@ -48,6 +50,8 @@ const App = () => {
 
   const transaction = useSelector(selectActiveTransaction)
 
+  const activeTransactionId = useSelector(selectActiveTransactionId)
+
   useEffect(() => {
     if (R.type(transaction) !== 'Null') {
       const origDescription = transaction.origDescription
@@ -56,26 +60,32 @@ const App = () => {
     }
   }, [dispatch, transaction])
 
-  /* end tmp code */
+  // useEffect(() => {
 
-  if (R.type(transaction) === 'Null') {
-    return <h1>transaction is Null</h1>
-  }
+  // })
+
+  green('transaction', transaction)
+  /* end tmp code */
 
   countReturn = countReturn + 1
 
   return (
-    <ContainerFluid id="App">
-      <RequestStatus status={status} className='container-fluid'>
-          {/* <RenderCount
-            componentName="App"
-            countTotal={{ actual: countTotal, min: 12, max: 14 }}
-            countReturn={{ actual: countReturn, min: 8, max: 10 }}
-          /> */}
+    <RequestStatus status={status} className='container-fluid'>
+      <>
+        <RenderCount
+          componentName="App"
+          countTotal={{ actual: countTotal, min: 8, max: 14 }}
+          countReturn={{ actual: countReturn, min: 8, max: 10 }}
+        />
+        {
+          isNull(activeTransactionId)
+            ? <AllDataByDescription />
+            : <CreateRule />
 
-          <CreateRule />
-      </RequestStatus>
-    </ContainerFluid>
+        }
+      </>
+      
+    </RequestStatus>
   )
 
 
@@ -83,3 +93,31 @@ const App = () => {
 }
 
 export default App
+
+/*
+  return (
+    <Router>
+      <ContainerFluid id="App">
+        <RequestStatus status={status} className='container-fluid'>
+        <>
+          <RenderCount
+            componentName="App"
+            countTotal={{ actual: countTotal, min: 12, max: 14 }}
+            countReturn={{ actual: countReturn, min: 8, max: 10 }}
+          />
+
+          <Switch>
+            <Route path="/create-rule">
+              <CreateRule />
+            </Route>
+            <Route path="/">
+              <AllDataByDescription />
+            </Route>
+          </Switch>
+
+        </>
+        </RequestStatus>
+      </ContainerFluid>
+    </Router>
+  )
+*/
