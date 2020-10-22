@@ -22,17 +22,13 @@ import { green, redf, yellow, blue, purple } from 'logger'
 export const fieldList = R.values(
   R.filter((x) => x.isCriteriaField === true, tFields)
 )
-blue('fieldList', fieldList)
 
 export const fields = R.mergeAll(fieldList)
-blue('fields', fields)
-
 
 export const fieldNames = R.map(
   (f) => f.name,
   fields
 )
-
 
 const operators = {
   beginsWith: {
@@ -93,10 +89,10 @@ const validate = (criteria) => {
 
 
 
-const isValidCriteriaField = (fieldName) => 
+const isValidCriteriaField = (fieldName) =>
   R.includes(fieldName, fieldNames)
 
-const isValidCriteriaFieldValue = (fieldName, value) => 
+const isValidCriteriaFieldValue = (fieldName, value) =>
   tFields[fieldName].validate(value)
 
 const criteria = {

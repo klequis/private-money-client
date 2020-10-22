@@ -3,28 +3,21 @@ import * as R from 'ramda'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   transactionsFetch,
-  selectActiveTransaction,
   selectActiveTransactionId
 } from 'features/transactions/transactionsSlice'
 import { rulesFetch } from 'features/rules/rulesSlice'
-import { ruleEditSet } from 'features/ruleEdit/ruleEditSlice'
+
 import CreateRule from 'features/rules/Rule/CreateRule'
 import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 import ContainerFluid from 'components/ContainerFluid'
-import { Route, BrowserRouter as Router, Switch } from 'react-router-dom'
 import AllDataByDescription from 'features/AllDataByDescription'
 import { isNull } from 'dataTypes'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
 import RenderCount from 'components/RenderCount'
-
-// tmp
-import ruleTmpMakeId from 'lib/ruleTmpMakeId'
-import { ruleTmpMake } from 'lib/ruleTmpMake'
-//
 
 let countTotal = 0
 let countReturn = 0
@@ -48,23 +41,23 @@ const App = () => {
 
   /* start tmp code */
 
-  const transaction = useSelector(selectActiveTransaction)
+  // const activeTransaction = useSelector(selectActiveTransaction)
 
   const activeTransactionId = useSelector(selectActiveTransactionId)
 
-  useEffect(() => {
-    if (R.type(transaction) !== 'Null') {
-      const origDescription = transaction.origDescription
-      const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
-      dispatch(ruleEditSet(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
-    }
-  }, [dispatch, transaction])
+  // useEffect(() => {
+  //   if (R.type(activeTransaction) !== 'Null') {
+  //     const origDescription = activeTransaction.origDescription
+  //     const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
+  //     dispatch(ruleEditSet(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
+  //   }
+  // }, [dispatch, activeTransaction])
 
   // useEffect(() => {
 
   // })
 
-  green('transaction', transaction)
+  // green('transaction', activeTransaction)
   /* end tmp code */
 
   countReturn = countReturn + 1

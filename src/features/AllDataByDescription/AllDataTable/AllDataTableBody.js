@@ -10,7 +10,6 @@ import {
 } from 'features/transactions/transactionsSlice'
 import styles from './AllDataTableBody.module.css'
 import AllDataTableData from './AllDataTableData'
-// import { setRuleEdit } from 'features/rules/rulesSlice'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'

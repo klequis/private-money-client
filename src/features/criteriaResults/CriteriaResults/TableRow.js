@@ -17,12 +17,12 @@ import { green } from 'logger'
 // diff
 
 const TD = ({ color, diff, value, origDescription }) => {
-  console.group('TD')
-  green('color', color)
-  green('diff', diff)
-  green('value', value)
-  green('origDescription', R.type(origDescription))
-  console.groupEnd()
+  // console.group('TD')
+  // green('color', color)
+  // green('diff', diff)
+  // green('value', value)
+  // green('origDescription', R.type(origDescription))
+  // console.groupEnd()
   if (diff) {
     if (!R.type(origDescription) === dataTypes.Undefined) {
       return (

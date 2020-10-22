@@ -3,7 +3,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import {
   selectRuleEditCriteria,
   selectRuleEditActions,
-  selectActiveCriteria
+  selectActiveCriteria,
+  
 } from 'features/ruleEdit/ruleEditSlice'
 import {
   fetchCriteriaResults,
@@ -87,12 +88,14 @@ const CriteriaResults = () => {
   const criteria = useSelector(selectRuleEditCriteria)
   const actions = useSelector(selectRuleEditActions)
   const activeCriteria = useSelector(selectActiveCriteria)
+  // green('CriteriaResults: activeCriteria', activeCriteria)
 
   useEffect(() => {
     // if (status === requestStatus.idle || status === requestStatus.fulfilled) {
     
     const valid = isCriteriaValid(activeCriteria)
-    if (valid) {
+    if (!R.isEmpty(activeCriteria)) {
+      green('fetching', activeCriteria)
       dispatch(fetchCriteriaResults(activeCriteria))
     }
     // }
@@ -121,6 +124,7 @@ const CriteriaResults = () => {
           <TableHead />
             {
               transactions.map((t) => <TableBody
+                key={t._id}
                 actions={actions}
                 transaction={t}
               />)

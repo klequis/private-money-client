@@ -1,23 +1,31 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import Criteria from './Criteria'
 import Actions from './Actions'
 import Button from 'components/Button'
 import RuleId from './RuleId'
-import { 
-  selectRuleEdit, 
+import {
+  selectRuleEdit,
 } from 'features/ruleEdit/ruleEditSlice'
-import { 
+import {
   ruleUpdate,
   ruleCreate
 } from 'features/ruleEdit/ruleEditSlice'
 import styled from 'styled-components'
 import { isTmpRule } from 'fields/rules'
 
+import {
+  selectActiveTransaction,
+  selectActiveTransactionId
+} from 'features/transactions/transactionsSlice'
+
 // try
 import {
   fetchCriteriaResults,
 } from 'features/criteriaResults/criteriaResultsSlice'
+
+import * as R from 'ramda'
+import { ruleEditSet, ruleTmpMakeId, ruleTmpMake } from 'features/ruleEdit/ruleEditSlice'
 
 // eslint-disable-next-line
 import { green, purple } from 'logger'
@@ -31,19 +39,35 @@ let countReturn = 0
 const Rule = () => {
   countTotal = countTotal + 1
 
+  const activeTransaction = useSelector(selectActiveTransaction)
+  // green('activeTransaction', activeTransaction)
+
+  const activeTransactionId = useSelector(selectActiveTransactionId)
+  // green('type activeTransactionId', R.type(activeTransactionId))
+
   const ruleEdit = useSelector(selectRuleEdit)
+  // green('type ruleEdit', R.type(ruleEdit))
 
   const dispatch = useDispatch()
+
+  useEffect(() => {
+    if (R.type(activeTransaction) !== 'Null') {
+      const origDescription = activeTransaction.origDescription
+      const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
+      dispatch(ruleEditSet(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
+    }
+  }, [activeTransaction])
+
   if (!ruleEdit) {
     return null
   }
-  
+
   const { _id: ruleId } = ruleEdit
 
-  const _handleSaveEditButtonClick = () => { 
+  const _handleSaveEditButtonClick = () => {
     // green('Rule: ruleEdit', ruleEdit)
     if (isTmpRule(ruleEdit)) {
-      
+
       dispatch(ruleCreate(ruleEdit))
       // green('CREATED')
     } else {
@@ -52,7 +76,7 @@ const Rule = () => {
     }
   }
 
-  
+
 
   countReturn = countReturn + 1
   return (
@@ -68,7 +92,7 @@ const Rule = () => {
         <Criteria />
         <Actions />
       </RuleDiv>
-      
+
     </>
   )
 }
