@@ -23,12 +23,10 @@ background-color: white;
   }
 */
 
-const CriterionRow = ({children}) => {
+export const CriterionRow = ({children}) => {
   return (
     <Row>
       {children}
     </Row>
   )
 }
-
-export default CriterionRow

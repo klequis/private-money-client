@@ -3,16 +3,15 @@ import * as R from 'ramda'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   transactionsFetch,
-  selectActiveTransactionId
-} from 'features/transactions/transactionsSlice'
-import { rulesFetch } from 'features/rules/rulesSlice'
-
-import CreateRule from 'features/rules/Rule/CreateRule'
+  selectActiveTransactionId,
+  Transactions
+} from 'features/transactions'
+import { CreateRule, rulesFetch } from 'features/rules'
 import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 import ContainerFluid from 'components/ContainerFluid'
-import AllDataByDescription from 'features/AllDataByDescription'
+
 import { isNull } from 'dataTypes'
 
 // eslint-disable-next-line
@@ -39,26 +38,7 @@ const App = () => {
     }
   }, [dispatch, state, status])
 
-  /* start tmp code */
-
-  // const activeTransaction = useSelector(selectActiveTransaction)
-
   const activeTransactionId = useSelector(selectActiveTransactionId)
-
-  // useEffect(() => {
-  //   if (R.type(activeTransaction) !== 'Null') {
-  //     const origDescription = activeTransaction.origDescription
-  //     const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
-  //     dispatch(ruleEditSet(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
-  //   }
-  // }, [dispatch, activeTransaction])
-
-  // useEffect(() => {
-
-  // })
-
-  // green('transaction', activeTransaction)
-  /* end tmp code */
 
   countReturn = countReturn + 1
 
@@ -72,7 +52,7 @@ const App = () => {
         />
         {
           isNull(activeTransactionId)
-            ? <AllDataByDescription />
+            ? <Transactions />
             : <CreateRule />
 
         }
@@ -80,37 +60,6 @@ const App = () => {
       
     </RequestStatus>
   )
-
-
-
 }
 
 export default App
-
-/*
-  return (
-    <Router>
-      <ContainerFluid id="App">
-        <RequestStatus status={status} className='container-fluid'>
-        <>
-          <RenderCount
-            componentName="App"
-            countTotal={{ actual: countTotal, min: 12, max: 14 }}
-            countReturn={{ actual: countReturn, min: 8, max: 10 }}
-          />
-
-          <Switch>
-            <Route path="/create-rule">
-              <CreateRule />
-            </Route>
-            <Route path="/">
-              <AllDataByDescription />
-            </Route>
-          </Switch>
-
-        </>
-        </RequestStatus>
-      </ContainerFluid>
-    </Router>
-  )
-*/

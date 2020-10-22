@@ -1,10 +1,4 @@
-// import { isArray } from './dataTypes/isArray'
-// import { isBoolean } from './dataTypes/'
-// import { isDate } from './dataTypes/isDate'
-// import { isNumber } from './dataTypes/isNumber'
-// import { isString } from './dataTypes/isString'
 import { format } from 'date-fns'
-import * as R from 'ramda'
 import { 
   isArray,
   isBoolean,

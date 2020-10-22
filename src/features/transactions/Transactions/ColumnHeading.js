@@ -1,5 +1,5 @@
 import React, { useState } from 'react'
-import { transactionFields as fields } from 'fields/transactionFields'
+import { transactionFields as tFields } from 'features/transactions'
 
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -20,13 +20,13 @@ const ColumnHeading = ({ fieldName, setFilter }) => {
   const [_value, _setValue] = useState('')
 
   // useEffect(() => {
-  //   fieldName === fields.omit.name ? _setValue('No') : _setValue('')
+  //   fieldName === tfields.omit.name ? _setValue('No') : _setValue('')
   // }, [fieldName])
 
   const _valueChanged = (event) => {
     // const name = event.target.name
     const value = event.target.value
-    // if (name === fields.omit.name) {
+    // if (name === tfields.omit.name) {
     // value === 'true' ? _setValue(true) : _setValue(false)
     // } else {
     _setValue(value)
@@ -40,7 +40,7 @@ const ColumnHeading = ({ fieldName, setFilter }) => {
   return (
     <th>
       <div>
-        {fieldName === fields.omit.name ? (
+        {fieldName === tFields.omit.name ? (
           ''
         ) : (
           <input

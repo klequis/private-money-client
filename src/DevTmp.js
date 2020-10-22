@@ -1,15 +1,15 @@
 import React, { useEffect } from 'react'
 import App from './App'
 import { useDispatch } from 'react-redux'
-import { activeTransactionSet } from 'features/transactions/transactionsSlice'
+import { activeTransactionSet } from 'features/transactions'
 /*
 import * as R from 'ramda'
 import {
   fetchTransactions,
   selectActiveTransaction
-} from 'features/transactions/transactionsSlice'
+} from 'features/transactions'
 
-import { fetchRules } from 'features/rules/rulesSlice'
+import { fetchRules } from 'features/rules'
 */
 
 // eslint-disable-next-line

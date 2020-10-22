@@ -1,13 +1,13 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
-import { selectAllTransactions } from 'features/transactions/transactionsSlice'
+import { selectAllTransactions } from 'features/transactions'
 import * as R from 'ramda'
-import Table from 'components/Table'
-import AllDataTableBody from './AllDataTableBody'
-import AllDataTableHead from './AllDataTableHead'
+import BaseTable from 'components/Table'
+import TableBody from './TableBody'
+import TableHead from './TableHead'
 
-const AllDataTable = () => {
+export const Table = () => {
   const [/*_filter,*/ _setFilter] = useState({
     field: '',
     value: '',
@@ -57,14 +57,14 @@ const AllDataTable = () => {
   // HARD CODED SORT. DELETE THESE FUNCTIONS
 
   return (
-    <Table>
-      <AllDataTableHead setFilter={setFilter} />
+    <BaseTable>
+      <TableHead setFilter={setFilter} />
       {/* TODO: tmp code. Sort is hard coded */}
       {filteredData().map((t) => (
-        <AllDataTableBody key={t._id} transactionId={t._id} />
+        <TableBody key={t._id} transactionId={t._id} />
       ))}
-    </Table>
+    </BaseTable>
   )
 }
 
-export default AllDataTable
+

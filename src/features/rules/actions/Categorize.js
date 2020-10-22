@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import TextEdit from 'components/TextEdit'
 import * as R from 'ramda'
 import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
-import { /*actionTypes,*/ transactionFields as fields } from 'fields/transactionFields'
+import { transactionFields as tFields } from 'features/transactions'
 // import styled from 'styled-components'
 
 // eslint-disable-next-line
@@ -16,7 +16,7 @@ import { green, redf, purple } from 'logger'
 // `
 // background-color: red;
 
-const Categorize = ({ action, minChars }) => {
+export const Categorize = ({ action, minChars }) => {
   const [_action, _setAction] = useState(action)
   const { category1, category2 } = _action
   const dispatch = useDispatch()
@@ -48,7 +48,7 @@ const Categorize = ({ action, minChars }) => {
   return (
     <>
       <TextEdit
-        name={fields.category1.name}
+        name={tFields.category1.name}
         labelText='Category 1'
         initialValue={category1}
         minChars={minChars}
@@ -56,7 +56,7 @@ const Categorize = ({ action, minChars }) => {
         onChange={_handleEvent}
       />
       <TextEdit
-        name={fields.category2.name}
+        name={tFields.category2.name}
         labelText='Category 2'
         initialValue={category2}
         minChars={minChars}
@@ -66,34 +66,3 @@ const Categorize = ({ action, minChars }) => {
     </>
   )
 }
-
-export default Categorize
-
-/*
-
-return (
-    <>
-      <div>
-        <label>{fields.category1.description}</label>
-        <TextEdit
-          name={fields.category1.name}
-          value={category1}
-          onBlur={_handleEvent}
-          onChange={_handleEvent}
-          // minWidth={300}
-        />
-      </div>
-      <div>
-        <label>{fields.category2.description}</label>
-        <TextEdit
-          name={fields.category2.name}
-          value={category2}
-          onBlur={_handleEvent}
-          onChange={_handleEvent}
-          // minWidth={300}
-        />
-      </div>
-    </>
-  )
-
-*/

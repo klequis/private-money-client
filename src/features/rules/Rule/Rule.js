@@ -1,7 +1,6 @@
 import React, { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import Criteria from './Criteria'
-import Actions from './Actions'
+import { Criteria, Actions } from 'features/rules'
 import Button from 'components/Button'
 import RuleId from './RuleId'
 import {
@@ -12,18 +11,12 @@ import {
   ruleCreate
 } from 'features/ruleEdit/ruleEditSlice'
 import styled from 'styled-components'
-import { isTmpRule } from 'fields/rules'
+import { isTmpRule } from 'features/rules'
 
 import {
   selectActiveTransaction,
-  selectActiveTransactionId,
   activeTransactionClear
-} from 'features/transactions/transactionsSlice'
-
-// try
-import {
-  fetchCriteriaResults,
-} from 'features/criteriaResults/criteriaResultsSlice'
+} from 'features/transactions'
 
 import * as R from 'ramda'
 import { ruleEditClear, ruleEditSet, ruleTmpMakeId, ruleTmpMake } from 'features/ruleEdit/ruleEditSlice'
@@ -43,8 +36,6 @@ const Rule = () => {
   const activeTransaction = useSelector(selectActiveTransaction)
   // green('activeTransaction', activeTransaction)
 
-  const activeTransactionId = useSelector(selectActiveTransactionId)
-  // green('type activeTransactionId', R.type(activeTransactionId))
 
   const ruleEdit = useSelector(selectRuleEdit)
   // green('type ruleEdit', R.type(ruleEdit))
@@ -53,9 +44,12 @@ const Rule = () => {
 
   useEffect(() => {
     if (R.type(activeTransaction) !== 'Null') {
+      // if (isTmpRule(ruleEdit)) {
       const origDescription = activeTransaction.origDescription
       const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
       dispatch(ruleEditSet(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
+      // }
+
     }
   }, [activeTransaction])
 
@@ -79,6 +73,7 @@ const Rule = () => {
 
   const _handleCancelClick = () => {
     dispatch(activeTransactionClear())
+    dispatch(ruleEditClear())
   }
 
   countReturn = countReturn + 1

@@ -1,9 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import CriterionEdit from './CriterionEdit'
+import { CriterionEdit } from './CriterionEdit'
 import {
   selectRuleEditCriteria,
-  //   selectRuleEdit
 } from 'features/ruleEdit/ruleEditSlice'
 import Button from 'components/Button'
 import styled from 'styled-components'
@@ -12,18 +11,12 @@ import styled from 'styled-components'
 import { green, redf, yellow, purple } from 'logger'
 import RenderCount from 'components/RenderCount'
 
-const ButtonRow = styled.div`
-  
-`
-/*
-  display: flex;
-  align-items: flex-start;
-*/ 
+const ButtonRow = styled.div``
 
 let countTotal = 0
 let countReturn = 0
 
-const Criteria = () => {
+export const Criteria = () => {
 
   countTotal = countTotal + 1
 
@@ -54,5 +47,3 @@ const Criteria = () => {
     </div>
   )
 }
-
-export default Criteria

@@ -1,11 +1,11 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectRuleEditActions } from 'features/ruleEdit/ruleEditSlice'
-import ActionEdit from './ActionEdit'
-import RenameDescription from './RenameDescription'
-import Categorize from './Categorize'
-import { actionTypes } from 'fields/actionFields'
-import { transactionFields as fields } from 'fields/transactionFields'
+import { ActionEdit } from './ActionEdit'
+import { RenameDescription } from './RenameDescription'
+import { Categorize } from './Categorize'
+import { actionTypes } from 'features/rules'
+import { transactionFields as tFields } from 'features/transactions'
 import styled from 'styled-components'
 
 // eslint-disable-next-line
@@ -32,14 +32,14 @@ display: flex;
 let countTotal = 0
 let countReturn = 0
 
-const Actions = () => {
+export const Actions = () => {
 
   countTotal = countTotal + 1
 
   const actions = useSelector((state) => selectRuleEditActions(state))
 
   const Control = ({ action }) => {
-    if (action.field === fields.description.name) {
+    if (action.field === tFields.description.name) {
       return <RenameDescription key={action._id} action={action} minChars={3} />
     } else if (action.actionType === actionTypes.categorize.name) {
       return <Categorize key={action._id} action={action} minChars={3} />
@@ -61,7 +61,7 @@ const Actions = () => {
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
-      
+
       <Wrapper>
         {actions.map((a) => {
           return (
@@ -73,5 +73,3 @@ const Actions = () => {
 
   )
 }
-
-export default Actions

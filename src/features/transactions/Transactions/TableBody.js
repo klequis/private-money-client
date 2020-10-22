@@ -1,15 +1,13 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import isNilOrEmpty from 'lib/isNilOrEmpty'
-import Rules from 'features/rules/Rule'
 import {
   selectOneTransaction,
   activeTransactionSet,
   selectActiveTransactionId,
-  // selectTransactionRuleIds
-} from 'features/transactions/transactionsSlice'
-import styles from './AllDataTableBody.module.css'
-import AllDataTableData from './AllDataTableData'
+} from 'features/transactions'
+import styles from './TableBody.module.css'
+import AllDataTableData from './TableData'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
@@ -18,10 +16,6 @@ const TableRow = ({ transactionId }) => {
   const dispatch = useDispatch()
 
   const activeTransactionId = useSelector(selectActiveTransactionId)
-
-  // green('TableRow: transactionId', transactionId)
-  // green('TableRow: activeTransactionId', activeTransactionId)
-
   const showRow = activeTransactionId === transactionId
   const transaction = useSelector((state) =>
     selectOneTransaction(transactionId, state)

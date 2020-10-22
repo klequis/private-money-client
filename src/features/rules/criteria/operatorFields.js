@@ -1,6 +1,9 @@
 import * as R from 'ramda'
 
-export const operators = {
+//eslint-disable-next-line
+import { blue } from 'logger'
+
+export const operatorFields = {
   beginsWith: {
     name: 'beginsWith',
     description: 'Begins with'
@@ -19,8 +22,9 @@ export const operators = {
   }
 }
 
-export const operatorSelectFields = R.values(operators)
-export const operatorSelectFieldNames = R.map(
+export const operatorList = R.values(operatorFields)
+
+export const operatorNames = R.map(
   (f) => f.name,
-  operatorSelectFields
+  operatorFields
 )

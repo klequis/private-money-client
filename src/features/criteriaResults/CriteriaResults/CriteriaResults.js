@@ -11,14 +11,14 @@ import {
 } from 'features/criteriaResults/criteriaResultsSlice'
 import {
   selectCriteriaResultsTransactions
-} from 'features/transactions/transactionsSlice'
+} from 'features/transactions'
 import Table from 'components/Table'
 import * as R from 'ramda'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 import {
   transactionFields as tFields
-} from 'fields/transactionFields'
+} from 'features/transactions'
 // import { requestStatus } from 'globalConstants'
 import TableBody from './TableBody'
 
@@ -91,21 +91,18 @@ const CriteriaResults = () => {
   // green('CriteriaResults: activeCriteria', activeCriteria)
 
   useEffect(() => {
-    // if (status === requestStatus.idle || status === requestStatus.fulfilled) {
-    
+    // TODO: make use of 'valid'. There is a criteriaValidation in rules/criteria
     const valid = isCriteriaValid(activeCriteria)
     if (!R.isEmpty(activeCriteria)) {
-      green('fetching', activeCriteria)
       dispatch(fetchCriteriaResults(activeCriteria))
     }
-    // }
   }, [criteria])
 
   const transactions = useSelector(
     selectCriteriaResultsTransactions
   )
-
-  if (!criteria) {
+  
+  if (R.isEmpty(criteria) || R.isEmpty(actions)) {
     return null
   }
 

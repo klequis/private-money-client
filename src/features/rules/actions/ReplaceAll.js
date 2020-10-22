@@ -1,7 +1,7 @@
 import React from 'react'
 import Select from 'components/Select'
 import TextEdit from 'components/TextEdit'
-import { transactionFields as fields } from 'fields/transactionFields'
+import { transactionFields as tFields } from 'features/transactions'
 
 const ReplaceAll = ({ action, onChange }) => {
 
@@ -14,8 +14,8 @@ const ReplaceAll = ({ action, onChange }) => {
         onChange={onChange}
         maxWidth={100}
       >
-        <option value={fields.description.name}>Description</option>
-        <option value={fields.type.name}>Type</option>
+        <option value={tFields.description.name}>Description</option>
+        <option value={tFields.type.name}>Type</option>
       </Select>
       <TextEdit
         name="findValue"

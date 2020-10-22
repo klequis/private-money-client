@@ -47,7 +47,8 @@ const rulesSlice = createSlice({
   }
 })
 
-export default rulesSlice.reducer
+// export default rulesSlice.reducer
+export const rulesReducer = rulesSlice.reducer
 
 const getRulesItems = (state) =>
   R.has('rules')(state) ? state.rules.items : R.path(['state', 'items'], state)

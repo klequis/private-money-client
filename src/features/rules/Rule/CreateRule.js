@@ -16,7 +16,7 @@ const CreateRuleDiv = styled.div`
 
 let count = 0
 
-const CreateRule = React.memo(() => {
+export const CreateRule = React.memo(() => {
   count = count + 1
   return (
     <CreateRuleDiv id="CreateRules">
@@ -35,5 +35,3 @@ const CreateRule = React.memo(() => {
     </CreateRuleDiv>
   )
 })
-
-export default CreateRule

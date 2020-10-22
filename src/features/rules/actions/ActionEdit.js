@@ -5,12 +5,12 @@ import Strip from './Strip'
 import ReplaceAll from './ReplaceAll'
 import * as R from 'ramda'
 import { ruleEditActionUpdate } from 'features/ruleEdit/ruleEditSlice'
-import { actionTypes } from 'fields/actionFields'
+import { actionTypes } from 'features/rules'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 
-const ActionEdit = ({ action }) => {
+export const ActionEdit = ({ action }) => {
   const [_action, _setAction] = useState(action)
   const { actionType } = _action
 
@@ -55,5 +55,3 @@ const ActionEdit = ({ action }) => {
     </div>
   )
 }
-
-export default ActionEdit

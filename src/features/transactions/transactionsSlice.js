@@ -20,7 +20,6 @@ const viewName = 'all-data-by-description'
 export const transactionsFetch = createAsyncThunk(
   'transactions/get',
   async () => {
-    yellow('fetching transactions **')
     const r = await api.views.read(viewName)
     return r
   }
@@ -56,8 +55,7 @@ const transactionsSlice = createSlice({
   }
 })
 
-export default transactionsSlice.reducer
-blue('t actions', transactionsSlice.actions)
+export const transactionsReducer = transactionsSlice.reducer
 export const { activeTransactionSet, activeTransactionClear } = transactionsSlice.actions
 
 // Selectors

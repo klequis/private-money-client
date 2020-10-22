@@ -3,22 +3,17 @@ import {
   createAsyncThunk, 
   current } from '@reduxjs/toolkit'
 import * as R from 'ramda'
-
-// import { 
-//   transactionsFetch
-// }
-// from 'features/transactions/transactionsSlice'
-// import { rulesFetch } from 'features/rules/rulesSlice'
 import * as Promise from 'bluebird'
 import api from 'api'
 import shortid from 'shortid'
-import criteria from 'fields/criteria'
+import { operatorFields } from 'features/rules'
 import { 
   transactionFields as tFields
-} from 'fields/transactionFields'
+} from 'features/transactions'
 import { 
   actionTypes, 
-} from 'fields/actionFields'
+} from 'features/rules'
+
 
 
 // eslint-disable-next-line
@@ -170,7 +165,6 @@ export const selectRuleEditId = (state) => {
   return R.isNil(id) ? '' : id
 }
 
-
 /**
  * @returns {string} A temporary id in the from of 'tmp_' + random
  */
@@ -184,7 +178,6 @@ export const ruleTmpMakeId = () => `tmp_${shortid.generate()}`
  * @returns {object} A new Rule
  */
 export const ruleTmpMake = (tmpId, origDescription, date) => {
-  const { operators: oFields } = criteria
 
   return {
     _id: tmpId,
@@ -192,14 +185,14 @@ export const ruleTmpMake = (tmpId, origDescription, date) => {
       {
         _id: `tmp_${shortid.generate()}`,
         field: tFields.description.name,
-        operation: oFields.equals.name,
+        operation: operatorFields.equals.name,
         value: origDescription,
         active: true,
       },
       {
         _id: `tmp_${shortid.generate()}`,
         field: tFields.date.name,
-        operation: oFields.equals.name,
+        operation: operatorFields.equals.name,
         value: date,
         active: false
       }

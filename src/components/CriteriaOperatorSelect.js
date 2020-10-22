@@ -1,20 +1,9 @@
 import React from 'react'
 import Select from './Select'
-import { operatorList } from 'fields/criteria'
+import { operatorList } from 'features/rules'
 import styled from 'styled-components'
 
-const Wrapper = styled.div`
-  
-  
-
-`
-/*
-background-color: blue !important;
-*/
-/*
-  margin-botton: 100px !important;
-  padding-botton: 100px !important;
-*/
+const Wrapper = styled.div``
 
 const CriteriaFieldSelect = ({
   disabled,

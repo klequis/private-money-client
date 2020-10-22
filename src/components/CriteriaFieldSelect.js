@@ -1,20 +1,9 @@
 import React from 'react'
 import Select from './Select'
-import { fieldList } from 'fields/criteria'
+import { criteriaFieldList } from 'features/rules'
 import styled from 'styled-components'
 
-const CriteriaFieldSelectDiv = styled.div`
-  
-  
-`
-/*
-background-color: blue !important;
-*/
-
-/*
-  margin-botton: 100px !important;
-  padding-botton: 100px !important;
-*/  
+const CriteriaFieldSelectDiv = styled.div``
 
 const CriteriaFieldSelect = ({
   disabled,
@@ -33,7 +22,7 @@ const CriteriaFieldSelect = ({
         value={value}
       >
         {
-          fieldList.map(f =>
+          criteriaFieldList.map(f =>
             (
               <option key={f.name} value={f.name}>
                 {f.description}
