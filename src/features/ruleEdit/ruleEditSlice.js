@@ -77,6 +77,9 @@ const ruleEditSlice = createSlice({
       const { payload } = action
       state.ruleEdit = payload // || {}
     },
+    ruleEditClear(state, action) {
+      state.ruleEdit = {}
+    },
     ruleEditCriterionUpdate(state, action) {
       const newCriterion = action.payload
       const criteria = R.path(['ruleEdit', 'criteria'], state)
@@ -107,6 +110,7 @@ const ruleEditSlice = createSlice({
 export default ruleEditSlice.reducer
 
 export const {
+  ruleEditClear,
   ruleEditSet,
   ruleEditCriterionUpdate,
   ruleEditActionUpdate

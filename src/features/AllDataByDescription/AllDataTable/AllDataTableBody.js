@@ -4,7 +4,7 @@ import isNilOrEmpty from 'lib/isNilOrEmpty'
 import Rules from 'features/rules/Rule'
 import {
   selectOneTransaction,
-  setActiveTransactionId,
+  activeTransactionSet,
   selectActiveTransactionId,
   // selectTransactionRuleIds
 } from 'features/transactions/transactionsSlice'
@@ -41,7 +41,7 @@ const TableRow = ({ transactionId }) => {
   } = transaction
 
   const _rowClick = () => {
-    dispatch(setActiveTransactionId(transactionId))
+    dispatch(activeTransactionSet(transactionId))
   }
 
   return (

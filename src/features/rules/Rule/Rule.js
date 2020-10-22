@@ -16,7 +16,8 @@ import { isTmpRule } from 'fields/rules'
 
 import {
   selectActiveTransaction,
-  selectActiveTransactionId
+  selectActiveTransactionId,
+  activeTransactionClear
 } from 'features/transactions/transactionsSlice'
 
 // try
@@ -25,7 +26,7 @@ import {
 } from 'features/criteriaResults/criteriaResultsSlice'
 
 import * as R from 'ramda'
-import { ruleEditSet, ruleTmpMakeId, ruleTmpMake } from 'features/ruleEdit/ruleEditSlice'
+import { ruleEditClear, ruleEditSet, ruleTmpMakeId, ruleTmpMake } from 'features/ruleEdit/ruleEditSlice'
 
 // eslint-disable-next-line
 import { green, purple } from 'logger'
@@ -76,7 +77,9 @@ const Rule = () => {
     }
   }
 
-
+  const _handleCancelClick = () => {
+    dispatch(activeTransactionClear())
+  }
 
   countReturn = countReturn + 1
   return (
@@ -89,6 +92,7 @@ const Rule = () => {
         /> */}
         <RuleId ruleId={ruleId} />
         <Button onClick={_handleSaveEditButtonClick}>Save</Button>
+        <Button onClick={_handleCancelClick}>Cancel</Button>
         <Criteria />
         <Actions />
       </RuleDiv>

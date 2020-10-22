@@ -1,4 +1,4 @@
-import { createSlice, createAsyncThunk/*,  current */ } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 // import { logFetchResults } from 'lib/logFetchResults'
@@ -30,8 +30,11 @@ const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    setActiveTransactionId(state, action) {
+    activeTransactionSet(state, action) {
       state.activeTransactionId = action.payload
+    },
+    activeTransactionClear(state, action) {
+      state.activeTransactionId = null
     }
   },
   extraReducers: {
@@ -54,8 +57,8 @@ const transactionsSlice = createSlice({
 })
 
 export default transactionsSlice.reducer
-
-export const { setActiveTransactionId } = transactionsSlice.actions
+blue('t actions', transactionsSlice.actions)
+export const { activeTransactionSet, activeTransactionClear } = transactionsSlice.actions
 
 // Selectors
 export const selectAllTransactions = (state) => state.transactions.items
