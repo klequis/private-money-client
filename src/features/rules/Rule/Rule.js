@@ -5,11 +5,13 @@ import Button from 'components/Button'
 import RuleId from './RuleId'
 import {
   selectRuleEdit,
-} from 'features/ruleEdit/ruleEditSlice'
-import {
   ruleUpdate,
-  ruleCreate
-} from 'features/ruleEdit/ruleEditSlice'
+  ruleCreate,
+  ruleEditClear, 
+  ruleEditSet, 
+  ruleTmpMakeId, 
+  ruleTmpMake
+} from 'features/ruleEdit'
 import styled from 'styled-components'
 import { isTmpRule } from 'features/rules'
 
@@ -19,7 +21,7 @@ import {
 } from 'features/transactions'
 
 import * as R from 'ramda'
-import { ruleEditClear, ruleEditSet, ruleTmpMakeId, ruleTmpMake } from 'features/ruleEdit/ruleEditSlice'
+
 
 // eslint-disable-next-line
 import { green, purple } from 'logger'

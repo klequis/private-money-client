@@ -3,7 +3,7 @@ import { useSelector } from 'react-redux'
 import { CriterionEdit } from './CriterionEdit'
 import {
   selectRuleEditCriteria,
-} from 'features/ruleEdit/ruleEditSlice'
+} from 'features/ruleEdit'
 import Button from 'components/Button'
 import styled from 'styled-components'
 

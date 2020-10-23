@@ -5,10 +5,10 @@ import {
   selectRuleEditActions,
   selectActiveCriteria,
   
-} from 'features/ruleEdit/ruleEditSlice'
+} from 'features/ruleEdit'
 import {
   fetchCriteriaResults,
-} from 'features/criteriaResults/criteriaResultsSlice'
+} from 'features/criteriaResults'
 import {
   selectCriteriaResultsTransactions
 } from 'features/transactions'
@@ -76,7 +76,7 @@ const isCriteriaValid = (criteria) => {
 let countTotal = 0
 let countReturn = 0
 
-const CriteriaResults = () => {
+export const CriteriaResults = () => {
   countTotal = countTotal + 1
   const dispatch = useDispatch()
 
@@ -132,4 +132,3 @@ const CriteriaResults = () => {
   )
 }
 
-export default CriteriaResults

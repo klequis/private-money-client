@@ -102,7 +102,7 @@ const ruleEditSlice = createSlice({
   }
 })
 
-export default ruleEditSlice.reducer
+export const ruleEditReducer = ruleEditSlice.reducer
 
 export const {
   ruleEditClear,

@@ -50,7 +50,7 @@ const criteriaResultsSlice = createSlice({
   }
 })
 
-export default criteriaResultsSlice.reducer
+export const criteriaResultsReducer = criteriaResultsSlice.reducer
 
 export const { criteriaResultsClear } = criteriaResultsSlice.actions
 

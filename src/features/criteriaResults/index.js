@@ -1,1 +1,2 @@
-export { default } from './CriteriaResults'
+export * from './CriteriaResults'
+export * from './criteriaResultsSlice'

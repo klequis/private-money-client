@@ -1,1 +1,1 @@
-export { default } from './CriteriaResults'
+export { CriteriaResults } from './CriteriaResults'

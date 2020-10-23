@@ -1,1 +1,1 @@
-export { default } from './CreateRule'
+export * from './ruleEditSlice'
