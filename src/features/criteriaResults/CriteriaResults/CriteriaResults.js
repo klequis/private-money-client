@@ -40,8 +40,6 @@ const TableHead = () => {
   )
 }
 
-
-
 // const isIdString = (value) => {
 //   return R.type(R.prop('_id')(value)) === 'String'
 // }

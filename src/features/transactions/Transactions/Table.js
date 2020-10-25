@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useSelector } from 'react-redux'
-import isNilOrEmpty from 'lib/isNilOrEmpty'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { selectAllTransactions } from 'features/transactions'
 import * as R from 'ramda'
 import BaseTable from 'components/Table'

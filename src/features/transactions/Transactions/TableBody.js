@@ -1,6 +1,6 @@
 import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import isNilOrEmpty from 'lib/isNilOrEmpty'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
   selectOneTransaction,
   activeTransactionSet,

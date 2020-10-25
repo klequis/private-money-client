@@ -1,6 +1,6 @@
 import React from 'react'
 import { requestStatus } from 'globalConstants'
-import isNilOrEmpty from 'lib/isNilOrEmpty'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // import { yellow } from 'logger'
 

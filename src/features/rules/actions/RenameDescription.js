@@ -40,6 +40,8 @@ export const RenameDescription = ({ action }) => {
     dispatch(ruleEditActionUpdate(newAction))
   }
 
+  green('action.replaceWithValue', replaceWithValue)
+
   return (
     <TextEdit
       name={actionFields.replaceWithValue.name}

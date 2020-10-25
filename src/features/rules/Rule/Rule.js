@@ -9,16 +9,20 @@ import {
   ruleCreate,
   ruleEditClear, 
   ruleEditSet, 
-  ruleTmpMakeId, 
-  ruleTmpMake
+  // ruleTmpMakeId, 
+  // ruleTmpMake,
+  ruleEditTmpMake
 } from 'features/ruleEdit'
 import styled from 'styled-components'
 import { isTmpRule } from 'features/rules'
 
 import {
+  activeTransactionClear,
   selectActiveTransaction,
-  activeTransactionClear
+  selectActiveTransactionId
 } from 'features/transactions'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { ShowRuleIds } from './ShowRuleIds'
 
 import * as R from 'ramda'
 
@@ -29,6 +33,8 @@ import RenderCount from 'components/RenderCount'
 
 const RuleDiv = styled.div``
 
+const shouldShowRuleIds = ruleIds => !isNilOrEmpty(ruleIds) && ruleIds > 1
+
 let countTotal = 0
 let countReturn = 0
 
@@ -36,32 +42,43 @@ const Rule = () => {
   countTotal = countTotal + 1
 
   const activeTransaction = useSelector(selectActiveTransaction)
-  // green('activeTransaction', activeTransaction)
+  green('activeTransaction', activeTransaction)
+  // const activeTransactionId = useSelector(selectActiveTransactionId)
+  // green('activeTransactionId', activeTransactionId)
+
+
+  //
+
+    const { ruleIds } = activeTransaction
+    green('ruleIds', isNilOrEmpty(ruleIds))
+
+  //
 
 
   const ruleEdit = useSelector(selectRuleEdit)
-  // green('type ruleEdit', R.type(ruleEdit))
+  green('type ruleEdit', ruleEdit)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
-    if (R.type(activeTransaction) !== 'Null') {
-      // if (isTmpRule(ruleEdit)) {
-      const origDescription = activeTransaction.origDescription
-      const tmpRule = ruleTmpMake(ruleTmpMakeId(), origDescription)
-      dispatch(ruleEditSet(tmpRule)) // TODO: 1) finish this. 2) eliminate ruleTmp
-      // }
-
+    if (isNilOrEmpty(ruleIds)) {
+      dispatch(ruleEditTmpMake()) 
+    } else if (ruleIds.length === 1) {
+      dispatch(ruleEditSet(ruleIds[0]))
+    } else if (ruleIds.length > 1) {
+      // ShowRuleIds below
     }
-  }, [activeTransaction])
+  }, [ruleIds])
+
+  if (shouldShowRuleIds(ruleIds)) {
+    return <ShowRuleIds ruleIds={ruleIds} />
+  }
 
   if (!ruleEdit) {
     return null
   }
 
-  const { _id: ruleId } = ruleEdit
-
-  const _handleSaveEditButtonClick = () => {
+  const _handleSaveClick = () => {
     // green('Rule: ruleEdit', ruleEdit)
     if (isTmpRule(ruleEdit)) {
 
@@ -78,6 +95,8 @@ const Rule = () => {
     dispatch(ruleEditClear())
   }
 
+  const { _id: ruleId } = ruleEdit
+  
   countReturn = countReturn + 1
   return (
     <>
@@ -88,7 +107,7 @@ const Rule = () => {
           countReturn={{ actual: countReturn, min: 2, max: 2 }}
         /> */}
         <RuleId ruleId={ruleId} />
-        <Button onClick={_handleSaveEditButtonClick}>Save</Button>
+        <Button onClick={_handleSaveClick}>Save</Button>
         <Button onClick={_handleCancelClick}>Cancel</Button>
         <Criteria />
         <Actions />
