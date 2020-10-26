@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import * as R from 'ramda'
 import { useSelector, useDispatch } from 'react-redux'
 import {
@@ -12,7 +12,8 @@ import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
 import ContainerFluid from 'components/ContainerFluid'
 
-import { isNull } from 'dataTypes'
+// import { isNull } from 'dataTypes'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
@@ -21,24 +22,68 @@ import RenderCount from 'components/RenderCount'
 let countTotal = 0
 let countReturn = 0
 
+const _shouldRefreshData = (originalTransactionId, currentTransactionId, status) => {
+  // return false
+  if (status === requestStatus.idle) {
+    red('status === idle', 'idle')
+    return true
+  }
+  if (originalTransactionId !== currentTransactionId) {
+    red('originalTransactionId !== currentTransactionId', ' not equal')
+    return true
+  }
+  red('return false')
+  return false
+}
+
 const App = () => {
   countTotal = countTotal + 1
 
+  // yellow('App', 'start')
+  // useEffect(() => {
+  //   green('************************************')    
+  // })
+  // const [_activeTransactionId, _setActiveTransactionId] = useState(useSelector(selectActiveTransactionId))
   const dispatch = useDispatch()
 
-  // get request status
   const state = useSelector(state => state)
   const slices = R.pick(['rules', 'transactions'])(state)
   const status = getRequestStatus(slices)
 
+  const activeTransactionId = useSelector(selectActiveTransactionId)
+  // green('_activeTransactionId', _activeTransactionId)
+  // green('activeTransactionId', activeTransactionId)
+
+  green('status', status)
   useEffect(() => {
-    if (status === requestStatus.idle) {
+    if (status === requestStatus.idle || status === requestStatus.refresh) {
+      green('App.useEffect ------ 1', 'fetching')
       dispatch(transactionsFetch())
       dispatch(rulesFetch())
     }
-  }, [dispatch, state, status])
+  }, [status])
 
-  const activeTransactionId = useSelector(selectActiveTransactionId)
+
+
+  // useEffect(() => {
+  //   if (_shouldRefreshData(activeTransactionId, _activeTransactionId, status)) {
+  //     green('App.useEffect ------ 1', 'fetching')
+  //     dispatch(transactionsFetch())
+  //     dispatch(rulesFetch())
+  //   }
+  // } , [status, _activeTransactionId, activeTransactionId])
+
+  // if (_activeTransactionId !== activeTransactionId) {
+  //   green('_setActiveTransactionId', '_setActiveTransactionId')
+  //   _setActiveTransactionId(activeTransactionId)
+  // }
+
+  // useEffect(() => {
+  //   green('App.useEffect - 2', 'running')
+  //   dispatch(transactionsFetch())
+  //   dispatch(rulesFetch())
+  // }, [activeTransactionId])
+
 
   countReturn = countReturn + 1
 
@@ -51,13 +96,13 @@ const App = () => {
           countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />
         {
-          isNull(activeTransactionId)
+          isNilOrEmpty(activeTransactionId)
             ? <Transactions />
             : <CreateRule />
 
         }
       </>
-      
+
     </RequestStatus>
   )
 }

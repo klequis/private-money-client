@@ -2,7 +2,7 @@ import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
 import * as R from 'ramda'
-// import { logFetchResults } from 'lib/logFetchResults'
+import { logFetchResults } from 'lib/logFetchResults'
 
 // eslint-disable-next-line
 import { blue, red } from 'logger'
@@ -29,17 +29,17 @@ const rulesSlice = createSlice({
   },
   extraReducers: {
     [rulesFetch.pending]: (state, action) => {
-      // logFetchResults('fetchRules.pending', state, action)      
+      logFetchResults('fetchRules.pending', state, action)      
       state.status = requestStatus.pending
       state.items = []
     },
     [rulesFetch.fulfilled]: (state, action) => {
-      // logFetchResults('fetchRules.fulfilled', state, action)      
+      logFetchResults('fetchRules.fulfilled', state, action)      
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     [rulesFetch.rejected]: (state, action) => {
-      // logFetchResults('fetchRules.rejected', state, action)      
+      logFetchResults('fetchRules.rejected', state, action)      
       state.status = requestStatus.error
       state.error = action.error.message
       state.items = []

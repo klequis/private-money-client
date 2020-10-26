@@ -7,8 +7,8 @@ import {
   selectRuleEdit,
   ruleUpdate,
   ruleCreate,
-  ruleEditClear, 
-  ruleEditSet, 
+  ruleEditClear,
+  ruleEditSet,
   // ruleTmpMakeId, 
   // ruleTmpMake,
   ruleEditTmpMake
@@ -19,7 +19,8 @@ import { isTmpRule } from 'features/rules'
 import {
   activeTransactionClear,
   selectActiveTransaction,
-  selectActiveTransactionId
+  selectActiveTransactionId,
+  setStatusRefresh
 } from 'features/transactions'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { ShowRuleIds } from './ShowRuleIds'
@@ -42,33 +43,23 @@ const Rule = () => {
   countTotal = countTotal + 1
 
   const activeTransaction = useSelector(selectActiveTransaction)
-  green('activeTransaction', activeTransaction)
-  // const activeTransactionId = useSelector(selectActiveTransactionId)
-  // green('activeTransactionId', activeTransactionId)
 
-
-  //
-
-    const { ruleIds } = activeTransaction
-    green('ruleIds', isNilOrEmpty(ruleIds))
-
-  //
-
+  const { ruleIds } = activeTransaction
 
   const ruleEdit = useSelector(selectRuleEdit)
-  green('type ruleEdit', ruleEdit)
 
   const dispatch = useDispatch()
 
   useEffect(() => {
     if (isNilOrEmpty(ruleIds)) {
-      dispatch(ruleEditTmpMake()) 
+      const { origDescription, date } = activeTransaction
+      dispatch(ruleEditTmpMake({ origDescription, date }))
     } else if (ruleIds.length === 1) {
       dispatch(ruleEditSet(ruleIds[0]))
     } else if (ruleIds.length > 1) {
       // ShowRuleIds below
     }
-  }, [ruleIds])
+  }, [ruleIds, activeTransaction])
 
   if (shouldShowRuleIds(ruleIds)) {
     return <ShowRuleIds ruleIds={ruleIds} />
@@ -78,16 +69,18 @@ const Rule = () => {
     return null
   }
 
-  const _handleSaveClick = () => {
-    // green('Rule: ruleEdit', ruleEdit)
+  const _handleSaveClick = async () => {
     if (isTmpRule(ruleEdit)) {
-
-      dispatch(ruleCreate(ruleEdit))
-      // green('CREATED')
+      await dispatch(ruleCreate(ruleEdit))
+      green('ruleCreate', 'DONE')
     } else {
-      dispatch(ruleUpdate(ruleEdit))
-      // green('UPDATED')
+      await dispatch(ruleUpdate(ruleEdit))
+      green('ruleUpdate', 'DONE')
     }
+    green('dispatch Refresh')
+    dispatch(setStatusRefresh())
+
+    dispatch(activeTransactionClear())
   }
 
   const _handleCancelClick = () => {
@@ -96,7 +89,7 @@ const Rule = () => {
   }
 
   const { _id: ruleId } = ruleEdit
-  
+
   countReturn = countReturn + 1
   return (
     <>
@@ -106,6 +99,7 @@ const Rule = () => {
           countTotal={{ actual: countTotal, min: 1, max: 2 }}
           countReturn={{ actual: countReturn, min: 2, max: 2 }}
         /> */}
+        <h1>Rule</h1>
         <RuleId ruleId={ruleId} />
         <Button onClick={_handleSaveClick}>Save</Button>
         <Button onClick={_handleCancelClick}>Cancel</Button>

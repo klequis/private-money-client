@@ -6,9 +6,11 @@ import * as R from 'ramda'
 import * as Promise from 'bluebird'
 import api from 'api'
 import { ruleTmpMake } from './ruleTmpMake'
+import { requestStatus } from 'globalConstants'
+import { logFetchResults } from 'lib/logFetchResults'
 
 // eslint-disable-next-line
-import { blue } from 'logger'
+import { blue, red } from 'logger'
 
 const getActiveCriteria = (criteria) => {
   return criteria === null ? [] : criteria.filter((c) => c.active === true)
@@ -29,15 +31,16 @@ const removeTmpIdField = (rule) => {
 export const ruleCreate = createAsyncThunk(
   'rules/rule-create',
   async (rule) => {
+    blue('ruleCreate: rule', rule)
     const newRule = R.pipe(
       removeInactiveCriteria,
       removeTmpIdField
     )(rule)
     await api.rules.create(newRule)
-    Promise.all([
-      api.views.read('all-data-by-description'),
-      api.rules.read()
-    ])
+    // Promise.all([
+    //   api.views.read('all-data-by-description'),
+    //   api.rules.read()
+    // ])
   }
 )
 
@@ -46,21 +49,23 @@ export const ruleUpdate = createAsyncThunk(
   async (rule) => {
     const newRule = removeInactiveCriteria(rule)
     await api.rules.update(rule._id, newRule)
-    Promise.all([
-      api.views.read('all-data-by-description'),
-      api.rules.read()
-    ])
+    // Promise.all([
+    //   api.views.read('all-data-by-description'),
+    //   api.rules.read()
+    // ])
   }
 )
 
-const initialState = {}
+const initialState = {
+  status: requestStatus.idle,
+  error: null
+}
 
 const ruleEditSlice = createSlice({
   name: 'ruleEdit',
   initialState,
   reducers: {
     ruleEditSet(state, action) {
-      blue('state', current(state))
       const { payload } = action
       state.ruleEdit = payload // || {}
     },
@@ -92,8 +97,41 @@ const ruleEditSlice = createSlice({
       // else call update
     },
     ruleEditTmpMake(state, action) {
-      state.ruleEdit = ruleTmpMake()
+      const { payload } = action
+      const { origDescription, date } = payload
+      state.ruleEdit = ruleTmpMake(origDescription, date)
     }
+  },
+  extraReducers: {
+    [ruleCreate.pending]: (state, action) => {
+      logFetchResults('ruleEdit.pending', state, action)
+      state.status=requestStatus.pending
+    },
+    [ruleCreate.fulfilled]: (state, action) => {
+      logFetchResults('ruleEdit.fulfilled', state, action)
+      state.status=requestStatus.fulfilled
+    },
+    [ruleCreate.rejected]: (state, action) => {
+      logFetchResults('ruleEdit.rejected', state, action)
+      red('ruleEdit.ruleCreate.rejected', 'rejected')
+      state.status = requestStatus.error
+      state.error = action.error.message
+    },
+    // ruleUpdate
+    [ruleUpdate.pending]: (state, action) => {
+      logFetchResults('ruleEdit.pending', state, action)
+      state.status=requestStatus.pending
+    },
+    [ruleUpdate.fulfilled]: (state, action) => {
+      logFetchResults('ruleEdit.fulfilled', state, action)
+      state.status=requestStatus.fulfilled
+    },
+    [ruleUpdate.rejected]: (state, action) => {
+      logFetchResults('ruleEdit.rejected', state, action)
+      red('ruleEdit.ruleUpdate.rejected', 'rejected')
+      state.status = requestStatus.error
+      state.error = action.error.message
+    },
   }
 })
 

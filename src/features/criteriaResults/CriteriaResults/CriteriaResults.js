@@ -89,7 +89,8 @@ export const CriteriaResults = () => {
   // green('CriteriaResults: activeCriteria', activeCriteria)
 
   useEffect(() => {
-    // TODO: make use of 'valid'. There is a criteriaValidation in rules/criteria
+    // TODO: make use of 'valid'. There is a criteriaValidation
+    //       in rules/criteria
     const valid = isCriteriaValid(activeCriteria)
     if (!R.isEmpty(activeCriteria)) {
       dispatch(fetchCriteriaResults(activeCriteria))

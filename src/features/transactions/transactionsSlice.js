@@ -1,11 +1,11 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import api from 'api'
 import { requestStatus } from 'globalConstants'
-// import { logFetchResults } from 'lib/logFetchResults'
+import { logFetchResults } from 'lib/logFetchResults'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
-import { blue, yellow } from 'logger'
+import { blue, yellow, red } from 'logger'
 
 const initialState = {
   items: [],
@@ -30,24 +30,33 @@ const transactionsSlice = createSlice({
   initialState,
   reducers: {
     activeTransactionSet(state, action) {
+      logFetchResults('transactions.activeTransactionSet', state, action)
       state.activeTransactionId = action.payload
+      
     },
     activeTransactionClear(state, action) {
+      logFetchResults('transactions.activeTransactionClear', state, action)
       state.activeTransactionId = null
+    },
+    setStatusRefresh(state, action) {
+      logFetchResults('transactions.setStatusRefresh', state, action)
+      state.status = requestStatus.refresh
     }
   },
   extraReducers: {
     [transactionsFetch.pending]: (state, action) => {
+      logFetchResults('transactions.pending', state, action)
       state.status = requestStatus.pending
       state.items = []
     },
     [transactionsFetch.fulfilled]: (state, action) => {
-      // logFetchResults('transactions.fulfilled', state, action)
+      logFetchResults('transactions.fulfilled', state, action)
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     [transactionsFetch.rejected]: (state, action) => {
-      // logFetchResults('transactions.rejected', state, action)
+      logFetchResults('transactions.rejected', state, action)
+      red('transactions.rejected', 'rejected')
       state.status = requestStatus.error
       state.error = action.error.message
       state.items = []
@@ -56,23 +65,22 @@ const transactionsSlice = createSlice({
 })
 
 export const transactionsReducer = transactionsSlice.reducer
-export const { activeTransactionSet, activeTransactionClear } = transactionsSlice.actions
+export const { 
+  activeTransactionClear,
+  activeTransactionSet,
+  setStatusRefresh
+} = transactionsSlice.actions
 
 // Selectors
 export const selectAllTransactions = (state) => state.transactions.items
 
 export const selectOneTransaction = (transactionId, state) => {
-  // blue('selectOneTransaction: transactionId', transactionId)
   const tItems = (R.path(['transactions', 'items'], state))
-  // blue('selectOneTransaction: tItems', tItems)
-  // return state.transactions.items.find((t) => t._id === transactionId)
   const ret = R.find(R.propEq('_id', transactionId))(tItems)
-  // blue('selectOneTransaction: ret', R.type(ret))
   return R.equals(R.type(ret), 'Undefined') ? null : ret
 }
 
 export const selectCriteriaResultsTransactions = (state)  => {
-  // return state.transactions.filter(t => transactionIds.includes(t._id))
   const ids = state.criteriaResults.items
   return state.transactions.items.filter(t => ids.includes(t._id))
   
@@ -91,9 +99,7 @@ export const selectActiveTransactionId = (state) => {
 }
 
 export const selectActiveTransaction = state => {
-  // blue('state', state)
   const tId = selectActiveTransactionId(state)
-  // blue('tId', R.type(tId))
   return R.type(tId) === 'Null' ? null : selectOneTransaction(tId, state)
 }
 

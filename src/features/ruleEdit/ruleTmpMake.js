@@ -19,7 +19,7 @@ const ruleTmpMakeId = () => `tmp_${shortid.generate()}`
  * @param {date} date date from active transaction
  * @returns {object} A new Rule
  */
-export const ruleTmpMake = (tmpId, origDescription, date) => {
+export const ruleTmpMake = (origDescription, date) => {
 
   return {
     _id: ruleTmpMakeId(),
