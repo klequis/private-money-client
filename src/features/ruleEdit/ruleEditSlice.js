@@ -10,7 +10,7 @@ import { requestStatus } from 'globalConstants'
 import { logFetchResults } from 'lib/logFetchResults'
 
 // eslint-disable-next-line
-import { blue, red } from 'logger'
+import { blue, red, purple } from 'logger'
 
 const getActiveCriteria = (criteria) => {
   return criteria === null ? [] : criteria.filter((c) => c.active === true)
@@ -31,7 +31,7 @@ const removeTmpIdField = (rule) => {
 export const ruleCreate = createAsyncThunk(
   'rules/rule-create',
   async (rule) => {
-    blue('ruleCreate: rule', rule)
+    purple('ruleCreate: rule', rule)
     const newRule = R.pipe(
       removeInactiveCriteria,
       removeTmpIdField
@@ -47,6 +47,7 @@ export const ruleCreate = createAsyncThunk(
 export const ruleUpdate = createAsyncThunk(
   'rules/rule-update',
   async (rule) => {
+    purple('ruleUpdate: rule', rule)
     const newRule = removeInactiveCriteria(rule)
     await api.rules.update(rule._id, newRule)
     // Promise.all([

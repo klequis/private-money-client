@@ -4,7 +4,9 @@ import { useSelector, useDispatch } from 'react-redux'
 import {
   transactionsFetch,
   selectActiveTransactionId,
-  Transactions
+  Transactions,
+  setRefresh,
+  selectRefreshStatus
 } from 'features/transactions'
 import { CreateRule, rulesFetch } from 'features/rules'
 import { requestStatus } from 'globalConstants'
@@ -51,17 +53,25 @@ const App = () => {
   const status = getRequestStatus(slices)
 
   const activeTransactionId = useSelector(selectActiveTransactionId)
-  // green('_activeTransactionId', _activeTransactionId)
   // green('activeTransactionId', activeTransactionId)
 
-  green('status', status)
+  const refreshTransactions = useSelector(selectRefreshStatus)
+  green('App: refreshTransactions', refreshTransactions)
+
+
+
+
+  // green('status', status)
+  green('App: should refresh', (status === requestStatus.idle || refreshTransactions ))
   useEffect(() => {
-    if (status === requestStatus.idle || status === requestStatus.refresh) {
+    green('App: useEffect')
+    if (status === requestStatus.idle || refreshTransactions ) {
       green('App.useEffect ------ 1', 'fetching')
       dispatch(transactionsFetch())
       dispatch(rulesFetch())
+      dispatch(setRefresh(false))
     }
-  }, [status])
+  }, [status, refreshTransactions])
 
 
 

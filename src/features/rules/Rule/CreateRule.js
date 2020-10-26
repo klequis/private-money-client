@@ -17,7 +17,7 @@ const CreateRuleDiv = styled.div`
 let count = 0
 
 export const CreateRule = React.memo(() => {
-  purple('CreateRule', 'start')
+  purple('CreateRule', 'START')
   count = count + 1
   return (
     <CreateRuleDiv id="CreateRules">

@@ -20,7 +20,7 @@ import {
   activeTransactionClear,
   selectActiveTransaction,
   selectActiveTransactionId,
-  setStatusRefresh
+  setRefresh
 } from 'features/transactions'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { ShowRuleIds } from './ShowRuleIds'
@@ -77,8 +77,10 @@ const Rule = () => {
       await dispatch(ruleUpdate(ruleEdit))
       green('ruleUpdate', 'DONE')
     }
+
+    // refresh
     green('dispatch Refresh')
-    dispatch(setStatusRefresh())
+    dispatch(setRefresh(true))
 
     dispatch(activeTransactionClear())
   }

@@ -11,6 +11,7 @@ const initialState = {
   items: [],
   status: 'idle',
   error: null,
+  refresh: false,
   activeTransactionId: null,
   criteriaResult: []
 }
@@ -32,15 +33,16 @@ const transactionsSlice = createSlice({
     activeTransactionSet(state, action) {
       logFetchResults('transactions.activeTransactionSet', state, action)
       state.activeTransactionId = action.payload
-      
     },
     activeTransactionClear(state, action) {
       logFetchResults('transactions.activeTransactionClear', state, action)
       state.activeTransactionId = null
     },
-    setStatusRefresh(state, action) {
+    setRefresh(state, action) {
       logFetchResults('transactions.setStatusRefresh', state, action)
-      state.status = requestStatus.refresh
+      blue('before refresh')
+      state.refresh = action.payload
+      blue('after refresh')
     }
   },
   extraReducers: {
@@ -65,11 +67,13 @@ const transactionsSlice = createSlice({
 })
 
 export const transactionsReducer = transactionsSlice.reducer
-export const { 
+export const {
   activeTransactionClear,
   activeTransactionSet,
-  setStatusRefresh
+  setRefresh
 } = transactionsSlice.actions
+
+export const selectRefreshStatus = (state) => R.path(['transactions', 'refresh'], state)
 
 // Selectors
 export const selectAllTransactions = (state) => state.transactions.items
@@ -80,10 +84,10 @@ export const selectOneTransaction = (transactionId, state) => {
   return R.equals(R.type(ret), 'Undefined') ? null : ret
 }
 
-export const selectCriteriaResultsTransactions = (state)  => {
+export const selectCriteriaResultsTransactions = (state) => {
   const ids = state.criteriaResults.items
   return state.transactions.items.filter(t => ids.includes(t._id))
-  
+
 }
 
 export const selectTransactionRuleIds = (transactionId, state) => {
