@@ -2,68 +2,76 @@ import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { selectAllTransactions } from 'features/transactions'
-import { selectHasRulesChecked, selectIsUncategorizedChecked } from 'features/uiSettings/transactionsUi'
+
+/*
+import { 
+  selectHasRulesChecked, 
+  selectIsUncategorizedChecked 
+} from 'features/uiSettings/transactionsUiSlice'
+*/
+
 import * as R from 'ramda'
 import BaseTable from 'components/Table'
 import TableBody from './TableBody'
 import TableHead from './TableHead'
 import { TableNav } from './TableNav'
+import { transactionOptionValues as optionValues } from 'globalConstants'
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
+
+
 export const Table = () => {
-  purple('Table', 'START')
+  
+  // ColumnHeadFilters
   const [/*_filter,*/ _setFilter] = useState({
     field: '',
     value: '',
     active: false
   })
 
-  const [_filterNow, _setFilterNow] = useState(true)
+  // const [_filterNow, _setFilterNow] = useState(true)
 
-  const transactions = useSelector(selectAllTransactions)
+  // const transactions = useSelector(selectAllTransactions)
 
-  const filterByHasRules = useSelector(selectHasRulesChecked)
-  const filterByIsUncategorized = useSelector(selectIsUncategorizedChecked)
-
-  green('Table: filterByHasRules', filterByHasRules)
-
-  useEffect(() => {
-    purple('TABLE', 'useEffect')
-    if (filterByHasRules || filterByIsUncategorized) {
-      _setFilterNow(true)
-    }
-  }, [filterByHasRules, _filterNow])
+  // const filterByHasRules = useSelector(selectHasRulesChecked)
+  // const filterByIsUncategorized = useSelector(selectIsUncategorizedChecked)
 
 
+  // useEffect(() => {
+  //   purple('TABLE', 'useEffect')
+  //   if (filterByHasRules || filterByIsUncategorized) {
+  //     _setFilterNow(true)
+  //   }
+  // }, [filterByHasRules, _filterNow])
 
-  // HARD CODED SORT. DELETE THESE FUNCTIONS
 
-  // nothing without a rul can have a category, so filter by presence of rule first
-  const filterTransactions = data => data.filter(t => !isNilOrEmpty(t.ruleIds))
-  const filteredData = (transactions) => {
-    const filtered = (filterByHasRules || filterByIsUncategorized)
-      ? transactions.filter(t => {
-        return filterByIsUncategorized
-          ? (!isNilOrEmpty(t.ruleIds) && isNilOrEmpty(t.category1))
-          : (!isNilOrEmpty(t.ruleIds))
-      }
-      )
-      : transactions
-    // sorted.filter(t => !isNilOrEmpty(t.category1)) : transactions
-    const sorted = R.sortBy(R.prop('origDescription'))(filtered)
 
-    // _setFilterNow(false)
-    return sorted
-  }
+
+  // const filterTransactions = data => data.filter(t => !isNilOrEmpty(t.ruleIds))
+
+  // const filteredData = (transactions) => {
+  //   const filtered = (filterByHasRules || filterByIsUncategorized)
+  //     ? transactions.filter(t => {
+  //       return filterByIsUncategorized
+  //         ? (!isNilOrEmpty(t.ruleIds) && isNilOrEmpty(t.category1))
+  //         : (!isNilOrEmpty(t.ruleIds))
+  //     }
+  //     )
+  //     : transactions
+  //   // sorted.filter(t => !isNilOrEmpty(t.category1)) : transactions
+  //   const sorted = R.sortBy(R.prop('origDescription'))(filtered)
+
+  //   // _setFilterNow(false)
+  //   return sorted
+  // }
 
   const setFilter = (field, value) => {
     isNilOrEmpty(field) || isNilOrEmpty(value)
       ? _setFilter({ field: '', value: '', active: false })
       : _setFilter({ field: field, value: value, active: true })
   }
-  // HARD CODED SORT. DELETE THESE FUNCTIONS
 
   return (
     <>
@@ -104,3 +112,91 @@ const sortByDescription = (data) => {
   //       )
   //     : transactions
   // }
+
+
+  /* wip 10/28/2020
+
+
+
+
+
+
+
+export const Table = () => {
+  
+  // ColumnHeadFilters
+  const [_filter, _setFilter] = useState({
+    field: '',
+    value: '',
+    active: false
+  })
+
+  // const [_filterNow, _setFilterNow] = useState(true)
+
+  // const transactions = useSelector(selectAllTransactions)
+
+  // const filterByHasRules = useSelector(selectHasRulesChecked)
+  // const filterByIsUncategorized = useSelector(selectIsUncategorizedChecked)
+
+  green('Table: filterByHasRules', filterByHasRules)
+
+  // useEffect(() => {
+  //   purple('TABLE', 'useEffect')
+  //   if (filterByHasRules || filterByIsUncategorized) {
+  //     _setFilterNow(true)
+  //   }
+  // }, [filterByHasRules, _filterNow])
+
+
+
+
+  // const filterTransactions = data => data.filter(t => !isNilOrEmpty(t.ruleIds))
+
+  // const filteredData = (transactions) => {
+  //   const filtered = (filterByHasRules || filterByIsUncategorized)
+  //     ? transactions.filter(t => {
+  //       return filterByIsUncategorized
+  //         ? (!isNilOrEmpty(t.ruleIds) && isNilOrEmpty(t.category1))
+  //         : (!isNilOrEmpty(t.ruleIds))
+  //     }
+  //     )
+  //     : transactions
+  //   // sorted.filter(t => !isNilOrEmpty(t.category1)) : transactions
+  //   const sorted = R.sortBy(R.prop('origDescription'))(filtered)
+
+  //   // _setFilterNow(false)
+  //   return sorted
+  // }
+
+  const setFilter = (field, value) => {
+    isNilOrEmpty(field) || isNilOrEmpty(value)
+      ? _setFilter({ field: '', value: '', active: false })
+      : _setFilter({ field: field, value: value, active: true })
+  }
+
+  return (
+    <>
+      <TableNav optionState={_optionState} />
+      <BaseTable>
+        <TableHead setFilter={setFilter} />
+        
+        {filteredData(transactions).map((t) => (
+          <TableBody key={t._id} transactionId={t._id} />
+        ))}
+      </BaseTable>
+    </>
+  )
+}
+
+
+
+
+
+
+
+
+
+
+
+
+  */

@@ -3,7 +3,7 @@ import { transactionsReducer } from 'features/transactions'
 import { rulesReducer } from 'features/rules'
 import { criteriaResultsReducer } from 'features/criteriaResults'
 import { ruleEditReducer } from 'features/ruleEdit'
-import { transactionsUiReducer } from 'features/uiSettings/transactionsUi'
+import { transactionsUiReducer } from 'features/uiSettings/transactionsUiSlice'
 
 export default configureStore({
   reducer: {

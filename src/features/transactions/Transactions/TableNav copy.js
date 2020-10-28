@@ -1,24 +1,15 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
+// import { useSelector } from 'react-redux'
 // import {
 //   selectIsUncategorizedChecked,
 //   selectHasRulesChecked,
 //   hasRulesToggle,
 //   isUncategorizedToggle
 // } from 'features/uiSettings/transactionsUi'
-
-import {
-  selectOptionState
-} from 'features/uiSettings/transactionsUiSlice'
-
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
 import * as R from 'ramda'
-import { 
-  transactionOptionValues as optionValues,
-  transactionOptionNames
-} from 'globalConstants'
-
+import { optionValues } from './constants'
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'
@@ -36,25 +27,33 @@ const Options = styled.div`
   padding: 5px;
 `
 
-
+const ruleRadio = 'ruleRadio'
+const categorizeRadio = 'categorizeRadio'
 
 export const TableNav = () => {
-  const { ruleRadio, categorizeRadio } = transactionOptionNames
-  const _optionState = useSelector(selectOptionState)
 
-  green('TableNav: _optionState', _optionState)
-  // const [_optionState, _setOptionState] = useState({
-  //   [ruleRadio]: {
-  //     value: optionValues.all,
-  //   },
-  //   [categorizeRadio]: {
-  //     value: optionValues.both,
-  //     disabled: false
-  //   }
-  // })
+  const [_optionState, _setOptionState] = useState({
+    [ruleRadio]: {
+      value: optionValues.all,
+    },
+    [categorizeRadio]: {
+      value: optionValues.both,
+      disabled: false
+    }
+  })
 
   // const [_hasRules, _setHasRules] = useState(useSelector(selectHasRulesChecked))
-  
+  const _makeOptionStateUpdate = (name, value) => {
+    return {
+      [ruleRadio]: {
+        value: name === ruleRadio ? value : _optionState.ruleRadio.value
+      },
+      [categorizeRadio]: {
+        value: name === categorizeRadio ? value : _optionState.categorizeRadio.value,
+        disabled: value === optionValues.doesNotHaveRule ? true : false
+      }
+    }
+  }  
 
   const _radioChange = (event) => {
     const { name, checked, value } = event.target
@@ -63,12 +62,12 @@ export const TableNav = () => {
     console.log('value', value)
     console.groupEnd()
 
-    // _setOptionState(
-    //   R.mergeDeepRight(
-    //     _optionState,
-    //     _makeOptionStateUpdate(name, value)
-    //   )
-    // )
+    _setOptionState(
+      R.mergeDeepRight(
+        _optionState,
+        _makeOptionStateUpdate(name, value)
+      )
+    )
   }
 
   console.group('_optionState')
