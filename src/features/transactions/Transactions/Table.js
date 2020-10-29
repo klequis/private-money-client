@@ -77,7 +77,7 @@ export const Table = () => {
     <>
       <TableNav />
       <BaseTable>
-        <TableHead setFilter={setFilter} />
+        <TableHead />
         {/* TODO: tmp code. Sort is hard coded */}
         {/* {filteredData(transactions).map((t) => (
           <TableBody key={t._id} transactionId={t._id} />

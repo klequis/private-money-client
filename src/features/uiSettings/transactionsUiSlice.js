@@ -4,7 +4,7 @@ import {
   transactionOptionValues as optionValues,
   transactionOptionNames
 } from 'globalConstants'
-
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { blue } from 'logger'
@@ -18,33 +18,37 @@ const initialState = {
       value: optionValues.all,
     },
     [categorizeRadio]: {
-      value: optionValues.both
+      value: optionValues.both,
+      disabled: false
     },
   },
   filters: {
-    date: null,
     acctId: null,
-    description: null,
     amount: null,
     category1: null,
     category2: null,
+    date: null,
+    description: null,
     type: null
   }
 }
 
 
 
-const _makeOptionStateUpdate = (name, value, state) => {
-  return {
-    [ruleRadio]: {
-      value: name === ruleRadio ? value : state.ruleRadio.value
-    },
-    [categorizeRadio]: {
-      value: name === categorizeRadio ? value : state.categorizeRadio.value,
-      disabled: value === optionValues.doesNotHaveRule ? true : false
-    }
-  }
-}
+// const _makeOptionStateUpdate = (name, value, state) => {
+//   blue('_makeOptionStateUpdate: state', state)
+//   return {
+//     [ruleRadio]: {
+//       value: R.path(['options', ruleRadio, 'value'], state) // state.ruleRadio.value
+//     },
+//     [categorizeRadio]: {
+//       value: name === categorizeRadio ? value : R.path(['options', categorizeRadio, 'value'], state), // state.categorizeRadio.value,
+//       disabled: value === optionValues.doesNotHaveRule ? true : false
+//     }
+//   }
+// }
+
+const valueOrEmptyString = (value) => isNilOrEmpty(value) ? '' : value
 
 const transactionsUiSlice = createSlice({
   name: 'transactionsUi',
@@ -52,8 +56,21 @@ const transactionsUiSlice = createSlice({
   reducers: {
     updateRadioState(state, action) {
       const { name, value } = action.payload
-      state = _makeOptionStateUpdate(name, value)
+      state.options.ruleRadio.value = name === ruleRadio
+        ? value
+        : R.path(['options', ruleRadio, 'value'], state) // state.ruleRadio.value
+      state.options.categorizeRadio.value = name === categorizeRadio
+        ? value
+        : R.path(['options', categorizeRadio, 'value'], state) // state.categorizeRadio.value,
+      state.options.categorizeRadio.disabled = value === optionValues.doesNotHaveRule
+        ? true
+        : false
     },
+    updateFilters(state, action) {
+      const { name, value } = action.payload
+      state.filters[name] = valueOrEmptyString(value)
+    },
+    
     isUncategorizedToggle(state) {
       state.isUncategorized.checked = !state.isUncategorized.checked
     },
@@ -83,7 +100,9 @@ export const {
   // hasCategoryOn,
   // hasCategoryOff
   isUncategorizedToggle,
-  hasRulesToggle
+  hasRulesToggle,
+  updateFilters,
+  updateRadioState
 } = transactionsUiSlice.actions
 
 export const selectHasRulesChecked = (state) => R.path(['transactionsUi', 'hasRules', 'checked'], state)

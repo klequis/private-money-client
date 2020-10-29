@@ -1,6 +1,8 @@
 import React, { useState } from 'react'
+import { useDispatch } from 'react-redux'
 import { transactionFields as tFields } from 'features/transactions'
 import styled from 'styled-components'
+import { updateFilters } from 'features/uiSettings/transactionsUiSlice'
 
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -19,18 +21,8 @@ const TextInput = styled.input`
   flex-flow: column now;
 */
 
-const AllDataColHead = ({ fieldName, setFilter }) => {
-  // const [_state, _setState] = useState({
-  //   date: '',
-  //   acctId: '',
-  //   description: '',
-  //   credit: '',
-  //   debit: '',
-  //   category1: '',
-  //   category2: '',
-  //   type: '',
-  //   omit: false
-  // })
+const AllDataColHead = ({ fieldName }) => {
+  const dispatch = useDispatch()
 
   const [_value, _setValue] = useState('')
 
@@ -45,7 +37,7 @@ const AllDataColHead = ({ fieldName, setFilter }) => {
     // value === 'true' ? _setValue(true) : _setValue(false)
     // } else {
     _setValue(value)
-    setFilter(fieldName, value)
+    dispatch(updateFilters({ name: fieldName, value }))
     // }
   }
 
@@ -58,22 +50,22 @@ const AllDataColHead = ({ fieldName, setFilter }) => {
         {fieldName === tFields.omit.name ? (
           ''
         ) : (
-          // <input
-          //   id={fieldName}
-          //   type="text"
-          //   name={fieldName}
-          //   value={_value}
-          //   onChange={_valueChanged}
-          // />
-          <TextInput
-            id={fieldName}
-            name={fieldName}
-            placeholder="filter"
-            onChange={_valueChanged}
-            type="text"
-            value={_value}
-          />
-        )}
+            // <input
+            //   id={fieldName}
+            //   type="text"
+            //   name={fieldName}
+            //   value={_value}
+            //   onChange={_valueChanged}
+            // />
+            <TextInput
+              id={fieldName}
+              name={fieldName}
+              placeholder="filter"
+              onChange={_valueChanged}
+              type="text"
+              value={_value}
+            />
+          )}
         <div>{fieldName}</div>
         {/* <SortButtons updateSort={_updateSort} fieldName={fieldName} /> */}
       </div>

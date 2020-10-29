@@ -31,34 +31,34 @@ const transactionsSlice = createSlice({
   initialState,
   reducers: {
     activeTransactionSet(state, action) {
-      logFetchResults('transactions.activeTransactionSet', state, action)
+      // logFetchResults('transactions.activeTransactionSet', state, action)
       state.activeTransactionId = action.payload
     },
     activeTransactionClear(state, action) {
-      logFetchResults('transactions.activeTransactionClear', state, action)
+      // logFetchResults('transactions.activeTransactionClear', state, action)
       state.activeTransactionId = null
     },
     setRefresh(state, action) {
-      logFetchResults('transactions.setStatusRefresh', state, action)
-      blue('before refresh')
+      // logFetchResults('transactions.setStatusRefresh', state, action)
+      // blue('before refresh')
       state.refresh = action.payload
-      blue('after refresh')
+      // blue('after refresh')
     }
   },
   extraReducers: {
     [transactionsFetch.pending]: (state, action) => {
-      logFetchResults('transactions.pending', state, action)
+      // logFetchResults('transactions.pending', state, action)
       state.status = requestStatus.pending
       state.items = []
     },
     [transactionsFetch.fulfilled]: (state, action) => {
-      logFetchResults('transactions.fulfilled', state, action)
+      // logFetchResults('transactions.fulfilled', state, action)
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     [transactionsFetch.rejected]: (state, action) => {
-      logFetchResults('transactions.rejected', state, action)
-      red('transactions.rejected', 'rejected')
+      // logFetchResults('transactions.rejected', state, action)
+      // red('transactions.rejected', 'rejected')
       state.status = requestStatus.error
       state.error = action.error.message
       state.items = []

@@ -105,11 +105,11 @@ const ruleEditSlice = createSlice({
   },
   extraReducers: {
     [ruleCreate.pending]: (state, action) => {
-      logFetchResults('ruleEdit.pending', state, action)
+      // logFetchResults('ruleEdit.pending', state, action)
       state.status=requestStatus.pending
     },
     [ruleCreate.fulfilled]: (state, action) => {
-      logFetchResults('ruleEdit.fulfilled', state, action)
+      // logFetchResults('ruleEdit.fulfilled', state, action)
       state.status=requestStatus.fulfilled
     },
     [ruleCreate.rejected]: (state, action) => {
@@ -120,15 +120,15 @@ const ruleEditSlice = createSlice({
     },
     // ruleUpdate
     [ruleUpdate.pending]: (state, action) => {
-      logFetchResults('ruleEdit.pending', state, action)
+      // logFetchResults('ruleEdit.pending', state, action)
       state.status=requestStatus.pending
     },
     [ruleUpdate.fulfilled]: (state, action) => {
-      logFetchResults('ruleEdit.fulfilled', state, action)
+      // logFetchResults('ruleEdit.fulfilled', state, action)
       state.status=requestStatus.fulfilled
     },
     [ruleUpdate.rejected]: (state, action) => {
-      logFetchResults('ruleEdit.rejected', state, action)
+      // logFetchResults('ruleEdit.rejected', state, action)
       red('ruleEdit.ruleUpdate.rejected', 'rejected')
       state.status = requestStatus.error
       state.error = action.error.message

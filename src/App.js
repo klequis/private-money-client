@@ -56,17 +56,17 @@ const App = () => {
   // green('activeTransactionId', activeTransactionId)
 
   const refreshTransactions = useSelector(selectRefreshStatus)
-  green('App: refreshTransactions', refreshTransactions)
+  // green('App: refreshTransactions', refreshTransactions)
 
 
 
 
   // green('status', status)
-  green('App: should refresh', (status === requestStatus.idle || refreshTransactions ))
+  // green('App: should refresh', (status === requestStatus.idle || refreshTransactions ))
   useEffect(() => {
-    green('App: useEffect')
+    // green('App: useEffect')
     if (status === requestStatus.idle || refreshTransactions ) {
-      green('App.useEffect ------ 1', 'fetching')
+      // green('App.useEffect ------ 1', 'fetching')
       dispatch(transactionsFetch())
       dispatch(rulesFetch())
       dispatch(setRefresh(false))

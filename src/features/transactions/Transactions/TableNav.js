@@ -1,24 +1,16 @@
 import React, { useState } from 'react'
-import { useSelector } from 'react-redux'
-// import {
-//   selectIsUncategorizedChecked,
-//   selectHasRulesChecked,
-//   hasRulesToggle,
-//   isUncategorizedToggle
-// } from 'features/uiSettings/transactionsUi'
-
+import { useSelector, useDispatch } from 'react-redux'
 import {
+  updateRadioState,
   selectOptionState
 } from 'features/uiSettings/transactionsUiSlice'
-
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
 import * as R from 'ramda'
-import { 
+import {
   transactionOptionValues as optionValues,
   transactionOptionNames
 } from 'globalConstants'
-
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'
@@ -36,53 +28,43 @@ const Options = styled.div`
   padding: 5px;
 `
 
-
+const ruleRadioValue = optionState => R.path(['ruleRadio', 'value'], optionState)
+const categorizeRadioValue = optionState => R.path(['categorizeRadio', 'value'], optionState)
+const categorizeRadioDisabled = optionState => R.path(['categorizeRadio', 'disabled'], optionState)
 
 export const TableNav = () => {
+
+  const dispatch = useDispatch()
+
   const { ruleRadio, categorizeRadio } = transactionOptionNames
   const _optionState = useSelector(selectOptionState)
 
-  green('TableNav: _optionState', _optionState)
-  // const [_optionState, _setOptionState] = useState({
-  //   [ruleRadio]: {
-  //     value: optionValues.all,
-  //   },
-  //   [categorizeRadio]: {
-  //     value: optionValues.both,
-  //     disabled: false
-  //   }
-  // })
-
-  // const [_hasRules, _setHasRules] = useState(useSelector(selectHasRulesChecked))
-  
-
   const _radioChange = (event) => {
     const { name, checked, value } = event.target
-    console.group('Radio._onChange')
-    console.log('name', name)
-    console.log('value', value)
-    console.groupEnd()
+    // console.group('Radio._onChange')
+    // console.log('name', name)
+    // console.log('value', value)
+    // console.groupEnd()
 
-    // _setOptionState(
-    //   R.mergeDeepRight(
-    //     _optionState,
-    //     _makeOptionStateUpdate(name, value)
-    //   )
-    // )
+    dispatch(updateRadioState({ name, value }))
   }
 
-  console.group('_optionState')
-  console.log('ruleRadio.value', _optionState.ruleRadio.value)
-  console.log('categorizeRadio.value', _optionState.categorizeRadio.value)
-  console.log('categorizeRadio.disabled', _optionState.categorizeRadio.disabled)
-  console.groupEnd()
+  const ruleGroupValue = R.path(['ruleRadio', 'value'], _optionState)
+  const categorizeGroupValue = R.path(['categorizeRadio', 'value'], _optionState)
+  const categorizeDisabled = R.path(['categorizeRadio', 'disabled'], _optionState)
+
+  // console.group('TableNav')
+  // console.log('ruleGroupValue', ruleGroupValue)
+  // console.log('categorizeGroupValue', categorizeGroupValue)
+  // console.log('categorizeDisabled', categorizeDisabled)
+  // console.groupEnd()
 
   return (
     <Options>
       <Row>
         <RowTitle>Transactions: </RowTitle>
         <Radio
-          groupValue={_optionState.ruleRadio.value}
+          groupValue={ruleGroupValue}
           id='allId'
           label="All"
           name={ruleRadio}
@@ -91,7 +73,7 @@ export const TableNav = () => {
           value={optionValues.all}
         />
         <Radio
-          groupValue={_optionState.ruleRadio.value}
+          groupValue={ruleGroupValue}
           id='hasRuleId'
           label="Has rule"
           name={ruleRadio}
@@ -100,7 +82,7 @@ export const TableNav = () => {
           value={optionValues.hasRule}
         />
         <Radio
-          groupValue={_optionState.ruleRadio.value}
+          groupValue={ruleGroupValue}
           id='doesNotHaveRuleId'
           label="Does not have rule"
           name={ruleRadio}
@@ -112,8 +94,8 @@ export const TableNav = () => {
       <Row>
         <RowTitle>Category: </RowTitle>
         <Radio
-          disabled={_optionState.categorizeRadio.disabled}
-          groupValue={_optionState.categorizeRadio.value}
+          disabled={categorizeDisabled}
+          groupValue={categorizeGroupValue}
           id="bothId"
           label="Both"
           name={categorizeRadio}
@@ -122,8 +104,8 @@ export const TableNav = () => {
           width={70}
         />
         <Radio
-          disabled={_optionState.categorizeRadio.disabled}
-          groupValue={_optionState.categorizeRadio.value}
+          disabled={categorizeDisabled}
+          groupValue={categorizeGroupValue}
           id="categorizedId"
           label="Categorized"
           name={categorizeRadio}
@@ -132,8 +114,8 @@ export const TableNav = () => {
           value={optionValues.categorized}
         />
         <Radio
-          disabled={_optionState.categorizeRadio.disabled}
-          groupValue={_optionState.categorizeRadio.value}
+          disabled={categorizeDisabled}
+          groupValue={categorizeGroupValue}
           id="uncategorizedId"
           label="Uncategorized"
           name={categorizeRadio}

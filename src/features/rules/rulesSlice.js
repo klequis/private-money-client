@@ -29,17 +29,17 @@ const rulesSlice = createSlice({
   },
   extraReducers: {
     [rulesFetch.pending]: (state, action) => {
-      logFetchResults('fetchRules.pending', state, action)      
+      // logFetchResults('fetchRules.pending', state, action)      
       state.status = requestStatus.pending
       state.items = []
     },
     [rulesFetch.fulfilled]: (state, action) => {
-      logFetchResults('fetchRules.fulfilled', state, action)      
+      // logFetchResults('fetchRules.fulfilled', state, action)      
       state.status = requestStatus.fulfilled
       state.items = action.payload.data
     },
     [rulesFetch.rejected]: (state, action) => {
-      logFetchResults('fetchRules.rejected', state, action)      
+      // logFetchResults('fetchRules.rejected', state, action)      
       state.status = requestStatus.error
       state.error = action.error.message
       state.items = []
