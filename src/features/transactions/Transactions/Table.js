@@ -3,19 +3,13 @@ import { useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { selectAllTransactions } from 'features/transactions'
 
-/*
-import { 
-  selectHasRulesChecked, 
-  selectIsUncategorizedChecked 
-} from 'features/uiSettings/transactionsUiSlice'
-*/
-
-import * as R from 'ramda'
 import BaseTable from 'components/Table'
 import TableBody from './TableBody'
 import TableHead from './TableHead'
 import { TableNav } from './TableNav'
 import { transactionOptionValues as optionValues } from 'globalConstants'
+import * as R from 'ramda'
+import { selectFilteredTransactions } from 'features/uiSettings/transactionsUiSlice'
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'
@@ -31,47 +25,12 @@ export const Table = () => {
     active: false
   })
 
-  // const [_filterNow, _setFilterNow] = useState(true)
-
-  // const transactions = useSelector(selectAllTransactions)
-
-  // const filterByHasRules = useSelector(selectHasRulesChecked)
-  // const filterByIsUncategorized = useSelector(selectIsUncategorizedChecked)
+  const transactions = useSelector(selectFilteredTransactions)
+  // const currentConditions = useSelector(selectFilteredTransactions)
 
 
-  // useEffect(() => {
-  //   purple('TABLE', 'useEffect')
-  //   if (filterByHasRules || filterByIsUncategorized) {
-  //     _setFilterNow(true)
-  //   }
-  // }, [filterByHasRules, _filterNow])
-
-
-
-
-  // const filterTransactions = data => data.filter(t => !isNilOrEmpty(t.ruleIds))
-
-  // const filteredData = (transactions) => {
-  //   const filtered = (filterByHasRules || filterByIsUncategorized)
-  //     ? transactions.filter(t => {
-  //       return filterByIsUncategorized
-  //         ? (!isNilOrEmpty(t.ruleIds) && isNilOrEmpty(t.category1))
-  //         : (!isNilOrEmpty(t.ruleIds))
-  //     }
-  //     )
-  //     : transactions
-  //   // sorted.filter(t => !isNilOrEmpty(t.category1)) : transactions
-  //   const sorted = R.sortBy(R.prop('origDescription'))(filtered)
-
-  //   // _setFilterNow(false)
-  //   return sorted
-  // }
-
-  const setFilter = (field, value) => {
-    isNilOrEmpty(field) || isNilOrEmpty(value)
-      ? _setFilter({ field: '', value: '', active: false })
-      : _setFilter({ field: field, value: value, active: true })
-  }
+  // const filteredData = R.filter(currentConditions, transactions)
+  // green('transactions', transactions.length)
 
   return (
     <>
@@ -114,13 +73,7 @@ const sortByDescription = (data) => {
   // }
 
 
-  /* wip 10/28/2020
-
-
-
-
-
-
+/* **** wip 10/28/2020 ****
 
 export const Table = () => {
   

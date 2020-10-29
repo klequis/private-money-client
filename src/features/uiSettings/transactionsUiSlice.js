@@ -4,10 +4,10 @@ import {
   transactionOptionValues as optionValues,
   transactionOptionNames
 } from 'globalConstants'
-import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+// import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
-import { blue } from 'logger'
+import { blue, red } from 'logger'
 
 const { ruleRadio, categorizeRadio } = transactionOptionNames
 
@@ -70,7 +70,7 @@ const transactionsUiSlice = createSlice({
       const { name, value } = action.payload
       state.filters[name] = valueOrEmptyString(value)
     },
-    
+
     isUncategorizedToggle(state) {
       state.isUncategorized.checked = !state.isUncategorized.checked
     },
@@ -108,3 +108,144 @@ export const {
 export const selectHasRulesChecked = (state) => R.path(['transactionsUi', 'hasRules', 'checked'], state)
 export const selectIsUncategorizedChecked = (state) => R.path(['transactionsUi', 'isUncategorized', 'checked'], state)
 export const selectOptionState = state => R.path(['transactionsUi', 'options'], state)
+
+// transactionsOpt: t => optVal => optVal = 'hasRule'
+//     ? !isNilOrEmpty(t.ruleIds)
+//     : isNilOrEmpty(t.ruleIds),
+//   categoryOpt: t => optVal => optVal === 'categorized'
+//     ? !isNilOrEmpty(t.category1)
+//     : isNilOrEmpty(t.category1),
+
+const allTests = {
+  // hasRule: !isNilOrEmpty,
+  // doesNotHaveRule: isNilOrEmpty,
+  // hasCategory: isNilOrEmpty,
+  
+  date: R.equals('?'),
+  acctId: R.test(/chars/),
+  description: R.test(/chars/),
+  amount: R.test(/chars/),
+  category1: R.test(/chars/),
+  category2: R.test(/chars/),
+  type: R.test(/chars/)
+}
+
+const makeConditions = (transactionsUi) => {
+  const { options, filters } = transactionsUi
+  const {
+    date,
+    acctId,
+    description,
+    amount,
+    category1,
+    category2,
+    type
+  } = filters
+  
+  const allConditions = {
+    transactionsOpt: R.path(['ruleRadio', 'value'], options),
+    categoryOpt: R.path(['categorizeRadio', 'value'], options),
+    date,
+    acctId,
+    description,
+    amount,
+    category1,
+    category2,
+    type
+  }
+  blue('allConditions', allConditions)
+  // get only conditions that have active/current values
+  const conditionFilter = val => 
+    !isNilOrEmpty(val) && !R.includes(val, ['all', 'both'])
+  const currentConditions = R.filter(conditionFilter, allConditions)
+  blue('currentConditions', currentConditions)
+  return currentConditions
+}
+
+
+const isNilOrEmpty = value => R.isNil(value) || R.isEmpty(value)
+const notNilOrEmpty = value => !R.isNil(value) && !R.isEmpty(value)
+
+// const isNilOrEmpty = R.curry(nilOrEmpty)
+
+const ruleIdsTest = (currentConditions) => {
+  const transactionsOpt = R.prop('transactionsOpt')(currentConditions) // prop val || undefiend
+  const hasTransactionsOpt = R.has('transactionsOpt')(currentConditions)
+  if (!hasTransactionsOpt) {
+
+    return undefined
+  }
+  if (transactionsOpt === 'hasRule') {
+    return notNilOrEmpty
+  }
+  if (transactionsOpt === 'doesNotHaveRule') {
+    return isNilOrEmpty
+  }
+  return undefined // no error just won't work
+}
+
+
+const makeSpec = (currentConditions) => {
+  // const  R.prop('transactionsOpt')
+  // if (R.has('transactionsOpt')(currentConditions)) {
+  //   if (R.prop('transactionsOpt') )
+  // }
+
+  
+
+  // props should be a function || undefined
+  const m = {
+    ruleIds: ruleIdsTest(currentConditions)
+  }
+
+  blue('m', m)
+
+  
+}
+
+export const selectFilteredTransactions = (state) => {
+  
+  const { transactionsUi } = state
+  const transactions = R.path(['transactions', 'items'], state)
+  
+  const { options, filters } = transactionsUi
+  const {
+    date,
+    acctId,
+    description,
+    amount,
+    category1,
+    category2,
+    type
+  } = filters
+
+  // match values to prop names
+  
+  console.group('selectFilteredTransactions')
+  blue('actual has rule', R.filter(t => !isNilOrEmpty(t.ruleIds), transactions))
+  
+
+  const currentConditions = makeConditions(transactionsUi)
+  
+  if (isNilOrEmpty(currentConditions)) {
+    red('early exit', 'exit')
+    console.groupEnd()
+    return transactions
+  }
+
+  makeSpec(currentConditions)
+
+
+  // get tests for currentConditions
+  const spec = R.pick(R.keys(currentConditions), allTests)
+  blue('spec', spec)
+  
+  // filter by spec
+  const filteredTransactions = R.filter(R.applySpec(spec), transactions)
+  
+  blue('transactions', transactions.length)
+  blue('filteredTransactions', filteredTransactions.length)
+
+  console.groupEnd()
+  return filteredTransactions
+}
