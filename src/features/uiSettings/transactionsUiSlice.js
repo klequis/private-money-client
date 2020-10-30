@@ -112,21 +112,6 @@ export const selectOptionState = state => R.path(['transactionsUi', 'options'], 
 const isNilOrEmpty = value => R.isNil(value) || R.isEmpty(value)
 const notNilOrEmpty = value => !R.isNil(value) && !R.isEmpty(value)
 
-const allTests = {
-  hasRule: notNilOrEmpty,
-  doesNotHaveRule: isNilOrEmpty,
-  categorized: notNilOrEmpty,
-  uncategorized: isNilOrEmpty,
-  date: R.equals('?'),
-  acctId: R.test(/chars/),
-  description: R.test(/chars/),
-  amount: R.test(/chars/),
-  category1: R.test(/chars/),
-  category2: R.test(/chars/),
-  type: R.test(/chars/)
-}
-
-
 // const ruleIdsTest = (currentConditions) => {
 //   console.group('ruleIdsTest')
 //   const transactionsOpt = R.prop('transactionsOpt')(currentConditions) // prop val || undefiend
@@ -187,7 +172,7 @@ const makeConditions = (transactionsUi) => {
     type
   }
 
-  blue('allConditions', allConditions)
+  // blue('allConditions', allConditions)
 
   // get only conditions that have active/current values
   const conditionFilter = val =>
@@ -196,6 +181,27 @@ const makeConditions = (transactionsUi) => {
 
   blue('currentConditions', currentConditions)
   return currentConditions
+}
+
+const allTests = transactionsUi => {
+  
+  const { filters } = transactionsUi
+  const { date, acctId, description, amount, category1, category2, type} = filters
+  blue('amount', R.type(amount))
+  return {
+    hasRule: notNilOrEmpty,
+    doesNotHaveRule: isNilOrEmpty,
+    categorized: notNilOrEmpty,
+    uncategorized: isNilOrEmpty,
+    date: R.test(new RegExp(date, 'i')),
+    acctId: R.test(new RegExp(acctId, 'i')),
+    description: R.test(new RegExp(description, 'i')),
+    amount: R.test(new RegExp(amount, 'i')),
+    // amount: R.equals(Number(amount)),
+    category1: R.test(new RegExp(category1, 'i')),
+    category2: R.test(new RegExp(category2, 'i')),
+    type: R.test(new RegExp(type, 'i')),
+  }
 }
 
 export const selectFilteredTransactions = (state) => {
@@ -216,15 +222,15 @@ export const selectFilteredTransactions = (state) => {
 
   // match values to prop names
 
-  console.group('selectFilteredTransactions')
-  blue('actual has rule', R.filter(t => !isNilOrEmpty(t.ruleIds), transactions))
+  // console.group('selectFilteredTransactions')
+  // blue('actual has rule', R.filter(t => !isNilOrEmpty(t.ruleIds), transactions))
 
 
   const currentConditions = makeConditions(transactionsUi)
 
   if (isNilOrEmpty(currentConditions)) {
-    red('early exit', 'exit')
-    console.groupEnd()
+    // red('early exit', 'exit')
+    // console.groupEnd()
     return transactions
   }
 
@@ -232,15 +238,29 @@ export const selectFilteredTransactions = (state) => {
 
 
   // get tests for currentConditions
-  const spec = R.pick(R.keys(currentConditions), allTests)
-  blue('spec', spec)
+  
+  const a = R.pick(R.keys(currentConditions), allTests(transactionsUi))
+  const spec1 = R.where(a)
+  blue('spec1', spec1)
+
+  
+  // const spec2 = R.where({
+  //   description: R.test(/COSTCO/)
+  // })
+  // blue('spec2', spec2)
+  
+  // const b = { description: R.test(/COSTCO/) }
+  // const spec3 = R.where(b)
+  // blue('spec3', spec3)
+  
+
 
   // filter by spec
-  const filteredTransactions = R.filter(R.applySpec(spec), transactions)
+  const filteredTransactions = R.filter(spec1, transactions)
 
-  blue('transactions', transactions.length)
-  blue('filteredTransactions', filteredTransactions.length)
+  // blue('transactions', transactions)
+  // blue('filteredTransactions', filteredTransactions.length)
 
-  console.groupEnd()
+  // console.groupEnd()
   return filteredTransactions
 }

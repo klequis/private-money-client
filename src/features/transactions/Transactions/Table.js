@@ -26,6 +26,7 @@ export const Table = () => {
   })
 
   const transactions = useSelector(selectFilteredTransactions)
+  green('Table: transactions', transactions.length)
   // const currentConditions = useSelector(selectFilteredTransactions)
 
 
@@ -38,9 +39,9 @@ export const Table = () => {
       <BaseTable>
         <TableHead />
         {/* TODO: tmp code. Sort is hard coded */}
-        {/* {filteredData(transactions).map((t) => (
+        {transactions.map((t) => (
           <TableBody key={t._id} transactionId={t._id} />
-        ))} */}
+        ))}
       </BaseTable>
     </>
   )
