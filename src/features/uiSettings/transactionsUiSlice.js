@@ -109,18 +109,14 @@ export const selectHasRulesChecked = (state) => R.path(['transactionsUi', 'hasRu
 export const selectIsUncategorizedChecked = (state) => R.path(['transactionsUi', 'isUncategorized', 'checked'], state)
 export const selectOptionState = state => R.path(['transactionsUi', 'options'], state)
 
-// transactionsOpt: t => optVal => optVal = 'hasRule'
-//     ? !isNilOrEmpty(t.ruleIds)
-//     : isNilOrEmpty(t.ruleIds),
-//   categoryOpt: t => optVal => optVal === 'categorized'
-//     ? !isNilOrEmpty(t.category1)
-//     : isNilOrEmpty(t.category1),
+const isNilOrEmpty = value => R.isNil(value) || R.isEmpty(value)
+const notNilOrEmpty = value => !R.isNil(value) && !R.isEmpty(value)
 
 const allTests = {
-  // hasRule: !isNilOrEmpty,
-  // doesNotHaveRule: isNilOrEmpty,
-  // hasCategory: isNilOrEmpty,
-  
+  hasRule: notNilOrEmpty,
+  doesNotHaveRule: isNilOrEmpty,
+  categorized: notNilOrEmpty,
+  uncategorized: isNilOrEmpty,
   date: R.equals('?'),
   acctId: R.test(/chars/),
   description: R.test(/chars/),
@@ -129,6 +125,37 @@ const allTests = {
   category2: R.test(/chars/),
   type: R.test(/chars/)
 }
+
+
+// const ruleIdsTest = (currentConditions) => {
+//   console.group('ruleIdsTest')
+//   const transactionsOpt = R.prop('transactionsOpt')(currentConditions) // prop val || undefiend
+//   const hasTransactionsOpt = R.has('transactionsOpt')(currentConditions)
+//   if (!hasTransactionsOpt) {
+
+//     return undefined
+//   }
+//   if (transactionsOpt === 'hasRule') {
+//     return notNilOrEmpty
+//   }
+//   if (transactionsOpt === 'doesNotHaveRule') {
+//     return isNilOrEmpty
+//   }
+//   console.groupEnd()
+//   return undefined // no error just won't work
+
+// }
+
+
+// const makeSpec = (currentConditions) => {
+//   console.group('makeSpec')
+//   // props should be a function || undefined
+//   const m = {
+//     ruleIds: ruleIdsTest(currentConditions)
+//   }
+//   blue('m', m)
+//   console.groupEnd()
+// }
 
 const makeConditions = (transactionsUi) => {
   const { options, filters } = transactionsUi
@@ -141,10 +168,16 @@ const makeConditions = (transactionsUi) => {
     category2,
     type
   } = filters
-  
+  const transactionsOptValue = R.path(['ruleRadio', 'value'], options)
+  const categoryOptValue = R.path(['categorizeRadio', 'value'], options)
+
   const allConditions = {
-    transactionsOpt: R.path(['ruleRadio', 'value'], options),
-    categoryOpt: R.path(['categorizeRadio', 'value'], options),
+    hasRule: transactionsOptValue === 'hasRule' ? 'hasRule' : null,
+    doesNotHaveRule: transactionsOptValue === 'doesNotHaveRule'
+      ? 'doesNotHaveRule'
+      : null,
+    categorized: categoryOptValue === 'categorized' ? 'categorized' : null,
+    uncategorized: categoryOptValue === 'uncategorized' ? 'uncategorized' : null,
     date,
     acctId,
     description,
@@ -153,61 +186,23 @@ const makeConditions = (transactionsUi) => {
     category2,
     type
   }
+
   blue('allConditions', allConditions)
+
   // get only conditions that have active/current values
-  const conditionFilter = val => 
-    !isNilOrEmpty(val) && !R.includes(val, ['all', 'both'])
+  const conditionFilter = val =>
+    !isNilOrEmpty(val) // && !R.includes(val, ['all', 'both'])
   const currentConditions = R.filter(conditionFilter, allConditions)
+
   blue('currentConditions', currentConditions)
   return currentConditions
 }
 
-
-const isNilOrEmpty = value => R.isNil(value) || R.isEmpty(value)
-const notNilOrEmpty = value => !R.isNil(value) && !R.isEmpty(value)
-
-// const isNilOrEmpty = R.curry(nilOrEmpty)
-
-const ruleIdsTest = (currentConditions) => {
-  const transactionsOpt = R.prop('transactionsOpt')(currentConditions) // prop val || undefiend
-  const hasTransactionsOpt = R.has('transactionsOpt')(currentConditions)
-  if (!hasTransactionsOpt) {
-
-    return undefined
-  }
-  if (transactionsOpt === 'hasRule') {
-    return notNilOrEmpty
-  }
-  if (transactionsOpt === 'doesNotHaveRule') {
-    return isNilOrEmpty
-  }
-  return undefined // no error just won't work
-}
-
-
-const makeSpec = (currentConditions) => {
-  // const  R.prop('transactionsOpt')
-  // if (R.has('transactionsOpt')(currentConditions)) {
-  //   if (R.prop('transactionsOpt') )
-  // }
-
-  
-
-  // props should be a function || undefined
-  const m = {
-    ruleIds: ruleIdsTest(currentConditions)
-  }
-
-  blue('m', m)
-
-  
-}
-
 export const selectFilteredTransactions = (state) => {
-  
+
   const { transactionsUi } = state
   const transactions = R.path(['transactions', 'items'], state)
-  
+
   const { options, filters } = transactionsUi
   const {
     date,
@@ -220,29 +215,29 @@ export const selectFilteredTransactions = (state) => {
   } = filters
 
   // match values to prop names
-  
+
   console.group('selectFilteredTransactions')
   blue('actual has rule', R.filter(t => !isNilOrEmpty(t.ruleIds), transactions))
-  
+
 
   const currentConditions = makeConditions(transactionsUi)
-  
+
   if (isNilOrEmpty(currentConditions)) {
     red('early exit', 'exit')
     console.groupEnd()
     return transactions
   }
 
-  makeSpec(currentConditions)
+  // makeSpec(currentConditions)
 
 
   // get tests for currentConditions
   const spec = R.pick(R.keys(currentConditions), allTests)
   blue('spec', spec)
-  
+
   // filter by spec
   const filteredTransactions = R.filter(R.applySpec(spec), transactions)
-  
+
   blue('transactions', transactions.length)
   blue('filteredTransactions', filteredTransactions.length)
 
