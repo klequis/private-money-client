@@ -3,6 +3,7 @@ import api from 'api'
 import { requestStatus } from 'globalConstants'
 import { logFetchResults } from 'lib/logFetchResults'
 import * as R from 'ramda'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { blue, yellow, red } from 'logger'
@@ -18,11 +19,26 @@ const initialState = {
 
 const viewName = 'all-data-by-description'
 
+const addFields = (data) => {
+  return R.map(t => {
+    return R.mergeRight(
+      t,
+      {
+        hasRule: !isNilOrEmpty(R.prop('ruleIds')(t)),
+        hasCategory: !isNilOrEmpty(R.prop('category1')(t))
+      }
+    )
+  }, data)
+}
+
 export const transactionsFetch = createAsyncThunk(
   'transactions/get',
   async () => {
     const r = await api.views.read(viewName)
-    return r
+    const { data } = r
+    
+    const ret = R.mergeRight(r, { data: addFields(data) })
+    return ret
   }
 )
 
@@ -54,13 +70,13 @@ const transactionsSlice = createSlice({
     [transactionsFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
       state.status = requestStatus.fulfilled
-      state.items = action.payload.data
+      state.items = R.path(['payload', 'data'], action)
     },
     [transactionsFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       // red('transactions.rejected', 'rejected')
-      state.status = requestStatus.error
-      state.error = action.error.message
+      state.status = R.path(['error'], requestStatus)
+      state.error = R.path(['error', 'message'], action)
       state.items = []
     },
   }

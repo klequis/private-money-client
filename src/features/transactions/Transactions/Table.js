@@ -25,13 +25,22 @@ export const Table = () => {
     active: false
   })
 
-  const transactions = useSelector(selectFilteredTransactions)
-  green('Table: transactions', transactions.length)
+  const filteredTransactions = useSelector(selectFilteredTransactions)
+  const transactions = useSelector(selectAllTransactions)
+  // console.group('Table')
+  // green('filtered transactions', filteredTransactions)
+  // green('type transactions', R.type(transactions))
+  // green('transactions', transactions)
+  // console.groupEnd()
+  if (isNilOrEmpty(transactions)) {
+    return null
+  }
+  
   // const currentConditions = useSelector(selectFilteredTransactions)
 
 
   // const filteredData = R.filter(currentConditions, transactions)
-  // green('transactions', transactions.length)
+  
 
   return (
     <>
@@ -39,7 +48,7 @@ export const Table = () => {
       <BaseTable>
         <TableHead />
         {/* TODO: tmp code. Sort is hard coded */}
-        {transactions.map((t) => (
+        {filteredTransactions.map((t) => (
           <TableBody key={t._id} transactionId={t._id} />
         ))}
       </BaseTable>
