@@ -167,33 +167,6 @@ const notNilOrEmpty = value => !R.isNil(value) && !R.isEmpty(value)
 //   return currentConditions
 // }
 
-const allTests = transactionsUi => {
-
-  const { filters, options } = transactionsUi
-  const { date, acctId, description, amount, category1, category2, type } = filters
-  const hasRule = R.path(['ruleRadio', 'value'], options)
-  blue('hasRule', hasRule === 'hasRule')
-  return {
-    // hasRule: R.curry(notNilOrEmpty),
-    // hasRule: R.and(R.not(R.isNil(hasRule)), R.not(R.isEmpty(hasRule))),
-    // hasRule: R.equals(R.__, 'hasRule'),
-    // hasRule: R.equals(hasRule,'hasRule'),
-    // hasRule: R.equals(true, hasRule),
-    // doesNotHaveRule: isNilOrEmpty,
-    categorized: R.curry(notNilOrEmpty),
-    uncategorized: R.curry(isNilOrEmpty),
-    date: R.test(new RegExp(date, 'i')),
-    acctId: R.test(new RegExp(acctId, 'i')),
-    description: R.test(new RegExp(description, 'i')),
-    amount: R.test(new RegExp(amount, 'i')),
-    // amount: R.equals(Number(amount)),
-    category1: R.test(new RegExp(category1, 'i')),
-    category2: R.test(new RegExp(category2, 'i')),
-    type: R.test(new RegExp(type, 'i')),
-  }
-}
-
-
 const transactionFilter = (ruleRadioOption, categorizeRadioOption) => {
 
   const filterByRule = ruleRadioOption === 'all' ? false : true
@@ -224,6 +197,31 @@ const transactionFilter = (ruleRadioOption, categorizeRadioOption) => {
 
 }
 
+// returns true || false || null
+
+const getHasRule = (filterByRule, ruleRadioOption) => {
+  if (!filterByRule) {
+    return null
+  }
+  if (ruleRadioOption === 'hasRule') {
+    return true
+  }
+  // ruleRadioOption === 'doesNotHaveRule'
+  return false
+}
+
+const getHasCategory = (filterByCategory, categoryOptValue) => {
+  if (!filterByCategory) {
+    return null
+  }
+  if (categoryOptValue === 'categorized') {
+    return true
+  }
+  // categoryOptValue === 'categorized'
+  return false
+
+}
+
 const makeConditions = (transactionsUi) => {
   const { options, filters } = transactionsUi
   const {
@@ -246,20 +244,19 @@ const makeConditions = (transactionsUi) => {
   const ruleRadioOption = R.path(['ruleRadio', 'value'], options)
   blue('ruleRadioOption', ruleRadioOption)
   const categorizeRadioOption = R.path(['categorizeRadio', 'value'], options)
-  blue('categorizeRadioOption', categorizeRadioOption)
+  // blue('categorizeRadioOption', categorizeRadioOption)
   const filterByRule = ruleRadioOption === 'all' ? false : true
-  blue('filterbyRule', filterByRule)
+  // blue('filterbyRule', filterByRule)
   const filterByCategory = categorizeRadioOption === 'both' ? false : true
-  blue('filterByCategory', filterByCategory)
+  // blue('filterByCategory', filterByCategory)
   
 
+
   const allConditions = {
-    hasRule: filterByRule ? ruleRadioOption === 'hasRule' : null,
-    doesNotHaveRule: transactionsOptValue === 'doesNotHaveRule'
-      ? 'doesNotHaveRule'
-      : null,
-    categorized: categoryOptValue === 'categorized' ? 'categorized' : null,
-    uncategorized: categoryOptValue === 'uncategorized' ? 'uncategorized' : null,
+    // hasRule: ruleRadioOption ? true : null,
+    // hasCategory: categorizeRadioOption ? true : null,
+    // will have value or null from Redux
+    hasRule: getHasRule(filterByRule, ruleRadioOption),
     date,
     acctId,
     description,
@@ -276,13 +273,46 @@ const makeConditions = (transactionsUi) => {
     !isNilOrEmpty(val) // && !R.includes(val, ['all', 'both'])
   const currentConditions = R.filter(conditionFilter, allConditions)
 
-  blue('currentConditions', currentConditions)
+  blue('makeConditions: currentConditions', currentConditions)
   console.groupEnd()
   return currentConditions
 }
 
+const allTests = transactionsUi => {
 
-
+  const { filters, options } = transactionsUi
+  const { date, acctId, description, amount, category1, category2, type } = filters
+  // const hasRule = R.path(['ruleRadio', 'value'], options)
+  // blue('hasRule', hasRule === 'hasRule')
+  const ruleRadioOption = R.path(['options', 'ruleRadio', 'value'], transactionsUi)
+  const categorizeRadioOption = R.path(['options', 'categorizeRadio', 'value'], transactionsUi)
+  console.group('allTests')
+  blue('ruleRadioOption', ruleRadioOption)
+  const all = {
+    // hasRule: R.curry(notNilOrEmpty),
+    // hasRule: R.and(R.not(R.isNil(hasRule)), R.not(R.isEmpty(hasRule))),
+    // hasRule: R.equals(R.__, 'hasRule'),
+    // hasRule: R.equals(hasRule,'hasRule'),
+    // hasRule: R.equals(true, hasRule),
+    // doesNotHaveRule: isNilOrEmpty,
+    // categorized: R.curry(notNilOrEmpty),
+    // uncategorized: R.curry(isNilOrEmpty),
+    hasRule: R.equals(R.__, true),
+    // hasCategory: () => categorizeRadioOption === 'categorized' === true,
+    date: R.test(new RegExp(date, 'i')),
+    acctId: R.test(new RegExp(acctId, 'i')),
+    description: R.test(new RegExp(description, 'i')),
+    amount: R.test(new RegExp(amount, 'i')),
+    // amount: R.equals(Number(amount)),
+    category1: R.test(new RegExp(category1, 'i')),
+    category2: R.test(new RegExp(category2, 'i')),
+    type: R.test(new RegExp(type, 'i')),
+  }
+  blue('allTests: all', all)
+  console.groupEnd()
+  return all
+  
+}
 
 export const selectFilteredTransactions = (state) => {
 
@@ -298,18 +328,35 @@ export const selectFilteredTransactions = (state) => {
     category2,
     type
   } = filters
+  console.group('selectFilteredTransactions')
 
+  
   const currentConditions = makeConditions(transactionsUi)
   blue('currentConditions', currentConditions)
 
   const ruleRadioOption = R.path(['options', 'ruleRadio', 'value'], transactionsUi)
   const categorizeRadioOption = R.path(['options', 'categorizeRadio', 'value'], transactionsUi)
 
-  if (ruleRadioOption === 'all' && categorizeRadioOption === 'both') {
+  if (isNilOrEmpty(currentConditions)) {
+    red('early exit', 'exit')
+    console.groupEnd()
     return transactions
   }
-  const tFilter = transactionFilter(ruleRadioOption, categorizeRadioOption)
-  return R.filter(transactionFilter(ruleRadioOption, categorizeRadioOption), transactions)
+
+  const keys = R.keys(currentConditions)
+  blue('keys', keys)
+  const tests = allTests(transactionsUi)
+  blue('tests', tests)
+  const a = R.pick(keys, tests)
+  blue('a', a)
+  const spec1 = R.where(a)
+  blue('spec1', spec1)
+  const filteredTransactions = R.filter(spec1, transactions)
+  console.groupEnd()
+  return filteredTransactions
+
+  // const tFilter = transactionFilter(ruleRadioOption, categorizeRadioOption)
+  // return R.filter(transactionFilter(ruleRadioOption, categorizeRadioOption), transactions)
 }
 
 /*

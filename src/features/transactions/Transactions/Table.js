@@ -31,6 +31,7 @@ export const Table = () => {
   // green('filtered transactions', filteredTransactions)
   // green('type transactions', R.type(transactions))
   // green('transactions', transactions)
+  green('num transactions', filteredTransactions.length)
   // console.groupEnd()
   if (isNilOrEmpty(transactions)) {
     return null
