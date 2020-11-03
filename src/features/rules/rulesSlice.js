@@ -70,5 +70,5 @@ export const selectRuleActions = (ruleId, state) => {
   return actions
 }
 
-export const selectOneRule = (ruleId, state) =>
+export const selectRule = (ruleId, state) =>
   R.find(R.propEq('_id', ruleId))(R.path(['state', 'rules', 'items'], state))

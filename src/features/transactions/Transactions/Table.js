@@ -27,21 +27,9 @@ export const Table = () => {
 
   const filteredTransactions = useSelector(selectFilteredTransactions)
   const transactions = useSelector(selectAllTransactions)
-  // console.group('Table')
-  // green('filtered transactions', filteredTransactions)
-  // green('type transactions', R.type(transactions))
-  // green('transactions', transactions)
-  green('num transactions', filteredTransactions.length)
-  // console.groupEnd()
   if (isNilOrEmpty(transactions)) {
     return null
   }
-  
-  // const currentConditions = useSelector(selectFilteredTransactions)
-
-
-  // const filteredData = R.filter(currentConditions, transactions)
-  
 
   return (
     <>
