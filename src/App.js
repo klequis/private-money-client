@@ -8,7 +8,7 @@ import {
   setRefresh,
   selectRefreshStatus
 } from 'features/transactions'
-import { CreateRule, rulesFetch } from 'features/rules'
+import { RuleCreate, rulesFetch } from 'features/rules'
 import { requestStatus } from 'globalConstants'
 import getRequestStatus from 'lib/getRequestStatus'
 import RequestStatus from 'components/RequestStatus'
@@ -108,7 +108,7 @@ const App = () => {
         {
           isNilOrEmpty(activeTransactionId)
             ? <Transactions />
-            : <CreateRule />
+            : <RuleCreate />
 
         }
       </>

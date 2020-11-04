@@ -48,7 +48,10 @@ const TableRow = ({ transactionId }) => {
             <div>{description}</div>
             {_id === activeTransactionId ? <div>{origDescription}</div> : null}
           </AllDataTableData> */}
-          <AllDataTableData align="left">{description}</AllDataTableData>
+          <AllDataTableData align="left">
+            <div>{description}</div>
+            <div>{_id}</div>
+          </AllDataTableData>
           <AllDataTableData>{amount}</AllDataTableData>
           <AllDataTableData>{category1}</AllDataTableData>
           <AllDataTableData>{category2}</AllDataTableData>

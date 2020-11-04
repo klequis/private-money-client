@@ -70,13 +70,13 @@ const ruleEditSlice = createSlice({
      * 
      * @param {object} state 
      * @param {object} action 
-     * @description action.payload is a ruleId
+     * @description action.payload is a rule
      * @description gets 
      */
     ruleEditSet(state, action) {
       logFetchResults('ruleEditSet', state, action)
       const { payload } = action
-      state.ruleEdit = payload // || {}
+      state.ruleEdit = payload
     },
     ruleEditClear(state, action) {
       state.ruleEdit = {}

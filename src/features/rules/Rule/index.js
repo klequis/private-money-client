@@ -1,1 +1,1 @@
-export * from './CreateRule'
+export { RuleCreate } from './RuleCreate'

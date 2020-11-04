@@ -120,6 +120,7 @@ export const selectActiveTransactionId = (state) => {
 
 export const selectActiveTransaction = state => {
   const tId = selectActiveTransactionId(state)
+  // blue('selectActiveTransaction: tId', tId)
   return R.type(tId) === 'Null' ? null : selectOneTransaction(tId, state)
 }
 

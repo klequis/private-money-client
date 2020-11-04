@@ -11,7 +11,7 @@ import {
   ruleEditSet,
   // ruleTmpMakeId, 
   // ruleTmpMake,
-  ruleEditTmpMake
+
 } from 'features/ruleEdit'
 import styled from 'styled-components'
 import { isTmpRule } from 'features/rules'
@@ -25,7 +25,8 @@ import {
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { ShowRuleIds } from './ShowRuleIds'
 import { selectRule } from 'features/rules/rulesSlice'
-
+import { RuleNew } from './RuleNew'
+import { RuleExisting } from './RuleExisting'
 
 import * as R from 'ramda'
 
@@ -46,52 +47,10 @@ let countReturn = 0
 
 const Rule = () => {
   countTotal = countTotal + 1
-  console.group('Rule')
   const activeTransaction = useSelector(selectActiveTransaction)
-  // green('activeTransaction', activeTransaction)
-
   const { ruleIds } = activeTransaction
-  green('ruleIds', ruleIds)
-  green('ruleIds', R.type(ruleIds))
-  // green('ruleIds.length', ruleIds.length)
-  const ruleId = 
-  
-  const rule = selectRule(ruleIds[0])
-  // green('rule', R.type(rule))
-
   const ruleEdit = useSelector(selectRuleEdit)
-
   const dispatch = useDispatch()
-
-  useEffect(() => {
-    // console.group('useEffect')
-    if (isNilOrEmpty(ruleIds)) {
-      // green('tmp rule')
-      const { origDescription, date } = activeTransaction
-      dispatch(ruleEditTmpMake({ origDescription, date }))
-    } else if (ruleIds.length === 1) {
-      // green('ruleIds[0]', ruleIds[0])
-      // green('num ruleIds', ' === 1')
-      ruleEditSet()
-      
-    } else if (ruleIds.length > 1) {
-      // green('ruleIds > 1')
-      // ShowRuleIds below
-    }
-    // console.groupEnd()
-  }, [ruleIds, activeTransaction])
-
-  if (shouldShowRuleIds(ruleIds)) {
-    red('early exit: ', 'shouldShowRuleIds')
-    console.groupEnd()
-    return <ShowRuleIds ruleIds={ruleIds} />
-  }
-
-  if (!ruleEdit) {
-    red('early exit: ', '!ruleEdit')
-    console.groupEnd()
-    return null
-  }
 
   const _handleSaveClick = async () => {
     if (isTmpRule(ruleEdit)) {
@@ -116,26 +75,24 @@ const Rule = () => {
 
   const { _id: ruleId } = ruleEdit
 
-  console.groupEnd()
-  countReturn = countReturn + 1
-  return (
-    <>
-      <RuleDiv id="Rule">
-        {/* <RenderCount
-          componentName="Rule"
-          countTotal={{ actual: countTotal, min: 1, max: 2 }}
-          countReturn={{ actual: countReturn, min: 2, max: 2 }}
-        /> */}
-        <h1>Rule</h1>
-        <RuleId ruleId={ruleId} />
-        <Button onClick={_handleSaveClick}>Save</Button>
-        <Button onClick={_handleCancelClick}>Cancel</Button>
-        <Criteria />
-        <Actions />
-      </RuleDiv>
+  if (isNilOrEmpty(ruleIds) || ruleIds.length === 0) {
+    return <RuleNew
+      save={_handleSaveClick}
+      cancel={_handleCancelClick}
+    />
+  }
 
-    </>
-  )
+  if (ruleIds.length === 1) {
+    return <RuleExisting
+      save={_handleSaveClick}
+      cancel={_handleCancelClick}
+    />
+  }
+
+  if (ruleIds.length > 1) {
+    return <ShowRuleIds />
+  }
+
 }
 
 export default Rule

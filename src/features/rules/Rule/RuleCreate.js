@@ -7,7 +7,7 @@ import styled from 'styled-components'
 // eslint-disable-next-line
 import { purple, green, redf, yellow, blue } from 'logger'
 
-const CreateRuleDiv = styled.div`
+const RuleCreateDiv = styled.div`
   display: flex;
   width: 100%;
   background-color: white;
@@ -16,13 +16,12 @@ const CreateRuleDiv = styled.div`
 
 let count = 0
 
-export const CreateRule = React.memo(() => {
-  purple('CreateRule', 'START')
+export const RuleCreate = React.memo(() => {
   count = count + 1
   return (
-    <CreateRuleDiv id="CreateRules">
+    <RuleCreateDiv id="RuleCreates">
       {/* <RenderCount 
-        componentName='CreateRules' 
+        componentName='RuleCreates' 
         countTotal={{ actual: count, min: 1, max: 1 }}
       /> */}
       <div style={{ backgroundColor: 'blue' }}>
@@ -32,6 +31,6 @@ export const CreateRule = React.memo(() => {
       <div style={{ backgroundColor: 'green' }}>
         <CriteriaResults />
       </div>
-    </CreateRuleDiv>
+    </RuleCreateDiv>
   )
 })
