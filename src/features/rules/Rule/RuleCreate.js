@@ -10,9 +10,10 @@ import { purple, green, redf, yellow, blue } from 'logger'
 const RuleCreateDiv = styled.div`
   display: flex;
   width: 100%;
-  background-color: white;
+
 
 `
+// background-color: white;
 
 let count = 0
 
@@ -24,11 +25,11 @@ export const RuleCreate = React.memo(() => {
         componentName='RuleCreates' 
         countTotal={{ actual: count, min: 1, max: 1 }}
       /> */}
-      <div style={{ backgroundColor: 'blue' }}>
+      <div>
         <h2>Create Rule</h2>
         <Rule />
       </div>
-      <div style={{ backgroundColor: 'green' }}>
+      <div>
         <CriteriaResults />
       </div>
     </RuleCreateDiv>

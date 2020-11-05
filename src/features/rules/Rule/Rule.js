@@ -39,9 +39,6 @@ const RuleDiv = styled.div``
 
 const shouldShowRuleIds = ruleIds => !isNilOrEmpty(ruleIds) && ruleIds > 1
 
-
-
-
 let countTotal = 0
 let countReturn = 0
 
