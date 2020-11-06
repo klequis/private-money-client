@@ -9,41 +9,22 @@ import { transactionFields as tFields } from 'features/transactions'
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 
-// const Wrapper = styled.div`
-//   // display: flex;
-  
-//   width: 100%;
-// `
-// background-color: red;
-
 export const Categorize = ({ action, minChars }) => {
   const [_action, _setAction] = useState(action)
   const { category1, category2 } = _action
   const dispatch = useDispatch()
 
-
-
-
   const _handleEvent = (event) => {
     const { name, value } = event.target
     const { type: eventType } = event
     console.group('_handleEvent')
-    // green('name', name)
-    // green('value', value)
-    // green('eventType', eventType)
-    
     const newAction = R.mergeRight(_action, { [name]: value })
-    // green('_handleEvent: newAction', newAction)
     console.groupEnd()
     _setAction(newAction)
-
     if (eventType === 'blur') {
-      // green('typeIsBlur')
       dispatch(ruleEditActionUpdate(newAction))
     }
-    
   }
-
 
   return (
     <>
