@@ -42,6 +42,7 @@ export const RenameDescription = ({ action }) => {
 
   return (
     <TextEdit
+      disabled={false}
       name={actionFields.replaceWithValue.name}
       labelText="Rename Description As"
       initialValue={replaceWithValue}

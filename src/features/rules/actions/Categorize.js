@@ -48,6 +48,7 @@ export const Categorize = ({ action, minChars }) => {
   return (
     <>
       <TextEdit
+        disabled={false}
         name={tFields.category1.name}
         labelText='Category 1'
         initialValue={category1}
@@ -56,6 +57,7 @@ export const Categorize = ({ action, minChars }) => {
         onChange={_handleEvent}
       />
       <TextEdit
+        disabled={false}
         name={tFields.category2.name}
         labelText='Category 2'
         initialValue={category2}

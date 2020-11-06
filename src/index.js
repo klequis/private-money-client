@@ -7,7 +7,6 @@ import { Provider } from 'react-redux'
 import { ThemeProvider } from 'react-jss'
 import * as serviceWorker from './serviceWorker'
 
-import './index.css'
 import './bootstrap/bootstrap.min.css'
 
 // TODO: Replace DevTmp with App
