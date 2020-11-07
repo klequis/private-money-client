@@ -6,10 +6,10 @@ import classNames from 'classnames'
 //   paddingBottom: 3,
 //   fontSize: '0.675rem',
 // }
-const Button = ({ onClick, children }) => {
+const Button = ({ onClick, children, disabled }) => {
   // style={buttonExtraSml}
   return (
-    <button className={classNames('btn', 'btn-info', 'btn-sm')}  onClick={onClick}>
+    <button className={classNames('btn', 'btn-info', 'btn-sm')}  onClick={onClick} disabled={disabled}>
       {children}
     </button>
   )

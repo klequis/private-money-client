@@ -8,7 +8,7 @@ import { red } from 'logger'
 const RenderResult = ({ title, count }) => {
   const { actual, min, max } = count
   return (
-
+    
     <span>
       <span>{title}:</span> (<span>actual=<b>{actual}</b></span>, <span>min=<b>{min}</b></span>, <span>max=<b>{max}</b></span>)
     </span>
@@ -31,6 +31,7 @@ const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
   // if (isInRange(countTotal, countReturn)) {
   //   return null
   // }
+  return null
   const inRange = isInRange(countTotal, countReturn)
   return (
     <div style={ inRange ? {color: 'rgba(255, 255, 255, 0.3)'} : { color: 'red' }}>

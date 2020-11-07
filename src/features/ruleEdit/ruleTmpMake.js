@@ -23,6 +23,7 @@ export const ruleTmpMake = (origDescription, date) => {
 
   return {
     _id: ruleTmpMakeId(),
+    dirty: false,
     criteria: [
       {
         _id: ruleTmpMakeId(),
@@ -52,6 +53,6 @@ export const ruleTmpMake = (origDescription, date) => {
         category1: '',
         category2: '',
       }
-    ]
+    ],
   }
 }

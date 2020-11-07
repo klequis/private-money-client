@@ -2,12 +2,11 @@ import {
   createSlice, 
   createAsyncThunk, 
   current } from '@reduxjs/toolkit'
-import * as R from 'ramda'
-import * as Promise from 'bluebird'
 import api from 'api'
 import { ruleTmpMake } from './ruleTmpMake'
 import { requestStatus } from 'globalConstants'
 import { logFetchResults } from 'lib/logFetchResults'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { blue, red, purple } from 'logger'
@@ -37,10 +36,6 @@ export const ruleCreate = createAsyncThunk(
       removeTmpIdField
     )(rule)
     await api.rules.create(newRule)
-    // Promise.all([
-    //   api.views.read('all-data-by-description'),
-    //   api.rules.read()
-    // ])
   }
 )
 
@@ -50,16 +45,13 @@ export const ruleUpdate = createAsyncThunk(
     purple('ruleUpdate: rule', rule)
     const newRule = removeInactiveCriteria(rule)
     await api.rules.update(rule._id, newRule)
-    // Promise.all([
-    //   api.views.read('all-data-by-description'),
-    //   api.rules.read()
-    // ])
   }
 )
 
 const initialState = {
   status: requestStatus.idle,
-  error: null
+  error: null,
+  isTmpRule: null
 }
 
 const ruleEditSlice = createSlice({
@@ -74,9 +66,9 @@ const ruleEditSlice = createSlice({
      * @description gets 
      */
     ruleEditSet(state, action) {
-      logFetchResults('ruleEditSet', state, action)
       const { payload } = action
       state.ruleEdit = payload
+      state.isTmpRule = false
     },
     ruleEditClear(state, action) {
       state.ruleEdit = {}
@@ -84,11 +76,11 @@ const ruleEditSlice = createSlice({
     ruleEditCriterionUpdate(state, action) {
       const newCriterion = action.payload
       const criteria = R.path(['ruleEdit', 'criteria'], state)
-      const idx = R.findIndex(R.propEq('_id', R.prop('_id', newCriterion)))(
-        criteria
-      )
+      const newCriterionId = R.prop('_id', newCriterion)
+      const idx = R.findIndex(R.propEq('_id', newCriterionId))(criteria)
       const newCriteria = R.update(idx, newCriterion, criteria)
       const newState = R.assocPath(['ruleEdit', 'criteria'], newCriteria, state)
+      newState.dirty = true
       return newState
     },
     ruleEditActionUpdate(state, action) {
@@ -99,6 +91,7 @@ const ruleEditSlice = createSlice({
       )
       const newActions = R.update(idx, newAction, actions)
       const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
+      newState.dirty = true
       return newState
     },
     ruleEditSave(state, action) {
@@ -109,6 +102,7 @@ const ruleEditSlice = createSlice({
       const { payload } = action
       const { origDescription, date } = payload
       state.ruleEdit = ruleTmpMake(origDescription, date)
+      state.isTmpRule = true
     }
   },
   extraReducers: {

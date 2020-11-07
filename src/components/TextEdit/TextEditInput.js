@@ -5,7 +5,6 @@ import PropTypes from 'prop-types'
 import { green, redf, purple } from 'logger'
 
 const TextEditInput = ({
-  caller,
   initialValue,
   name,
   disabled,
@@ -14,8 +13,6 @@ const TextEditInput = ({
 }) => {
   const [_touched, _setTouched] = useState(false)
   const [_value, _setValue] = useState(initialValue)
-
-  green(`TextEditInput: disabled (${caller}: ${name})`, disabled)
 
   const _handleChange = (event) => {
     const { value } = event.target

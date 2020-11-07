@@ -2,25 +2,18 @@ import React from 'react'
 import Rule from './Rule'
 import { CriteriaResults } from 'features/criteriaResults'
 // import RenderCount from 'components/RenderCount'
-import styled from 'styled-components'
+import ContainerFluid from 'components/ContainerFluid'
+// import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { purple, green, redf, yellow, blue } from 'logger'
-
-const RuleCreateDiv = styled.div`
-  display: flex;
-  width: 100%;
-
-
-`
-// background-color: white;
 
 let count = 0
 
 export const RuleCreate = React.memo(() => {
   count = count + 1
   return (
-    <RuleCreateDiv id="RuleCreates">
+    <ContainerFluid id="RuleCreates">
       {/* <RenderCount 
         componentName='RuleCreates' 
         countTotal={{ actual: count, min: 1, max: 1 }}
@@ -32,6 +25,6 @@ export const RuleCreate = React.memo(() => {
       <div>
         <CriteriaResults />
       </div>
-    </RuleCreateDiv>
+    </ContainerFluid>
   )
 })
