@@ -51,7 +51,8 @@ export const ruleUpdate = createAsyncThunk(
 const initialState = {
   status: requestStatus.idle,
   error: null,
-  isTmpRule: null
+  isTmpRule: null,
+  dirty: null
 }
 
 const ruleEditSlice = createSlice({
@@ -200,4 +201,22 @@ export const selectRuleEditActions = (state) => {
 export const selectRuleEditId = (state) => {
   const id = R.path(['ruleEdit', 'ruleEdit', '_id'], state)
   return R.isNil(id) ? '' : id
+}
+
+/**
+ * 
+ * @param {object} state
+ * @returns {string} state.ruleEdit.dirty
+ */
+export const selectRuleEditIsDirty = (state) => {
+  return R.path(['ruleEdit', 'dirty'], state)
+}
+
+/**
+ * 
+ * @param {object} state
+ * @returns {string} state.ruleEdit.isTmpRule
+ */
+export const selectRuleEditIsTmpRule = (state) => {
+  return R.path(['ruleEdit', 'isTmpRule'], state)
 }
