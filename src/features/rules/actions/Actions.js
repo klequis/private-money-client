@@ -38,7 +38,7 @@ export const Actions = () => {
 
   const actions = useSelector((state) => selectRuleEditActions(state))
 
-  const Control = ({ action }) => {
+  const Component = ({ action }) => {
     if (action.field === tFields.description.name) {
       return <RenameDescription key={action._id} action={action} minChars={3} />
     } else if (action.actionType === actionTypes.categorize.name) {
@@ -65,7 +65,7 @@ export const Actions = () => {
       <Wrapper>
         {actions.map((a) => {
           return (
-            <Control key={a._id} action={a} />
+            <Component key={a._id} action={a} />
           )
         })}
       </Wrapper>

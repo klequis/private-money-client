@@ -4,7 +4,7 @@ import React from 'react'
 import { purple } from 'logger'
 const RuleId = ({ ruleId }) => {
   // return <div style={{ fontSize: '0.8rem' }}>{`RuleId: ${ruleId}`}</div>
-  return <h3>{`RuleId: ${ruleId}`}</h3>
+  return <small>{`RuleId: ${ruleId}`}</small>
 }
 
 export default RuleId
