@@ -13,7 +13,7 @@ import { green, redf, purple } from 'logger'
 import RenderCount from 'components/RenderCount'
 
 const Wrapper = styled.div`
-  
+  display: flex;
 `
 /*
 display: flex;
@@ -40,7 +40,7 @@ export const Actions = () => {
 
   const Component = ({ action }) => {
     if (action.field === tFields.description.name) {
-      return <RenameDescription key={action._id} action={action} minChars={3} />
+      return <RenameDescription key={action._id} action={action} minChars={3} maxWidth={10} />
     } else if (action.actionType === actionTypes.categorize.name) {
       return <Categorize key={action._id} action={action} minChars={3} />
     } else {

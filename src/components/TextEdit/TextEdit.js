@@ -9,7 +9,8 @@ import ErrorLabel from 'components/ErrorLabel'
 import { green, redf, yellow } from 'logger'
 
 const TextEditDiv = styled.div`
-  width: 100%;
+  // width: 100%;
+  maxWidth: ${props => props.maxWidth}px
   
 `
 
@@ -19,6 +20,7 @@ background-color: purple;
 
 const TextEdit = React.memo(({
   disabled,
+  maxWidth = 0,
   minChars = 0,
   name,
   placeholder = '',
@@ -30,6 +32,7 @@ const TextEdit = React.memo(({
     <TextEditDiv>
         <TextEditInput
           initialValue={initialValue}
+          maxWidth={maxWidth}
           name={name}
           disabled={disabled}
           placeholder={placeholder}
