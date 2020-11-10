@@ -14,11 +14,13 @@ import RenderCount from 'components/RenderCount'
 const ButtonRow = styled.div`
   display: flex;
   padding-bottom: 16px;
-  background-color: blue;
+  align-items: center;
 `
+// background-color: blue;
 
 const H4 = styled.h4`
   margin-right: 12px;
+  margin-bottom: 0;
 `
 
 const Btn = styled(Button)`

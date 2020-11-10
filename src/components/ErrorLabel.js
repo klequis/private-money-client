@@ -1,9 +1,10 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Label = styled.label`
+const Label = styled.div`
   width: 100%;
   margin: 0;
+  background-color: orange;
 `
 // background-color: green; 
 

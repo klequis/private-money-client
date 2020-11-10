@@ -1,37 +1,39 @@
 import React from 'react'
 import Select from './Select'
-import { operatorList } from 'features/rules'
+import { criteriaFieldList } from 'features/rules'
 import styled from 'styled-components'
 
-const Wrapper = styled.div``
+const CriteriaFieldSelectDiv = styled.div``
 
 const CriteriaFieldSelect = ({
   disabled,
+  maxWidth,
   onBlur,
   onChange,
   value,
 }) => {
 
   return (
-    <Wrapper>
+    <CriteriaFieldSelectDiv>
       <Select
         disabled={disabled}
-        name="operation"
+        maxWidth={125}
+        name="field"
         onBlur={onBlur}
         onChange={onChange}
         value={value}
       >
         {
-          operatorList.map(o =>
+          criteriaFieldList.map(f =>
             (
-              <option key={o.name} value={o.name}>
-                {o.description}
+              <option key={f.name} value={f.name}>
+                {f.description}
               </option>
             )
           )
         }
       </Select>
-    </Wrapper>
+    </CriteriaFieldSelectDiv>
   )
 }
 

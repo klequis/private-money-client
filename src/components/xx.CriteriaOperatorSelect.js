@@ -1,9 +1,9 @@
 import React from 'react'
 import Select from './Select'
-import { criteriaFieldList } from 'features/rules'
+import { operatorList } from 'features/rules'
 import styled from 'styled-components'
 
-const CriteriaFieldSelectDiv = styled.div``
+const Wrapper = styled.div``
 
 const CriteriaFieldSelect = ({
   disabled,
@@ -13,25 +13,31 @@ const CriteriaFieldSelect = ({
 }) => {
 
   return (
-    <CriteriaFieldSelectDiv>
+    <Wrapper>
       <Select
         disabled={disabled}
-        name="field"
+        
+        name="operation"
         onBlur={onBlur}
         onChange={onChange}
+        padding
+        paddingBottom
+        paddingLeft
+        paddingRight
+        paddingTop
         value={value}
       >
         {
-          criteriaFieldList.map(f =>
+          operatorList.map(o =>
             (
-              <option key={f.name} value={f.name}>
-                {f.description}
+              <option key={o.name} value={o.name}>
+                {o.description}
               </option>
             )
           )
         }
       </Select>
-    </CriteriaFieldSelectDiv>
+    </Wrapper>
   )
 }
 

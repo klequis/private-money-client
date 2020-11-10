@@ -4,6 +4,7 @@ import styled from 'styled-components'
 const Row = styled.div`
   
   display: flex;
+  justify-content: flex-start;
   @media (max-width: 576px) {
     flex-direction: column;
     aligh-items: flex-start;

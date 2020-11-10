@@ -1,15 +1,22 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
+import styled from 'styled-components'
+
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 
+const TextInput = styled.input`
+  max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'}
+`
+
 const TextEditInput = ({
-  initialValue,
-  name,
   disabled,
+  initialValue,
+  maxWidth = 'none',
+  name,
+  onBlur,
   placeholder,
-  onBlur
 }) => {
   const [_touched, _setTouched] = useState(false)
   const [_value, _setValue] = useState(initialValue)
@@ -29,9 +36,10 @@ const TextEditInput = ({
   }
   return (
     <div>
-      <input
+      <TextInput
         className={classNames(['form-control', 'form-control-sm'])}
         disabled={disabled}
+        maxWidth={maxWidth}
         name={name}
         onBlur={_handleBlur}
         onChange={_handleChange}
