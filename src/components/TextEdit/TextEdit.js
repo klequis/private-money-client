@@ -11,12 +11,7 @@ import { green, redf, yellow } from 'logger'
 const TextEditDiv = styled.div`
   // width: 100%;
   maxWidth: ${props => props.maxWidth}px
-  
 `
-
-/*
-background-color: purple;
-*/
 
 const TextEdit = React.memo(({
   disabled,
@@ -38,7 +33,7 @@ const TextEdit = React.memo(({
           placeholder={placeholder}
           onBlur={onBlur}
         />
-        <ErrorLabel text='TextEdit' />
+        <ErrorLabel text='' />
     </TextEditDiv>)
 })
 

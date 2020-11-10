@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import PropTypes from 'prop-types'
-
+import classNames from 'classnames'
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 
@@ -30,13 +30,14 @@ const TextEditInput = ({
   return (
     <div>
       <input
-        type="text"
-        name={name}
-        value={_value}
-        onChange={_handleChange}
+        className={classNames(['form-control', 'form-control-sm'])}
         disabled={disabled}
-        placeholder={placeholder}
+        name={name}
         onBlur={_handleBlur}
+        onChange={_handleChange}
+        placeholder={placeholder}
+        type="text"
+        value={_value}
       />
     </div>
   )

@@ -8,6 +8,11 @@ const SelectControl = styled.select`
 // background-color: green;
 // padding-bottom: 30.4px;
 
+
+/*
+    <ErrorLabel /> is not used but there to preserve spacing when Select
+    is used in row with TextEdit which will display error messages.
+*/
 const Select = ({
   name,
   value,
@@ -26,7 +31,7 @@ const Select = ({
       >
         {children}
       </SelectControl>
-      <ErrorLabel text='Select' />
+      <ErrorLabel text='' />
     </>
   )
 }
