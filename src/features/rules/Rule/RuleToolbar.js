@@ -5,13 +5,21 @@ import styled from 'styled-components'
 import Button from 'components/Button'
 
 const Wrapper = styled.div`
+  padding-top: 16px;
+  padding-bottom: 16px;
 `
+
+const Btn = styled(Button)`
+  margin-right: 12px;
+`
+
+
 export const RuleToolbar = ({ save, cancel }) => {
   const dirty = useSelector(selectRuleEditIsDirty)
   return (
     <Wrapper>
-      <Button onClick={save} disabled={!dirty}>Save</Button>
-      <Button onClick={cancel}>Cancel</Button>
+      <Btn onClick={save} disabled={!dirty}>Save</Btn>
+      <Btn onClick={cancel}>Cancel</Btn>
     </Wrapper>
   )
 }
