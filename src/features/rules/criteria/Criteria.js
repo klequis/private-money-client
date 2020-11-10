@@ -14,6 +14,7 @@ import RenderCount from 'components/RenderCount'
 const ButtonRow = styled.div`
   display: flex;
   padding-bottom: 16px;
+  background-color: blue;
 `
 
 const H4 = styled.h4`

@@ -20,11 +20,15 @@ let countReturn = 0
 const CheckDiv = styled.div`
   flex-basis: 1%;
   flex-grow: 0;
+  padding-top: .35rem;
+  margin-right: 4px;
 `
+// padding-top: 6px;
 const SelectDiv = styled.div`
   flex-basis: 20%;
   flex-grow: 0;
   min-width: 110px;
+  margin-right: 4px;
 `
 const TextEditDiv = styled.div`
   flex-basis: 79%;

@@ -7,6 +7,7 @@ import Button from 'components/Button'
 const Wrapper = styled.div`
   padding-top: 16px;
   padding-bottom: 16px;
+  background-color: purple
 `
 
 const Btn = styled(Button)`
