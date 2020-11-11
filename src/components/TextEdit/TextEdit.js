@@ -24,6 +24,7 @@ const TextEdit = React.memo(({
   placeholder = '',
   initialValue = '',
   onBlur,
+  validation
 }) => {
 
   return (
@@ -36,7 +37,7 @@ const TextEdit = React.memo(({
           placeholder={placeholder}
           onBlur={onBlur}
         />
-        <ErrorLabel text='' />
+        <ErrorLabel text={validation} />
     </TextEditDiv>)
 })
 

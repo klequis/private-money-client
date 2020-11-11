@@ -63,7 +63,7 @@ const Select = ({
       >
         {children}
       </SelectControl>
-      <ErrorLabel text='Select' />
+      <ErrorLabel text='' />
     </div>
   )
 }

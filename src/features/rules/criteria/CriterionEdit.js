@@ -11,6 +11,8 @@ import styled from 'styled-components'
 import Select from 'components/Select'
 import { criteriaFieldList } from 'features/rules'
 import { operatorList } from 'features/rules'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { isStringDate } from 'lib/dataTypes'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
@@ -23,14 +25,44 @@ const Row = styled.div`
   display: flex;
 `
 
-const mergeCriterionProp = (newProp, criterion) => {
+const _mergeCriterionProp = (newProp, criterion) => {
   return R.mergeRight(criterion, newProp)
+}
+
+/**
+   * 
+   * @param {string} value 
+   * @returns {string}
+   */
+const _validateString = value => {
+  if (value === '') {
+    return '3 or more characters required'
+  }
+  if (value.length < 3) {
+    return '3 or more characters required'
+  }
+  return ''
+}
+
+/**
+ * 
+ * @param {string} dateString 
+ */
+const _validateDate = dateString => {
+  green('dateString', dateString)
+  green('isStringDate(dateString)', isStringDate(dateString))
+  if (!isStringDate(dateString)) {
+    return 'Must be a date'
+  }
+  return ''
 }
 
 export const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
 
   const [_criterion, _setCriterion] = useState(criterion)
+  const [_TextEditValueValidation, _setTextEditValueValidation] = useState('')
+
   const { operation, field, value, active } = _criterion
 
   const dispatch = useDispatch()
@@ -38,17 +70,23 @@ export const CriterionEdit = ({ criterion }) => {
   const _handleChange = (event) => {
     const { name, value, checked, type } = event.currentTarget
     const newProp = { [name]: type === 'checkbox' ? checked : value }
-    const newCriterion = mergeCriterionProp(newProp, _criterion)
+    const newCriterion = _mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
     dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
   const _handleBlur = (event) => {
+    
     const { name, value } = event.target
+    // green('name', name)
+    // green('value', value)
+    // green('field', field)
+    const validation = field === 'date' ? _validateDate(value) : _validateString(value)
+    _setTextEditValueValidation(validation)
     const newProp = { [name]: value }
-    const newCriterion = mergeCriterionProp(newProp, _criterion)
+    const newCriterion = _mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
-    if (newCriterion.active) {
+    if (newCriterion.active && isNilOrEmpty(validation)) {
       dispatch(ruleEditCriterionUpdate(newCriterion))
     }
   }
@@ -108,6 +146,7 @@ export const CriterionEdit = ({ criterion }) => {
         name="value"
         onChange={_handleChange}
         onBlur={_handleBlur}
+        validation={_TextEditValueValidation}
       />
     </Row>
   )

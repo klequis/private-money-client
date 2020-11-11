@@ -2,7 +2,7 @@ import * as R from 'ramda'
 import { criteriaFields } from './criteriaFields'
 import { operatorFields } from './operatorFields'
 import { transactionFields as tFields } from 'features/transactions'
-import { isString } from 'dataTypes'
+import { isString } from 'lib/dataTypes'
 
 const hasField = R.has('field')
 const hasOperator = R.has('operator')

@@ -5,7 +5,7 @@ import {
   isDate,
   isNumber,
   isString
-} from 'dataTypes'
+} from 'lib/dataTypes'
 
 export const transactionFields = {
   _id: {
