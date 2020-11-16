@@ -10,7 +10,7 @@ const TextInput = styled.input`
   max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'}
 `
 
-const TextEditInput = ({
+export const TextEditInput = ({
   disabled,
   initialValue,
   maxWidth = 'none',
@@ -50,8 +50,6 @@ const TextEditInput = ({
     </div>
   )
 }
-
-export default TextEditInput
 
 TextEditInput.propTypes = {
   disabled: PropTypes.bool.isRequired

@@ -4,7 +4,7 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // import { yellow } from 'logger'
 
-const RequestStatus = ({ status, children }) => {
+export const RequestStatus = ({ status, children }) => {
   // yellow('RequestStatus: status', status)
   // yellow('RequestStatus: children', children)
 
@@ -30,5 +30,3 @@ const RequestStatus = ({ status, children }) => {
 
   return <h1>I don't know that status ?</h1>
 }
-
-export default RequestStatus

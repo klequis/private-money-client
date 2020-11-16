@@ -37,7 +37,7 @@ const statusAny = (status, slices) => {
  * if >=1 = pending -> pending
  * if 'all' = fulfilled -> fulfilled
  */
-const getRequestStatus = (slices) => {
+export const getRequestStatus = (slices) => {
   if (statusAny(requestStatus.error, slices)) {
     return requestStatus.error
   } else if (statusAll(requestStatus.idle, slices)) {
@@ -49,5 +49,3 @@ const getRequestStatus = (slices) => {
   }
   return requestStatus.error
 }
-
-export default getRequestStatus

@@ -1,6 +1,6 @@
 import fetch from 'cross-fetch'
 // import { getTokenSilently } from 'react-auth0-spa'
-import config from 'config'
+import { config } from 'config'
 
 // eslint-disable-next-line
 import { orange, red, redf, purple } from 'logger'
@@ -15,9 +15,8 @@ import { orange, red, redf, purple } from 'logger'
 //   console.groupEnd()
 // }
 
-const logRequest = ({from='not specified', url, options, headers}) => {
+const logRequest = ({ from = 'not specified', url, options, headers }) => {
   if (config.dev.logRequest) {
-    
     console.group(`logRequest from ${from}`)
     orange('url', url)
     orange('options', options)
@@ -26,7 +25,7 @@ const logRequest = ({from='not specified', url, options, headers}) => {
   }
 }
 
-const logResponse = ({from='not specified', res}) => {
+const logResponse = ({ from = 'not specified', res }) => {
   if (config.dev.logResponse) {
     const { status, statusText, url } = res
     console.group(`logResponse from ${from}`)
@@ -35,10 +34,9 @@ const logResponse = ({from='not specified', res}) => {
     orange('url', url)
     console.groupEnd()
   }
-    
 }
 
-const stripLeadingForwardSlash = path => {
+const stripLeadingForwardSlash = (path) => {
   const r = path.startsWith('/') ? path.substring(1) : path
   return r
 }
@@ -71,7 +69,7 @@ const getIt = async (url, options = {}) => {
     let headers = {
       ...options.headers,
       Accept: 'application/json',
-      'Content-Type': 'application/json',
+      'Content-Type': 'application/json'
       // Authorization: `Bearer ${token}`
     }
 
@@ -79,8 +77,8 @@ const getIt = async (url, options = {}) => {
     const fullUrl = getFullUri(env, url)
 
     logRequest({
-      from:'getIt', 
-      url: fullUrl, 
+      from: 'getIt',
+      url: fullUrl,
       options,
       headers
     })
@@ -90,7 +88,7 @@ const getIt = async (url, options = {}) => {
       headers
     })
     // purple('apiHelpers.getIt: r1', r1)
-    logResponse({from: 'getIt', res: r1})
+    logResponse({ from: 'getIt', res: r1 })
     return r1
   } catch (e) {
     throw e
@@ -99,9 +97,9 @@ const getIt = async (url, options = {}) => {
 
 export const fetchJson = async (url, options = {}) => {
   logRequest({
-    from:'getIt', 
-    url: url, 
-    options,
+    from: 'getIt',
+    url: url,
+    options
   })
   const r = await getIt(url, options)
   // purple('apiHelpers.fetchJson: r', r)
@@ -112,16 +110,13 @@ export const fetchJson = async (url, options = {}) => {
     return json
   }
   if (status >= 400 && status < 500) {
-    // purple('apiHelpers.fetchJson: 4xx json', json)    
+    // purple('apiHelpers.fetchJson: 4xx json', json)
     throw new Error(json.error)
-
   } else if (status >= 400 && status < 500) {
-    // purple('apiHelpers.fetchJson: 4xx json', json)    
+    // purple('apiHelpers.fetchJson: 4xx json', json)
     throw new Error(json.error)
   } else {
     // purple('apiHelpers.fetchJson: >500 json', json)
     throw new Error(json.error)
   }
 }
-
-export default { fetchJson }

@@ -1,5 +1,5 @@
 import { createSlice, createAsyncThunk } from '@reduxjs/toolkit'
-import api from 'api'
+import { api } from 'api'
 import { requestStatus } from 'globalConstants'
 import * as R from 'ramda'
 import { logFetchResults } from 'lib/logFetchResults'

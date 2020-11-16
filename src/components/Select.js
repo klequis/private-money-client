@@ -1,25 +1,24 @@
 import React from 'react'
 import styled from 'styled-components'
-import ErrorLabel from './ErrorLabel'
-import * as R from 'ramda'
+import { ErrorLabel } from './ErrorLabel'
+import classNames from 'classnames'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
 
 const SelectControl = styled.select`
   width: 100%;
-  max-width: ${props => props.maxWidth}px;  
+  max-width: ${(props) => props.maxWidth}px;
 `
 
 // max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}
-// background-color: green;
 // padding-bottom: 30.4px;
 
 /**
- * 
+ *
  * @param {array} margin // [num, num, num, num]
  */
-const computeMargin = margin => {
+const computeMargin = (margin) => {
   // if ()
 }
 
@@ -27,7 +26,7 @@ const computeMargin = margin => {
     <ErrorLabel /> is not used but there to preserve spacing when Select
     is used in row with TextEdit which will display error messages.
 */
-const Select = ({
+export const Select = ({
   children,
   disabled,
   margin,
@@ -43,17 +42,14 @@ const Select = ({
   paddingLeft,
   paddingRight,
   paddingTop,
-  value,
+  value
 }) => {
-
   green('Select: maxWidth', maxWidth)
-
-  
 
   return (
     <div>
       <SelectControl
-        className="custom-select custom-select-sm"
+        className={classNames('custom-select', 'custom-select-sm')}
         disabled={disabled}
         margin={margin}
         maxWidth={maxWidth}
@@ -63,9 +59,7 @@ const Select = ({
       >
         {children}
       </SelectControl>
-      <ErrorLabel text='' />
+      <ErrorLabel text="" />
     </div>
   )
 }
-
-export default Select

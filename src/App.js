@@ -10,14 +10,14 @@ import {
 } from 'features/transactions'
 import { RuleCreate, rulesFetch } from 'features/rules'
 import { requestStatus } from 'globalConstants'
-import getRequestStatus from 'lib/getRequestStatus'
-import RequestStatus from 'components/RequestStatus'
-import ContainerFluid from 'components/ContainerFluid'
+import { getRequestStatus } from 'lib/getRequestStatus'
+import { RequestStatus } from 'components/RequestStatus'
+// import { ContainerFluid } from 'components/ContainerFluid'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
-import RenderCount from 'components/RenderCount'
+import { RenderCount } from 'components/RenderCount'
 
 let countTotal = 0
 let countReturn = 0
@@ -36,12 +36,12 @@ let countReturn = 0
 //   return false
 // }
 
-const App = () => {
+export const App = () => {
   countTotal = countTotal + 1
 
   const dispatch = useDispatch()
 
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state)
   const slices = R.pick(['rules', 'transactions'])(state)
   const status = getRequestStatus(slices)
 
@@ -60,23 +60,16 @@ const App = () => {
   countReturn = countReturn + 1
 
   return (
-    <RequestStatus status={status} className='container-fluid'>
+    <RequestStatus status={status} className="container-fluid">
       <>
         <RenderCount
           componentName="App"
           countTotal={{ actual: countTotal, min: 8, max: 14 }}
           countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />
-        {
-          isNilOrEmpty(activeTransactionId)
-            ? <Transactions />
-            : <RuleCreate />
-
-        }
+        {isNilOrEmpty(activeTransactionId) ? <Transactions /> : <RuleCreate />}
       </>
-
     </RequestStatus>
   )
 }
 
-export default App

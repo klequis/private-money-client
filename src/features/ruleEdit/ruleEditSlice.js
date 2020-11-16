@@ -2,7 +2,7 @@ import {
   createSlice, 
   createAsyncThunk, 
   current } from '@reduxjs/toolkit'
-import api from 'api'
+import { api } from 'api'
 import { ruleTmpMake } from './ruleTmpMake'
 import { requestStatus } from 'globalConstants'
 import { logFetchResults } from 'lib/logFetchResults'
@@ -51,7 +51,6 @@ export const ruleUpdate = createAsyncThunk(
 const initialState = {
   status: requestStatus.idle,
   error: null,
-  isTmpRule: null,
   dirty: null
 }
 
@@ -69,7 +68,6 @@ const ruleEditSlice = createSlice({
     ruleEditSet(state, action) {
       const { payload } = action
       state.ruleEdit = payload
-      state.isTmpRule = false
     },
     ruleEditClear(state, action) {
       state.ruleEdit = {}
@@ -103,7 +101,6 @@ const ruleEditSlice = createSlice({
       const { payload } = action
       const { origDescription, date } = payload
       state.ruleEdit = ruleTmpMake(origDescription, date)
-      state.isTmpRule = true
     }
   },
   extraReducers: {
@@ -218,5 +215,5 @@ export const selectRuleEditIsDirty = (state) => {
  * @returns {string} state.ruleEdit.isTmpRule
  */
 export const selectRuleEditIsTmpRule = (state) => {
-  return R.path(['ruleEdit', 'isTmpRule'], state)
+  return R.path(['ruleEdit', 'ruleEdit', 'isTmpRule'], state)
 }

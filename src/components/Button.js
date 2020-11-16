@@ -6,7 +6,7 @@ import classNames from 'classnames'
 //   paddingBottom: 3,
 //   fontSize: '0.675rem',
 // }
-const Button = ({ children, className, disabled, onClick }) => {
+export const Button = ({ children, className, disabled, onClick }) => {
   // style={buttonExtraSml}
   return (
     <button className={classNames('btn', 'btn-info', 'btn-sm', className)}  onClick={onClick} disabled={disabled}>
@@ -14,5 +14,3 @@ const Button = ({ children, className, disabled, onClick }) => {
     </button>
   )
 }
-
-export default Button

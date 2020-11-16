@@ -3,7 +3,7 @@
 // cb: Does not appear to be used
 // import { testUserId } from './config.secret'
 
-const config = {
+export const config = {
   auth0: {
     // domain: domain,
     // audience: `https://${domain}/userinfo/`,
@@ -27,5 +27,3 @@ const config = {
     apiRootUrlProd: 'https://api.klequis-todo.tk/'
   }
 }
-
-export default config

@@ -18,7 +18,7 @@ import { orange, green, redf } from 'logger'
 */
 
 // Errors are handled by fetchJson()
-export default {
+export const api = {
   duplicates: {
     async read() {
       try {
@@ -75,7 +75,7 @@ export default {
       return data
     },
     async create(rule) {
-      // orange('api.rules.create: rule', rule)
+      orange('api.rules.create: rule', rule)
       const url = 'api/rules/new-rule'
       const data = await fetchJson(url, {
         method: 'POST',

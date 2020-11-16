@@ -1,22 +1,19 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import TextEdit from 'components/TextEdit'
-import CheckBox from 'components/CheckBox'
+import { CheckBox } from 'components/CheckBox'
 import { ruleEditCriterionUpdate } from 'features/ruleEdit'
 import * as R from 'ramda'
 import styled from 'styled-components'
-// import CriteriaFieldSelect from 'components/CriteriaFieldSelect'
-// import CriteriaOperatorSelect from 'components/CriteriaOperatorSelect'
-// import { CriterionRow } from './CriterionRow'
-import Select from 'components/Select'
+import { Select } from 'components/Select'
 import { criteriaFieldList } from 'features/rules'
 import { operatorList } from 'features/rules'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { isStringDate } from 'lib/dataTypes'
+import { TextEditOrDatePicker } from 'components/TextEditOrDatePicker'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
-import RenderCount from 'components/RenderCount'
+import { RenderCount } from 'components/RenderCount'
 
 let countTotal = 0
 let countReturn = 0
@@ -30,11 +27,11 @@ const _mergeCriterionProp = (newProp, criterion) => {
 }
 
 /**
-   * 
-   * @param {string} value 
-   * @returns {string}
-   */
-const _validateString = value => {
+ *
+ * @param {string} value
+ * @returns {string}
+ */
+const _validateString = (value) => {
   if (value === '') {
     return '3 or more characters required'
   }
@@ -45,10 +42,10 @@ const _validateString = value => {
 }
 
 /**
- * 
- * @param {string} dateString 
+ *
+ * @param {string} dateString
  */
-const _validateDate = dateString => {
+const _validateDate = (dateString) => {
   green('dateString', dateString)
   green('isStringDate(dateString)', isStringDate(dateString))
   if (!isStringDate(dateString)) {
@@ -61,7 +58,7 @@ export const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
 
   const [_criterion, _setCriterion] = useState(criterion)
-  const [_TextEditValueValidation, _setTextEditValueValidation] = useState('')
+  const [_textEditValueValidation, _setTextEditValueValidation] = useState('')
 
   const { operation, field, value, active } = _criterion
 
@@ -76,12 +73,12 @@ export const CriterionEdit = ({ criterion }) => {
   }
 
   const _handleBlur = (event) => {
-    
     const { name, value } = event.target
     // green('name', name)
     // green('value', value)
     // green('field', field)
-    const validation = field === 'date' ? _validateDate(value) : _validateString(value)
+    const validation =
+      field === 'date' ? _validateDate(value) : _validateString(value)
     _setTextEditValueValidation(validation)
     const newProp = { [name]: value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
@@ -93,7 +90,6 @@ export const CriterionEdit = ({ criterion }) => {
 
   countReturn = countReturn + 1
   return (
-
     <Row>
       {/* <RenderCount
           componentName="CriterionEdit"
@@ -110,15 +106,11 @@ export const CriterionEdit = ({ criterion }) => {
         onChange={_handleChange}
         value={field}
       >
-        {
-          criteriaFieldList.map(f =>
-            (
-              <option key={f.name} value={f.name}>
-                {f.description}
-              </option>
-            )
-          )
-        }
+        {criteriaFieldList.map((f) => (
+          <option key={f.name} value={f.name}>
+            {f.description}
+          </option>
+        ))}
       </Select>
       <Select
         disabled={!active}
@@ -128,27 +120,23 @@ export const CriterionEdit = ({ criterion }) => {
         onChange={_handleChange}
         value={operation}
       >
-        {
-          operatorList.map(o =>
-            (
-              <option key={o.name} value={o.name}>
-                {o.description}
-              </option>
-            )
-          )
-        }
+        {operatorList.map((o) => (
+          <option key={o.name} value={o.name}>
+            {o.description}
+          </option>
+        ))}
       </Select>
-      <TextEdit
+      <TextEditOrDatePicker
         disabled={!active}
+        field={field}
         initialValue={value}
         maxWidth={900}
         minChars={3}
         name="value"
         onChange={_handleChange}
         onBlur={_handleBlur}
-        validation={_TextEditValueValidation}
+        validation={_textEditValueValidation}
       />
     </Row>
   )
-
 }

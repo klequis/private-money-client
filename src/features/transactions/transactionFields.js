@@ -6,6 +6,7 @@ import {
   isNumber,
   isString
 } from 'lib/dataTypes'
+import * as R from 'ramda'
 
 export const transactionFields = {
   _id: {
@@ -88,4 +89,4 @@ export const transactionFields = {
   }
 }
 
-export default transactionFields
+export const transactionFieldNames = R.values(R.map(x => x.name, transactionFields))

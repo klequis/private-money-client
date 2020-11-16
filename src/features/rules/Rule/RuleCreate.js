@@ -1,14 +1,13 @@
 import React from 'react'
-import Rule from './Rule'
+import { Rule } from './Rule'
 import { CriteriaResults } from 'features/criteriaResults'
-// import RenderCount from 'components/RenderCount'
-import ContainerFluid from 'components/ContainerFluid'
+// import { RenderCount } from 'components/RenderCount'
+import { ContainerFluid } from 'components/ContainerFluid'
 import styled from 'styled-components'
 import { selectRuleEditIsTmpRule } from 'features/ruleEdit'
-import { useSelector} from 'react-redux'
+import { useSelector } from 'react-redux'
 
 import Button from 'components/Button'
-
 
 // eslint-disable-next-line
 import { purple, green, redf, yellow, blue } from 'logger'
@@ -29,11 +28,7 @@ export const RuleCreate = React.memo(() => {
         countTotal={{ actual: count, min: 1, max: 1 }}
       /> */}
       <div>
-        {
-          isTmpRule
-            ? <H2>Create Rule</H2>
-            : <H2>Edit Rule</H2>
-        }
+        {isTmpRule ? <H2>Create Rule</H2> : <H2>Edit Rule</H2>}
         <Rule />
       </div>
       <div>

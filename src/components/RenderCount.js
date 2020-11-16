@@ -27,7 +27,7 @@ const isInRange = (countTotal, countReturn) => {
   return r
 }
 
-const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
+export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
   // if (isInRange(countTotal, countReturn)) {
   //   return null
   // }
@@ -47,8 +47,6 @@ const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
     </div>
   )
 }
-
-export default RenderCount
 
 RenderCount.propTypes = {
   componentName: PropTypes.string.isRequired,

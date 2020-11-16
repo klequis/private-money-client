@@ -14,12 +14,12 @@ import { fetchRules } from 'features/rules'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
-import RenderCount from 'components/RenderCount'
+import { RenderCount } from 'components/RenderCount'
 
 let countTotal = 0
 let countReturn = 0
 
-const DevTmp = () => {
+export const DevTmp = () => {
   countTotal = countTotal + 1
 
   const dispatch = useDispatch()
@@ -40,5 +40,3 @@ const DevTmp = () => {
     </div>
   )
 }
-
-export default DevTmp

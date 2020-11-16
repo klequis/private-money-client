@@ -1,34 +1,31 @@
 import React from 'react'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import TextEditInput from './TextEditInput'
+import { TextEditInput } from './TextEditInput'
 import * as R from 'ramda'
-import ErrorLabel from 'components/ErrorLabel'
+import { ErrorLabel } from 'components/ErrorLabel'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
 
-const TextEditDiv = styled.div`
-  
-  
-`
+const TextEditDiv = styled.div``
 
 // width: 100%;
 // max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}px
 
-const TextEdit = React.memo(({
-  disabled,
-  maxWidth,
-  minChars = 0,
-  name,
-  placeholder = '',
-  initialValue = '',
-  onBlur,
-  validation
-}) => {
-
-  return (
-    <TextEditDiv>
+export const TextEdit = React.memo(
+  ({
+    disabled,
+    maxWidth,
+    minChars = 0,
+    name,
+    placeholder = '',
+    initialValue = '',
+    onBlur,
+    validation
+  }) => {
+    return (
+      <TextEditDiv>
         <TextEditInput
           initialValue={initialValue}
           maxWidth={maxWidth}
@@ -38,18 +35,18 @@ const TextEdit = React.memo(({
           onBlur={onBlur}
         />
         <ErrorLabel text={validation} />
-    </TextEditDiv>)
-})
-
-export default TextEdit
-
+      </TextEditDiv>
+    )
+  }
+)
 
 function isValidInitialValue(props, propName, componentName) {
   const a = ['String', 'Number', 'Undefined'].includes(R.type(props[propName]))
   if (!a) {
-    return new Error(`The prop '${propName}' in component ${componentName} is marked as requred and must be a number or string.`)
+    return new Error(
+      `The prop '${propName}' in component ${componentName} is marked as requred and must be a number or string.`
+    )
   }
-
 }
 
 TextEdit.propTypes = {
@@ -59,5 +56,6 @@ TextEdit.propTypes = {
   name: PropTypes.string.isRequired,
   placeholder: PropTypes.string,
   initialValue: isValidInitialValue,
-  onBlur: PropTypes.func.isRequired
+  onBlur: PropTypes.func.isRequired,
+  validation: PropTypes.string
 }

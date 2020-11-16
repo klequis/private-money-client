@@ -10,7 +10,7 @@ import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
-import RenderCount from 'components/RenderCount'
+import { RenderCount } from 'components/RenderCount'
 
 const Wrapper = styled.div`
   display: flex;

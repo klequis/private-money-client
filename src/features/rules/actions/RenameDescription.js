@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import TextEdit from 'components/TextEdit'
+import { TextEdit } from 'components/TextEdit'
 import { ruleEditActionUpdate } from 'features/ruleEdit'
 import { actionFields } from 'features/rules'
 import * as R from 'ramda'
@@ -25,7 +25,6 @@ import { purple, green, redf } from 'logger'
 //   width: 100%;
 
 // `
-// background-color: blue;
 // flex-basis: 33.333333%;
 
 export const RenameDescription = ({ action }) => {

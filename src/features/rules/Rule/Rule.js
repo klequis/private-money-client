@@ -4,11 +4,9 @@ import {
   selectRuleEdit,
   ruleUpdate,
   ruleCreate,
-  ruleEditClear,
+  ruleEditClear
 } from 'features/ruleEdit'
 import styled from 'styled-components'
-import { isTmpRule } from 'features/rules'
-
 import {
   activeTransactionClear,
   selectActiveTransaction,
@@ -19,20 +17,19 @@ import { ShowRuleIds } from './ShowRuleIds'
 import { RuleNew } from './RuleNew'
 import { RuleExisting } from './RuleExisting'
 import { RuleToolbar } from './RuleToolbar'
-import RuleId from './RuleId'
+import { RuleId } from './RuleId'
 
 // eslint-disable-next-line
 import { green, purple, red } from 'logger'
 // eslint-disable-next-line
-import RenderCount from 'components/RenderCount'
+import { RenderCount } from 'components/RenderCount'
 
 const RuleDiv = styled.div``
 
-const shouldShowRuleIds = ruleIds => !isNilOrEmpty(ruleIds) && ruleIds > 1
+const shouldShowRuleIds = (ruleIds) => !isNilOrEmpty(ruleIds) && ruleIds > 1
 
 let countTotal = 0
 let countReturn = 0
-
 
 const Component = ({ ruleIds }) => {
   if (isNilOrEmpty(ruleIds) || ruleIds.length === 0) {
@@ -46,14 +43,15 @@ const Component = ({ ruleIds }) => {
   }
 }
 
-const Rule = () => {
-
+export const Rule = () => {
   // countTotal = countTotal + 1
 
   const activeTransaction = useSelector(selectActiveTransaction)
   const { ruleIds } = activeTransaction
   const ruleEdit = useSelector(selectRuleEdit)
   const dispatch = useDispatch()
+
+  green('Rule.ruleEdit', ruleEdit)
 
   const _handleSaveClick = async () => {
     const { isTmpRule } = ruleEdit
@@ -76,16 +74,12 @@ const Rule = () => {
   return (
     <>
       <RuleId ruleId={ruleId} />
-      <RuleToolbar 
-        save={_handleSaveClick} 
+      <RuleToolbar
+        save={_handleSaveClick}
         cancel={_handleCancelClick}
         dirty={dirty}
       />
       <Component ruleIds={ruleIds} />
     </>
   )
-
 }
-
-export default Rule
-

@@ -1,30 +1,24 @@
+// TODO: implement _isCriterionValid
+
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import {
   selectRuleEditCriteria,
   selectRuleEditActions,
-  selectActiveCriteria,
-  
+  selectActiveCriteria
 } from 'features/ruleEdit'
-import {
-  fetchCriteriaResults,
-} from 'features/criteriaResults'
-import {
-  selectCriteriaResultsTransactions
-} from 'features/transactions'
-import Table from 'components/Table'
+import { fetchCriteriaResults } from 'features/criteriaResults'
+import { selectCriteriaResultsTransactions } from 'features/transactions'
+import { Table } from 'components/Table'
 import * as R from 'ramda'
-import getRequestStatus from 'lib/getRequestStatus'
-import RequestStatus from 'components/RequestStatus'
-import {
-  transactionFields as tFields
-} from 'features/transactions'
-// import { requestStatus } from 'globalConstants'
-import TableBody from './TableBody'
+import { getRequestStatus } from 'lib/getRequestStatus'
+import { RequestStatus } from 'components/RequestStatus'
+import { transactionFields as tFields } from 'features/transactions'
+import { TableBody } from './TableBody'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
-import RenderCount from 'components/RenderCount'
+import { RenderCount } from 'components/RenderCount'
 
 const TableHead = () => {
   return (
@@ -44,10 +38,10 @@ const TableHead = () => {
 //   return R.type(R.prop('_id')(value)) === 'String'
 // }
 
-// const isFieldSelectFieldName = obj => 
+// const isFieldSelectFieldName = obj =>
 //   R.includes(R.prop('field')(obj), fieldSelectFieldNames)
 
-const checkCriterionValid = (criterion) => {
+const _checkCriterionValid = (criterion) => {
   console.group('isCriteriaValid')
   // _id is a string
   // green('_id', tFields._id.validate(criterion._id))
@@ -66,9 +60,8 @@ const isCriteriaValid = (criteria) => {
   // value !isEmptyOrNull
   // active = true
   // green('criteriaSelectFieldNames', criteriaSelectFieldNames)
-  const check = R.map(checkCriterionValid, criteria)
+  const check = R.map(_checkCriterionValid, criteria)
   // green('check', check)
-
 }
 
 let countTotal = 0
@@ -79,7 +72,7 @@ export const CriteriaResults = () => {
   const dispatch = useDispatch()
 
   // get status
-  const state = useSelector(state => state)
+  const state = useSelector((state) => state)
   const slices = R.pick(['criteriaResults'])(state)
   const status = getRequestStatus(slices)
 
@@ -97,10 +90,8 @@ export const CriteriaResults = () => {
     }
   }, [criteria])
 
-  const transactions = useSelector(
-    selectCriteriaResultsTransactions
-  )
-  
+  const transactions = useSelector(selectCriteriaResultsTransactions)
+
   if (R.isEmpty(criteria) || R.isEmpty(actions)) {
     return null
   }
@@ -118,16 +109,11 @@ export const CriteriaResults = () => {
         <Button>Test</Button> */}
         <Table size="sm" variant="dark">
           <TableHead />
-            {
-              transactions.map((t) => <TableBody
-                key={t._id}
-                actions={actions}
-                transaction={t}
-              />)
-            }
+          {transactions.map((t) => (
+            <TableBody key={t._id} actions={actions} transaction={t} />
+          ))}
         </Table>
       </div>
     </RequestStatus>
   )
 }
-
