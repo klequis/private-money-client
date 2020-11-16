@@ -1,11 +1,10 @@
 import React from 'react'
-import Select from 'components/Select'
-import TextEdit from 'components/TextEdit'
+import { Select } from 'components/Select'
+import { TextEdit } from 'components/TextEdit'
 import { transactionFields as tFields } from 'features/transactions'
 
-const ReplaceAll = ({ action, onChange }) => {
-
-  const _handleBlur = () => { }
+export const ReplaceAll = ({ action, onChange }) => {
+  const _handleBlur = () => {}
   return (
     <>
       <Select
@@ -35,5 +34,3 @@ const ReplaceAll = ({ action, onChange }) => {
     </>
   )
 }
-
-export default ReplaceAll

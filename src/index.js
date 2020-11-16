@@ -1,16 +1,12 @@
 import React from 'react'
 import ReactDOM from 'react-dom'
-import App from './App'
-// import DevTmp from './DevTmp'
-import store from './app/store'
+import { App } from './App'
+import { store } from './app/store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'react-jss'
 import * as serviceWorker from './serviceWorker'
 
-import './index.css'
-import './bootstrap/bootstrap.min.css'
-
-// TODO: Replace DevTmp with App
+import './bootstrap/bootstrap.css'
 
 const theme = {
   colors: {

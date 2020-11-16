@@ -1,28 +1,20 @@
 import React from 'react'
-import ColHead from './ColumnHead'
+import { ColumnHead } from './ColumnHead'
 import { transactionFields as tFields } from 'features/transactions'
 
-const TableHead = () => {
+export const TableHead = () => {
   return (
     <thead>
       <tr>
-        <ColHead fieldName={tFields.date.name} />
-        <ColHead fieldName={tFields.acctId.name} />
-        <ColHead
-          fieldName={tFields.description.name}
-        />
-        <ColHead fieldName={tFields.amount.name} />
-        <ColHead
-          fieldName={tFields.category1.name}
-        />
-        <ColHead
-          fieldName={tFields.category2.name}
-        />
-        <ColHead fieldName={tFields.type.name} />
-        <ColHead fieldName={tFields.omit.name} />
+        <ColumnHead fieldName={tFields.date.name} />
+        <ColumnHead fieldName={tFields.acctId.name} />
+        <ColumnHead fieldName={tFields.description.name} />
+        <ColumnHead fieldName={tFields.amount.name} />
+        <ColumnHead fieldName={tFields.category1.name} />
+        <ColumnHead fieldName={tFields.category2.name} />
+        <ColumnHead fieldName={tFields.type.name} />
+        <ColumnHead fieldName={tFields.omit.name} />
       </tr>
     </thead>
   )
 }
-
-export default TableHead

@@ -10,10 +10,10 @@ import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
-import RenderCount from 'components/RenderCount'
+import { RenderCount } from 'components/RenderCount'
 
 const Wrapper = styled.div`
-  
+  display: flex;
 `
 /*
 display: flex;
@@ -38,9 +38,9 @@ export const Actions = () => {
 
   const actions = useSelector((state) => selectRuleEditActions(state))
 
-  const Control = ({ action }) => {
+  const Component = ({ action }) => {
     if (action.field === tFields.description.name) {
-      return <RenameDescription key={action._id} action={action} minChars={3} />
+      return <RenameDescription key={action._id} action={action} minChars={3} maxWidth={10} />
     } else if (action.actionType === actionTypes.categorize.name) {
       return <Categorize key={action._id} action={action} minChars={3} />
     } else {
@@ -65,7 +65,7 @@ export const Actions = () => {
       <Wrapper>
         {actions.map((a) => {
           return (
-            <Control key={a._id} action={a} />
+            <Component key={a._id} action={a} />
           )
         })}
       </Wrapper>

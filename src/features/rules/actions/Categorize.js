@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
-import TextEdit from 'components/TextEdit'
+import { TextEdit } from 'components/TextEdit'
 import * as R from 'ramda'
 import { ruleEditActionUpdate } from 'features/ruleEdit'
 import { transactionFields as tFields } from 'features/transactions'
@@ -9,45 +9,27 @@ import { transactionFields as tFields } from 'features/transactions'
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 
-// const Wrapper = styled.div`
-//   // display: flex;
-  
-//   width: 100%;
-// `
-// background-color: red;
-
 export const Categorize = ({ action, minChars }) => {
   const [_action, _setAction] = useState(action)
   const { category1, category2 } = _action
   const dispatch = useDispatch()
 
-
-
-
   const _handleEvent = (event) => {
     const { name, value } = event.target
     const { type: eventType } = event
     console.group('_handleEvent')
-    // green('name', name)
-    // green('value', value)
-    // green('eventType', eventType)
-    
     const newAction = R.mergeRight(_action, { [name]: value })
-    // green('_handleEvent: newAction', newAction)
     console.groupEnd()
     _setAction(newAction)
-
     if (eventType === 'blur') {
-      // green('typeIsBlur')
       dispatch(ruleEditActionUpdate(newAction))
     }
-    
   }
-
 
   return (
     <>
       <TextEdit
+        disabled={false}
         name={tFields.category1.name}
         labelText='Category 1'
         initialValue={category1}
@@ -56,6 +38,7 @@ export const Categorize = ({ action, minChars }) => {
         onChange={_handleEvent}
       />
       <TextEdit
+        disabled={false}
         name={tFields.category2.name}
         labelText='Category 2'
         initialValue={category2}

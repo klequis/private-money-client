@@ -1,19 +1,15 @@
 import React from 'react'
 import styled from 'styled-components'
 
-const Label = styled.label`
-  
+const Label = styled.div`
   width: 100%;
   margin: 0;
 `
-// background-color: green; 
 
-const ErrorLabel = ({text}) => {
+export const ErrorLabel = ({ text }) => {
   return (
     <Label>
       {text}
     </Label>
   )
 }
-
-export default ErrorLabel

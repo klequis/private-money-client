@@ -4,7 +4,6 @@ import {
   selectActiveTransaction,
 } from 'features/transactions'
 import {
-  selectRuleEdit,
   ruleEditSet,
 } from 'features/ruleEdit'
 import {
@@ -12,8 +11,7 @@ import {
 } from 'features/rules'
 import styled from 'styled-components'
 import { Criteria, Actions } from 'features/rules'
-import Button from 'components/Button'
-import RuleId from './RuleId'
+
 import * as R from 'ramda'
 
 // eslint-disable-next-line
@@ -30,14 +28,11 @@ export const RuleExisting = ({ save, cancel }) => {
   const rule = useSelector(state => selectRule(ruleId, state))
 
   useEffect(() => {
-    dispatch(ruleEditSet(rule))
+    dispatch(ruleEditSet(R.mergeRight(rule, { dirty: false})))
   }, [rule])
+
   return (
     <RuleDiv id="Rule">
-      <h1>Rule</h1>
-      <RuleId ruleId={ruleId} />
-      <Button onClick={save}>Save</Button>
-      <Button onClick={cancel}>Cancel</Button>
       <Criteria />
       <Actions />
     </RuleDiv>

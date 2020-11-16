@@ -1,10 +1,12 @@
+// TODO: re-enable sort
+
 import React, { useState } from 'react'
 import { transactionFields as tFields } from 'features/transactions'
 
 // eslint-disable-next-line
 import { green } from 'logger'
 
-const ColumnHeading = ({ fieldName, setFilter }) => {
+export const ColumnHeading = ({ fieldName, setFilter }) => {
   // const [_state, _setState] = useState({
   //   date: '',
   //   acctId: '',
@@ -59,5 +61,3 @@ const ColumnHeading = ({ fieldName, setFilter }) => {
     </th>
   )
 }
-
-export default ColumnHeading

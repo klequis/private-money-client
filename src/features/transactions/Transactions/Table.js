@@ -1,11 +1,13 @@
+// TODO: re-enable Sort
+
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { selectAllTransactions } from 'features/transactions'
 
-import BaseTable from 'components/Table'
-import TableBody from './TableBody'
-import TableHead from './TableHead'
+import { Table as BaseTable } from 'components/Table'
+import { TableBody } from './TableBody'
+import { TableHead } from './TableHead'
 import { TableNav } from './TableNav'
 import { transactionOptionValues as optionValues } from 'globalConstants'
 import * as R from 'ramda'
@@ -14,10 +16,7 @@ import { selectFilteredTransactions } from 'features/uiSettings/transactionsUiSl
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
-
-
 export const Table = () => {
-  
   // ColumnHeadFilters
   const [/*_filter,*/ _setFilter] = useState({
     field: '',
@@ -45,32 +44,30 @@ export const Table = () => {
   )
 }
 
-
-  // const sortCompare = (a, b) => {
-  //   if (a.description < b.description) {
-  //     return -1
-  //   } else if (a < b) {
-  //     return 1
-  //   }
-  //   return 0
-  // }
+// const sortCompare = (a, b) => {
+//   if (a.description < b.description) {
+//     return -1
+//   } else if (a < b) {
+//     return 1
+//   }
+//   return 0
+// }
 /*
 const sortByDescription = (data) => {
   return data.sort((a, b) => sortCompare(a, b))
 }
 // */
 
-  // ORIGINAL
-  // const filteredData = () => {
-  //   return _filter.active
-  //     ? transactions.filter(
-  //         // (t) => t[_filter.field].toLowerCase() === _filter.value.toLowerCase()
-  //         (t) =>
-  //           t[_filter.field].toLowerCase().includes(_filter.value.toLowerCase())
-  //       )
-  //     : transactions
-  // }
-
+// ORIGINAL
+// const filteredData = () => {
+//   return _filter.active
+//     ? transactions.filter(
+//         // (t) => t[_filter.field].toLowerCase() === _filter.value.toLowerCase()
+//         (t) =>
+//           t[_filter.field].toLowerCase().includes(_filter.value.toLowerCase())
+//       )
+//     : transactions
+// }
 
 /* **** wip 10/28/2020 ****
 

@@ -1,6 +1,6 @@
 import { blue } from 'logger'
 
-class ApiError extends Error {
+export class ApiError extends Error {
   constructor({status: statusNumber, statusText, resUrl='', errors=[]}, ...params) {
     super(...params)
 
@@ -21,5 +21,3 @@ class ApiError extends Error {
     // this.date = new Date()
   }
 }
-
-export default ApiError

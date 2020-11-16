@@ -21,7 +21,7 @@ const TextInput = styled.input`
   flex-flow: column now;
 */
 
-const AllDataColHead = ({ fieldName }) => {
+export const ColumnHead = ({ fieldName }) => {
   const dispatch = useDispatch()
 
   const [_value, _setValue] = useState('')
@@ -73,4 +73,3 @@ const AllDataColHead = ({ fieldName }) => {
   )
 }
 
-export default AllDataColHead

@@ -19,7 +19,7 @@ const CheckBoxDiv = styled.div`
   }
 */
 
-const CheckBox = ({
+export const CheckBox = ({
   name,
   checked,
   onChange,
@@ -34,4 +34,3 @@ const CheckBox = ({
   </CheckBoxDiv>
 }
 
-export default CheckBox

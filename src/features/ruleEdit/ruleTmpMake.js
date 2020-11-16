@@ -6,6 +6,7 @@ import {
 import { 
   actionTypes, 
 } from 'features/rules'
+import * as R from 'ramda'
 
 /**
  * @returns {string} A temporary id in the from of 'tmp_' + random
@@ -20,9 +21,11 @@ const ruleTmpMakeId = () => `tmp_${shortid.generate()}`
  * @returns {object} A new Rule
  */
 export const ruleTmpMake = (origDescription, date) => {
-
+  const id = ruleTmpMakeId()
   return {
-    _id: ruleTmpMakeId(),
+    _id: id,
+    dirty: false,
+    isTmpRule: R.startsWith('tmp_', id),
     criteria: [
       {
         _id: ruleTmpMakeId(),
@@ -52,6 +55,6 @@ export const ruleTmpMake = (origDescription, date) => {
         category1: '',
         category2: '',
       }
-    ]
+    ],
   }
 }

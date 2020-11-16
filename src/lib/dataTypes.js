@@ -1,4 +1,5 @@
 import * as R from 'ramda'
+import { isDate as dfnsIsDate } from 'date-fns'
 
 export const dataTypes = {
   Array: 'Array',
@@ -39,6 +40,13 @@ export const isNumber = value => R.type(value) === dataTypes.Number
  * @returns {boolean}
  */
 export const isString = value => R.type(value) === dataTypes.String
+
+/**
+ * 
+ * @param {any} value 
+ * @returns {boolean}
+ */
+export const isStringDate = value => dfnsIsDate(new Date(value))
 
 /**
  * @param {any} value 

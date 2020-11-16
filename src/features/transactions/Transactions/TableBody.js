@@ -4,15 +4,15 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
   selectOneTransaction,
   activeTransactionSet,
-  selectActiveTransactionId,
+  selectActiveTransactionId
 } from 'features/transactions'
 import styles from './TableBody.module.css'
-import AllDataTableData from './TableData'
+import { TableData } from './TableData'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
 
-const TableRow = ({ transactionId }) => {
+export const TableBody = ({ transactionId }) => {
   const dispatch = useDispatch()
 
   const activeTransactionId = useSelector(selectActiveTransactionId)
@@ -42,30 +42,28 @@ const TableRow = ({ transactionId }) => {
     <>
       <tbody onClick={_rowClick} className={showRow ? styles.rowIdShow : ''}>
         <tr>
-          <AllDataTableData>{date}</AllDataTableData>
-          <AllDataTableData>{acctId}</AllDataTableData>
-          {/* <AllDataTableData align="left">
+          <TableData>{date}</TableData>
+          <TableData>{acctId}</TableData>
+          {/* <TableData align="left">
             <div>{description}</div>
             {_id === activeTransactionId ? <div>{origDescription}</div> : null}
-          </AllDataTableData> */}
-          <AllDataTableData align="left">
+          </TableData> */}
+          <TableData align="left">
             <div>{description}</div>
             <div>{_id}</div>
-          </AllDataTableData>
-          <AllDataTableData>{amount}</AllDataTableData>
-          <AllDataTableData>{category1}</AllDataTableData>
-          <AllDataTableData>{category2}</AllDataTableData>
-          <AllDataTableData>{type}</AllDataTableData>
-          <AllDataTableData>{omit ? 'yes' : 'no'}</AllDataTableData>
-          <AllDataTableData align="center">
+          </TableData>
+          <TableData>{amount}</TableData>
+          <TableData>{category1}</TableData>
+          <TableData>{category2}</TableData>
+          <TableData>{type}</TableData>
+          <TableData>{omit ? 'yes' : 'no'}</TableData>
+          <TableData align="center">
             {isNilOrEmpty(ruleIds)
               ? null
               : ruleIds.map((id) => <div key={id}>{id}</div>)}
-          </AllDataTableData>
+          </TableData>
         </tr>
       </tbody>
     </>
   )
 }
-
-export default TableRow

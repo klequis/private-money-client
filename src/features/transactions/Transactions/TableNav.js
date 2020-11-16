@@ -28,9 +28,9 @@ const Options = styled.div`
   padding: 5px;
 `
 
-const ruleRadioValue = optionState => R.path(['ruleRadio', 'value'], optionState)
-const categorizeRadioValue = optionState => R.path(['categorizeRadio', 'value'], optionState)
-const categorizeRadioDisabled = optionState => R.path(['categorizeRadio', 'disabled'], optionState)
+// const ruleRadioValue = optionState => R.path(['ruleRadio', 'value'], optionState)
+// const categorizeRadioValue = optionState => R.path(['categorizeRadio', 'value'], optionState)
+// const categorizeRadioDisabled = optionState => R.path(['categorizeRadio', 'disabled'], optionState)
 
 export const TableNav = () => {
 

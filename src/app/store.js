@@ -5,7 +5,7 @@ import { criteriaResultsReducer } from 'features/criteriaResults'
 import { ruleEditReducer } from 'features/ruleEdit'
 import { transactionsUiReducer } from 'features/uiSettings/transactionsUiSlice'
 
-export default configureStore({
+export const store = configureStore({
   reducer: {
     transactions: transactionsReducer,
     rules: rulesReducer,

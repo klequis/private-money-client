@@ -1,1 +1,1 @@
-export { default } from './TextEdit'
+export { TextEdit } from './TextEdit'
