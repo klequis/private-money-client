@@ -19,3 +19,19 @@ export const transactionOptionNames = {
   ruleRadio: 'ruleRadio',
   categorizeRadio: 'categorizeRadio'
 }
+
+export const errorLevels = {
+  errorLevelNone: {
+    name: 'errorLevelNone',
+    color: ''
+  },
+  errorLevelWarn: {
+    name: 'errorLevelWarn',
+    color: 'yellow'
+  },
+  errorLevelError: {
+    name: 'errorLevelError',
+    color: 'red'
+  }
+
+}

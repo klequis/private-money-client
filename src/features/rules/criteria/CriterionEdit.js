@@ -10,18 +10,27 @@ import { operatorList } from 'features/rules'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { isStringDate } from 'lib/dataTypes'
 import { TextEditOrDatePicker } from 'components/TextEditOrDatePicker'
+import { errorLevels } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
+// eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
 
 let countTotal = 0
 let countReturn = 0
 
+const { errorLevelNone, errorLevelWarn, errorLevelError } = errorLevels
+
 const Row = styled.div`
   display: flex;
 `
 
+/**
+ *
+ * @param {object} newProp
+ * @param {object} criterion
+ */
 const _mergeCriterionProp = (newProp, criterion) => {
   return R.mergeRight(criterion, newProp)
 }
@@ -32,13 +41,13 @@ const _mergeCriterionProp = (newProp, criterion) => {
  * @returns {string}
  */
 const _validateString = (value) => {
-  if (value === '') {
-    return '3 or more characters required'
+  if (value === '' || value.length < 3) {
+    return {
+      errMsg: '3 or more characters required',
+      errorLevel: errorLevelError
+    }
   }
-  if (value.length < 3) {
-    return '3 or more characters required'
-  }
-  return ''
+  return { errorMessage: '', errorLevel: errorLevelNone }
 }
 
 /**
@@ -49,16 +58,19 @@ const _validateDate = (dateString) => {
   green('dateString', dateString)
   green('isStringDate(dateString)', isStringDate(dateString))
   if (!isStringDate(dateString)) {
-    return 'Must be a date'
+    return { errorMessage: 'Must be a date', errorLevel: errorLevelError }
   }
-  return ''
+  return { errorMessage: '', errorLevel: errorLevelNone }
 }
 
 export const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
 
   const [_criterion, _setCriterion] = useState(criterion)
-  const [_textEditValueValidation, _setTextEditValueValidation] = useState('')
+  const [_textEditValueValidation, _setTextEditValueValidation] = useState({
+    errorLevel: errorLevelNone,
+    errorMessage: ''
+  })
 
   const { operation, field, value, active } = _criterion
 

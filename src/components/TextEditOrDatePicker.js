@@ -2,7 +2,10 @@ import React from 'react'
 import PropTypes from 'prop-types'
 import { TextEdit } from 'components/TextEdit'
 import { DatePicker } from 'components/DatePicker'
-import { transactionFields as tFields, transactionFieldNames } from 'features/transactions'
+import {
+  transactionFields as tFields,
+  transactionFieldNames
+} from 'features/transactions'
 
 export const TextEditOrDatePicker = ({
   disabled = false,
@@ -52,5 +55,8 @@ TextEditOrDatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  validation: PropTypes.string
+  validation: PropTypes.shape({
+    message: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired
+  })
 }
