@@ -4,6 +4,7 @@ import styled from 'styled-components'
 import { TextEditInput } from './TextEditInput'
 import * as R from 'ramda'
 import { ErrorLabel } from 'components/ErrorLabel'
+import { errorLevels } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
@@ -13,6 +14,13 @@ const TextEditDiv = styled.div``
 // width: 100%;
 // max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}px
 
+const { errorLevelNone } = errorLevels
+
+/**
+ * @param props
+ * @param props.disabled
+ * @param props.maxWidth
+ */
 export const TextEdit = React.memo(
   ({
     disabled,
@@ -22,8 +30,13 @@ export const TextEdit = React.memo(
     placeholder = '',
     initialValue = '',
     onBlur,
-    validation
+    errorLevel = errorLevelNone
   }) => {
+
+    // const validation = name === 'date' ? _validateDate : _validateStrings
+
+    green('TextEdit: errorLevel', errorLevel)
+
     return (
       <TextEditDiv>
         <TextEditInput
@@ -33,8 +46,9 @@ export const TextEdit = React.memo(
           disabled={disabled}
           placeholder={placeholder}
           onBlur={onBlur}
+          errorLevel={errorLevel}
         />
-        <ErrorLabel text={validation} />
+        <ErrorLabel errorLevel={errorLevel} />
       </TextEditDiv>
     )
   }

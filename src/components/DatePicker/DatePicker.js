@@ -1,3 +1,5 @@
+// TODO: DatePicker hide show logic
+
 import React, { useState } from 'react'
 import DayPickerInput from 'react-day-picker/DayPickerInput'
 import { DateUtils } from 'react-day-picker'
@@ -38,19 +40,19 @@ export const DatePicker = ({
   const FORMAT = 'MM/dd/yyyy'
 
   const _dayChange = (day) => {
-    green('_dayChange', 'called')
+    // green('_dayChange', 'called')
     _setSelectedDay(day)
   }
 
   const _dayPickerHide = () => {
-    green('_dayPickerHide', 'called')
+    // green('_dayPickerHide', 'called')
   }
   const _dayPickerShow = () => {
-    green('_dayPickerShow', 'called')
+    // green('_dayPickerShow', 'called')
   }
 
   console.log('_selectedDay', _selectedDay)
-  green('disabled', disabled)
+  // green('disabled', disabled)
   return (
     <DatePickerDiv>
       <DayPickerInput

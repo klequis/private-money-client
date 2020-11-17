@@ -23,15 +23,18 @@ export const transactionOptionNames = {
 export const errorLevels = {
   errorLevelNone: {
     name: 'errorLevelNone',
-    color: ''
+    color: 'white',
+    message: ''
   },
   errorLevelWarn: {
     name: 'errorLevelWarn',
-    color: 'yellow'
+    color: 'yellow',
+    message: ''
   },
   errorLevelError: {
     name: 'errorLevelError',
-    color: 'red'
+    color: 'red',
+    message: ''
   }
 
 }

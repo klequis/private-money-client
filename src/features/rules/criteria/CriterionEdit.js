@@ -38,39 +38,39 @@ const _mergeCriterionProp = (newProp, criterion) => {
 /**
  *
  * @param {string} value
- * @returns {string}
+ * @returns {object}
  */
 const _validateString = (value) => {
   if (value === '' || value.length < 3) {
-    return {
-      errMsg: '3 or more characters required',
-      errorLevel: errorLevelError
-    }
+    const error = errorLevelError
+    error.message = '3 or more characters required'
+    return error
+    
   }
-  return { errorMessage: '', errorLevel: errorLevelNone }
+  return errorLevelNone
 }
 
 /**
  *
  * @param {string} dateString
+ * @returns {object}
  */
 const _validateDate = (dateString) => {
-  green('dateString', dateString)
-  green('isStringDate(dateString)', isStringDate(dateString))
+  // green('dateString', dateString)
+  // green('isStringDate(dateString)', isStringDate(dateString))
   if (!isStringDate(dateString)) {
-    return { errorMessage: 'Must be a date', errorLevel: errorLevelError }
+    const error = errorLevelError
+    error.message = 'Must be a date'
+    return error
   }
-  return { errorMessage: '', errorLevel: errorLevelNone }
+  return errorLevelNone
 }
 
 export const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
 
   const [_criterion, _setCriterion] = useState(criterion)
-  const [_textEditValueValidation, _setTextEditValueValidation] = useState({
-    errorLevel: errorLevelNone,
-    errorMessage: ''
-  })
+  const [_valueEditLevel, _setValueErrorLevel] = useState(errorLevelNone)
 
   const { operation, field, value, active } = _criterion
 
@@ -89,9 +89,13 @@ export const CriterionEdit = ({ criterion }) => {
     // green('name', name)
     // green('value', value)
     // green('field', field)
+
+    // validation
     const validation =
       field === 'date' ? _validateDate(value) : _validateString(value)
-    _setTextEditValueValidation(validation)
+    _setValueErrorLevel(validation)
+
+    // update criterion
     const newProp = { [name]: value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
@@ -147,7 +151,7 @@ export const CriterionEdit = ({ criterion }) => {
         name="value"
         onChange={_handleChange}
         onBlur={_handleBlur}
-        validation={_textEditValueValidation}
+        errorLevel={_valueEditLevel}
       />
     </Row>
   )

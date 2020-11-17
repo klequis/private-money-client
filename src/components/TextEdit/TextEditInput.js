@@ -2,12 +2,14 @@ import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styled from 'styled-components'
+// import { errorLevels } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 
 const TextInput = styled.input`
-  max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'}
+  max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
+  background-color: ${({ errorLevel }) => errorLevel.color};
 `
 
 export const TextEditInput = ({
@@ -17,7 +19,10 @@ export const TextEditInput = ({
   name,
   onBlur,
   placeholder,
+  errorLevel
 }) => {
+
+
   const [_touched, _setTouched] = useState(false)
   const [_value, _setValue] = useState(initialValue)
 
@@ -34,6 +39,9 @@ export const TextEditInput = ({
   if (_touched) {
 
   }
+
+  green('TextEditInput: errorLevel', errorLevel)
+
   return (
     <div>
       <TextInput
@@ -46,6 +54,7 @@ export const TextEditInput = ({
         placeholder={placeholder}
         type="text"
         value={_value}
+        errorLevel={errorLevel}
       />
     </div>
   )

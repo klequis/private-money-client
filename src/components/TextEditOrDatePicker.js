@@ -7,6 +7,9 @@ import {
   transactionFieldNames
 } from 'features/transactions'
 
+// eslint-disable-next-line
+import { green, redf, purple } from 'logger'
+
 export const TextEditOrDatePicker = ({
   disabled = false,
   field,
@@ -16,9 +19,13 @@ export const TextEditOrDatePicker = ({
   name,
   onChange,
   onBlur,
-  validation
+  errorLevel
 }) => {
+
+  // green('TextEditOrDatePicker: validation', errorLevel)
+
   if (field === tFields.date.name) {
+    
     return (
       <DatePicker
         disabled={disabled}
@@ -28,7 +35,7 @@ export const TextEditOrDatePicker = ({
         name={name}
         onChange={onChange}
         onBlur={onBlur}
-        validation={validation}
+        errorLevel={errorLevel}
       />
     )
   }
@@ -41,7 +48,7 @@ export const TextEditOrDatePicker = ({
       name={name}
       onChange={onChange}
       onBlur={onBlur}
-      validation={validation}
+      errorLevel={errorLevel}
     />
   )
 }
@@ -55,8 +62,8 @@ TextEditOrDatePicker.propTypes = {
   name: PropTypes.string.isRequired,
   onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  validation: PropTypes.shape({
-    message: PropTypes.string.isRequired,
-    color: PropTypes.string.isRequired
+  errorLevel: PropTypes.shape({
+    errorLevel: PropTypes.object.isRequired,
+    errorMessage: PropTypes.string.isRequired
   })
 }

@@ -2,6 +2,7 @@ import React from 'react'
 import styled from 'styled-components'
 import { ErrorLabel } from './ErrorLabel'
 import classNames from 'classnames'
+import { errorLevels } from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
@@ -44,8 +45,9 @@ export const Select = ({
   paddingTop,
   value
 }) => {
-  green('Select: maxWidth', maxWidth)
+  // green('Select: maxWidth', maxWidth)
 
+  const { errorLevelNone } = errorLevels
   return (
     <div>
       <SelectControl
@@ -59,7 +61,7 @@ export const Select = ({
       >
         {children}
       </SelectControl>
-      <ErrorLabel text="" />
+      <ErrorLabel errorLevel={errorLevelNone} />
     </div>
   )
 }

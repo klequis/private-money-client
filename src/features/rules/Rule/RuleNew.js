@@ -5,7 +5,7 @@ import {
 } from 'features/transactions'
 import {
   ruleEditTmpMake,
-  selectRuleEdit
+  // selectRuleEdit
 } from 'features/ruleEdit'
 import styled from 'styled-components'
 import { Criteria, Actions } from 'features/rules'
@@ -15,18 +15,18 @@ import { green, purple, red } from 'logger'
 
 const RuleDiv = styled.div``
 
-export const RuleNew = ({ save, cancel}) => {
+export const RuleNew = () => {
 
   const dispatch = useDispatch()
   const activeTransaction = useSelector(selectActiveTransaction)
   useEffect(() => {
     const { origDescription, date } = activeTransaction
     dispatch(ruleEditTmpMake({ origDescription, date }))
-  }, [activeTransaction])
+  }, [activeTransaction, dispatch])
 
-  const ruleEdit = useSelector(selectRuleEdit)
+  // const ruleEdit = useSelector(selectRuleEdit)
 
-  const { _id: ruleId, dirty } = ruleEdit
+  // const { _id: ruleId, dirty } = ruleEdit
 
   return (
     <RuleDiv id="Rule">

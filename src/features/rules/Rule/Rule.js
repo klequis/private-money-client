@@ -18,6 +18,7 @@ import { RuleNew } from './RuleNew'
 import { RuleExisting } from './RuleExisting'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
+// import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { green, purple, red } from 'logger'
@@ -28,11 +29,13 @@ const RuleDiv = styled.div``
 
 const shouldShowRuleIds = (ruleIds) => !isNilOrEmpty(ruleIds) && ruleIds > 1
 
+const hasRuleIds = (ruleIds) => !(isNilOrEmpty(ruleIds) || ruleIds.length === 0)
+
 let countTotal = 0
 let countReturn = 0
 
 const Component = ({ ruleIds }) => {
-  if (isNilOrEmpty(ruleIds) || ruleIds.length === 0) {
+  if (!hasRuleIds(ruleIds)) {
     return <RuleNew />
   }
   if (ruleIds.length === 1) {
@@ -51,7 +54,7 @@ export const Rule = () => {
   const ruleEdit = useSelector(selectRuleEdit)
   const dispatch = useDispatch()
 
-  green('Rule.ruleEdit', ruleEdit)
+  // green('Rule.ruleEdit', ruleEdit)
 
   const _handleSaveClick = async () => {
     const { isTmpRule } = ruleEdit
