@@ -58,13 +58,6 @@ const ruleEditSlice = createSlice({
   name: 'ruleEdit',
   initialState,
   reducers: {
-    /**
-     * 
-     * @param {object} state 
-     * @param {object} action 
-     * @description action.payload is a rule
-     * @description gets 
-     */
     ruleEditSet(state, action) {
       const { payload } = action
       state.ruleEdit = payload

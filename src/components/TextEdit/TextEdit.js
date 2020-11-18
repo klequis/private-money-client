@@ -24,29 +24,33 @@ const { errorLevelNone } = errorLevels
 export const TextEdit = React.memo(
   ({
     disabled,
+    errorLevel = errorLevelNone,
+    initialValue = '',
     maxWidth,
     minChars = 0,
     name,
-    placeholder = '',
-    initialValue = '',
     onBlur,
-    errorLevel = errorLevelNone
+    onChange,
+    placeholder = '',
   }) => {
 
     // const validation = name === 'date' ? _validateDate : _validateStrings
-
-    green('TextEdit: errorLevel', errorLevel)
+    if (R.type(onChange) !== 'Function') {
+      green(`TextEditInput (${name}): onChange`, onChange)
+    }
+    
 
     return (
       <TextEditDiv>
         <TextEditInput
+          disabled={disabled}
+          errorLevel={errorLevel}
           initialValue={initialValue}
           maxWidth={maxWidth}
           name={name}
-          disabled={disabled}
-          placeholder={placeholder}
           onBlur={onBlur}
-          errorLevel={errorLevel}
+          onChange={onChange}
+          placeholder={placeholder}
         />
         <ErrorLabel errorLevel={errorLevel} />
       </TextEditDiv>
@@ -65,11 +69,16 @@ function isValidInitialValue(props, propName, componentName) {
 
 TextEdit.propTypes = {
   disabled: PropTypes.bool,
-  labelText: PropTypes.string,
+  errorLevel: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired
+  }),
+  initialValue: isValidInitialValue,
+  maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   name: PropTypes.string.isRequired,
-  placeholder: PropTypes.string,
-  initialValue: isValidInitialValue,
   onBlur: PropTypes.func.isRequired,
-  validation: PropTypes.string
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string,
 }

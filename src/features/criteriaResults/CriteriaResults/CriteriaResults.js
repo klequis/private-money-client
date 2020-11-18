@@ -77,6 +77,7 @@ export const CriteriaResults = () => {
   const status = getRequestStatus(slices)
 
   const criteria = useSelector(selectRuleEditCriteria)
+  
   const actions = useSelector(selectRuleEditActions)
   const activeCriteria = useSelector(selectActiveCriteria)
   // green('CriteriaResults: activeCriteria', activeCriteria)
@@ -89,6 +90,7 @@ export const CriteriaResults = () => {
       dispatch(fetchCriteriaResults(activeCriteria))
     }
   }, [criteria])
+  // }, [activeCriteria, dispatch])
 
   const transactions = useSelector(selectCriteriaResultsTransactions)
 

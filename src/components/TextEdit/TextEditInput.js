@@ -6,6 +6,7 @@ import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
+import * as R from 'ramda'
 
 const TextInput = styled.input`
   max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
@@ -14,12 +15,14 @@ const TextInput = styled.input`
 
 export const TextEditInput = ({
   disabled,
+  errorLevel,
   initialValue,
   maxWidth = 'none',
+  // minChars,
   name,
   onBlur,
+  onChange,
   placeholder,
-  errorLevel
 }) => {
 
 
@@ -39,14 +42,17 @@ export const TextEditInput = ({
   if (_touched) {
 
   }
-
-  green('TextEditInput: errorLevel', errorLevel)
+  if (R.type(onChange) !== 'Function') {
+    green(`TextEditInput (${name}): onChange`, onChange)
+  }
+  
 
   return (
     <div>
       <TextInput
         className={classNames(['form-control', 'form-control-sm'])}
         disabled={disabled}
+        errorLevel={errorLevel}
         maxWidth={maxWidth}
         name={name}
         onBlur={_handleBlur}
@@ -54,12 +60,22 @@ export const TextEditInput = ({
         placeholder={placeholder}
         type="text"
         value={_value}
-        errorLevel={errorLevel}
       />
     </div>
   )
 }
 
 TextEditInput.propTypes = {
-  disabled: PropTypes.bool.isRequired
+  disabled: PropTypes.bool.isRequired,
+  errorLevel: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired
+  }),
+  initialValue: PropTypes.any,
+  maxWidth: PropTypes.number,
+  minChars: PropTypes.number,
+  onBlur: PropTypes.func.isRequired,
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string
 }

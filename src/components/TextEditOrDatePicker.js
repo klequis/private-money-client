@@ -9,9 +9,11 @@ import {
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
+import * as R from 'ramda'
 
 export const TextEditOrDatePicker = ({
   disabled = false,
+  errorLevel,
   field,
   initialValue,
   maxWidth,
@@ -19,10 +21,12 @@ export const TextEditOrDatePicker = ({
   name,
   onChange,
   onBlur,
-  errorLevel
+  placeholder
 }) => {
 
-  // green('TextEditOrDatePicker: validation', errorLevel)
+  if (R.type(onChange) !== 'Function') {
+    green(`TextEditInput (${name}): onChange`, onChange)
+  }
 
   if (field === tFields.date.name) {
     
@@ -42,28 +46,31 @@ export const TextEditOrDatePicker = ({
   return (
     <TextEdit
       disabled={disabled}
+      errorLevel={errorLevel}
       initialValue={initialValue}
       maxWidth={maxWidth}
       minChars={minChars}
       name={name}
-      onChange={onChange}
       onBlur={onBlur}
-      errorLevel={errorLevel}
+      onChange={onChange}
+      placeholder={placeholder}
     />
   )
 }
 
 TextEditOrDatePicker.propTypes = {
   disabled: PropTypes.bool,
+  errorLevel: PropTypes.shape({
+    name: PropTypes.string.isRequired,
+    color: PropTypes.string.isRequired,
+    message: PropTypes.string.isRequired
+  }),
   field: PropTypes.oneOf(transactionFieldNames),
   initialValue: PropTypes.any,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   name: PropTypes.string.isRequired,
-  onChange: PropTypes.func.isRequired,
   onBlur: PropTypes.func.isRequired,
-  errorLevel: PropTypes.shape({
-    errorLevel: PropTypes.object.isRequired,
-    errorMessage: PropTypes.string.isRequired
-  })
+  onChange: PropTypes.func.isRequired,
+  placeholder: PropTypes.string
 }

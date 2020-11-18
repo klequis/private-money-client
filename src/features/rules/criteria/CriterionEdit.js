@@ -1,4 +1,5 @@
 import React, { useState } from 'react'
+import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { CheckBox } from 'components/CheckBox'
 import { ruleEditCriterionUpdate } from 'features/ruleEdit'
@@ -80,6 +81,7 @@ export const CriterionEdit = ({ criterion }) => {
     const { name, value, checked, type } = event.currentTarget
     const newProp = { [name]: type === 'checkbox' ? checked : value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
+    green('CriterionEdit: _handleChange', newCriterion)
     _setCriterion(newCriterion)
     dispatch(ruleEditCriterionUpdate(newCriterion))
   }
@@ -98,6 +100,7 @@ export const CriterionEdit = ({ criterion }) => {
     // update criterion
     const newProp = { [name]: value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
+    green('CriterionEdit: _handleBlur', newCriterion)
     _setCriterion(newCriterion)
     if (newCriterion.active && isNilOrEmpty(validation)) {
       dispatch(ruleEditCriterionUpdate(newCriterion))
@@ -155,4 +158,8 @@ export const CriterionEdit = ({ criterion }) => {
       />
     </Row>
   )
+}
+
+CriterionEdit.propTypes = {
+  criterion: PropTypes.object.isRequired
 }
