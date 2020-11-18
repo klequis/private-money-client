@@ -5,11 +5,13 @@ import {
 import { api } from 'api'
 import { ruleTmpMake } from './ruleTmpMake'
 import { requestStatus } from 'globalConstants'
-import { logFetchResults } from 'lib/logFetchResults'
+
 import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { blue, red, purple } from 'logger'
+// eslint-disable-next-line
+import { logFetchResults } from 'lib/logFetchResults'
 
 const getActiveCriteria = (criteria) => {
   return criteria === null ? [] : criteria.filter((c) => c.active === true)
@@ -66,6 +68,7 @@ const ruleEditSlice = createSlice({
       state.ruleEdit = {}
     },
     ruleEditCriterionUpdate(state, action) {
+      logFetchResults('ruleEditCriterionUpdate', state, action)
       const newCriterion = action.payload
       const criteria = R.path(['ruleEdit', 'criteria'], state)
       const newCriterionId = R.prop('_id', newCriterion)

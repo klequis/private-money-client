@@ -96,13 +96,15 @@ export const CriterionEdit = ({ criterion }) => {
     const validation =
       field === 'date' ? _validateDate(value) : _validateString(value)
     _setValueErrorLevel(validation)
+    green('validation', validation)
 
     // update criterion
     const newProp = { [name]: value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
     green('CriterionEdit: _handleBlur', newCriterion)
     _setCriterion(newCriterion)
-    if (newCriterion.active && isNilOrEmpty(validation)) {
+    if (newCriterion.active && validation.name === errorLevelNone.name) {
+      green('should it update', '?')
       dispatch(ruleEditCriterionUpdate(newCriterion))
     }
   }

@@ -36,5 +36,4 @@ export const errorLevels = {
     color: 'red',
     message: ''
   }
-
 }

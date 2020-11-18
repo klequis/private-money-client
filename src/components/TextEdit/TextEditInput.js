@@ -43,7 +43,7 @@ export const TextEditInput = ({
 
   }
   if (R.type(onChange) !== 'Function') {
-    green(`TextEditInput (${name}): onChange`, onChange)
+    green(`TextEditInput: onChange for (${name}) is not a function`, onChange)
   }
   
 
