@@ -16,9 +16,8 @@ const TextInput = styled.input`
 export const TextEditInput = ({
   disabled,
   errorLevel,
-  initialValue,
+  value,
   maxWidth = 'none',
-  // minChars,
   name,
   onBlur,
   onChange,
@@ -26,25 +25,24 @@ export const TextEditInput = ({
 }) => {
 
 
-  const [_touched, _setTouched] = useState(false)
-  const [_value, _setValue] = useState(initialValue)
+  // const [_touched, _setTouched] = useState(false)
 
   const _handleChange = (event) => {
-    const { value } = event.target
-    _setValue(value)
+    // _setTouched(true)
+    onChange(event)
   }
 
   const _handleBlur = (event) => {
-    _setTouched(true)
+    // _setTouched(true)
     onBlur(event)
   }
 
-  if (_touched) {
+  // if (_touched) {
 
-  }
-  if (R.type(onChange) !== 'Function') {
-    green(`TextEditInput: onChange for (${name}) is not a function`, onChange)
-  }
+  // }
+  // if (R.type(onChange) !== 'Function') {
+  //   green(`TextEditInput: onChange for (${name}) is not a function`, onChange)
+  // }
   
 
   return (
@@ -59,7 +57,7 @@ export const TextEditInput = ({
         onChange={_handleChange}
         placeholder={placeholder}
         type="text"
-        value={_value}
+        value={value}
       />
     </div>
   )
@@ -72,7 +70,7 @@ TextEditInput.propTypes = {
     color: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired
   }),
-  initialValue: PropTypes.any,
+  value: PropTypes.any,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   onBlur: PropTypes.func.isRequired,

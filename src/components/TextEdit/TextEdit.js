@@ -5,11 +5,13 @@ import { TextEditInput } from './TextEditInput'
 import * as R from 'ramda'
 import { ErrorLabel } from 'components/ErrorLabel'
 import { errorLevels } from 'globalConstants'
+import { InputLabel } from './InputLabel'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
 
 const TextEditDiv = styled.div``
+
 
 // width: 100%;
 // max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}px
@@ -20,18 +22,20 @@ const { errorLevelNone } = errorLevels
  * @param props
  * @param props.disabled
  * @param props.maxWidth
+ * @param props.value
  */
 export const TextEdit = React.memo(
   ({
     disabled,
     errorLevel = errorLevelNone,
-    initialValue = '',
+    labelText = '',
     maxWidth,
     minChars = 0,
     name,
     onBlur,
     onChange,
     placeholder = '',
+    value = '',
   }) => {
 
     // const validation = name === 'date' ? _validateDate : _validateStrings
@@ -42,15 +46,16 @@ export const TextEdit = React.memo(
 
     return (
       <TextEditDiv>
+        <InputLabel>{labelText}</InputLabel>
         <TextEditInput
           disabled={disabled}
           errorLevel={errorLevel}
-          initialValue={initialValue}
           maxWidth={maxWidth}
           name={name}
           onBlur={onBlur}
           onChange={onChange}
           placeholder={placeholder}
+          value={value}
         />
         <ErrorLabel errorLevel={errorLevel} />
       </TextEditDiv>
@@ -74,7 +79,7 @@ TextEdit.propTypes = {
     color: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired
   }),
-  initialValue: isValidInitialValue,
+  value: isValidInitialValue,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   name: PropTypes.string.isRequired,

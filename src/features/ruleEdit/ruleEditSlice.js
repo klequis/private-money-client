@@ -5,13 +5,13 @@ import {
 import { api } from 'api'
 import { ruleTmpMake } from './ruleTmpMake'
 import { requestStatus } from 'globalConstants'
-
 import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { blue, red, purple } from 'logger'
 // eslint-disable-next-line
 import { logFetchResults } from 'lib/logFetchResults'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 const getActiveCriteria = (criteria) => {
   return criteria === null ? [] : criteria.filter((c) => c.active === true)
@@ -53,7 +53,8 @@ export const ruleUpdate = createAsyncThunk(
 const initialState = {
   status: requestStatus.idle,
   error: null,
-  dirty: null
+  dirty: null,
+  ruleEdit: {}
 }
 
 const ruleEditSlice = createSlice({
@@ -68,22 +69,32 @@ const ruleEditSlice = createSlice({
       state.ruleEdit = {}
     },
     ruleEditCriterionUpdate(state, action) {
+
       logFetchResults('ruleEditCriterionUpdate', state, action)
+
       const newCriterion = action.payload
+
       const criteria = R.path(['ruleEdit', 'criteria'], state)
+
       const newCriterionId = R.prop('_id', newCriterion)
+
       const idx = R.findIndex(R.propEq('_id', newCriterionId))(criteria)
+
       const newCriteria = R.update(idx, newCriterion, criteria)
+
       const newState = R.assocPath(['ruleEdit', 'criteria'], newCriteria, state)
+
+      
+
       newState.dirty = true
+
       return newState
     },
     ruleEditActionUpdate(state, action) {
       const newAction = action.payload
       const actions = R.path(['ruleEdit', 'actions'], state)
-      const idx = R.findIndex(R.propEq('_id', R.prop('_id', newAction)))(
-        actions
-      )
+      const newActionId = R.prop('_id', newAction)
+      const idx = R.findIndex(R.propEq('_id', newActionId))(actions)
       const newActions = R.update(idx, newAction, actions)
       const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
       newState.dirty = true
@@ -179,12 +190,38 @@ export const selectActiveCriteria = (state) => {
  * 
  * @param {object} state 
  * @returns {array} 
- * @description Gets criteria from state.RuleEdit where criteria.active===true
+ * 
  */
 export const selectRuleEditActions = (state) => {
   const actions = R.path(['ruleEdit', 'ruleEdit', 'actions'], state)
   return R.isNil(actions) ? [] : actions
 }
+
+/**
+ * 
+ * @param {object} state 
+ * @returns {array} 
+ * 
+ */
+export const selectRuleEditAction = (actionId, state) => {
+  const actions = R.path(['ruleEdit', 'ruleEdit', 'actions'], state)
+  const action = R.find(R.propEq('_id', actionId), actions)
+  return action
+}
+
+export const selectRuleEditRenameDescriptionAction = (state) => {
+  // blue('state', state)
+  const actions = R.path(['ruleEdit', 'ruleEdit', 'actions'], state)
+  // blue('actions', actions)
+  if (isNilOrEmpty(actions)) {
+    return null
+  }
+  const action = R.find(R.propEq('field', 'description'), actions)
+  // blue('action', action)
+  return action
+}
+
+
 
 /**
  * 

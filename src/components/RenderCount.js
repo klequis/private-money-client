@@ -31,7 +31,7 @@ export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }
   // if (isInRange(countTotal, countReturn)) {
   //   return null
   // }
-  return null
+  // return null
   const inRange = isInRange(countTotal, countReturn)
   return (
     <div style={ inRange ? {color: 'rgba(255, 255, 255, 0.3)'} : { color: 'red' }}>

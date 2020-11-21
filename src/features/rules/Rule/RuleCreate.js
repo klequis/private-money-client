@@ -32,7 +32,7 @@ export const RuleCreate = React.memo(() => {
         <Rule />
       </div>
       <div>
-        <CriteriaResults />
+        {/* <CriteriaResults /> */}
       </div>
     </ContainerFluid>
   )

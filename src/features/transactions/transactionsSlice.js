@@ -1,12 +1,13 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import { requestStatus } from 'globalConstants'
-import { logFetchResults } from 'lib/logFetchResults'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { blue, yellow, red } from 'logger'
+// eslint-disable-next-line
+import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
   items: [],

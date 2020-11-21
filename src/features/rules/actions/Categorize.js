@@ -32,7 +32,7 @@ export const Categorize = ({ action, minChars }) => {
         disabled={false}
         name={tFields.category1.name}
         labelText='Category 1'
-        initialValue={category1}
+        value={category1}
         minChars={minChars}
         onBlur={_handleEvent}
         onChange={_handleEvent}
@@ -41,7 +41,7 @@ export const Categorize = ({ action, minChars }) => {
         disabled={false}
         name={tFields.category2.name}
         labelText='Category 2'
-        initialValue={category2}
+        value={category2}
         minChars={minChars}
         onBlur={_handleEvent}
         onChange={_handleEvent}

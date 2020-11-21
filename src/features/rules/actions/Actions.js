@@ -1,16 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectRuleEditActions } from 'features/ruleEdit'
-import { ActionEdit } from './ActionEdit'
-import { RenameDescription } from './RenameDescription'
-import { Categorize } from './Categorize'
-import { actionTypes } from 'features/rules'
-import { transactionFields as tFields } from 'features/transactions'
 import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+import { ActionComponent } from './ActionComponent'
 
 const Wrapper = styled.div`
   display: flex;
@@ -38,15 +34,7 @@ export const Actions = () => {
 
   const actions = useSelector((state) => selectRuleEditActions(state))
 
-  const Component = ({ action }) => {
-    if (action.field === tFields.description.name) {
-      return <RenameDescription key={action._id} action={action} minChars={3} maxWidth={10} />
-    } else if (action.actionType === actionTypes.categorize.name) {
-      return <Categorize key={action._id} action={action} minChars={3} />
-    } else {
-      return <ActionEdit key={action._id} action={action} />
-    }
-  }
+  
 
   if (!actions) {
     return null
@@ -65,7 +53,7 @@ export const Actions = () => {
       <Wrapper>
         {actions.map((a) => {
           return (
-            <Component key={a._id} action={a} />
+            <ActionComponent key={`${a._id}_component`} action={a} />
           )
         })}
       </Wrapper>

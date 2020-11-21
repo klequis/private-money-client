@@ -18,23 +18,18 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+// import { RenameDescription } from 'features/rules/actions/RenameDescription'
 
 let countTotal = 0
 let countReturn = 0
 
-// const _shouldRefreshData = (originalTransactionId, currentTransactionId, status) => {
-//   // return false
-//   if (status === requestStatus.idle) {
-//     red('status === idle', 'idle')
-//     return true
-//   }
-//   if (originalTransactionId !== currentTransactionId) {
-//     red('originalTransactionId !== currentTransactionId', ' not equal')
-//     return true
-//   }
-//   red('return false')
-//   return false
-// }
+const getTransactionId = (transaction) => {
+  return isNilOrEmpty(transaction) ? '' : transaction._id
+}
+
+const getFirstTransaction= (transactions) => {
+  return isNilOrEmpty(transactions) ? null : transactions[0]
+}
 
 export const App = () => {
   countTotal = countTotal + 1

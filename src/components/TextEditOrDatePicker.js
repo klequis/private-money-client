@@ -15,7 +15,7 @@ export const TextEditOrDatePicker = ({
   disabled = false,
   errorLevel,
   field,
-  initialValue,
+  value,
   maxWidth,
   minChars,
   name,
@@ -33,7 +33,7 @@ export const TextEditOrDatePicker = ({
     return (
       <DatePicker
         disabled={disabled}
-        initialValue={initialValue}
+        value={value}
         maxWidth={maxWidth}
         minChars={minChars}
         name={name}
@@ -47,13 +47,12 @@ export const TextEditOrDatePicker = ({
     <TextEdit
       disabled={disabled}
       errorLevel={errorLevel}
-      initialValue={initialValue}
       maxWidth={maxWidth}
-      minChars={minChars}
       name={name}
       onBlur={onBlur}
       onChange={onChange}
       placeholder={placeholder}
+      value={value}
     />
   )
 }
@@ -66,7 +65,7 @@ TextEditOrDatePicker.propTypes = {
     message: PropTypes.string.isRequired
   }),
   field: PropTypes.oneOf(transactionFieldNames),
-  initialValue: PropTypes.any,
+  value: PropTypes.any,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   name: PropTypes.string.isRequired,

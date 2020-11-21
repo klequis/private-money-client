@@ -1,17 +1,16 @@
-
-import React, {useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ruleEditActionUpdate } from 'features/ruleEdit'
+import { ruleEditActionUpdate, selectRuleEditAction } from 'features/ruleEdit'
 import * as R from 'ramda'
-import { selectRuleEditRenameDescriptionAction } from 'features/ruleEdit'
 
 // eslint-disable-next-line
 import { purple, green, redf } from 'logger'
 
-export const RenameDescription = () => {
-
-  const [_action, _setAction] = useState(useSelector(selectRuleEditRenameDescriptionAction))
-  const { replaceWithValue, _id: actionId } = _action
+export const RenameDescription = ({ actionId }) => {
+  const [_action, _setAction] = useState(
+    useSelector((state) => selectRuleEditAction(actionId, state))
+  )
+  const { replaceWithValue } = _action
 
   const dispatch = useDispatch()
 
@@ -30,8 +29,8 @@ export const RenameDescription = () => {
       name="replaceWithValue"
       onChange={_onChange}
       // onBlur={_onBlur}
-      placeholder='hi'
+      // placeholder="hi"
+      // onKeyDown={_onKeyDown}
     />
   )
 }
-

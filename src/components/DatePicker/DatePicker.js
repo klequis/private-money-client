@@ -24,17 +24,9 @@ const formatDate = (date, format, locale) => {
   return dateFnsFormat(date, format, { locale })
 }
 
-const DatePickerDiv = styled.div`
-  
-`
+const DatePickerDiv = styled.div``
 
-export const DatePicker = ({
-  disabled,
-  maxWidth,
-  name,
-  initialValue
-}) => {
-
+export const DatePicker = React.memo(({ disabled, maxWidth, name, value }) => {
   const [_selectedDay, _setSelectedDay] = useState(undefined)
 
   const FORMAT = 'MM/dd/yyyy'
@@ -57,8 +49,8 @@ export const DatePicker = ({
     <DatePickerDiv>
       <DayPickerInput
         // disabled={disabled} TODO: not working
-        inputProps={{ 
-          readOnly: true, 
+        inputProps={{
+          readOnly: true,
           disabled: disabled,
           className: classNames('form-control', 'form-control-sm')
         }}
@@ -71,7 +63,7 @@ export const DatePicker = ({
         name={name}
         // on TODO: how & when to update caller ??
         parseDate={parseDate}
-        value={initialValue}
+        value={value}
         //
         onDayChange={_dayChange}
         onDayPickerHide={_dayPickerHide}
@@ -79,4 +71,4 @@ export const DatePicker = ({
       />
     </DatePickerDiv>
   )
-}
+})

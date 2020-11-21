@@ -8,7 +8,6 @@ import styled from 'styled-components'
 import { Select } from 'components/Select'
 import { criteriaFieldList } from 'features/rules'
 import { operatorList } from 'features/rules'
-import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { isStringDate } from 'lib/dataTypes'
 import { TextEditOrDatePicker } from 'components/TextEditOrDatePicker'
 import { errorLevels } from 'globalConstants'
@@ -71,14 +70,14 @@ export const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
 
   const [_criterion, _setCriterion] = useState(criterion)
-  const [_valueEditLevel, _setValueErrorLevel] = useState(errorLevelNone)
+  const [_valueErrorLevel, _setValueErrorLevel] = useState(errorLevelNone)
 
   const { operation, field, value, active } = _criterion
 
   const dispatch = useDispatch()
 
-  const _handleChange = (event) => {
-    const { name, value, checked, type } = event.currentTarget
+  const _onChange = (event) => {
+    const { name, value, checked, type } = event.target
     const newProp = { [name]: type === 'checkbox' ? checked : value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
     green('CriterionEdit: _handleChange', newCriterion)
@@ -86,7 +85,7 @@ export const CriterionEdit = ({ criterion }) => {
     dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
-  const _handleBlur = (event) => {
+  const _onBlur = (event) => {
     const { name, value } = event.target
     // green('name', name)
     // green('value', value)
@@ -118,13 +117,13 @@ export const CriterionEdit = ({ criterion }) => {
           countReturn={{ actual: countReturn, min: 4, max: 4 }}
         /> */}
       {/* <CheckDiv id='CheckDiv'> */}
-      <CheckBox name="active" checked={active} onChange={_handleChange} />
+      <CheckBox name="active" checked={active} onChange={_onChange} />
       <Select
         disabled={!active}
         maxWidth={125}
         name="field"
-        onBlur={_handleBlur}
-        onChange={_handleChange}
+        onBlur={_onBlur}
+        onChange={_onChange}
         value={field}
       >
         {criteriaFieldList.map((f) => (
@@ -137,8 +136,8 @@ export const CriterionEdit = ({ criterion }) => {
         disabled={!active}
         maxWidth={125}
         name="operation"
-        onBlur={_handleBlur}
-        onChange={_handleChange}
+        onBlur={_onBlur}
+        onChange={_onChange}
         value={operation}
       >
         {operatorList.map((o) => (
@@ -150,13 +149,12 @@ export const CriterionEdit = ({ criterion }) => {
       <TextEditOrDatePicker
         disabled={!active}
         field={field}
-        initialValue={value}
+        value={value}
         maxWidth={900}
-        minChars={3}
         name="value"
-        onChange={_handleChange}
-        onBlur={_handleBlur}
-        errorLevel={_valueEditLevel}
+        onChange={_onChange}
+        onBlur={_onBlur}
+        errorLevel={_valueErrorLevel}
       />
     </Row>
   )
