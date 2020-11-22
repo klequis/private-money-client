@@ -11,7 +11,6 @@ const initialState = {
   items: [],
   status: 'idle',
   error: null,
-  isEditMode: false
 }
 
 export const rulesFetch = createAsyncThunk('rules/get', async () => {

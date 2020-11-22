@@ -62,15 +62,13 @@ const ruleEditSlice = createSlice({
   name: 'ruleEdit',
   initialState,
   reducers: {
-    ruleEditSet(state, action) {
+    ruleEditSetExistingRule(state, action) {
       const { payload } = action
       state.ruleEdit = payload
     },
     ruleEditSetNewRule(state, action) {
       const { payload } = action
       const { origDescription, date } = payload
-      blue('origDescription', origDescription)
-      blue('date', date)
       state.ruleEdit = ruleTmpMake(origDescription, date)
     },
     ruleEditClear(state, action) {
@@ -147,9 +145,9 @@ export const {
   ruleEditActionUpdate,
   ruleEditClear,
   ruleEditCriterionUpdate,
-  ruleEditSet,
+  ruleEditSetExistingRule,
+  ruleEditSetNewRule,
   ruleEditTmpMake,
-  ruleEditSetNewRule
 } = ruleEditSlice.actions
 
 // const hasRuleEdit = state => !(R.path(['state', 'ruleEdit']) === null)

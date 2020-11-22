@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectOneTransaction } from 'features/transactions'
-import { ruleEditSetNewRule } from 'features/ruleEdit'
+import { ruleEditSetNewRule, ruleEditSetExistingRule } from 'features/ruleEdit'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
 
@@ -25,7 +25,7 @@ export const useRuleEditSet = (transactionId) => {
     if (!isNilOrEmpty(transaction)) {
       const hasRule = getHasRule(transaction)
       if (hasRule) {
-        // TODO: do nothing for now
+        dispatch(ruleEditSetExistingRule())
       } else {
         const { origDescription, date } = transaction
         dispatch(ruleEditSetNewRule({origDescription, date}))
