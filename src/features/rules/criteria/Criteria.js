@@ -8,6 +8,8 @@ import styled from 'styled-components'
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+let countTotal = 0
+let countReturn = 0
 
 const ButtonRow = styled.div`
   display: flex;
@@ -24,8 +26,7 @@ const Btn = styled(Button)`
   margin-right: 12px;
 `
 
-let countTotal = 0
-let countReturn = 0
+
 
 export const Criteria = () => {
   countTotal = countTotal + 1
@@ -40,11 +41,11 @@ export const Criteria = () => {
   countReturn = countReturn + 1
   return (
     <div id="Criteria">
-      {/* <RenderCount
+      <RenderCount
         componentName="Criteria"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
-      /> */}
+      />
       <ButtonRow id="Criteria.Row">
         <H4>Criteria</H4>
         <Btn onClick={_handleButtonClick}>Add</Btn>

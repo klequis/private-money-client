@@ -9,9 +9,13 @@ import { InputLabel } from './InputLabel'
 
 // eslint-disable-next-line
 import { green, redf, yellow } from 'logger'
+// eslint-disable-next-line
+import { RenderCount } from 'components/RenderCount'
+
+let countTotal = 0
+let countReturn = 0
 
 const TextEditDiv = styled.div``
-
 
 // width: 100%;
 // max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}px
@@ -35,30 +39,37 @@ export const TextEdit = React.memo(
     onBlur,
     onChange,
     placeholder = '',
-    value = '',
+    value = ''
   }) => {
-
+    countTotal = countTotal + 1
+    
     // const validation = name === 'date' ? _validateDate : _validateStrings
     if (R.type(onChange) !== 'Function') {
       green(`TextEditInput (${name}): onChange`, onChange)
     }
-    
-
+    countReturn = countReturn + 1
     return (
-      <TextEditDiv>
-        <InputLabel>{labelText}</InputLabel>
-        <TextEditInput
-          disabled={disabled}
-          errorLevel={errorLevel}
-          maxWidth={maxWidth}
-          name={name}
-          onBlur={onBlur}
-          onChange={onChange}
-          placeholder={placeholder}
-          value={value}
+      <>
+        <RenderCount
+          componentName="TextEdit"
+          countTotal={{ actual: countTotal, min: 4, max: 4 }}
+          countReturn={{ actual: countReturn, min: 4, max: 4 }}
         />
-        <ErrorLabel errorLevel={errorLevel} />
-      </TextEditDiv>
+        <TextEditDiv>
+          <InputLabel>{labelText}</InputLabel>
+          <TextEditInput
+            disabled={disabled}
+            errorLevel={errorLevel}
+            maxWidth={maxWidth}
+            name={name}
+            onBlur={onBlur}
+            onChange={onChange}
+            placeholder={placeholder}
+            value={value}
+          />
+          <ErrorLabel errorLevel={errorLevel} />
+        </TextEditDiv>
+      </>
     )
   }
 )
@@ -85,5 +96,5 @@ TextEdit.propTypes = {
   name: PropTypes.string.isRequired,
   onBlur: PropTypes.func.isRequired,
   onChange: PropTypes.func.isRequired,
-  placeholder: PropTypes.string,
+  placeholder: PropTypes.string
 }

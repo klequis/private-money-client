@@ -47,7 +47,7 @@ const Component = ({ ruleIds }) => {
 }
 
 export const Rule = () => {
-  // countTotal = countTotal + 1
+  countTotal = countTotal + 1
 
   const activeTransaction = useSelector(selectActiveTransaction)
   const { ruleIds } = activeTransaction
@@ -74,8 +74,14 @@ export const Rule = () => {
 
   const { dirty, _id: ruleId } = ruleEdit
 
+  countReturn = countReturn + 1
   return (
     <>
+    <RenderCount
+      componentName='Rule'
+      countTotal={{ actual: countTotal, min: 8, max: 14 }}
+      countReturn={{ actual: countReturn, min: 8, max: 10 }}
+    />
       <RuleId ruleId={ruleId} />
       <RuleToolbar
         save={_handleSaveClick}

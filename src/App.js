@@ -14,22 +14,23 @@ import { getRequestStatus } from 'lib/getRequestStatus'
 import { RequestStatus } from 'components/RequestStatus'
 // import { ContainerFluid } from 'components/ContainerFluid'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { useRuleEditSet } from 'features/ruleEdit/useRuleEditSet'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
+// eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
-// import { RenameDescription } from 'features/rules/actions/RenameDescription'
 
 let countTotal = 0
 let countReturn = 0
 
-const getTransactionId = (transaction) => {
-  return isNilOrEmpty(transaction) ? '' : transaction._id
-}
+// const getTransactionId = (transaction) => {
+//   return isNilOrEmpty(transaction) ? '' : transaction._id
+// }
 
-const getFirstTransaction= (transactions) => {
-  return isNilOrEmpty(transactions) ? null : transactions[0]
-}
+// const getFirstTransaction= (transactions) => {
+//   return isNilOrEmpty(transactions) ? null : transactions[0]
+// }
 
 export const App = () => {
   countTotal = countTotal + 1
@@ -45,12 +46,14 @@ export const App = () => {
   const refreshTransactions = useSelector(selectRefreshStatus)
 
   useEffect(() => {
-    if (status === requestStatus.idle || refreshTransactions) {
+    if (status === requestStatus.idle || refreshTransactions === true) {
       dispatch(transactionsFetch())
       dispatch(rulesFetch())
       dispatch(setRefresh(false))
     }
-  }, [status, refreshTransactions])
+  }, [dispatch, status, refreshTransactions])
+
+  useRuleEditSet(activeTransactionId)
 
   countReturn = countReturn + 1
 

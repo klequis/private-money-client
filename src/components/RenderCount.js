@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import * as R from 'ramda'
 import { green } from 'logger'
@@ -28,25 +28,36 @@ const isInRange = (countTotal, countReturn) => {
 }
 
 export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
-  // if (isInRange(countTotal, countReturn)) {
-  //   return null
-  // }
-  // return null
-  const inRange = isInRange(countTotal, countReturn)
+  
   return (
-    <div style={ inRange ? {color: 'rgba(255, 255, 255, 0.3)'} : { color: 'red' }}>
-      <span>{componentName} - </span>
-      <span>
-        <RenderResult title='before' count={countTotal} />
-        {
-          !R.isEmpty(countReturn)
-            ? <span>&nbsp; &nbsp; <RenderResult title='after' count={countReturn} /></span>
-            : null
-        }
-      </span>
+    <div>
+
+      <span>{componentName} - </span><span>total: {countTotal.actual}</span><span>return: {countReturn.actual}</span>
     </div>
   )
 }
+
+
+// export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
+//   // if (isInRange(countTotal, countReturn)) {
+//   //   return null
+//   // }
+//   // return null
+//   const inRange = isInRange(countTotal, countReturn)
+//   return (
+//     <div style={ inRange ? {color: 'rgba(255, 255, 255, 0.3)'} : { color: 'red' }}>
+//       <span>{componentName} - </span>
+//       <span>
+//         <RenderResult title='before' count={countTotal} />
+//         {
+//           !R.isEmpty(countReturn)
+//             ? <span>&nbsp; &nbsp; <RenderResult title='after' count={countReturn} /></span>
+//             : null
+//         }
+//       </span>
+//     </div>
+//   )
+// }
 
 RenderCount.propTypes = {
   componentName: PropTypes.string.isRequired,

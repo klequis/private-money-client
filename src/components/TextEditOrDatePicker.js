@@ -9,7 +9,12 @@ import {
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
+// eslint-disable-next-line
+import { RenderCount } from 'components/RenderCount'
 import * as R from 'ramda'
+
+let countTotal = 0
+let countReturn = 0
 
 export const TextEditOrDatePicker = ({
   disabled = false,
@@ -23,13 +28,14 @@ export const TextEditOrDatePicker = ({
   onBlur,
   placeholder
 }) => {
+  countTotal = countTotal + 1
 
   if (R.type(onChange) !== 'Function') {
     green(`TextEditInput (${name}): onChange`, onChange)
   }
 
+  countReturn = countReturn + 1
   if (field === tFields.date.name) {
-    
     return (
       <DatePicker
         disabled={disabled}
@@ -44,16 +50,24 @@ export const TextEditOrDatePicker = ({
     )
   }
   return (
-    <TextEdit
-      disabled={disabled}
-      errorLevel={errorLevel}
-      maxWidth={maxWidth}
-      name={name}
-      onBlur={onBlur}
-      onChange={onChange}
-      placeholder={placeholder}
-      value={value}
-    />
+    <>
+      
+      <TextEdit
+        disabled={disabled}
+        errorLevel={errorLevel}
+        maxWidth={maxWidth}
+        name={name}
+        onBlur={onBlur}
+        onChange={onChange}
+        placeholder={placeholder}
+        value={value}
+      />
+      <RenderCount
+        componentName="TextEditOrDatePicker"
+        countTotal={{ actual: countTotal, min: 4, max: 4 }}
+        countReturn={{ actual: countReturn, min: 4, max: 4 }}
+      />
+    </>
   )
 }
 

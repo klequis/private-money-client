@@ -47,7 +47,8 @@ const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
   reducers: {
-    activeTransactionSet(state, action) {
+    activeTransactionIdSet(state, action) {
+
       // logFetchResults('transactions.activeTransactionSet', state, action)
       state.activeTransactionId = action.payload
     },
@@ -86,7 +87,7 @@ const transactionsSlice = createSlice({
 export const transactionsReducer = transactionsSlice.reducer
 export const {
   activeTransactionClear,
-  activeTransactionSet,
+  activeTransactionIdSet,
   setRefresh
 } = transactionsSlice.actions
 
@@ -95,6 +96,11 @@ export const selectRefreshStatus = (state) => R.path(['transactions', 'refresh']
 // Selectors
 export const selectAllTransactions = (state) => state.transactions.items
 
+/**
+ * 
+ * @param {string} transactionId 
+ * @param {object} state 
+ */
 export const selectOneTransaction = (transactionId, state) => {
   const tItems = (R.path(['transactions', 'items'], state))
   const ret = R.find(R.propEq('_id', transactionId))(tItems)

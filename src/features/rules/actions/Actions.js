@@ -1,40 +1,28 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectRuleEditActions } from 'features/ruleEdit'
+import { ActionEdit } from './ActionEdit'
+import { RenameDescription } from './RenameDescription'
+import { Categorize } from './Categorize'
+import { actionTypes } from 'features/rules'
+import { transactionFields as tFields } from 'features/transactions'
 import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
-import { ActionComponent } from './ActionComponent'
 
 const Wrapper = styled.div`
   display: flex;
 `
-/*
-display: flex;
-  @media (min-width: 601px) {
-    
-  }
-  @media (max-width: 600px) {
-    flex-direction: column;
-    
-  }
-*/
-// padding-top: 15px;
-// display: flex;
-// width: 100%;
 
 let countTotal = 0
 let countReturn = 0
 
 export const Actions = () => {
-
   countTotal = countTotal + 1
 
   const actions = useSelector((state) => selectRuleEditActions(state))
-
-  
 
   if (!actions) {
     return null
@@ -52,12 +40,23 @@ export const Actions = () => {
 
       <Wrapper>
         {actions.map((a) => {
-          return (
-            <ActionComponent key={`${a._id}_component`} action={a} />
-          )
+          const { _id, field, actionType } = a
+          if (field === tFields.description.name) {
+            return (
+              <RenameDescription
+                key={_id}
+                actionId={_id}
+                minChars={3}
+                maxWidth={10}
+              />
+            )
+          } else if (actionType === actionTypes.categorize.name) {
+            return <Categorize key={_id} action={a} minChars={3} />
+          } else {
+            return <ActionEdit key={_id} action={a} />
+          }
         })}
       </Wrapper>
     </div>
-
   )
 }

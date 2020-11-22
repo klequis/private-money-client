@@ -1,7 +1,7 @@
 import React, { useEffect } from 'react'
 import App from './App'
 import { useDispatch } from 'react-redux'
-import { activeTransactionSet } from 'features/transactions'
+import { activeTransactionidSet } from 'features/transactions'
 /*
 import * as R from 'ramda'
 import {
@@ -25,7 +25,7 @@ export const DevTmp = () => {
   const dispatch = useDispatch()
   
   useEffect(() => {
-    dispatch(activeTransactionSet('5f77bee16b52d522df1c2bb1'))
+    dispatch(activeTransactionidSet('5f77bee16b52d522df1c2bb1'))
   })
 
   countReturn = countReturn + 1

@@ -1,4 +1,5 @@
 export * from './rulesSlice'
 export * from './actions'
 export * from './criteria'
-export * from './Rule'
+// export * from './Rule'
+export { RuleCreate } from './RuleCreate'

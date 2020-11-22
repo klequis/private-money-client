@@ -1,6 +1,7 @@
 import { 
   createSlice, 
   createAsyncThunk, 
+  // eslint-disable-next-line
   current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import { ruleTmpMake } from './ruleTmpMake'
@@ -65,29 +66,24 @@ const ruleEditSlice = createSlice({
       const { payload } = action
       state.ruleEdit = payload
     },
+    ruleEditSetNewRule(state, action) {
+      const { payload } = action
+      const { origDescription, date } = payload
+      blue('origDescription', origDescription)
+      blue('date', date)
+      state.ruleEdit = ruleTmpMake(origDescription, date)
+    },
     ruleEditClear(state, action) {
       state.ruleEdit = {}
     },
     ruleEditCriterionUpdate(state, action) {
-
-      logFetchResults('ruleEditCriterionUpdate', state, action)
-
       const newCriterion = action.payload
-
       const criteria = R.path(['ruleEdit', 'criteria'], state)
-
       const newCriterionId = R.prop('_id', newCriterion)
-
       const idx = R.findIndex(R.propEq('_id', newCriterionId))(criteria)
-
       const newCriteria = R.update(idx, newCriterion, criteria)
-
       const newState = R.assocPath(['ruleEdit', 'criteria'], newCriteria, state)
-
-      
-
       newState.dirty = true
-
       return newState
     },
     ruleEditActionUpdate(state, action) {
@@ -100,15 +96,17 @@ const ruleEditSlice = createSlice({
       newState.dirty = true
       return newState
     },
+    // TODO: is this needed?
     ruleEditSave(state, action) {
       // if tmpRuleId -> remove the _id field and call insert
       // else call update
     },
     ruleEditTmpMake(state, action) {
+      blue('state', current(state))
       const { payload } = action
       const { origDescription, date } = payload
       state.ruleEdit = ruleTmpMake(origDescription, date)
-    }
+    },
   },
   extraReducers: {
     [ruleCreate.pending]: (state, action) => {
@@ -120,8 +118,8 @@ const ruleEditSlice = createSlice({
       state.status=requestStatus.fulfilled
     },
     [ruleCreate.rejected]: (state, action) => {
-      logFetchResults('ruleEdit.rejected', state, action)
-      red('ruleEdit.ruleCreate.rejected', 'rejected')
+      // logFetchResults('ruleEdit.rejected', state, action)
+      // red('ruleEdit.ruleCreate.srejected', 'rejected')
       state.status = requestStatus.error
       state.error = action.error.message
     },
@@ -150,7 +148,8 @@ export const {
   ruleEditClear,
   ruleEditCriterionUpdate,
   ruleEditSet,
-  ruleEditTmpMake
+  ruleEditTmpMake,
+  ruleEditSetNewRule
 } = ruleEditSlice.actions
 
 // const hasRuleEdit = state => !(R.path(['state', 'ruleEdit']) === null)
@@ -222,16 +221,16 @@ export const selectRuleEditRenameDescriptionAction = (state) => {
 }
 
 
-
+// not in use
 /**
  * 
  * @param {object} state
  * @returns {string} state.ruleEdit._id
  */
-export const selectRuleEditId = (state) => {
-  const id = R.path(['ruleEdit', 'ruleEdit', '_id'], state)
-  return R.isNil(id) ? '' : id
-}
+// export const selectRuleEditId = (state) => {
+//   const id = R.path(['ruleEdit', 'ruleEdit', '_id'], state)
+//   return R.isNil(id) ? '' : id
+// }
 
 /**
  * 
@@ -250,3 +249,24 @@ export const selectRuleEditIsDirty = (state) => {
 export const selectRuleEditIsTmpRule = (state) => {
   return R.path(['ruleEdit', 'ruleEdit', 'isTmpRule'], state)
 }
+
+
+/*
+
+    - But what about creating the rule right away?
+    - The first time you try to touch anything with RuleEdit it sets it || throws if activeTransactionId
+      is not set
+  
+      
+    selectActiveCriteria
+    selectRuleEdit
+    selectRuleEditCriteria
+    selectRuleEditAction
+    selectRuleEditActions
+    selectRuleEditId
+    selectRuleEditIsDirty
+    selectRuleEditIsTmpRule
+    selectRuleEditRenameDescriptionAction
+
+
+*/

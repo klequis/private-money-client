@@ -1,4 +1,5 @@
 import chalk from 'chalk'
+import { ErrorLabel } from 'components/ErrorLabel'
 
 export const LOG_RENDER = false
 
@@ -142,3 +143,6 @@ export const logReducer = (reducerName, state, type, payload) => {
 
 export const logRender = (componentName) =>
   LOG_RENDER && orange(`*${componentName} - render`)
+
+export const grpStart = label => console.group(label)
+export const grpEnd = console.groupEnd

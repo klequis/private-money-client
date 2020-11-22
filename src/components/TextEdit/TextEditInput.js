@@ -6,7 +6,12 @@ import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
-import * as R from 'ramda'
+// import * as R from 'ramda'
+// eslint-disable-next-line
+import { RenderCount } from 'components/RenderCount'
+
+let countTotal = 0
+let countReturn = 0
 
 const TextInput = styled.input`
   max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
@@ -25,6 +30,7 @@ export const TextEditInput = ({
 }) => {
 
 
+  countTotal = countTotal + 1
   // const [_touched, _setTouched] = useState(false)
 
   const _handleChange = (event) => {
@@ -44,7 +50,7 @@ export const TextEditInput = ({
   //   green(`TextEditInput: onChange for (${name}) is not a function`, onChange)
   // }
   
-
+  countReturn = countReturn + 1
   return (
     <div>
       <TextInput
