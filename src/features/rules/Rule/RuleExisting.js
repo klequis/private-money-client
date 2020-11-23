@@ -20,17 +20,6 @@ import { green } from 'logger'
 const RuleDiv = styled.div``
 
 export const RuleExisting = ({ save, cancel }) => {
-
-  // const dispatch = useDispatch()
-  // const activeTransaction = useSelector(selectActiveTransaction)
-  // const { ruleIds } = activeTransaction
-  // const ruleId = ruleIds[0]
-  // const rule = useSelector(state => selectRule(ruleId, state))
-
-  // useEffect(() => {
-  //   dispatch(ruleEditSet(R.mergeRight(rule, { dirty: false})))
-  // }, [rule])
-
   return (
     <RuleDiv id="Rule">
       <Criteria />
