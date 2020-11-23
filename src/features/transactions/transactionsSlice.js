@@ -36,6 +36,7 @@ export const transactionsFetch = createAsyncThunk(
   async () => {
     const r = await api.views.read(viewName)
     const { data } = r
+    blue('data', data)
     
     const ret = R.mergeRight(r, { data: addFields(data) })
     return ret
@@ -51,7 +52,7 @@ const transactionsSlice = createSlice({
       // logFetchResults('transactions.activeTransactionSet', state, action)
       state.activeTransactionId = action.payload
     },
-    activeTransactionClear(state, action) {
+    activeTransactionIdClear(state, action) {
       // logFetchResults('transactions.activeTransactionClear', state, action)
       state.activeTransactionId = null
     },
@@ -85,7 +86,7 @@ const transactionsSlice = createSlice({
 
 export const transactionsReducer = transactionsSlice.reducer
 export const {
-  activeTransactionClear,
+  activeTransactionIdClear,
   activeTransactionIdSet,
   setRefresh
 } = transactionsSlice.actions
@@ -102,6 +103,10 @@ export const selectAllTransactions = (state) => state.transactions.items
  */
 export const selectOneTransaction = (transactionId, state) => {
   const tItems = (R.path(['transactions', 'items'], state))
+  // bluse('tItems', R.type(tItems))
+  if (isNilOrEmpty(tItems)) {
+    return tItems
+  }
   const ret = R.find(R.propEq('_id', transactionId))(tItems)
   return R.equals(R.type(ret), 'Undefined') ? null : ret
 }
@@ -114,6 +119,7 @@ export const selectCriteriaResultsTransactions = (state) => {
 
 export const selectTransactionRuleIds = (transactionId, state) => {
   const transaction = selectOneTransaction(transactionId, state)
+  // blue('selectTransactionRuleIds: transaction', transaction)
   return R.path(['ruleIds'], transaction)
 }
 

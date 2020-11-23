@@ -10,7 +10,7 @@ import * as R from 'ramda'
 import { ruleTmpMake } from './ruleTmpMake'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 // eslint-disable-next-line
-import { blue, red, purple } from 'logger'
+import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
 // eslint-disable-next-line
 import { logFetchResults } from 'lib/logFetchResults'
 
@@ -25,6 +25,28 @@ const initialState = {
     rule: {}
   }
 }
+
+/**
+ * 
+ * @param {object} state
+ * @returns {array} rules.items[...]
+ * @summary `state` may be all of Redux state or just the rules slice. 
+ *   In either case, return just items[...]
+ */
+const getRulesItems = (state) => {
+  return R.has('rules')(state) ? R.path(['rules', 'items'], state) : R.path(['items'], state)
+}
+  
+/**
+ * 
+ * @param {string} ruleId 
+ * @param {object} state 
+ */
+const getRule = (ruleId, state) => {
+  const items = getRulesItems(current(state))
+  return items.find((r) => r._id === ruleId)
+}
+  
 
 const getActiveCriteria = (criteria) => {
   return criteria === null ? [] : criteria.filter((c) => c.active === true)
@@ -91,8 +113,13 @@ const rulesSlice = createSlice({
       return newState
     },
     ruleEditSetExistingRule(state, action) {
-      const { payload } = action
-      state.ruleEdit = payload
+    //   grpStart('ruleEditSetExistingRule')
+    //   blue('current(state)', current(state))
+    //   blue('action', action)
+      // payload == { ruleId: string }
+      const ruleId = R.path(['payload', 'ruleId'], action)
+      state.ruleEdit = getRule(ruleId, state)
+      // grpEnd()
     },
     ruleEditSetNewRule(state, action) {
       const { payload } = action
@@ -172,12 +199,6 @@ export const {
 // export default rulesSlice.reducer
 export const rulesReducer = rulesSlice.reducer
 
-const getRulesItems = (state) =>
-  R.has('rules')(state) ? state.rules.items : R.path(['state', 'items'], state)
-
-const getRule = (ruleId, state) =>
-  getRulesItems(state).find((r) => r._id === ruleId)
-
 export const selectRulesStatus = (state) =>
   R.path(['state', 'transactions', 'status'], state)
 
@@ -204,7 +225,7 @@ export const selectRule = (ruleId, state) =>
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
 export const selectActiveCriteria = (state) => {
-  const criteria = R.path(['ruleEdit', 'ruleEdit', 'criteria'], state)
+  const criteria = R.path(['rules', 'ruleEdit', 'criteria'], state)
   return R.isNil(criteria) ? [] : getActiveCriteria(criteria)
 }
 
@@ -214,7 +235,7 @@ export const selectActiveCriteria = (state) => {
  * @return {object} state.ruleEdit
  */
 export const selectRuleEdit = (state) => {
-  const ruleEdit = R.path(['ruleEdit', 'ruleEdit',], state)
+  const ruleEdit = R.path(['rules', 'ruleEdit',], state)
   return R.isNil(ruleEdit) ? {} : ruleEdit
 }
 
@@ -224,7 +245,7 @@ export const selectRuleEdit = (state) => {
  * @returns {array} Returns criteria from state.ruleEdit
  */
 export const selectRuleEditCriteria = (state) => {
-  const criteria = R.path(['ruleEdit', 'ruleEdit', 'criteria'], state)
+  const criteria = R.path(['rules', 'ruleEdit', 'criteria'], state)
   return R.isNil(criteria) ? [] : criteria
 }
 
@@ -235,7 +256,7 @@ export const selectRuleEditCriteria = (state) => {
  * 
  */
 export const selectRuleEditActions = (state) => {
-  const actions = R.path(['ruleEdit', 'ruleEdit', 'actions'], state)
+  const actions = R.path(['rules', 'ruleEdit', 'actions'], state)
   return R.isNil(actions) ? [] : actions
 }
 
@@ -245,7 +266,7 @@ export const selectRuleEditActions = (state) => {
  * @returns {string} state.ruleEdit.dirty
  */
 export const selectRuleEditIsDirty = (state) => {
-  return R.path(['ruleEdit', 'dirty'], state)
+  return R.path(['rules', 'ruleEdit', 'dirty'], state)
 }
 
 /**
@@ -254,12 +275,12 @@ export const selectRuleEditIsDirty = (state) => {
  * @returns {string} state.ruleEdit.isTmpRule
  */
 export const selectRuleEditIsTmpRule = (state) => {
-  return R.path(['ruleEdit', 'ruleEdit', 'isTmpRule'], state)
+  return R.path(['rules', 'ruleEdit', 'isTmpRule'], state)
 }
 
 export const selectRuleEditRenameDescriptionAction = (state) => {
   // blue('state', state)
-  const actions = R.path(['ruleEdit', 'ruleEdit', 'actions'], state)
+  const actions = R.path(['rules', 'ruleEdit', 'actions'], state)
   // blue('actions', actions)
   if (isNilOrEmpty(actions)) {
     return null
