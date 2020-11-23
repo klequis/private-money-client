@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
-import { requestStatus } from 'globalConstants'
+import { requestStatusStates } from 'features/requestStatus'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
@@ -10,12 +10,12 @@ import { blue, yellow, red } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
-  items: [],
-  status: 'idle',
-  error: null,
-  refresh: false,
   activeTransactionId: null,
-  criteriaResult: []
+  criteriaResult: [],
+  error: null,
+  items: [],
+  refresh: false,
+  transactionsStatus: 'idle',
 }
 
 const viewName = 'all-data-by-description'
@@ -66,18 +66,18 @@ const transactionsSlice = createSlice({
   extraReducers: {
     [transactionsFetch.pending]: (state, action) => {
       // logFetchResults('transactions.pending', state, action)
-      state.status = requestStatus.pending
+      state.transactionsStatus = requestStatusStates.pending
       state.items = []
     },
     [transactionsFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
-      state.status = requestStatus.fulfilled
+      state.transactionsStatus = requestStatusStates.fulfilled
       state.items = R.path(['payload', 'data'], action)
     },
     [transactionsFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       // red('transactions.rejected', 'rejected')
-      state.status = R.path(['error'], requestStatus)
+      state.transactionsStatus = R.path(['error'], requestStatusStates)
       state.error = R.path(['error', 'message'], action)
       state.items = []
     },

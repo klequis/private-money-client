@@ -5,7 +5,7 @@ import {
   ruleUpdate,
   ruleCreate,
   ruleEditClear
-} from 'features/ruleEdit'
+} from 'features/rules'
 import styled from 'styled-components'
 import {
   activeTransactionClear,

@@ -1,12 +1,12 @@
 
 import React, {useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ruleEditActionUpdate } from 'features/ruleEdit'
+import { ruleEditActionUpdate } from 'features/rules'
 import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { purple, green, redf } from 'logger'
-import { selectRuleEditRenameDescriptionAction } from 'features/ruleEdit'
+import { selectRuleEditRenameDescriptionAction } from 'features/rules'
 
 export const RenameDescription = () => {
 
@@ -41,7 +41,7 @@ export const RenameDescription = () => {
 
 import React, {useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ruleEditActionUpdate, selectRuleEditAction } from 'features/ruleEdit'
+import { ruleEditActionUpdate, selectRuleEditAction } from 'features/rules'
 import * as R from 'ramda'
 
 // eslint-disable-next-line

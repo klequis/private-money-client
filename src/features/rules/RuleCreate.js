@@ -3,7 +3,7 @@ import { Rule } from './Rule'
 import { CriteriaResults } from 'features/criteriaResults'
 import { ContainerFluid } from 'components/ContainerFluid'
 import styled from 'styled-components'
-import { selectRuleEditIsTmpRule } from 'features/ruleEdit'
+import { selectRuleEditIsTmpRule } from 'features/rules'
 import { useSelector } from 'react-redux'
 
 // eslint-disable-next-line

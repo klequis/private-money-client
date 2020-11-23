@@ -1,6 +1,6 @@
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import { ruleEditActionUpdate, selectRuleEditAction } from 'features/ruleEdit'
+import { ruleEditActionUpdate, selectRuleEditAction } from 'features/rules'
 import * as R from 'ramda'
 
 // eslint-disable-next-line

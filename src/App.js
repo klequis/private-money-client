@@ -9,12 +9,12 @@ import {
   selectRefreshStatus
 } from 'features/transactions'
 import { RuleCreate, rulesFetch } from 'features/rules'
-import { requestStatus } from 'globalConstants'
-import { getRequestStatus } from 'lib/getRequestStatus'
-import { RequestStatus } from 'components/RequestStatus'
+import { requestStatusNames, requestStatusStates } from 'features/requestStatus'
+import { getRequestStatus } from 'features/requestStatus'
+import { RenderWhenReady } from 'features/requestStatus'
 // import { ContainerFluid } from 'components/ContainerFluid'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { useRuleEditSet } from 'features/ruleEdit/useRuleEditSet'
+import { useRuleEditSet } from 'features/rules/useRuleEditSet'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
@@ -38,15 +38,20 @@ export const App = () => {
   const dispatch = useDispatch()
 
   const state = useSelector((state) => state)
-  const slices = R.pick(['rules', 'transactions'])(state)
-  const status = getRequestStatus(slices)
+  const status = getRequestStatus(
+    [
+      requestStatusNames.rulesFetchStatus,
+      requestStatusNames.transactionsFetchStatus
+    ],
+    state
+  )
 
   const activeTransactionId = useSelector(selectActiveTransactionId)
 
   const refreshTransactions = useSelector(selectRefreshStatus)
 
   useEffect(() => {
-    if (status === requestStatus.idle || refreshTransactions === true) {
+    if (status === requestStatusStates.idle || refreshTransactions === true) {
       dispatch(transactionsFetch())
       dispatch(rulesFetch())
       dispatch(setRefresh(false))
@@ -58,7 +63,7 @@ export const App = () => {
   countReturn = countReturn + 1
 
   return (
-    <RequestStatus status={status} className="container-fluid">
+    <RenderWhenReady status={status} className="container-fluid">
       <>
         <RenderCount
           componentName="App"
@@ -67,7 +72,7 @@ export const App = () => {
         />
         {isNilOrEmpty(activeTransactionId) ? <Transactions /> : <RuleCreate />}
       </>
-    </RequestStatus>
+    </RenderWhenReady>
   )
 }
 

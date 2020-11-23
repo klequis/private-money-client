@@ -1,7 +1,7 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { selectOneTransaction } from 'features/transactions'
-import { ruleEditSetNewRule, ruleEditSetExistingRule } from 'features/ruleEdit'
+import { ruleEditSetNewRule, ruleEditSetExistingRule } from 'features/rules'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
 

@@ -1,22 +1,20 @@
 import React from 'react'
-import { requestStatus } from 'globalConstants'
+import { requestStatusStates } from 'features/requestStatus'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
-// import { yellow } from 'logger'
+export const RenderWhenReady = ({ status, children }) => {
 
-export const RequestStatus = ({ status, children }) => {
-  // yellow('RequestStatus: status', status)
-  // yellow('RequestStatus: children', children)
+  // ! Component is dependent upon order of if statements ! //
 
-  if (status === requestStatus.fulfilled) {
+  if (status === requestStatusStates.fulfilled) {
     return React.Children.only(children)
   }
 
-  if (status === requestStatus.pending) {
+  if (status === requestStatusStates.pending) {
     return <h1>Pending</h1>
   }
 
-  if (status === requestStatus.error) {
+  if (status === requestStatusStates.error) {
     return <h1>Error</h1>
   }
 

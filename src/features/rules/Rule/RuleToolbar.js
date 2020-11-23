@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectRuleEditIsDirty } from 'features/ruleEdit'
+import { selectRuleEditIsDirty } from 'features/rules'
 import styled from 'styled-components'
 import { Button } from 'components/Button'
 

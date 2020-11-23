@@ -1,7 +1,7 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { CriterionEdit } from './CriterionEdit'
-import { selectRuleEditCriteria } from 'features/ruleEdit'
+import { selectRuleEditCriteria } from 'features/rules'
 import { Button } from 'components/Button'
 import styled from 'styled-components'
 

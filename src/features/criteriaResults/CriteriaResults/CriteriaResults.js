@@ -6,13 +6,13 @@ import {
   selectRuleEditCriteria,
   selectRuleEditActions,
   selectActiveCriteria
-} from 'features/ruleEdit'
+} from 'features/rules'
 import { fetchCriteriaResults } from 'features/criteriaResults'
 import { selectCriteriaResultsTransactions } from 'features/transactions'
 import { Table } from 'components/Table'
 import * as R from 'ramda'
-import { getRequestStatus } from 'lib/getRequestStatus'
-import { RequestStatus } from 'components/RequestStatus'
+import { getRequestStatus } from 'features/requestStatus'
+import { RenderWhenReady } from 'features/requestStatus'
 import { transactionFields as tFields } from 'features/transactions'
 import { TableBody } from './TableBody'
 
@@ -100,7 +100,7 @@ export const CriteriaResults = () => {
 
   countReturn = countReturn + 1
   return (
-    <RequestStatus status={status}>
+    <RenderWhenReady status={status}>
       <div>
         <RenderCount
           componentName="CriteriaResults"
@@ -116,6 +116,6 @@ export const CriteriaResults = () => {
           ))}
         </Table>
       </div>
-    </RequestStatus>
+    </RenderWhenReady>
   )
 }

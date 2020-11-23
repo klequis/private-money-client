@@ -5,7 +5,7 @@ import {
 } from 'features/transactions'
 import {
   ruleEditSet,
-} from 'features/ruleEdit'
+} from 'features/rules'
 import {
   selectRule
 } from 'features/rules'

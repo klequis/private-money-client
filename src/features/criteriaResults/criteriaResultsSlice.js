@@ -1,6 +1,6 @@
 import { createSlice, createAsyncThunk/*,  current*/ } from '@reduxjs/toolkit'
 import { api } from 'api'
-import { requestStatus } from 'globalConstants'
+import { requestStatusStates } from 'features/requestStatus'
 // import { logFetchResults } from 'lib/logFetchResults'
 
 // eslint-disable-next-line
@@ -8,7 +8,7 @@ import { blue, yellow } from 'logger'
 
 const initialState = {
   items: [],
-  status: 'idle',
+  criteriaResultsStatus: 'idle',
   error: null,
 }
 
@@ -33,17 +33,17 @@ const criteriaResultsSlice = createSlice({
   extraReducers: {
     [fetchCriteriaResults.pending]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.pending', state, action)
-      state.status = requestStatus.pending
+      state.criteriaResultsStatus = requestStatusStates.pending
       state.items = []
     },
     [fetchCriteriaResults.fulfilled]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.fulfilled', state, action)
-      state.status = requestStatus.fulfilled
+      state.criteriaResultsStatus = requestStatusStates.fulfilled
       state.items = action.payload.data
     },
     [fetchCriteriaResults.rejected]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.rejected', state, action)
-      state.status = requestStatus.error
+      state.criteriaResultsStatus = requestStatusStates.error
       state.error = action.error.message
       state.items = []
     }  
