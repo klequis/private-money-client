@@ -67,15 +67,15 @@ const rulesSlice = createSlice({
   name: 'rules',
   initialState,
   reducers: {
-    ruleSave(state, action) {},
-    ruleEditSetExistingRule(state, action) {
-      const { payload } = action
-      state.ruleEdit = payload
-    },
-    ruleEditSetNewRule(state, action) {
-      const { payload } = action
-      const { origDescription, date } = payload
-      state.ruleEdit = ruleTmpMake(origDescription, date)
+    ruleEditActionUpdate(state, action) {
+      const newAction = action.payload
+      const actions = R.path(['ruleEdit', 'actions'], state)
+      const newActionId = R.prop('_id', newAction)
+      const idx = R.findIndex(R.propEq('_id', newActionId))(actions)
+      const newActions = R.update(idx, newAction, actions)
+      const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
+      newState.dirty = true
+      return newState
     },
     ruleEditClear(state, action) {
       state.ruleEdit = {}
@@ -90,20 +90,14 @@ const rulesSlice = createSlice({
       newState.dirty = true
       return newState
     },
-    ruleEditActionUpdate(state, action) {
-      const newAction = action.payload
-      const actions = R.path(['ruleEdit', 'actions'], state)
-      const newActionId = R.prop('_id', newAction)
-      const idx = R.findIndex(R.propEq('_id', newActionId))(actions)
-      const newActions = R.update(idx, newAction, actions)
-      const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
-      newState.dirty = true
-      return newState
+    ruleEditSetExistingRule(state, action) {
+      const { payload } = action
+      state.ruleEdit = payload
     },
-    // TODO: is this needed?
-    ruleEditSave(state, action) {
-      // if tmpRuleId -> remove the _id field and call insert
-      // else call update
+    ruleEditSetNewRule(state, action) {
+      const { payload } = action
+      const { origDescription, date } = payload
+      state.ruleEdit = ruleTmpMake(origDescription, date)
     },
     ruleEditTmpMake(state, action) {
       blue('state', current(state))
@@ -111,6 +105,7 @@ const rulesSlice = createSlice({
       const { origDescription, date } = payload
       state.ruleEdit = ruleTmpMake(origDescription, date)
     }
+    
   },
   extraReducers: {
     [rulesFetch.pending]: (state, action) => {

@@ -8,7 +8,7 @@ import { blue, yellow } from 'logger'
 
 const initialState = {
   items: [],
-  criteriaResultsStatus: 'idle',
+  criteriaResultsStatus: requestStatusStates.idle,
   error: null,
 }
 

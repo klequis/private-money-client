@@ -6,15 +6,17 @@ export const RenderWhenReady = ({ status, children }) => {
 
   // ! Component is dependent upon order of if statements ! //
 
-  if (status === requestStatusStates.fulfilled) {
+  const { fulfilled, pending, error, idle } = requestStatusStates
+
+  if (status === fulfilled) {
     return React.Children.only(children)
   }
 
-  if (status === requestStatusStates.pending) {
+  if (status === pending) {
     return <h1>Pending</h1>
   }
 
-  if (status === requestStatusStates.error) {
+  if (status === error) {
     return <h1>Error</h1>
   }
 
@@ -22,7 +24,7 @@ export const RenderWhenReady = ({ status, children }) => {
     return <h1>status is empty string</h1>
   }
 
-  if (status === 'idle') {
+  if (status === idle) {
     return <h1>status is idle</h1>
   }
 

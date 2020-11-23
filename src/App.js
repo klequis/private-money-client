@@ -1,20 +1,20 @@
 import React, { useEffect } from 'react'
-import * as R from 'ramda'
+
 import { useSelector, useDispatch } from 'react-redux'
 import {
   transactionsFetch,
   selectActiveTransactionId,
   Transactions,
-  setRefresh,
-  selectRefreshStatus
+  setRefresh
 } from 'features/transactions'
 import { RuleCreate, rulesFetch } from 'features/rules'
 import { requestStatusNames, requestStatusStates } from 'features/requestStatus'
-import { getRequestStatus } from 'features/requestStatus'
 import { RenderWhenReady } from 'features/requestStatus'
 // import { ContainerFluid } from 'components/ContainerFluid'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { useRuleEditSet } from 'features/rules/useRuleEditSet'
+import { selectRequestStatus } from 'features/requestStatus'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
@@ -24,46 +24,45 @@ import { RenderCount } from 'components/RenderCount'
 let countTotal = 0
 let countReturn = 0
 
-// const getTransactionId = (transaction) => {
-//   return isNilOrEmpty(transaction) ? '' : transaction._id
-// }
-
-// const getFirstTransaction= (transactions) => {
-//   return isNilOrEmpty(transactions) ? null : transactions[0]
-// }
-
 export const App = () => {
   countTotal = countTotal + 1
 
   const dispatch = useDispatch()
 
-  const state = useSelector((state) => state)
-  const status = getRequestStatus(
-    [
-      requestStatusNames.rulesFetchStatus,
-      requestStatusNames.transactionsFetchStatus
-    ],
-    state
-  )
-
   const activeTransactionId = useSelector(selectActiveTransactionId)
 
-  const refreshTransactions = useSelector(selectRefreshStatus)
+  const status = useSelector((state) =>
+    selectRequestStatus(
+      [
+        requestStatusNames.rulesFetchStatus,
+        requestStatusNames.transactionsFetchStatus
+      ],
+      state
+    )
+  )
 
   useEffect(() => {
-    if (status === requestStatusStates.idle || refreshTransactions === true) {
+    if (
+      R.includes(status, [
+        requestStatusStates.idle,
+        requestStatusStates.refresh
+      ])
+    ) {
       dispatch(transactionsFetch())
       dispatch(rulesFetch())
       dispatch(setRefresh(false))
     }
-  }, [dispatch, status, refreshTransactions])
+  }, [dispatch, status])
 
   useRuleEditSet(activeTransactionId)
 
   countReturn = countReturn + 1
 
   return (
-    <RenderWhenReady status={status} className="container-fluid">
+    <RenderWhenReady
+      status={status}
+      className="container-fluid"
+    >
       <>
         <RenderCount
           componentName="App"
@@ -75,4 +74,3 @@ export const App = () => {
     </RenderWhenReady>
   )
 }
-

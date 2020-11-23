@@ -11,9 +11,9 @@ import { fetchCriteriaResults } from 'features/criteriaResults'
 import { selectCriteriaResultsTransactions } from 'features/transactions'
 import { Table } from 'components/Table'
 import * as R from 'ramda'
-import { getRequestStatus } from 'features/requestStatus'
+import { selectRequestStatus } from 'features/requestStatus'
 import { RenderWhenReady } from 'features/requestStatus'
-import { transactionFields as tFields } from 'features/transactions'
+// import { transactionFields as tFields } from 'features/transactions'
 import { TableBody } from './TableBody'
 
 // eslint-disable-next-line
@@ -71,10 +71,7 @@ export const CriteriaResults = () => {
   countTotal = countTotal + 1
   const dispatch = useDispatch()
 
-  // get status
-  const state = useSelector((state) => state)
-  const slices = R.pick(['criteriaResults'])(state)
-  const status = getRequestStatus(slices)
+  const status = useSelector(state => selectRequestStatus(['criteriaResults'], state))
 
   const criteria = useSelector(selectRuleEditCriteria)
   

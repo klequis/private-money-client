@@ -48,7 +48,7 @@ const any = (statusNames, matchStatusState, state) => {
  * @param {array} statusNames
  * @param {object} state
  */
-export const getRequestStatus = (statusNames, state) => {
+export const selectRequestStatus = (statusNames, state) => {
   const { error, idle, pending, fulfilled } = requestStatusStates
 
   if (any(statusNames, error, state)) {

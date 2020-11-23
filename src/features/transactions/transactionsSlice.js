@@ -14,8 +14,7 @@ const initialState = {
   criteriaResult: [],
   error: null,
   items: [],
-  refresh: false,
-  transactionsStatus: 'idle',
+  transactionsStatus: requestStatusStates.idle,
 }
 
 const viewName = 'all-data-by-description'
@@ -91,7 +90,7 @@ export const {
   setRefresh
 } = transactionsSlice.actions
 
-export const selectRefreshStatus = (state) => R.path(['transactions', 'refresh'], state)
+// export const selectRefreshStatus = (state) => R.path(['transactions', 'refresh'], state)
 
 // Selectors
 export const selectAllTransactions = (state) => state.transactions.items
