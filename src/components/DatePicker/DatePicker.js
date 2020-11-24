@@ -32,18 +32,16 @@ export const DatePicker = React.memo(({ disabled, maxWidth, name, value }) => {
   const FORMAT = 'MM/dd/yyyy'
 
   const _dayChange = (day) => {
-    // green('_dayChange', 'called')
     _setSelectedDay(day)
   }
 
   const _dayPickerHide = () => {
-    // green('_dayPickerHide', 'called')
+    // TODO:
   }
   const _dayPickerShow = () => {
-    // green('_dayPickerShow', 'called')
+    // TODO:
   }
 
-  // green('disabled', disabled)
   return (
     <DatePickerDiv>
       <DayPickerInput
