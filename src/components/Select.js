@@ -45,8 +45,6 @@ export const Select = ({
   paddingTop,
   value
 }) => {
-  // green('Select: maxWidth', maxWidth)
-
   const { errorLevelNone } = errorLevels
   return (
     <div>

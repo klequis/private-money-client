@@ -5,23 +5,7 @@ import { dataTypes } from 'lib/dataTypes'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-// const newTableRow = ({ oldFields, newFields }) => {
-//   if (hasDiffs(diffs)) {
-
-//   }
-//   return null
-// }
-
-// color
-// diff
-
 const TD = ({ color, diff, value, origDescription }) => {
-  // console.group('TD')
-  // green('color', color)
-  // green('diff', diff)
-  // green('value', value)
-  // green('origDescription', R.type(origDescription))
-  // console.groupEnd()
   if (diff) {
     if (!R.type(origDescription) === dataTypes.Undefined) {
       return (
@@ -51,7 +35,6 @@ const TD = ({ color, diff, value, origDescription }) => {
 }
 
 export const TableRow = ({ data, isNewData, diffs }) => {
-  // green('data', data)
   const {
     date,
     description,
@@ -61,11 +44,6 @@ export const TableRow = ({ data, isNewData, diffs }) => {
     origDescription
   } = data
   const color = isNewData ? 'green' : 'red'
-  // console.group('TableRow')
-  // green('isNewData', isNewData)
-  // green('color', color)
-  // green('diffs', diffs)
-  // console.groupEnd()
 
   return (
     <tr>

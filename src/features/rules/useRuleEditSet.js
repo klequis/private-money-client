@@ -40,7 +40,6 @@ export const useRuleEditSet = (transactionId) => {
     selectOneTransaction(transactionId, state)
   )
   // const ruleId = useSelector(selectTransactionRuleIds)
-  // green('useRuleEditSet: ruleId', ruleId)
 
   useEffect(() => {
     if (!isNilOrEmpty(transaction)) {

@@ -96,7 +96,7 @@ const rulesSlice = createSlice({
       const idx = R.findIndex(R.propEq('_id', newActionId))(actions)
       const newActions = R.update(idx, newAction, actions)
       const newState = R.assocPath(['ruleEdit', 'actions'], newActions, state)
-      newState.dirty = true
+      newState.ruleEdit.dirty = true
       return newState
     },
     ruleEditClear(state, action) {
@@ -109,7 +109,7 @@ const rulesSlice = createSlice({
       const idx = R.findIndex(R.propEq('_id', newCriterionId))(criteria)
       const newCriteria = R.update(idx, newCriterion, criteria)
       const newState = R.assocPath(['ruleEdit', 'criteria'], newCriteria, state)
-      newState.dirty = true
+      newState.ruleEdit.dirty = true
       return newState
     },
     ruleEditSetExistingRule(state, action) {

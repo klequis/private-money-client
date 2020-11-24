@@ -87,7 +87,6 @@ export const Table = () => {
   // const filterByHasRules = useSelector(selectHasRulesChecked)
   // const filterByIsUncategorized = useSelector(selectIsUncategorizedChecked)
 
-  green('Table: filterByHasRules', filterByHasRules)
 
   // useEffect(() => {
   //   purple('TABLE', 'useEffect')

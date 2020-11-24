@@ -11,6 +11,5 @@ const Label = styled.div`
 `
 
 export const ErrorLabel = ({ errorLevel }) => {
-  // green('ErrorLabel: errorLevel', errorLevel)  
   return <Label color={errorLevel.color}>{errorLevel.message}</Label>
 }

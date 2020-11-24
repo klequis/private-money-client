@@ -55,14 +55,11 @@ const TableHead = () => {
 const _checkCriterionValid = (criterion) => {
   console.group('isCriteriaValid')
   // _id is a string
-  // green('_id', tFields._id.validate(criterion._id))
-  // green('field', tFields.)
   console.groupEnd()
   return true
 }
 
 const isCriteriaValid = (criteria) => {
-  // green('criteria', criteria)
   return true
   // tmp code
   // return true
@@ -70,9 +67,7 @@ const isCriteriaValid = (criteria) => {
   // operation is on of
   // value !isEmptyOrNull
   // active = true
-  // green('criteriaSelectFieldNames', criteriaSelectFieldNames)
   const check = R.map(_checkCriterionValid, criteria)
-  // green('check', check)
 }
 
 let countTotal = 0
@@ -90,19 +85,12 @@ export const CriteriaResults = () => {
 
   const actions = useSelector(selectRuleEditActions)
   const activeCriteria = useSelector(selectActiveCriteria)
-  // green('CriteriaResults: activeCriteria', activeCriteria)
 
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria
     const valid = isCriteriaValid(activeCriteria)
     if (!R.isEmpty(activeCriteria)) {
-      grpStart('CriteriaResults')
-      green('status', status)
-      green('criteria', criteria)
-      green('actions', actions)
-      green('activeCriteria', activeCriteria)
-      grpEnd()
       dispatch(criteriaResultsFetch(activeCriteria))
     }
   }, [criteria])

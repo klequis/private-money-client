@@ -43,7 +43,6 @@ export const DatePicker = React.memo(({ disabled, maxWidth, name, value }) => {
     // green('_dayPickerShow', 'called')
   }
 
-  console.log('_selectedDay', _selectedDay)
   // green('disabled', disabled)
   return (
     <DatePickerDiv>

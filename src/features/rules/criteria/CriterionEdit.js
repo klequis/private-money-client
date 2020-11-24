@@ -55,8 +55,6 @@ const _validateString = (value) => {
  * @returns {object}
  */
 const _validateDate = (dateString) => {
-  // green('dateString', dateString)
-  // green('isStringDate(dateString)', isStringDate(dateString))
   if (!isStringDate(dateString)) {
     const error = errorLevelError
     error.message = 'Must be a date'
@@ -73,41 +71,29 @@ export const CriterionEdit = ({ criterion }) => {
 
   const { operation, field, value, active } = _criterion
 
-  // grpStart('CriterionEDit')
-  // green('criterion', criterion)
-  // green('_criterion', _criterion)
-  // grpEnd()
-
   const dispatch = useDispatch()
 
   const _onChange = (event) => {
     const { name, value, checked, type } = event.target
     const newProp = { [name]: type === 'checkbox' ? checked : value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
-    green('CriterionEdit: _handleChange', newCriterion)
     _setCriterion(newCriterion)
     dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
   const _onBlur = (event) => {
     const { name, value } = event.target
-    // green('name', name)
-    // green('value', value)
-    // green('field', field)
 
     // validation
     const validation =
       field === 'date' ? _validateDate(value) : _validateString(value)
     _setValueErrorLevel(validation)
-    green('validation', validation)
 
     // update criterion
     const newProp = { [name]: value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
-    green('CriterionEdit: _handleBlur', newCriterion)
     _setCriterion(newCriterion)
     if (newCriterion.active && validation.name === errorLevelNone.name) {
-      green('should it update', '?')
       dispatch(ruleEditCriterionUpdate(newCriterion))
     }
   }

@@ -14,7 +14,6 @@ export const Switch = ({ label, checkedSelector, checkedAction, id }) => {
 
     // const checked = event.target.checked
     // _setChecked(checked)
-    green('****   _onChange   ****', 'called')
     dispatch(checkedAction())
     
   }
