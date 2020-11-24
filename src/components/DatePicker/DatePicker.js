@@ -27,6 +27,8 @@ const formatDate = (date, format, locale) => {
 const DatePickerDiv = styled.div``
 
 export const DatePicker = React.memo(({ disabled, maxWidth, name, value }) => {
+  // TODO: TMP
+  // eslint-disable-next-line
   const [_selectedDay, _setSelectedDay] = useState(undefined)
 
   const FORMAT = 'MM/dd/yyyy'
@@ -56,7 +58,6 @@ export const DatePicker = React.memo(({ disabled, maxWidth, name, value }) => {
         formatDate={formatDate}
         format={FORMAT}
         // maxWidth={maxWidth} TODO: will not work
-        hideOnDayClick={true}
         name={name}
         // on TODO: how & when to update caller ??
         parseDate={parseDate}

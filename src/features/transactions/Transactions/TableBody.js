@@ -31,7 +31,7 @@ export const TableBody = ({ transactionId }) => {
     date,
     description,
     omit,
-    origDescription,
+    // origDescription,
     ruleIds,
     type
   } = transaction

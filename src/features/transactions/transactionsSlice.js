@@ -22,15 +22,15 @@ const initialState = {
   [requestStatusNames.transactionsFetchStatus]: requestStatusStates.idle
 }
 
-const initialStateFn = () => {
-  return {
-    activeTransactionId: null,
-    criteriaResult: [],
-    error: null,
-    items: [],
-    [requestStatusNames.transactionsFetchStatus]: requestStatusStates.idle
-  }
-}
+// const initialStateFn = () => {
+//   return {
+//     activeTransactionId: null,
+//     criteriaResult: [],
+//     error: null,
+//     items: [],
+//     [requestStatusNames.transactionsFetchStatus]: requestStatusStates.idle
+//   }
+// }
 
 const viewName = 'all-data-by-description'
 

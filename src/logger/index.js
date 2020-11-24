@@ -1,5 +1,4 @@
 import chalk from 'chalk'
-import { ErrorLabel } from 'components/ErrorLabel'
 
 export const LOG_RENDER = false
 

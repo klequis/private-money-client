@@ -17,10 +17,7 @@ export const Categorize = ({ action, minChars }) => {
 
   const _handleEvent = (event) => {
     const { name, value } = event.target
-    const { type: eventType } = event
-    console.group('_handleEvent')
     const newAction = R.mergeRight(_action, { [name]: value })
-    console.groupEnd()
     _setAction(newAction)
     // if (eventType === 'blur') {
       dispatch(ruleEditActionUpdate(newAction))

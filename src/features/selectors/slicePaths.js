@@ -1,4 +1,3 @@
-import { ruleCreate } from 'features/rules'
 import { requestStatusNames } from 'globalConstants'
 
 const { transactionsFetchStatus, rulesFetchStatus, ruleCreateStatus, ruleUpdateStatus } = requestStatusNames

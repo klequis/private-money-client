@@ -19,9 +19,9 @@ const SelectControl = styled.select`
  *
  * @param {array} margin // [num, num, num, num]
  */
-const computeMargin = (margin) => {
-  // if ()
-}
+// const computeMargin = (margin) => {
+//   // if ()
+// }
 
 /*
     <ErrorLabel /> is not used but there to preserve spacing when Select

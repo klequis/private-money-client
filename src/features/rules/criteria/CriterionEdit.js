@@ -20,7 +20,7 @@ import { RenderCount } from 'components/RenderCount'
 let countTotal = 0
 let countReturn = 0
 
-const { errorLevelNone, errorLevelWarn, errorLevelError } = errorLevels
+const { errorLevelNone, errorLevelError } = errorLevels
 
 const Row = styled.div`
   display: flex;

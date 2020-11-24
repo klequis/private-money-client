@@ -1,6 +1,6 @@
 // TODO: re-enable Sort
 
-import React, { useEffect, useState } from 'react'
+import React from 'react'
 import { useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
@@ -9,8 +9,8 @@ import { Table as BaseTable } from 'components/Table'
 import { TableBody } from './TableBody'
 import { TableHead } from './TableHead'
 import { TableNav } from './TableNav'
-import { transactionOptionValues as optionValues } from 'globalConstants'
-import * as R from 'ramda'
+// import { transactionOptionValues as optionValues } from 'globalConstants'
+// import * as R from 'ramda'
 import {
   selectAllTransactions,
   selectFilteredTransactions
@@ -21,11 +21,11 @@ import { purple, green } from 'logger'
 
 export const Table = () => {
   // ColumnHeadFilters
-  const [/*_filter,*/ _setFilter] = useState({
-    field: '',
-    value: '',
-    active: false
-  })
+  // const [/*_filter,*/ _setFilter] = useState({
+  //   field: '',
+  //   value: '',
+  //   active: false
+  // })
 
   const filteredTransactions = useSelector(selectFilteredTransactions)
   const transactions = useSelector(selectAllTransactions)

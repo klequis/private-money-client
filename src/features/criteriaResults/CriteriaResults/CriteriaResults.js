@@ -58,23 +58,23 @@ const TableHead = () => {
 // const isFieldSelectFieldName = obj =>
 //   R.includes(R.prop('field')(obj), fieldSelectFieldNames)
 
-const _checkCriterionValid = (criterion) => {
-  console.group('isCriteriaValid')
-  // _id is a string
-  console.groupEnd()
-  return true
-}
+// const _checkCriterionValid = (criterion) => {
+//   console.group('isCriteriaValid')
+//   // _id is a string
+//   console.groupEnd()
+//   return true
+// }
 
-const isCriteriaValid = (criteria) => {
-  return true
-  // tmp code
-  // return true
-  // field is one of
-  // operation is on of
-  // value !isEmptyOrNull
-  // active = true
-  const check = R.map(_checkCriterionValid, criteria)
-}
+// const isCriteriaValid = (criteria) => {
+//   return true
+//   // tmp code
+//   // return true
+//   // field is one of
+//   // operation is on of
+//   // value !isEmptyOrNull
+//   // active = true
+//   // const check = R.map(_checkCriterionValid, criteria)
+// }
 
 let countTotal = 0
 let countReturn = 0
@@ -95,10 +95,11 @@ export const CriteriaResults = () => {
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria
-    const valid = isCriteriaValid(activeCriteria)
+    // const valid = isCriteriaValid(activeCriteria)
     if (!R.isEmpty(activeCriteria)) {
       dispatch(criteriaResultsFetch(activeCriteria))
     }
+    // eslint-disable-next-line
   }, [criteria])
   // }, [activeCriteria, dispatch])
 

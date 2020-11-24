@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   updateRadioState,
@@ -41,7 +41,7 @@ export const TableNav = () => {
   const _optionState = useSelector(selectOptionState)
 
   const _radioChange = (event) => {
-    const { name, checked, value } = event.target
+    const { name, value } = event.target
     // console.group('Radio._onChange')
     // console.log('name', name)
     // console.log('value', value)

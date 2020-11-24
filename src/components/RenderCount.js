@@ -1,31 +1,31 @@
-import React, { useState } from 'react'
+import React /*, { useState }*/ from 'react'
 import PropTypes from 'prop-types'
-import * as R from 'ramda'
-import { green } from 'logger'
-import { yellow } from 'logger'
-import { red } from 'logger'
 
-const RenderResult = ({ title, count }) => {
-  const { actual, min, max } = count
-  return (
+// eslint-disable-next-line
+import { green, yellow, red } from 'logger'
+
+
+// const RenderResult = ({ title, count }) => {
+//   const { actual, min, max } = count
+//   return (
     
-    <span>
-      <span>{title}:</span> (<span>actual=<b>{actual}</b></span>, <span>min=<b>{min}</b></span>, <span>max=<b>{max}</b></span>)
-    </span>
-  )
-}
+//     <span>
+//       <span>{title}:</span> (<span>actual=<b>{actual}</b></span>, <span>min=<b>{min}</b></span>, <span>max=<b>{max}</b></span>)
+//     </span>
+//   )
+// }
 
-const inRange = (count) => {
-  const { actual, min, max} = count
-  if (R.isEmpty(count)) {
-    return true
-  }
-  return (actual >= min && actual <= max)
-}
-const isInRange = (countTotal, countReturn) => {
-  const r = inRange(countTotal) && inRange(countReturn)
-  return r
-}
+// const inRange = (count) => {
+//   const { actual, min, max} = count
+//   if (R.isEmpty(count)) {
+//     return true
+//   }
+//   return (actual >= min && actual <= max)
+// }
+// const isInRange = (countTotal, countReturn) => {
+//   const r = inRange(countTotal) && inRange(countReturn)
+//   return r
+// }
 
 export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
   

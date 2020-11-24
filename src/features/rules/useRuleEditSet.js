@@ -5,22 +5,11 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
 import {
   selectOneTransaction,
-  selectTransactionRuleIds
 } from 'features/selectors'
 
 // eslint-disable-next-line
 import { green, yellow, grpStart, grpEnd } from 'logger'
 import { blue } from 'logger'
-
-// /**
-//  *
-//  * @param {object} transaction
-//  * @returns {true || null}
-//  * @summary May receive a transaction that is {}.
-//  */
-// const getHasRule = (transaction) => {
-//   return isNilOrEmpty(transaction) ? null : R.prop('hasRule')(transaction)
-// }
 
 const hasRule = (transaction) => R.prop('hasRule')(transaction)
 const getRuleId = (transaction) => R.prop('ruleIds')(transaction)
@@ -30,8 +19,6 @@ const getRuleId = (transaction) => R.prop('ruleIds')(transaction)
       -> done
     - else 
       - get the transaction{}
-
-
 */
 export const useRuleEditSet = (transactionId) => {
   const dispatch = useDispatch()
@@ -39,8 +26,6 @@ export const useRuleEditSet = (transactionId) => {
   const transaction = useSelector((state) =>
     selectOneTransaction(transactionId, state)
   )
-  // const ruleId = useSelector(selectTransactionRuleIds)
-
   useEffect(() => {
     if (!isNilOrEmpty(transaction)) {
       if (hasRule(transaction)) {

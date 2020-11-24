@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import { criteriaFields } from './criteriaFields'
 import { operatorFields } from './operatorFields'
-import { transactionFields as tFields } from 'features/transactions'
+// import { transactionFields as tFields } from 'features/transactions'
 import { isString } from 'lib/dataTypes'
 
 const hasField = R.has('field')
@@ -11,7 +11,7 @@ const hasValue = R.has('value')
 export const validateCriterion = (criterion) => {
   const newCriterion = R.pick('field', 'operator', 'value')
   if (!R.allPass([hasField, hasOperator, hasValue])(newCriterion)) {
-    throw new Error(`Criterion is missing a field. Each criterion must have the fields 'field', 'operator' and 'value'`)
+    throw new Error('Criterion is missing a field. Each criterion must have the fields "field", "operator" and "value"')
   }
   if (!R.includes(R.prop('field')(newCriterion), criteriaFields)) {
     return false
@@ -29,15 +29,15 @@ export const validateCriterion = (criterion) => {
   }
 }
 
-const validate = (criteria) => {
-  const all = R.map(validateCriterion, criteria)
-  return R.all(all)
-}
+// const validate = (criteria) => {
+//   const all = R.map(validateCriterion, criteria)
+//   return R.all(all)
+// }
 
 
 
-const isValidCriteriaField = (fieldName) =>
-  R.includes(fieldName, criteriaFields)
+// const isValidCriteriaField = (fieldName) =>
+//   R.includes(fieldName, criteriaFields)
 
-const isValidCriteriaFieldValue = (fieldName, value) =>
-  tFields[fieldName].validate(value)
+// const isValidCriteriaFieldValue = (fieldName, value) =>
+//   tFields[fieldName].validate(value)

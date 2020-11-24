@@ -1,5 +1,4 @@
 import React from 'react'
-import * as R from 'ramda'
 import { TableRow } from './TableRow'
 
 // eslint-disable-next-line
