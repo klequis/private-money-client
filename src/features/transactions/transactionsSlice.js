@@ -14,20 +14,17 @@ const initialState = {
   criteriaResult: [],
   error: null,
   items: [],
-  transactionsStatus: requestStatusStates.idle,
+  transactionsStatus: requestStatusStates.idle
 }
 
 const viewName = 'all-data-by-description'
 
 const addFields = (data) => {
-  return R.map(t => {
-    return R.mergeRight(
-      t,
-      {
-        hasRule: !isNilOrEmpty(R.prop('ruleIds')(t)),
-        hasCategory: !isNilOrEmpty(R.prop('category1')(t))
-      }
-    )
+  return R.map((t) => {
+    return R.mergeRight(t, {
+      hasRule: !isNilOrEmpty(R.prop('ruleIds')(t)),
+      hasCategory: !isNilOrEmpty(R.prop('category1')(t))
+    })
   }, data)
 }
 
@@ -36,10 +33,7 @@ export const transactionsFetch = createAsyncThunk(
   async () => {
     const r = await api.views.read(viewName)
     const { data } = r
-    blue('data', data)
-    
-    const ret = R.mergeRight(r, { data: addFields(data) })
-    return ret
+    return R.mergeRight(r, { data: addFields(data) })
   }
 )
 
@@ -48,7 +42,6 @@ const transactionsSlice = createSlice({
   initialState,
   reducers: {
     activeTransactionIdSet(state, action) {
-
       // logFetchResults('transactions.activeTransactionSet', state, action)
       state.activeTransactionId = action.payload
     },
@@ -80,7 +73,7 @@ const transactionsSlice = createSlice({
       state.transactionsStatus = R.path(['error'], requestStatusStates)
       state.error = R.path(['error', 'message'], action)
       state.items = []
-    },
+    }
   }
 })
 
@@ -97,12 +90,12 @@ export const {
 export const selectAllTransactions = (state) => state.transactions.items
 
 /**
- * 
- * @param {string} transactionId 
- * @param {object} state 
+ *
+ * @param {string} transactionId
+ * @param {object} state
  */
 export const selectOneTransaction = (transactionId, state) => {
-  const tItems = (R.path(['transactions', 'items'], state))
+  const tItems = R.path(['transactions', 'items'], state)
   // bluse('tItems', R.type(tItems))
   if (isNilOrEmpty(tItems)) {
     return tItems
@@ -112,25 +105,25 @@ export const selectOneTransaction = (transactionId, state) => {
 }
 
 export const selectCriteriaResultsTransactions = (state) => {
-  const ids = state.criteriaResults.items
-  return state.transactions.items.filter(t => ids.includes(t._id))
-
+  const ids = R.path(['criteriaResults', 'items'], state)
+  return R.path(['transactions', 'items'], state).filter((t) => ids.includes(t._id))
 }
 
 export const selectTransactionRuleIds = (transactionId, state) => {
   const transaction = selectOneTransaction(transactionId, state)
-  // blue('selectTransactionRuleIds: transaction', transaction)
   return R.path(['ruleIds'], transaction)
 }
 
-export const selectTransactionsStatus = (state) => R.path(['transactions', 'status'], state)
-export const selectTransactionsError = (state) => R.path(['transactions', 'error'], state)
+export const selectTransactionsStatus = (state) =>
+  R.path(['transactions', 'status'], state)
+export const selectTransactionsError = (state) =>
+  R.path(['transactions', 'error'], state)
 
 export const selectActiveTransactionId = (state) => {
   return R.path(['transactions', 'activeTransactionId'], state) || null
 }
 
-export const selectActiveTransaction = state => {
+export const selectActiveTransaction = (state) => {
   const tId = selectActiveTransactionId(state)
   // blue('selectActiveTransaction: tId', tId)
   return R.type(tId) === 'Null' ? null : selectOneTransaction(tId, state)

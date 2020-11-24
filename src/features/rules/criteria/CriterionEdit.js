@@ -73,10 +73,10 @@ export const CriterionEdit = ({ criterion }) => {
 
   const { operation, field, value, active } = _criterion
 
-  grpStart('CriterionEDit')
-  green('criterion', criterion)
-  green('_criterion', _criterion)
-  grpEnd()
+  // grpStart('CriterionEDit')
+  // green('criterion', criterion)
+  // green('_criterion', _criterion)
+  // grpEnd()
 
   const dispatch = useDispatch()
 

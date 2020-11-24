@@ -7,18 +7,29 @@ import {
   selectRuleEditActions,
   selectActiveCriteria
 } from 'features/rules'
-import { fetchCriteriaResults } from 'features/criteriaResults'
+import { criteriaResultsFetch } from 'features/criteriaResults'
 import { selectCriteriaResultsTransactions } from 'features/transactions'
 import { Table } from 'components/Table'
 import * as R from 'ramda'
-import { selectRequestStatus } from 'features/requestStatus'
+import { selectRequestStatus, requestStatusNames } from 'features/requestStatus'
 import { RenderWhenReady } from 'features/requestStatus'
 // import { transactionFields as tFields } from 'features/transactions'
 import { TableBody } from './TableBody'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
-import { green, redf, yellow, purple } from 'logger'
+import { green, redf, yellow, purple, grpStart, grpEnd } from 'logger'
+// eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
+
+const CriteriaResultsDiv = styled.div`
+  margin-top: 12px;
+`
+
+const H4 = styled.h4`
+  margin-right: 12px;
+  margin-bottom: 0;
+`
 
 const TableHead = () => {
   return (
@@ -71,10 +82,12 @@ export const CriteriaResults = () => {
   countTotal = countTotal + 1
   const dispatch = useDispatch()
 
-  const status = useSelector(state => selectRequestStatus(['criteriaResults'], state))
+  const status = useSelector((state) =>
+    selectRequestStatus([requestStatusNames.criteriaResultsStatus], state)
+  )
 
   const criteria = useSelector(selectRuleEditCriteria)
-  
+
   const actions = useSelector(selectRuleEditActions)
   const activeCriteria = useSelector(selectActiveCriteria)
   // green('CriteriaResults: activeCriteria', activeCriteria)
@@ -84,7 +97,13 @@ export const CriteriaResults = () => {
     //       in rules/criteria
     const valid = isCriteriaValid(activeCriteria)
     if (!R.isEmpty(activeCriteria)) {
-      dispatch(fetchCriteriaResults(activeCriteria))
+      grpStart('CriteriaResults')
+      green('status', status)
+      green('criteria', criteria)
+      green('actions', actions)
+      green('activeCriteria', activeCriteria)
+      grpEnd()
+      dispatch(criteriaResultsFetch(activeCriteria))
     }
   }, [criteria])
   // }, [activeCriteria, dispatch])
@@ -97,22 +116,26 @@ export const CriteriaResults = () => {
 
   countReturn = countReturn + 1
   return (
-    <RenderWhenReady status={status}>
-      <div>
-        <RenderCount
-          componentName="CriteriaResults"
-          countTotal={{ actual: countTotal, min: 6, max: 6 }}
-          countReturn={{ actual: countReturn, min: 6, max: 6 }}
-        />
-        {/* <h1 className={styles.sectionTitle}>Transactions</h1>
+    <CriteriaResultsDiv>
+      <H4>Criteria Results</H4>
+      <div>{transactions.length} transactions found.</div>
+      <RenderWhenReady status={status}>
+        <div>
+          <RenderCount
+            componentName="CriteriaResults"
+            countTotal={{ actual: countTotal, min: 6, max: 6 }}
+            countReturn={{ actual: countReturn, min: 6, max: 6 }}
+          />
+          {/* <h1 className={styles.sectionTitle}>Transactions</h1>
         <Button>Test</Button> */}
-        <Table size="sm" variant="dark">
-          <TableHead />
-          {transactions.map((t) => (
-            <TableBody key={t._id} actions={actions} transaction={t} />
-          ))}
-        </Table>
-      </div>
-    </RenderWhenReady>
+          <Table size="sm" variant="dark">
+            <TableHead />
+            {transactions.map((t) => (
+              <TableBody key={t._id} actions={actions} transaction={t} />
+            ))}
+          </Table>
+        </div>
+      </RenderWhenReady>
+    </CriteriaResultsDiv>
   )
 }

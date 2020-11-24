@@ -1,10 +1,12 @@
 import { createSlice, createAsyncThunk/*,  current*/ } from '@reduxjs/toolkit'
 import { api } from 'api'
 import { requestStatusStates } from 'features/requestStatus'
-// import { logFetchResults } from 'lib/logFetchResults'
+
 
 // eslint-disable-next-line
 import { blue, yellow } from 'logger'
+// eslint-disable-next-line
+import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
   items: [],
@@ -12,7 +14,7 @@ const initialState = {
   error: null,
 }
 
-export const fetchCriteriaResults = createAsyncThunk(
+export const criteriaResultsFetch = createAsyncThunk(
   'criteriaResult/get',
   async (criteria) => {
     // yellow('fetchCriteriaResults: criteria', criteria)
@@ -31,18 +33,18 @@ const criteriaResultsSlice = createSlice({
     }
   },
   extraReducers: {
-    [fetchCriteriaResults.pending]: (state, action) => {
-      // logFetchResults('fetchCriteriaResults.pending', state, action)
+    [criteriaResultsFetch.pending]: (state, action) => {
+      logFetchResults('fetchCriteriaResults.pending', state, action)
       state.criteriaResultsStatus = requestStatusStates.pending
       state.items = []
     },
-    [fetchCriteriaResults.fulfilled]: (state, action) => {
-      // logFetchResults('fetchCriteriaResults.fulfilled', state, action)
+    [criteriaResultsFetch.fulfilled]: (state, action) => {
+      logFetchResults('fetchCriteriaResults.fulfilled', state, action)
       state.criteriaResultsStatus = requestStatusStates.fulfilled
       state.items = action.payload.data
     },
-    [fetchCriteriaResults.rejected]: (state, action) => {
-      // logFetchResults('fetchCriteriaResults.rejected', state, action)
+    [criteriaResultsFetch.rejected]: (state, action) => {
+      logFetchResults('fetchCriteriaResults.rejected', state, action)
       state.criteriaResultsStatus = requestStatusStates.error
       state.error = action.error.message
       state.items = []

@@ -34,8 +34,6 @@ const getRuleId = (transaction) => R.prop('ruleIds')(transaction)
 
 */
 export const useRuleEditSet = (transactionId) => {
-  grpStart('useRuleEditSet')
-  green('useRuleEditSet: transactionId', transactionId)
   const dispatch = useDispatch()
 
   const transaction = useSelector((state) =>
