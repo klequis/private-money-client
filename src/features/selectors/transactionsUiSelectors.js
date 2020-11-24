@@ -1,12 +1,18 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
+import { slicePaths } from 'features/selectors'
 
-export const selectHasRulesChecked = (state) =>
-  R.path(['transactionsUi', 'hasRules', 'checked'], state)
-export const selectIsUncategorizedChecked = (state) =>
-  R.path(['transactionsUi', 'isUncategorized', 'checked'], state)
+// export const selectHasRulesChecked = (state) =>
+//   R.path(slicePaths.transactionsUiHasRulesChecked, state)
+// export const selectIsUncategorizedChecked = (state) =>
+//   R.path(slicePaths.transactionsUiIsUncategorizedChecked, state)
+
+/**
+ * 
+ * @param {object} state 
+ */
 export const selectOptionState = (state) =>
-  R.path(['transactionsUi', 'options'], state)
+  R.path(slicePaths.transactionsUiOptions, state)
 
 /**
  *
@@ -57,9 +63,9 @@ const makeConditions = (transactionsUi) => {
     type
   } = filters
 
-  const categoryOptValue = R.path(['categorizeRadio', 'value'], options)
-  const ruleRadioOption = R.path(['ruleRadio', 'value'], options)
-  const categorizeRadioOption = R.path(['categorizeRadio', 'value'], options)
+  const categoryOptValue = R.path(slicePaths.categorizeRadioValue, options)
+  const ruleRadioOption = R.path(slicePaths.ruleRadioValue, options)
+  const categorizeRadioOption = R.path(slicePaths.categorizeRadioValue, options)
   const filterByRule = ruleRadioOption === 'all' ? false : true
   const filterByCategory = categorizeRadioOption === 'both' ? false : true
 
@@ -83,7 +89,6 @@ const makeConditions = (transactionsUi) => {
 /**
  *
  * @param {object} transactionsUi
- *
  * @returns {object} an object of all filter properties with test for each prop
  */
 const allTests = (transactionsUi) => {
@@ -119,9 +124,13 @@ const allTests = (transactionsUi) => {
   }
 }
 
+/**
+ * 
+ * @param {object} state 
+ */
 export const selectFilteredTransactions = (state) => {
   const { transactionsUi } = state
-  const transactions = R.path(['transactions', 'items'], state)
+  const transactions = R.path(slicePaths.transactionsItems, state)
   const currentConditions = makeConditions(transactionsUi)
 
   if (isNilOrEmpty(currentConditions)) {

@@ -29,7 +29,6 @@ const initialState = {
   [requestStatusNames.ruleUpdateStatus]: requestStatusStates.idle,
   error: null,
   ruleEdit: {
-    dirty: false,
     rule: {}
   }
 }

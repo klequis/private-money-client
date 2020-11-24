@@ -18,13 +18,9 @@ const getStateValues = (statusNames, state) => {
       ['criteriaResults', requestStatusNames.criteriaResultsFetchStatus],
       state
     ),
-    // transactionsStatus: R.path(['transactions', requestStatusNames.transactionsFetchStatus], state),
     transactionsStatus: R.path(slicePaths.transactionsFetchStatus, state),
-    // rulesFetchStatus: R.path(['rules', requestStatusNames.rulesFetchStatus], state),
     rulesFetchStatus: R.path(slicePaths.rulesFetchStatus, state),
-    // ruleCreateStatus: R.path(['rules', requestStatusNames.ruleCreateStatus], state),
     ruleCreateStatus: R.path(slicePaths.ruleCreateStatus, state),
-    // ruleUpdateStatus: R.path(['rules', requestStatusNames.ruleUpdateStatus], state)
     ruleUpdateStatus: R.path(slicePaths.ruleUpdateStatus, state)
   }
   blue('statusValues', statusValues)
@@ -80,6 +76,10 @@ export const selectRequestStatus = (statusNames, state) => {
   return requestStatusStates.error
 }
 
+/**
+ * 
+ * @param {object} state 
+ */
 export const selectTransactionsFetchStatus = (state) => {
   return R.path(slicePaths.transactionsFetchStatus, state)
 }

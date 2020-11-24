@@ -14,9 +14,7 @@ export const selectAllTransactions = (state) => state.transactions.items
  * @param {object} state
  */
 export const selectOneTransaction = (transactionId, state) => {
-  // const tItems = R.path(['transactions', 'items'], state)
   const tItems = R.path(slicePaths.transactionsItems, state)
-  // bluse('tItems', R.type(tItems))
   if (isNilOrEmpty(tItems)) {
     return tItems
   }
@@ -24,6 +22,10 @@ export const selectOneTransaction = (transactionId, state) => {
   return R.equals(R.type(ret), 'Undefined') ? null : ret
 }
 
+/**
+ * 
+ * @param {object} state 
+ */
 export const selectCriteriaResultsTransactions = (state) => {
   const ids = R.path(slicePaths.criteriaResultsItems, state)
   return R.path(slicePaths.transactionsItems, state).filter((t) =>
@@ -31,29 +33,33 @@ export const selectCriteriaResultsTransactions = (state) => {
   )
 }
 
-export const selectTransactionRuleIds = (transactionId, state) => {
-  const transaction = selectOneTransaction(transactionId, state)
-  return R.path(['ruleIds'], transaction)
-}
+// export const selectTransactionRuleIds = (transactionId, state) => {
+//   const transaction = selectOneTransaction(transactionId, state)
+//   return R.path(['ruleIds'], transaction)
+// }
 
-export const selectTransactionsError = (state) =>
-  R.path(slicePaths.transactionsError, state)
+// export const selectTransactionsError = (state) =>
+//   R.path(slicePaths.transactionsError, state)
 
+/**
+ * 
+ * @param {object} state 
+ */
 export const selectActiveTransactionId = (state) => {
   return R.path(slicePaths.activeTransactionId, state) || null
 }
 
-export const selectActiveTransaction = (state) => {
-  const tId = selectActiveTransactionId(state)
-  // blue('selectActiveTransaction: tId', tId)
-  return R.type(tId) === 'Null' ? null : selectOneTransaction(tId, state)
-}
+// export const selectActiveTransaction = (state) => {
+//   const tId = selectActiveTransactionId(state)
+//   // blue('selectActiveTransaction: tId', tId)
+//   return R.type(tId) === 'Null' ? null : selectOneTransaction(tId, state)
+// }
 
-export const selectTransactionFieldValue = (
-  fieldName,
-  transactionId,
-  state
-) => {
-  const t = selectOneTransaction(transactionId, state)
-  return t[fieldName]
-}
+// export const selectTransactionFieldValue = (
+//   fieldName,
+//   transactionId,
+//   state
+// ) => {
+//   const t = selectOneTransaction(transactionId, state)
+//   return t[fieldName]
+// }

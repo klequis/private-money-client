@@ -4,21 +4,22 @@ import {
   getRule
 } from 'features/helpers'
 import * as R from 'ramda'
+import { slicePaths } from 'features/selectors/slicePaths'
 
 
 
-export const selectRuleCriteria = (ruleId, state) => {
-  const { criteria } = getRule(ruleId, state)
-  return criteria
-}
+// export const selectRuleCriteria = (ruleId, state) => {
+//   const { criteria } = getRule(ruleId, state)
+//   return criteria
+// }
 
-export const selectRuleActions = (ruleId, state) => {
-  const { actions } = getRule(ruleId, state)
-  return actions
-}
+// export const selectRuleActions = (ruleId, state) => {
+//   const { actions } = getRule(ruleId, state)
+//   return actions
+// }
 
-export const selectRule = (ruleId, state) =>
-  R.find(R.propEq('_id', ruleId))(R.path(['rules', 'items'], state))
+// export const selectRule = (ruleId, state) =>
+//   R.find(R.propEq('_id', ruleId))(R.path(slicePaths.rulesItems, state))
 
 /**
  *
@@ -27,7 +28,7 @@ export const selectRule = (ruleId, state) =>
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
 export const selectActiveCriteria = (state) => {
-  const criteria = R.path(['rules', 'ruleEdit', 'criteria'], state)
+  const criteria = R.path(slicePaths.ruleEditCriteria, state)
   return R.isNil(criteria) ? [] : getActiveCriteria(criteria)
 }
 
@@ -37,7 +38,7 @@ export const selectActiveCriteria = (state) => {
  * @return {object} state.ruleEdit
  */
 export const selectRuleEdit = (state) => {
-  const ruleEdit = R.path(['rules', 'ruleEdit'], state)
+  const ruleEdit = R.path(slicePaths.ruleEdit, state)
   return R.isNil(ruleEdit) ? {} : ruleEdit
 }
 
@@ -47,7 +48,7 @@ export const selectRuleEdit = (state) => {
  * @returns {array} Returns criteria from state.ruleEdit
  */
 export const selectRuleEditCriteria = (state) => {
-  const criteria = R.path(['rules', 'ruleEdit', 'criteria'], state)
+  const criteria = R.path(slicePaths.ruleEditCriteria, state)
   return R.isNil(criteria) ? [] : criteria
 }
 
@@ -58,7 +59,7 @@ export const selectRuleEditCriteria = (state) => {
  *
  */
 export const selectRuleEditActions = (state) => {
-  const actions = R.path(['rules', 'ruleEdit', 'actions'], state)
+  const actions = R.path(slicePaths.ruleEditActions, state)
   return R.isNil(actions) ? [] : actions
 }
 
@@ -68,7 +69,7 @@ export const selectRuleEditActions = (state) => {
  * @returns {string} state.ruleEdit.dirty
  */
 export const selectRuleEditIsDirty = (state) => {
-  return R.path(['rules', 'ruleEdit', 'dirty'], state)
+  return R.path(slicePaths.ruleEditDirty, state)
 }
 
 /**
@@ -77,12 +78,12 @@ export const selectRuleEditIsDirty = (state) => {
  * @returns {string} state.ruleEdit.isTmpRule
  */
 export const selectRuleEditIsTmpRule = (state) => {
-  return R.path(['rules', 'ruleEdit', 'isTmpRule'], state)
+  return R.path(slicePaths.ruleEditIsTmpRule, state)
 }
 
 export const selectRuleEditRenameDescriptionAction = (state) => {
   // blue('state', state)
-  const actions = R.path(['rules', 'ruleEdit', 'actions'], state)
+  const actions = R.path(slicePaths.ruleEditActions, state)
   // blue('actions', actions)
   if (isNilOrEmpty(actions)) {
     return null

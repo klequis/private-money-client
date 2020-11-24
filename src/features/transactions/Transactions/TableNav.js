@@ -13,6 +13,7 @@ import {
 import {
   selectOptionState
 } from 'features/selectors'
+import { slicePaths } from 'features/selectors'
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
@@ -29,10 +30,6 @@ const Options = styled.div`
   padding: 5px;
 `
 
-// const ruleRadioValue = optionState => R.path(['ruleRadio', 'value'], optionState)
-// const categorizeRadioValue = optionState => R.path(['categorizeRadio', 'value'], optionState)
-// const categorizeRadioDisabled = optionState => R.path(['categorizeRadio', 'disabled'], optionState)
-
 export const TableNav = () => {
 
   const dispatch = useDispatch()
@@ -42,23 +39,12 @@ export const TableNav = () => {
 
   const _radioChange = (event) => {
     const { name, value } = event.target
-    // console.group('Radio._onChange')
-    // console.log('name', name)
-    // console.log('value', value)
-    // console.groupEnd()
-
     dispatch(updateRadioState({ name, value }))
   }
 
-  const ruleGroupValue = R.path(['ruleRadio', 'value'], _optionState)
-  const categorizeGroupValue = R.path(['categorizeRadio', 'value'], _optionState)
-  const categorizeDisabled = R.path(['categorizeRadio', 'disabled'], _optionState)
-
-  // console.group('TableNav')
-  // console.log('ruleGroupValue', ruleGroupValue)
-  // console.log('categorizeGroupValue', categorizeGroupValue)
-  // console.log('categorizeDisabled', categorizeDisabled)
-  // console.groupEnd()
+  const ruleGroupValue = R.path(slicePaths.ruleRadioValue, _optionState)
+  const categorizeGroupValue = R.path(slicePaths.categorizeRadioValue, _optionState)
+  const categorizeDisabled = R.path(slicePaths.categorizeRadioDisabled, _optionState)
 
   return (
     <Options>

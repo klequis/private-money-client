@@ -98,4 +98,3 @@ export const {
   setTransactionsRefresh
 } = transactionsSlice.actions
 
-// export const selectRefreshStatus = (state) => R.path(['transactions', 'refresh'], state)

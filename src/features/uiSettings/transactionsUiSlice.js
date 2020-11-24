@@ -6,6 +6,7 @@ import {
   transactionOptionNames
 } from 'globalConstants'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { slicePaths } from 'features/selectors'
 
 // eslint-disable-next-line
 import { blue, red } from 'logger'
@@ -44,11 +45,11 @@ const transactionsUiSlice = createSlice({
       state.options.ruleRadio.value =
         name === ruleRadio
           ? value
-          : R.path(['options', ruleRadio, 'value'], state)
+          : R.path(slicePaths.optionsRadioValue, state)
       state.options.categorizeRadio.value =
         name === categorizeRadio
           ? value
-          : R.path(['options', categorizeRadio, 'value'], state)
+          : R.path(slicePaths.optionsCategorizeRadioValue, state)
       state.options.categorizeRadio.disabled =
         value === optionValues.doesNotHaveRule ? true : false
     },
