@@ -2,20 +2,26 @@
 
 import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
-import {
-  selectRuleEditCriteria,
-  selectRuleEditActions,
-  selectActiveCriteria
-} from 'features/rules'
+
 import { criteriaResultsFetch } from 'features/criteriaResults'
-import { selectCriteriaResultsTransactions } from 'features/transactions'
 import { Table } from 'components/Table'
 import * as R from 'ramda'
-import { selectRequestStatus, requestStatusNames } from 'features/requestStatus'
-import { RenderWhenReady } from 'features/requestStatus'
 // import { transactionFields as tFields } from 'features/transactions'
 import { TableBody } from './TableBody'
 import styled from 'styled-components'
+import {
+  selectRuleEditCriteria,
+  selectRuleEditActions,
+  selectActiveCriteria,
+  selectCriteriaResultsTransactions,
+  selectRequestStatus, 
+} from 'features/selectors'
+import {
+  RenderWhenReady
+} from 'components/RenderWhenReady'
+import { 
+  requestStatusNames 
+} from 'globalConstants'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple, grpStart, grpEnd } from 'logger'

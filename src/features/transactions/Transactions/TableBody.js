@@ -2,10 +2,12 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
-  selectOneTransaction,
   activeTransactionIdSet,
-  selectActiveTransactionId
 } from 'features/transactions'
+import {
+  selectOneTransaction,
+  selectActiveTransactionId
+} from 'features/selectors'
 import styles from './TableBody.module.css'
 import { TableData } from './TableData'
 

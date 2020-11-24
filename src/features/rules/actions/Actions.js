@@ -1,12 +1,12 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectRuleEditActions } from 'features/rules'
 import { ActionEdit } from './ActionEdit'
 import { RenameDescription } from './RenameDescription'
 import { Categorize } from './Categorize'
 import { actionTypes } from 'features/rules'
 import { transactionFields as tFields } from 'features/transactions'
 import styled from 'styled-components'
+import { selectRuleEditActions } from 'features/selectors'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'

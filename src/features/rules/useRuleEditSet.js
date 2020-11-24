@@ -1,12 +1,12 @@
 import { useEffect } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  selectOneTransaction,
-  selectTransactionRuleIds
-} from 'features/transactions'
 import { ruleEditSetNewRule, ruleEditSetExistingRule } from 'features/rules'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
+import {
+  selectOneTransaction,
+  selectTransactionRuleIds
+} from 'features/selectors'
 
 // eslint-disable-next-line
 import { green, yellow, grpStart, grpEnd } from 'logger'

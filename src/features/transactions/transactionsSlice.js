@@ -1,8 +1,13 @@
-import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
+import {
+  createSlice,
+  createAsyncThunk,
+  // eslint-disable-next-line
+  current
+} from '@reduxjs/toolkit'
 import { api } from 'api'
-import { requestStatusStates } from 'features/requestStatus'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { requestStatusNames, requestStatusStates } from 'globalConstants'
 
 // eslint-disable-next-line
 import { blue, yellow, red } from 'logger'
@@ -14,7 +19,17 @@ const initialState = {
   criteriaResult: [],
   error: null,
   items: [],
-  transactionsStatus: requestStatusStates.idle
+  [requestStatusNames.transactionsFetchStatus]: requestStatusStates.idle
+}
+
+const initialStateFn = () => {
+  return {
+    activeTransactionId: null,
+    criteriaResult: [],
+    error: null,
+    items: [],
+    [requestStatusNames.transactionsFetchStatus]: requestStatusStates.idle
+  }
 }
 
 const viewName = 'all-data-by-description'
@@ -40,6 +55,7 @@ export const transactionsFetch = createAsyncThunk(
 const transactionsSlice = createSlice({
   name: 'transactions',
   initialState,
+  // initialState: () => initialStateFn(),
   reducers: {
     activeTransactionIdSet(state, action) {
       // logFetchResults('transactions.activeTransactionSet', state, action)
@@ -49,28 +65,26 @@ const transactionsSlice = createSlice({
       // logFetchResults('transactions.activeTransactionClear', state, action)
       state.activeTransactionId = null
     },
-    setRefresh(state, action) {
+    setTransactionsRefresh(state) {
       // logFetchResults('transactions.setStatusRefresh', state, action)
-      // blue('before refresh')
-      state.refresh = action.payload
-      // blue('after refresh')
+      state.transactionsFetchStatus = requestStatusStates.refresh
     }
   },
   extraReducers: {
     [transactionsFetch.pending]: (state, action) => {
       // logFetchResults('transactions.pending', state, action)
-      state.transactionsStatus = requestStatusStates.pending
+      state.transactionsFetchStatus = requestStatusStates.pending
       state.items = []
     },
     [transactionsFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
-      state.transactionsStatus = requestStatusStates.fulfilled
+      state.transactionsFetchStatus = requestStatusStates.fulfilled
       state.items = R.path(['payload', 'data'], action)
     },
     [transactionsFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       // red('transactions.rejected', 'rejected')
-      state.transactionsStatus = R.path(['error'], requestStatusStates)
+      state.transactionsFetchStatus = R.path(['error'], requestStatusStates)
       state.error = R.path(['error', 'message'], action)
       state.items = []
     }
@@ -81,59 +95,7 @@ export const transactionsReducer = transactionsSlice.reducer
 export const {
   activeTransactionIdClear,
   activeTransactionIdSet,
-  setRefresh
+  setTransactionsRefresh
 } = transactionsSlice.actions
 
 // export const selectRefreshStatus = (state) => R.path(['transactions', 'refresh'], state)
-
-// Selectors
-export const selectAllTransactions = (state) => state.transactions.items
-
-/**
- *
- * @param {string} transactionId
- * @param {object} state
- */
-export const selectOneTransaction = (transactionId, state) => {
-  const tItems = R.path(['transactions', 'items'], state)
-  // bluse('tItems', R.type(tItems))
-  if (isNilOrEmpty(tItems)) {
-    return tItems
-  }
-  const ret = R.find(R.propEq('_id', transactionId))(tItems)
-  return R.equals(R.type(ret), 'Undefined') ? null : ret
-}
-
-export const selectCriteriaResultsTransactions = (state) => {
-  const ids = R.path(['criteriaResults', 'items'], state)
-  return R.path(['transactions', 'items'], state).filter((t) => ids.includes(t._id))
-}
-
-export const selectTransactionRuleIds = (transactionId, state) => {
-  const transaction = selectOneTransaction(transactionId, state)
-  return R.path(['ruleIds'], transaction)
-}
-
-export const selectTransactionsStatus = (state) =>
-  R.path(['transactions', 'status'], state)
-export const selectTransactionsError = (state) =>
-  R.path(['transactions', 'error'], state)
-
-export const selectActiveTransactionId = (state) => {
-  return R.path(['transactions', 'activeTransactionId'], state) || null
-}
-
-export const selectActiveTransaction = (state) => {
-  const tId = selectActiveTransactionId(state)
-  // blue('selectActiveTransaction: tId', tId)
-  return R.type(tId) === 'Null' ? null : selectOneTransaction(tId, state)
-}
-
-export const selectTransactionFieldValue = (
-  fieldName,
-  transactionId,
-  state
-) => {
-  const t = selectOneTransaction(transactionId, state)
-  return t[fieldName]
-}

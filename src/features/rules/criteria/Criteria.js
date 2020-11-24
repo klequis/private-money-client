@@ -1,9 +1,9 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
 import { CriterionEdit } from './CriterionEdit'
-import { selectRuleEditCriteria } from 'features/rules'
 import { Button } from 'components/Button'
 import styled from 'styled-components'
+import { selectRuleEditCriteria } from 'features/selectors'
 
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'

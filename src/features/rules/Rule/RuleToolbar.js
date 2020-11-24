@@ -1,8 +1,8 @@
 import React from 'react'
 import { useSelector } from 'react-redux'
-import { selectRuleEditIsDirty } from 'features/rules'
 import styled from 'styled-components'
 import { Button } from 'components/Button'
+import { selectRuleEditIsDirty } from 'features/selectors'
 
 const Wrapper = styled.div`
   padding-top: 16px;

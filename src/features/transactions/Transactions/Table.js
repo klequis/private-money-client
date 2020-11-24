@@ -3,7 +3,7 @@
 import React, { useEffect, useState } from 'react'
 import { useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { selectAllTransactions } from 'features/transactions'
+
 
 import { Table as BaseTable } from 'components/Table'
 import { TableBody } from './TableBody'
@@ -11,7 +11,10 @@ import { TableHead } from './TableHead'
 import { TableNav } from './TableNav'
 import { transactionOptionValues as optionValues } from 'globalConstants'
 import * as R from 'ramda'
-import { selectFilteredTransactions } from 'features/uiSettings/transactionsUiSlice'
+import {
+  selectAllTransactions,
+  selectFilteredTransactions
+} from 'features/selectors'
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'

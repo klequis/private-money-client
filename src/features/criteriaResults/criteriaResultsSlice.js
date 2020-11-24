@@ -1,6 +1,9 @@
 import { createSlice, createAsyncThunk/*,  current*/ } from '@reduxjs/toolkit'
 import { api } from 'api'
-import { requestStatusStates } from 'features/requestStatus'
+import {
+  requestStatusNames,
+  requestStatusStates
+} from 'globalConstants'
 
 
 // eslint-disable-next-line
@@ -10,7 +13,7 @@ import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
   items: [],
-  criteriaResultsStatus: requestStatusStates.idle,
+  [requestStatusNames.criteriaResultsFetchStatus]: requestStatusStates.idle,
   error: null,
 }
 
@@ -55,5 +58,3 @@ const criteriaResultsSlice = createSlice({
 export const criteriaResultsReducer = criteriaResultsSlice.reducer
 
 export const { criteriaResultsClear } = criteriaResultsSlice.actions
-
-export const selectCriteriaResults = state => state.criteriaResults.items

@@ -1,12 +1,12 @@
 import React from 'react'
-import { requestStatusStates } from 'features/requestStatus'
+import { requestStatusStates } from 'globalConstants'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 export const RenderWhenReady = ({ status, children }) => {
 
   // ! Component is dependent upon order of if statements ! //
 
-  const { fulfilled, pending, error, idle } = requestStatusStates
+  const { fulfilled, pending, error, idle, refresh } = requestStatusStates
 
   if (status === fulfilled) {
     return React.Children.only(children)
@@ -26,6 +26,10 @@ export const RenderWhenReady = ({ status, children }) => {
 
   if (status === idle) {
     return <h1>status is idle</h1>
+  }
+
+  if (status === refresh) {
+    return <h1>Refreshing data</h1>
   }
 
   return <h1>I don't know that status ?</h1>

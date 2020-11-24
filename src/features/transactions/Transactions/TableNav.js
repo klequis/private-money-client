@@ -2,7 +2,6 @@ import React, { useState } from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   updateRadioState,
-  selectOptionState
 } from 'features/uiSettings/transactionsUiSlice'
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
@@ -11,7 +10,9 @@ import {
   transactionOptionValues as optionValues,
   transactionOptionNames
 } from 'globalConstants'
-
+import {
+  selectOptionState
+} from 'features/selectors'
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 

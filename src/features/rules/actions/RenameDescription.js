@@ -6,7 +6,7 @@ import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { purple, green, redf } from 'logger'
-import { selectRuleEditRenameDescriptionAction } from 'features/rules'
+import { selectRuleEditRenameDescriptionAction } from 'features/selectors'
 
 export const RenameDescription = () => {
 

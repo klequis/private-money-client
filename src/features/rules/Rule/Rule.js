@@ -1,22 +1,21 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  selectRuleEdit,
   ruleUpdate,
   ruleCreate,
-  ruleEditClear
+  ruleEditClear,
+  setRulesRefresh
 } from 'features/rules'
-import styled from 'styled-components'
 import {
   activeTransactionIdClear,
-  // selectActiveTransaction,
-  setRefresh
+  setTransactionsRefresh
 } from 'features/transactions'
-import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { ShowRuleIds } from './ShowRuleIds'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
+import {
+  selectRuleEdit,
+} from 'features/selectors'
 
 // eslint-disable-next-line
 import { green, purple, red } from 'logger'
@@ -39,7 +38,8 @@ export const Rule = () => {
     } else {
       await dispatch(ruleUpdate(ruleEdit))
     }
-    dispatch(setRefresh(true))
+    dispatch(setTransactionsRefresh())
+    dispatch(setRulesRefresh())
     dispatch(activeTransactionIdClear())
   }
 

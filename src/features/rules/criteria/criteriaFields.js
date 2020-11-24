@@ -1,9 +1,13 @@
 import * as R from 'ramda'
 import { transactionFields as tFields } from 'features/transactions'
 
+
+
 // eslint-disable-next-line
 import { green, redf, yellow, blue, purple } from 'logger'
 
+
+green('tFields', tFields)
 
 /**
  * @returns {object}
