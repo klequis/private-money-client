@@ -13,7 +13,7 @@ import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
   items: [],
-  [requestStatusNames.criteriaResultsFetchStatus]: requestStatusStates.idle,
+  [requestStatusNames.criteriaResultsFetchStatus]: requestStatusStates.refresh,
   error: null,
 }
 

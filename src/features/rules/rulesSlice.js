@@ -24,9 +24,9 @@ import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
   items: [],
-  [requestStatusNames.rulesFetchStatus]: requestStatusStates.idle,
-  [requestStatusNames.ruleCreateStatus]: requestStatusStates.idle,
-  [requestStatusNames.ruleUpdateStatus]: requestStatusStates.idle,
+  [requestStatusNames.rulesFetchStatus]: requestStatusStates.refresh,
+  [requestStatusNames.ruleCreateStatus]: requestStatusStates.refresh,
+  [requestStatusNames.ruleUpdateStatus]: requestStatusStates.refresh,
   error: null,
   ruleEdit: {
     rule: {}
@@ -98,7 +98,7 @@ const rulesSlice = createSlice({
       state.ruleEdit = ruleTmpMake(origDescription, date)
     },
     ruleEditTmpMake(state, action) {
-      blue('state', current(state))
+      // blue('state', current(state))
       const { payload } = action
       const { origDescription, date } = payload
       state.ruleEdit = ruleTmpMake(origDescription, date)

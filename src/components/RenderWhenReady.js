@@ -6,7 +6,7 @@ export const RenderWhenReady = ({ status, children }) => {
 
   // ! Component is dependent upon order of if statements ! //
 
-  const { fulfilled, pending, error, idle, refresh } = requestStatusStates
+  const { fulfilled, pending, error, refresh } = requestStatusStates
 
   if (status === fulfilled) {
     return React.Children.only(children)
@@ -22,10 +22,6 @@ export const RenderWhenReady = ({ status, children }) => {
 
   if (isNilOrEmpty(status)) {
     return <h1>status is empty string</h1>
-  }
-
-  if (status === idle) {
-    return <h1>status is idle</h1>
   }
 
   if (status === refresh) {

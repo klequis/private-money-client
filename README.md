@@ -5,7 +5,7 @@
   activeTransactionId
   status
   useEffect()
-    if (idle || refresh ) {
+    if ( refresh ) {
       transactionsFetch()
       fulesFetch()
     }

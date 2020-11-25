@@ -19,7 +19,7 @@ const initialState = {
   criteriaResult: [],
   error: null,
   items: [],
-  [requestStatusNames.transactionsFetchStatus]: requestStatusStates.idle
+  [requestStatusNames.transactionsFetchStatus]: requestStatusStates.refresh
 }
 
 // const initialStateFn = () => {
@@ -28,7 +28,7 @@ const initialState = {
 //     criteriaResult: [],
 //     error: null,
 //     items: [],
-//     [requestStatusNames.transactionsFetchStatus]: requestStatusStates.idle
+//     [requestStatusNames.transactionsFetchStatus]: requestStatusStates.refresh
 //   }
 // }
 

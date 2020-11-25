@@ -81,6 +81,10 @@ export const selectRuleEditIsTmpRule = (state) => {
   return R.path(slicePaths.ruleEditIsTmpRule, state)
 }
 
+/**
+ * 
+ * @param {object} state 
+ */
 export const selectRuleEditRenameDescriptionAction = (state) => {
   // blue('state', state)
   const actions = R.path(slicePaths.ruleEditActions, state)
@@ -92,3 +96,5 @@ export const selectRuleEditRenameDescriptionAction = (state) => {
   // blue('action', action)
   return action
 }
+
+export const selectRulesFetchStatus = (state) => R.path(slicePaths.rulesFetchStatus, state)

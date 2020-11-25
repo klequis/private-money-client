@@ -23,8 +23,10 @@ import { useRuleEditSet } from 'features/rules/useRuleEditSet'
 import * as R from 'ramda'
 
 import {
+  selectRulesFetchStatus,
   selectActiveTransactionId,
-  selectRequestStatus
+  selectRequestStatus,
+  selectTransactionsFetchStatus
 } from 'features/selectors'
 
 // eslint-disable-next-line
@@ -37,7 +39,6 @@ let countReturn = 0
 
 export const App = () => {
 
-  green('App: requestStatusNames', requestStatusNames)
   countTotal = countTotal + 1
 
   const dispatch = useDispatch()
@@ -53,22 +54,19 @@ export const App = () => {
       state
     )
   )
+  const transactionsFetchStatus = useSelector(selectTransactionsFetchStatus)
+  const rulesFetchStatus = useSelector(selectRulesFetchStatus)
 
   
 
   useEffect(() => {
-    green('App: status', status)  
-    if (
-      R.includes(status, [
-        requestStatusStates.idle,
-        requestStatusStates.refresh
-      ])
-    ) {
-      green('-----------------------', '-')
+    if (transactionsFetchStatus === requestStatusStates.refresh) {
       dispatch(transactionsFetch())
+    }
+    if (rulesFetchStatus === requestStatusStates.refresh) {
       dispatch(rulesFetch())
     }
-  }, [dispatch, status])
+  }, [dispatch, transactionsFetchStatus, rulesFetchStatus])
 
   useRuleEditSet(activeTransactionId)
 

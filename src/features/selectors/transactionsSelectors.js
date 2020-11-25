@@ -63,3 +63,5 @@ export const selectActiveTransactionId = (state) => {
 //   const t = selectOneTransaction(transactionId, state)
 //   return t[fieldName]
 // }
+
+export const selectTransactionsFetchStatus = (state) => R.path(slicePaths.transactionsFetchStatus, state)

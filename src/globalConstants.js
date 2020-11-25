@@ -41,7 +41,7 @@ export const requestStatusNames = {
 export const requestStatusStates = {
   error: 'request-error',
   fulfilled: 'request-fulfilled',
-  idle: 'idle',
+  // idle: 'idle',
   pending: 'request-pending',
   refresh: 'refresh'
 }

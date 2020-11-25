@@ -33,7 +33,6 @@ export const useRuleEditSet = (transactionId) => {
         // server still assumes a transaction can have multiple ruleIds
         // therefore, ruleIds is always an array of 1
         const ruleId = getRuleId(transaction)[0]
-        blue('ruleId', ruleId)
         dispatch(ruleEditSetExistingRule({ ruleId }))
       } else {
         const { origDescription, date } = transaction

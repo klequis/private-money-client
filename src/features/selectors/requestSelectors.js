@@ -9,9 +9,9 @@ import { grpStart, grpEnd, blue, yellow, red } from 'logger'
 
 
 const getStateValues = (statusNames, state) => {
-  grpStart('getStateValues')
-  blue('statusNames', statusNames)
-  blue('state', state)
+  // grpStart('getStateValues')
+  // blue('statusNames', statusNames)
+  // blue('state', state)
   
   const statusValues = {
     criteriaResultsStatus: R.path(
@@ -23,10 +23,10 @@ const getStateValues = (statusNames, state) => {
     ruleCreateStatus: R.path(slicePaths.ruleCreateStatus, state),
     ruleUpdateStatus: R.path(slicePaths.ruleUpdateStatus, state)
   }
-  blue('statusValues', statusValues)
+  // blue('statusValues', statusValues)
   const ret = R.map((x) => statusValues[x], statusNames)
-  blue('ret', ret)
-  grpEnd()
+  // blue('ret', ret)
+  // grpEnd()
   return ret
 }
 
@@ -46,19 +46,15 @@ const any = (statusNames, matchStatusState, state) => {
  * @param {object} state
  */
 export const selectRequestStatus = (statusNames, state) => {
-  grpStart('selectRequestStatus')
-  blue('statusNames', statusNames)
-  blue('state', state)
-  grpEnd()
-  const { error, fulfilled, idle, pending, refresh } = requestStatusStates
+  // grpStart('selectRequestStatus')
+  // blue('statusNames', statusNames)
+  // blue('state', state)
+  // grpEnd()
+  const { error, fulfilled, pending, refresh } = requestStatusStates
 
   if (any(statusNames, error, state)) {
     yellow('1: any', 'error')
     return requestStatusStates.error
-  }
-  if (all(statusNames, idle, state)) {
-    yellow('2: all', 'idle')
-    return requestStatusStates.idle
   }
   if (any(statusNames, pending, state)) {
     yellow('3: any', pending)
