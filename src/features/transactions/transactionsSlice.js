@@ -83,7 +83,7 @@ const transactionsSlice = createSlice({
     },
     [transactionsFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
-      // red('transactions.rejected', 'rejected')
+      red('transactions.rejected', 'rejected')
       state.transactionsFetchStatus = R.path(['error'], requestStatusStates)
       state.error = R.path(['error', 'message'], action)
       state.items = []

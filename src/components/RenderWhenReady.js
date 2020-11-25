@@ -1,8 +1,12 @@
 import React from 'react'
 import { requestStatusStates } from 'globalConstants'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+// eslint-disable-next-line
+import { green } from 'logger'
 
 export const RenderWhenReady = ({ status, children }) => {
+
+  green('RenderWhenReady: status', status)
 
   // ! Component is dependent upon order of if statements ! //
 

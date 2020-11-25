@@ -29,7 +29,7 @@
 //   blue('state', state)
   
 //   const statusValues = {
-//     criteriaResultsStatus: R.path(
+//     criteriaResultsFetchStatus: R.path(
 //       ['criteriaResults', requestStatusNames.criteriaResultsFetchStatus],
 //       state
 //     ),

@@ -1,7 +1,6 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
   getActiveCriteria,
-  getRule
 } from 'features/helpers'
 import * as R from 'ramda'
 import { slicePaths } from 'features/selectors/slicePaths'
@@ -97,4 +96,3 @@ export const selectRuleEditRenameDescriptionAction = (state) => {
   return action
 }
 
-export const selectRulesFetchStatus = (state) => R.path(slicePaths.rulesFetchStatus, state)

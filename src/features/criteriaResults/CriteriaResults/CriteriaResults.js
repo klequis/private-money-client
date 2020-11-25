@@ -84,7 +84,7 @@ export const CriteriaResults = () => {
   const dispatch = useDispatch()
 
   const status = useSelector((state) =>
-    selectRequestStatus([requestStatusNames.criteriaResultsStatus], state)
+    selectRequestStatus([requestStatusNames.criteriaResultsFetchStatus], state)
   )
 
   const criteria = useSelector(selectRuleEditCriteria)

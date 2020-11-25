@@ -38,17 +38,17 @@ const criteriaResultsSlice = createSlice({
   extraReducers: {
     [criteriaResultsFetch.pending]: (state, action) => {
       logFetchResults('fetchCriteriaResults.pending', state, action)
-      state.criteriaResultsStatus = requestStatusStates.pending
+      state.criteriaResultsFetchStatus = requestStatusStates.pending
       state.items = []
     },
     [criteriaResultsFetch.fulfilled]: (state, action) => {
       logFetchResults('fetchCriteriaResults.fulfilled', state, action)
-      state.criteriaResultsStatus = requestStatusStates.fulfilled
+      state.criteriaResultsFetchStatus = requestStatusStates.fulfilled
       state.items = action.payload.data
     },
     [criteriaResultsFetch.rejected]: (state, action) => {
       logFetchResults('fetchCriteriaResults.rejected', state, action)
-      state.criteriaResultsStatus = requestStatusStates.error
+      state.criteriaResultsFetchStatus = requestStatusStates.error
       state.error = action.error.message
       state.items = []
     }  

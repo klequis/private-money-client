@@ -20,7 +20,6 @@ import {
 // import { ContainerFluid } from 'components/ContainerFluid'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { useRuleEditSet } from 'features/rules/useRuleEditSet'
-import * as R from 'ramda'
 
 import {
   selectRulesFetchStatus,

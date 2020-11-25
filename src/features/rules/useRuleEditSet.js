@@ -8,8 +8,7 @@ import {
 } from 'features/selectors'
 
 // eslint-disable-next-line
-import { green, yellow, grpStart, grpEnd } from 'logger'
-import { blue } from 'logger'
+import { blue, green, yellow, grpStart, grpEnd } from 'logger'
 
 const hasRule = (transaction) => R.prop('hasRule')(transaction)
 const getRuleId = (transaction) => R.prop('ruleIds')(transaction)
