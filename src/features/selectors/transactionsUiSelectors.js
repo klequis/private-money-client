@@ -1,6 +1,6 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
-import { slicePaths } from 'features/selectors'
+import { selectorPaths } from 'features/selectors'
 
 // export const selectHasRulesChecked = (state) =>
 //   R.path(slicePaths.transactionsUiHasRulesChecked, state)
@@ -12,7 +12,7 @@ import { slicePaths } from 'features/selectors'
  * @param {object} state 
  */
 export const selectOptionState = (state) =>
-  R.path(slicePaths.transactionsUiOptions, state)
+  R.path(selectorPaths.transactionsUiOptions, state)
 
 /**
  *
@@ -63,9 +63,9 @@ const makeConditions = (transactionsUi) => {
     type
   } = filters
 
-  const categoryOptValue = R.path(slicePaths.categorizeRadioValue, options)
-  const ruleRadioOption = R.path(slicePaths.ruleRadioValue, options)
-  const categorizeRadioOption = R.path(slicePaths.categorizeRadioValue, options)
+  const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
+  const ruleRadioOption = R.path(selectorPaths.ruleRadioValue, options)
+  const categorizeRadioOption = R.path(selectorPaths.categorizeRadioValue, options)
   const filterByRule = ruleRadioOption === 'all' ? false : true
   const filterByCategory = categorizeRadioOption === 'both' ? false : true
 
@@ -130,7 +130,7 @@ const allTests = (transactionsUi) => {
  */
 export const selectFilteredTransactions = (state) => {
   const { transactionsUi } = state
-  const transactions = R.path(slicePaths.transactionsItems, state)
+  const transactions = R.path(selectorPaths.transactionsItems, state)
   const currentConditions = makeConditions(transactionsUi)
 
   if (isNilOrEmpty(currentConditions)) {

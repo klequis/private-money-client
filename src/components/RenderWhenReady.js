@@ -6,8 +6,6 @@ import { green } from 'logger'
 
 export const RenderWhenReady = ({ status, children }) => {
 
-  green('RenderWhenReady: status', status)
-
   // ! Component is dependent upon order of if statements ! //
 
   const { fulfilled, pending, error, refresh } = requestStatusStates

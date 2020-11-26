@@ -13,7 +13,7 @@ import {
 import {
   selectOptionState
 } from 'features/selectors'
-import { slicePaths } from 'features/selectors'
+import { selectorPaths } from 'features/selectors'
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
@@ -42,9 +42,9 @@ export const TableNav = () => {
     dispatch(updateRadioState({ name, value }))
   }
 
-  const ruleGroupValue = R.path(slicePaths.ruleRadioValue, _optionState)
-  const categorizeGroupValue = R.path(slicePaths.categorizeRadioValue, _optionState)
-  const categorizeDisabled = R.path(slicePaths.categorizeRadioDisabled, _optionState)
+  const ruleGroupValue = R.path(selectorPaths.ruleRadioValue, _optionState)
+  const categorizeGroupValue = R.path(selectorPaths.categorizeRadioValue, _optionState)
+  const categorizeDisabled = R.path(selectorPaths.categorizeRadioDisabled, _optionState)
 
   return (
     <Options>

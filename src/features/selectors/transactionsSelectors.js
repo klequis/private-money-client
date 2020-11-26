@@ -1,5 +1,5 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { slicePaths } from './slicePaths'
+import { selectorPaths } from './slicePaths'
 import * as R from 'ramda'
 
 /**
@@ -14,7 +14,7 @@ export const selectAllTransactions = (state) => state.transactions.items
  * @param {object} state
  */
 export const selectOneTransaction = (transactionId, state) => {
-  const tItems = R.path(slicePaths.transactionsItems, state)
+  const tItems = R.path(selectorPaths.transactionsItems, state)
   if (isNilOrEmpty(tItems)) {
     return tItems
   }
@@ -27,8 +27,8 @@ export const selectOneTransaction = (transactionId, state) => {
  * @param {object} state 
  */
 export const selectCriteriaResultsTransactions = (state) => {
-  const ids = R.path(slicePaths.criteriaResultsItems, state)
-  return R.path(slicePaths.transactionsItems, state).filter((t) =>
+  const ids = R.path(selectorPaths.criteriaResultsItems, state)
+  return R.path(selectorPaths.transactionsItems, state).filter((t) =>
     ids.includes(t._id)
   )
 }
@@ -46,7 +46,7 @@ export const selectCriteriaResultsTransactions = (state) => {
  * @param {object} state 
  */
 export const selectActiveTransactionId = (state) => {
-  return R.path(slicePaths.activeTransactionId, state) || null
+  return R.path(selectorPaths.activeTransactionId, state) || null
 }
 
 // export const selectActiveTransaction = (state) => {
@@ -64,4 +64,4 @@ export const selectActiveTransactionId = (state) => {
 //   return t[fieldName]
 // }
 
-export const selectTransactionsFetchStatus = (state) => R.path(slicePaths.transactionsFetchStatus, state)
+export const selectTransactionsFetchStatus = (state) => R.path(selectorPaths.transactionsFetchStatus, state)

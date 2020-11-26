@@ -3,7 +3,11 @@ import {
   getActiveCriteria,
 } from 'features/helpers'
 import * as R from 'ramda'
-import { slicePaths } from 'features/selectors/slicePaths'
+import { selectorPaths } from 'features/selectors/slicePaths'
+// eslint-disable-next-line
+import { blue } from 'logger'
+import { grpStart } from 'logger'
+import { grpEnd } from 'logger'
 
 
 
@@ -27,7 +31,7 @@ import { slicePaths } from 'features/selectors/slicePaths'
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
 export const selectActiveCriteria = (state) => {
-  const criteria = R.path(slicePaths.ruleEditCriteria, state)
+  const criteria = R.path(selectorPaths.ruleEditCriteria, state)
   return R.isNil(criteria) ? [] : getActiveCriteria(criteria)
 }
 
@@ -37,7 +41,7 @@ export const selectActiveCriteria = (state) => {
  * @return {object} state.ruleEdit
  */
 export const selectRuleEdit = (state) => {
-  const ruleEdit = R.path(slicePaths.ruleEdit, state)
+  const ruleEdit = R.path(selectorPaths.ruleEdit, state)
   return R.isNil(ruleEdit) ? {} : ruleEdit
 }
 
@@ -47,8 +51,22 @@ export const selectRuleEdit = (state) => {
  * @returns {array} Returns criteria from state.ruleEdit
  */
 export const selectRuleEditCriteria = (state) => {
-  const criteria = R.path(slicePaths.ruleEditCriteria, state)
-  return R.isNil(criteria) ? [] : criteria
+  // grpStart('selectRuleEditCriteria')
+  // blue('selectRuleEditCriteria: state', state)
+  // blue('selectRuleEditCriteria: slicePaths.ruleEditCriteria', slicePaths.ruleEditCriteria)
+  
+  let ret
+  if (R.has('rules')(state)) {
+    ret = R.path(selectorPaths.ruleEditCriteria, state)
+  } else {
+    ret = R.path(R.tail(selectorPaths.ruleEditCriteria), state)
+  }
+  // blue('selectRuleEditCriteria: ret', ret)
+  // grpEnd()
+  return R.isNil(ret) ? [] : ret
+  // const criteria = R.path(slicePaths.ruleEditCriteria, state)
+  // blue('selectRuleEditCriteria: criteria', criteria)
+  // return R.isNil(criteria) ? [] : criteria
 }
 
 /**
@@ -58,7 +76,7 @@ export const selectRuleEditCriteria = (state) => {
  *
  */
 export const selectRuleEditActions = (state) => {
-  const actions = R.path(slicePaths.ruleEditActions, state)
+  const actions = R.path(selectorPaths.ruleEditActions, state)
   return R.isNil(actions) ? [] : actions
 }
 
@@ -68,7 +86,7 @@ export const selectRuleEditActions = (state) => {
  * @returns {string} state.ruleEdit.dirty
  */
 export const selectRuleEditIsDirty = (state) => {
-  return R.path(slicePaths.ruleEditDirty, state)
+  return R.path(selectorPaths.ruleEditDirty, state)
 }
 
 /**
@@ -77,7 +95,7 @@ export const selectRuleEditIsDirty = (state) => {
  * @returns {string} state.ruleEdit.isTmpRule
  */
 export const selectRuleEditIsTmpRule = (state) => {
-  return R.path(slicePaths.ruleEditIsTmpRule, state)
+  return R.path(selectorPaths.ruleEditIsTmpRule, state)
 }
 
 /**
@@ -86,7 +104,7 @@ export const selectRuleEditIsTmpRule = (state) => {
  */
 export const selectRuleEditRenameDescriptionAction = (state) => {
   // blue('state', state)
-  const actions = R.path(slicePaths.ruleEditActions, state)
+  const actions = R.path(selectorPaths.ruleEditActions, state)
   // blue('actions', actions)
   if (isNilOrEmpty(actions)) {
     return null

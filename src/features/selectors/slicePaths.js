@@ -1,6 +1,12 @@
 import { requestStatusNames } from 'globalConstants'
+import * as R from 'ramda'
 
-const { transactionsFetchStatus, rulesFetchStatus, ruleCreateStatus, ruleUpdateStatus } = requestStatusNames
+const {
+  transactionsFetchStatus,
+  rulesFetchStatus,
+  ruleCreateStatus,
+  ruleUpdateStatus
+} = requestStatusNames
 
 const actions = 'actions'
 const activeTransactionId = 'activeTransactionId'
@@ -16,7 +22,6 @@ const isTmpRule = 'isTmpRule'
 const isUncategorized = 'isUncategorized'
 const items = 'items'
 const options = 'options'
-const rule = 'rule'
 const rules = 'rules'
 const ruleEdit = 'ruleEdit'
 const ruleRadio = 'ruleRadio'
@@ -24,7 +29,7 @@ const transactions = 'transactions'
 const transactionsUi = 'transactionsUi'
 const value = 'value'
 
-export const slicePaths = {
+export const selectorPaths = {
   activeTransactionId: [transactions, activeTransactionId],
   categorizeRadioDisabled: [categorizeRadio, disabled],
   categorizeRadioValue: [categorizeRadio, value],
@@ -32,10 +37,10 @@ export const slicePaths = {
   optionsCategorizeRadioValue: [options, categorizeRadio, value],
   optionsRuleRadioValue: [options, ruleRadio, value],
   ruleEdit: [rules, ruleEdit],
-  ruleEditRule: [rules, ruleEdit, rule],
-  ruleEditActions: [rules, ruleEdit, rule, actions],
-  ruleEditCriteria: [rules, ruleEdit, rule, criteria],
-  ruleEditDirty: [rules, ruleEdit, rule, dirty],
+  // ruleEditRule: [rules, ruleEdit],
+  ruleEditActions: [rules, ruleEdit, actions],
+  ruleEditCriteria: [rules, ruleEdit, criteria],
+  ruleEditDirty: [rules, ruleEdit, dirty],
   ruleEditIsTmpRule: [rules, ruleEdit, isTmpRule],
   ruleCreateStatus: [rules, ruleCreateStatus],
   ruleRadioValue: [ruleRadio, value],
@@ -47,5 +52,35 @@ export const slicePaths = {
   transactionsItems: [transactions, items],
   transactionsUiHasRulesChecked: [transactionsUi, hasRules, checked],
   transactionsUiOptions: [transactionsUi, options],
-  transactionsUiIsUncategorizedChecked: [transactionsUi, isUncategorized, checked]
+  transactionsUiIsUncategorizedChecked: [
+    transactionsUi,
+    isUncategorized,
+    checked
+  ]
+}
+
+export const slicePaths = {
+  activeTransactionId: R.tail(selectorPaths.activeTransactionId),
+  categorizeRadioDisabled: R.tail(selectorPaths.categorizeRadioDisabled),
+  categorizeRadioValue: R.tail(selectorPaths.categorizeRadioValue),
+  criteriaResultsItems: R.tail(selectorPaths.criteriaResultsItems),
+  optionsCategorizeRadioValue: R.tail(selectorPaths.optionsCategorizeRadioValue),
+  optionsRuleRadioValue: R.tail(selectorPaths.optionsRuleRadioValue),
+  ruleEdit: R.tail(selectorPaths.ruleEdit),
+  // ruleEditRule: [rules, ruleEdit],
+  ruleEditActions: R.tail(selectorPaths.ruleEditActions),
+  ruleEditCriteria: R.tail(selectorPaths.ruleEditCriteria),
+  ruleEditDirty: R.tail(selectorPaths.ruleEditDirty),
+  ruleEditIsTmpRule: R.tail(selectorPaths.ruleEditIsTmpRule),
+  ruleCreateStatus: R.tail(selectorPaths.ruleCreateStatus),
+  ruleRadioValue: R.tail(selectorPaths.ruleRadioValue),
+  ruleUpdateStatus: R.tail(selectorPaths.ruleUpdateStatus),
+  rulesFetchStatus: R.tail(selectorPaths.rulesFetchStatus),
+  rulesItems: R.tail(selectorPaths.rulesItems),
+  transactionsError: R.tail(selectorPaths.transactionsError),
+  transactionsFetchStatus: R.tail(selectorPaths.transactionsFetchStatus),
+  transactionsItems: R.tail(selectorPaths.transactionsItems),
+  transactionsUiHasRulesChecked: R.tail(selectorPaths.transactionsUiHasRulesChecked),
+  transactionsUiOptions: R.tail(selectorPaths.transactionsUiOptions),
+  transactionsUiIsUncategorizedChecked: R.tail(selectorPaths.transactionsUiIsUncategorizedChecked),
 }

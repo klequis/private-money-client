@@ -30,9 +30,9 @@ export const TextEditOrDatePicker = ({
 }) => {
   countTotal = countTotal + 1
 
-  if (R.type(onChange) !== 'Function') {
-    green(`TextEditInput (${name}): onChange`, onChange)
-  }
+  // if (R.type(onChange) !== 'Function') {
+  //   green(`TextEditInput (${name}): onChange`, onChange)
+  // }
 
   countReturn = countReturn + 1
   if (field === tFields.date.name) {

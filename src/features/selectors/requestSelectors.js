@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { slicePaths } from './slicePaths'
+import { selectorPaths } from './slicePaths'
 import { requestStatusNames, requestStatusStates } from 'globalConstants'
 // eslint-disable-next-line
 import { grpStart, grpEnd, blue, yellow, red } from 'logger'
@@ -18,12 +18,12 @@ const statusValues = (statusName, state) => {
       state
     ),
     [transactionsFetchStatus]: R.path(
-      slicePaths.transactionsFetchStatus,
+      selectorPaths.transactionsFetchStatus,
       state
     ),
-    [rulesFetchStatus]: R.path(slicePaths.rulesFetchStatus, state),
-    [ruleCreateStatus]: R.path(slicePaths.ruleCreateStatus, state),
-    [ruleUpdateStatus]: R.path(slicePaths.ruleUpdateStatus, state)
+    [rulesFetchStatus]: R.path(selectorPaths.rulesFetchStatus, state),
+    [ruleCreateStatus]: R.path(selectorPaths.ruleCreateStatus, state),
+    [ruleUpdateStatus]: R.path(selectorPaths.ruleUpdateStatus, state)
   }
   return values[statusName]
 }
@@ -52,7 +52,7 @@ export const selectRequestStatus = (statusNames, state) => {
   const { error, fulfilled, pending, refresh } = requestStatusStates
 
   // blue('statusNames', statusNames)  
-  blue('state', state)
+  // blue('state', state)
 
   if (any(statusNames, error, state)) {
     // yellow('1: any', 'error')
@@ -80,7 +80,7 @@ export const selectRequestStatus = (statusNames, state) => {
  * @return {string} one of requestStatusStates
  */
 export const selectTransactionsFetchStatus = (state) => {
-  return R.path(slicePaths.transactionsFetchStatus, state)
+  return R.path(selectorPaths.transactionsFetchStatus, state)
 }
 
 /**
@@ -88,11 +88,11 @@ export const selectTransactionsFetchStatus = (state) => {
  * @param {state} state 
  * @return {string} one of requestStatusStates
  */
-export const selectRulesFetchStatus = (state) => R.path(slicePaths.rulesFetchStatus, state)
+export const selectRulesFetchStatus = (state) => R.path(selectorPaths.rulesFetchStatus, state)
 
 /**
  * 
  * @param {state} state 
  * @return {string} one of requestStatusStates
  */
-export const selectCriteriaResultsFetchStatus = (state) => R.path(slicePaths.criteriaResultsFetchStatus, state)
+export const selectCriteriaResultsFetchStatus = (state) => R.path(selectorPaths.criteriaResultsFetchStatus, state)

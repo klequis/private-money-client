@@ -1,6 +1,6 @@
 import { current } from '@reduxjs/toolkit'
 import * as R from 'ramda'
-import { slicePaths } from 'features/selectors'
+import { selectorPaths } from 'features/selectors'
 /**
  *
  * @param {object} state
@@ -10,7 +10,7 @@ import { slicePaths } from 'features/selectors'
  */
 const getRulesItems = (state) => {
   return R.has('rules')(state)
-    ? R.path(slicePaths.rulesItems, state)
+    ? R.path(selectorPaths.rulesItems, state)
     : R.path(['items'], state)
 }
 
@@ -20,7 +20,7 @@ const getRulesItems = (state) => {
  * @param {object} state
  */
 export const getRule = (ruleId, state) => {
-  const items = getRulesItems(current(state))
+  const items = getRulesItems(state)
   return items.find((r) => r._id === ruleId)
 }
 
