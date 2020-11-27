@@ -15,17 +15,12 @@ import {
   wdRequestStatusFulfilled
 } from 'appWords'
 import {
-  selectCriteriaResultsFetchStatus,
-  
-} from 'features/criteriaResults'
-import {
   selectTransactionsFetchStatus,
-} from 'features/transactions'
-import {
+  selectCriteriaResultsFetchStatus,
   selectRulesFetchStatus,
   selectRuleCreateStatus,
   selectRuleUpdateStatus
-} from 'features/rules'
+} from 'features/selectors'
 
 // eslint-disable-next-line
 import { grpStart, grpEnd, blue, yellow, red } from 'logger'

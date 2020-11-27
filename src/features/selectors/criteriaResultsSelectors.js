@@ -18,7 +18,28 @@ export const selectCriteriaResults = (state) => {
   const criteriaResults = R.path(path, state)
   valueOrEmptyArray(criteriaResults)
 }
-  
+
+/**
+ *
+ * @param {object} state
+ * @return {array} of transaction objects
+ */
+
+ // TODO: which is currect selectCriteriaResults - above or below ?
+/*
+export const selectCriteriaResults = (state) => {
+  // const ids = R.path(selectorPaths.criteriaResultsItems, state)
+  const ids = R.path(getPath(state, paths.criteriaResultsItems), state)
+
+  // return R.path(selectorPaths.transactionsItems, state).filter((t) =>
+  //   ids.includes(t._id)
+  // )
+  return R.path(getPath(state, paths.transactions), state).filter((t) =>
+    ids.includes(t._id)
+  )
+}
+*/
+
 /**
  *
  * @param {state} state

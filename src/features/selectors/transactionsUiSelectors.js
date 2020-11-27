@@ -8,7 +8,9 @@ import {
   wdHasRule,
   wdOptions,
   wdCategorizeRadio,
+  wdCategorizeRadioDisabled,
   wdCategorizeRadioValue,
+  wdDisabled,
   wdItems,
   wdRuleRadioValue,
   wdTransactions,
@@ -26,6 +28,7 @@ import {
 
 const paths = {
   [wdTransactionsUiOptions]: [wdTransactionsUi, wdOptions],
+  [wdCategorizeRadioDisabled]: [wdTransactionsUi, wdOptions, wdCategorizeRadio, wdDisabled],
   [wdCategorizeRadioValue]: [
     wdTransactionsUi,
     wdOptions,
@@ -47,17 +50,10 @@ const hasTransactionsUi = (state) => R.has(wdTransactionsUi)(state)
  *
  * @param {object} state
  * @param {array} fullPath
+ * @description returns path as array with or without slice name as first element
  */
 const getPath = (state, fullPath) =>
   hasTransactionsUi(state) ? fullPath : R.tail(fullPath)
-
-/**
- *
- * @param {object} state
- */
-export const selectOptionState = (state) =>
-  // R.path(selectorPaths.transactionsUiOptions, state)
-  R.path(getPath(state, wdTransactionsUiOptions), state)
 
 /**
  *
@@ -207,3 +203,33 @@ export const selectFilteredTransactions = (state) => {
   const spec1 = R.where(specObj)
   return R.filter(spec1, transactions)
 }
+
+/**
+ * 
+ * @param {state} state 
+ * @return {string} wdAll || wdHasRule || wdDoesNotHaveRule
+ */
+export const selectRuleRadioValue = (state) => {
+  return R.path(getPath(state, wdRuleRadioValue), state)
+}
+
+/**
+ * 
+ * @param {state} state 
+ * @return {string} wdBoth || wdCategorized || wdUncategorized
+ */
+export const selectCategorizeRadioValue = (state) => {
+  return R.path(getPath(state, wdCategorizeRadioValue), state)
+}
+
+/**
+ * 
+ * @param {state} state 
+ * @return {boolean} true || false
+ */
+export const selectCategorizeRadioDisabled = (state) => {
+  return R.path(getPath(state, wdCategorizeRadioValue), state)
+}
+
+
+

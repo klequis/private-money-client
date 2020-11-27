@@ -7,17 +7,19 @@ import {
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { useRuleEditSet } from 'features/rules/useRuleEditSet'
 import {
-  selectRulesFetchStatus,
+  
   RuleCreate,
   rulesFetch,
 } from 'features/rules'
 import {
   transactionsFetch,
   Transactions,
-  selectActiveTransactionId,
-  selectTransactionsFetchStatus
+  
 } from 'features/transactions'
 import {
+  selectActiveTransactionId,
+  selectTransactionsFetchStatus,
+  selectRulesFetchStatus,
   selectRequestStatus,
 } from 'features/selectors'
 

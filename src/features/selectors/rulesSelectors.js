@@ -10,7 +10,7 @@ import {
   wdActions,
   wdCriteria,
   wdIsTmpRule,
-  wdRuleCreateStatus,
+  pathRuleCreateStatus,
   wdRulesFetchStatus,
   // ruleRadio,
   wdRuleUpdateStatus
@@ -20,18 +20,18 @@ import {
 // eslint-disable-next-line
 import { blue, grpStart, grpEnd } from 'logger'
 
-const paths = {
+export const rulePaths = {
   ruleEditActions: [wdRules, wdRuleEdit, wdActions],
   ruleEditCriteria: [wdRules, wdRuleEdit, wdCriteria],
   ruleEditIsDirty: [wdRules, wdRuleEdit, wdIsDirty],
   ruleEditIsTmpRule: [wdRules, wdRuleEdit, wdIsTmpRule],
-  ruleCreateStatus: [wdRules, wdRuleCreateStatus],
+  ruleCreateStatus: [wdRules, pathRuleCreateStatus],
   ruleUpdateStatus: [wdRules, wdRuleUpdateStatus],
   rulesFetchStatus: [wdRules, wdRulesFetchStatus],
   rulesItems: [wdRules, wdItems]
 }
 
-export const rulePaths = paths
+
 
 /**
  *
@@ -69,7 +69,7 @@ const getPath = (state, fullPath) =>
  */
 export const selectActiveCriteria = (state) => {
   // const path = getPath(state, selectorPaths.ruleEditCriteria, state)
-  const path = getPath(state, paths.ruleEditCriteria)
+  const path = getPath(state, rulePaths.ruleEditCriteria)
   const criteria = R.path(path, state)
   const activeCriteria = getActiveCriteria(criteria)
   return valueOrEmptyArray(activeCriteria)
@@ -81,7 +81,7 @@ export const selectActiveCriteria = (state) => {
  * @return {object} state.ruleEdit
  */
 export const selectRuleEdit = (state) => {
-  const path = (state, paths.ruleEdit)
+  const path = (state, rulePaths.ruleEdit)
   const ruleEdit = R.path(path, state)
   return valueOrEmptyObject(ruleEdit)
 }
@@ -92,7 +92,7 @@ export const selectRuleEdit = (state) => {
  * @returns {array} Returns criteria from state.ruleEdit
  */
 export const selectRuleEditCriteria = (state) => {
-  const path = getPath(state, paths.ruleEditCriteria)
+  const path = getPath(state, rulePaths.ruleEditCriteria)
   const criteria = R.path(path, state)
   return valueOrEmptyArray(criteria)
 }
@@ -104,7 +104,7 @@ export const selectRuleEditCriteria = (state) => {
  *
  */
 export const selectRuleEditActions = (state) => {
-  const path = getPath(state, paths.ruleEditActions)
+  const path = getPath(state, rulePaths.ruleEditActions)
   const actions = R.path(path, state)
   return valueOrEmptyArray(actions)
 }
@@ -115,7 +115,7 @@ export const selectRuleEditActions = (state) => {
  * @returns {boolean} state.ruleEdit.dirty
  */
 export const selectRuleEditIsDirty = (state) => {
-  const path = getPath(state, paths.ruleEditIsDirty)
+  const path = getPath(state, rulePaths.ruleEditIsDirty)
   return R.path(path, state)
 }
 
@@ -125,7 +125,7 @@ export const selectRuleEditIsDirty = (state) => {
  * @returns {boolean} state.ruleEdit.isTmpRule
  */
 export const selectRuleEditIsTmpRule = (state) => {
-  const path = getPath(state, paths.ruleEditIsTmpRule)
+  const path = getPath(state, rulePaths.ruleEditIsTmpRule)
   return R.path(path, state)
 }
 
@@ -135,7 +135,7 @@ export const selectRuleEditIsTmpRule = (state) => {
  * @returns {object}
  */
 export const selectRuleEditRenameAction = (state) => {
-  const path = getPath(state, paths.ruleEditActions)
+  const path = getPath(state, rulePaths.ruleEditActions)
   const actions = R.path(path, state)
   if (isNilOrEmpty(actions)) {
     return null
@@ -157,7 +157,7 @@ const getCategorizeAction = (actions) => {
  * @returns {object}
  */
 export const selectRuleEditCategorizeAction = (state) => {
-  const actions = R.path(getPath(state, paths.ruleEditActions), state)
+  const actions = R.path(getPath(state, rulePaths.ruleEditActions), state)
   if (isNilOrEmpty(actions)) {
     return null
   }
@@ -166,22 +166,7 @@ export const selectRuleEditCategorizeAction = (state) => {
   return a
 }
 
-/**
- *
- * @param {object} state
- * @return {array} of transaction objects
- */
-export const selectCriteriaResults = (state) => {
-  // const ids = R.path(selectorPaths.criteriaResultsItems, state)
-  const ids = R.path(getPath(state, paths.criteriaResultsItems), state)
 
-  // return R.path(selectorPaths.transactionsItems, state).filter((t) =>
-  //   ids.includes(t._id)
-  // )
-  return R.path(getPath(state, paths.transactions), state).filter((t) =>
-    ids.includes(t._id)
-  )
-}
 
 /**
  *

@@ -10,16 +10,12 @@ import * as R from 'ramda'
 import { TableBody } from './TableBody'
 import styled from 'styled-components'
 import {
-  
-  selectCriteriaResultsTransactions,
-  selectRequestStatus, 
-} from 'features/selectors'
-import {
   selectActiveCriteria,
   selectRuleEditCriteria,
   selectRuleEditActions,
-} from 'features/rules'
-
+  selectCriteriaResultsTransactions,
+  selectRequestStatus, 
+} from 'features/selectors'
 import {
   RenderWhenReady
 } from 'components/RenderWhenReady'

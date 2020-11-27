@@ -1,7 +1,7 @@
 import React from 'react'
-// import { useSelector } from 'react-redux'
 import * as R from 'ramda'
 import { dataTypes } from 'lib/dataTypes'
+
 // eslint-disable-next-line
 import { green } from 'logger'
 

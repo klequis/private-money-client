@@ -5,15 +5,12 @@ import {
 } from 'features/uiSettings/transactionsUiSlice'
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
-import * as R from 'ramda'
 import {
-  transactionOptionValues as optionValues,
-  transactionOptionNames
-} from 'globalConstants'
-import {
-  selectOptionState
+  selectOptionState,
+  selectRuleRadioValue,
+  selectCategorizeRadioValue,
+  selectCategorizeRadioDisabled
 } from 'features/selectors'
-import { selectorPaths } from 'features/selectors'
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
@@ -34,17 +31,14 @@ export const TableNav = () => {
 
   const dispatch = useDispatch()
 
-  const { ruleRadio, categorizeRadio } = transactionOptionNames
-  const _optionState = useSelector(selectOptionState)
-
   const _radioChange = (event) => {
     const { name, value } = event.target
     dispatch(updateRadioState({ name, value }))
   }
 
-  const ruleGroupValue = R.path(selectorPaths.ruleRadioValue, _optionState)
-  const categorizeGroupValue = R.path(selectorPaths.categorizeRadioValue, _optionState)
-  const categorizeDisabled = R.path(selectorPaths.categorizeRadioDisabled, _optionState)
+  const ruleGroupValue = useSelector(selectRuleRadioValue)
+  const categorizeGroupValue = useSelector(selectCategorizeRadioValue)
+  const categorizeDisabled = useSelector(selectCategorizeRadioDisabled)
 
   return (
     <Options>
