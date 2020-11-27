@@ -1,7 +1,10 @@
+/**
+ * @module rulesSlice.js
+ */
+
 import {
   createSlice,
   createAsyncThunk,
-  // eslint-disable-next-line
   current
 } from '@reduxjs/toolkit'
 import { api } from 'api'
@@ -12,24 +15,41 @@ import {
   removeInactiveCriteria,
   removeTmpIdField
 } from 'features/helpers'
-import { selectRuleEditCriteria, slicePaths } from 'features/selectors'
 import { requestStatusNames, requestStatusStates } from 'globalConstants'
+import {
+  items,
+  error,
+  ruleEdit,
+  rulesFetchStatus,
+  ruleCreateStatus,
+  ruleUpdateStatus
+} from './pathWords'
+
+import {
+  selectRuleEditActions,
+  rulePaths
+} from './rulesSelectors'
 
 // eslint-disable-next-line
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
 // eslint-disable-next-line
 import { logFetchResults } from 'lib/logFetchResults'
 
+/**
+ * @name initialState
+ * @type {object}
+ * @see https://github.com/klequis/private-money-client/wiki/State for properties of ruleEdit which are created at runtime.
+ */
 const initialState = {
-  items: [],
-  [requestStatusNames.rulesFetchStatus]: requestStatusStates.refresh,
-  [requestStatusNames.ruleCreateStatus]: requestStatusStates.refresh,
-  [requestStatusNames.ruleUpdateStatus]: requestStatusStates.refresh,
-  error: null,
-  ruleEdit: {
-    rule: {}
+  [items]: [],
+  [rulesFetchStatus]: requestStatusStates.refresh,
+  [ruleCreateStatus]: requestStatusStates.refresh,
+  [ruleUpdateStatus]: requestStatusStates.refresh,
+  [error]: null,
+  [ruleEdit]: {
   }
 }
+
 
 export const rulesFetch = createAsyncThunk('rules/get', async () => {
   const r = await api.rules.read()
@@ -58,10 +78,19 @@ const rulesSlice = createSlice({
   name: 'rules',
   initialState,
   reducers: {
+    /**
+     *
+     * @param {object} state the rulesSlice
+     * @param {object} action where action.payload is an action
+     */
     ruleEditActionUpdate(state, action) {
-      const newAction = action.payload
+      const currState = current(state)
+      const newAction = R.path(['payload', action])
       const newActionId = R.prop('_id', newAction)
-      const currActions = R.path([slicePaths.ruleEditActions], state)
+      // console.log('state', currState)
+      // console.log('state.ruleEdit.actions', currState.ruleEdit.actions)
+      const currActions = selectRuleEditActions(state)
+      // console.log('currActions', currActions)
       const idxOfActionToReplace = R.findIndex(
         R.propEq('_id', newActionId)
       )(currActions)
@@ -70,19 +99,17 @@ const rulesSlice = createSlice({
         newAction, 
         currActions
       )
-      // const newStateOld = R.assocPath(
-      //   [slicePaths.ruleEditActions],
-      //   newActions,
-      //   state
-      // )
-      // newState.ruleEdit.dirty = true
       const newState = R.pipe(
-        R.assocPath(slicePaths.ruleEditActions, newActions),
-        R.assocPath(['ruleEdit', 'dirty'], true)
-      )
+        R.assocPath(rulePaths.ruleEditActions, newActions),
+        R.assocPath(rulePaths.ruleEditIsDirty, true)
+      )(currState)
       return newState
     },
-    ruleEditClear(state, action) {
+    /**
+     * 
+     * @param {object} state 
+     */
+    ruleEditClear(state) {
       state.ruleEdit = {}
     },
     /**
@@ -91,9 +118,10 @@ const rulesSlice = createSlice({
      * @param {object} action where action.payload is a criterion
      */
     ruleEditCriterionUpdate(state, action) {
-      const newCriterion = action.payload
+      const currState = current(state)
+      const newCriterion = R.path(['payload'], action)
       const newCriterionId = R.prop('_id', newCriterion)
-      const currCriteria = selectRuleEditCriteria(current(state))
+      const currCriteria = selectRuleEditCriteria(currState)
       const idxOfCriteriaToReplace = R.findIndex(
         R.propEq('_id', newCriterionId)
       )(currCriteria)
@@ -104,9 +132,9 @@ const rulesSlice = createSlice({
       )
       const newState = R.pipe(
         // R.assocPath(R.tail(selectorPaths.ruleEditCriteria), newCriteria),
-        R.assocPath(slicePaths.ruleEditCriteria, newCriteria),
+        R.assocPath(selectorPaths..ruleEditCriteria, newCriteria),
         R.assocPath(['ruleEdit', 'dirty'], true)
-      )(current(state))
+      )(currState)
       return newState
     },
     ruleEditSetExistingRule(state, action) {
@@ -128,6 +156,7 @@ const rulesSlice = createSlice({
     }
   },
   extraReducers: {
+    // rulesFetch
     [rulesFetch.pending]: (state, action) => {
       // logFetchResults('fetchRules.pending', state, action)
       state.rulesFetchStatus = requestStatusStates.pending
@@ -136,16 +165,15 @@ const rulesSlice = createSlice({
     [rulesFetch.fulfilled]: (state, action) => {
       // logFetchResults('fetchRules.fulfilled', state, action)
       state.rulesFetchStatus = requestStatusStates.fulfilled
-      state.items = action.payload.data
+      state.items = R.path(['payload', 'data'], actions)
     },
     [rulesFetch.rejected]: (state, action) => {
       // logFetchResults('fetchRules.rejected', state, action)
       state.rulesFetchStatus = requestStatusStates.error
-      state.error = action.error.message
+      state.error = R.path(['error', 'message'], action)
       state.items = []
     },
-    // merged in
-
+    // ruleCreate
     [ruleCreate.pending]: (state, action) => {
       // logFetchResults('ruleEdit.pending', state, action)
       state.ruleCreateStatus = requestStatusStates.pending
@@ -158,7 +186,7 @@ const rulesSlice = createSlice({
       // logFetchResults('ruleEdit.rejected', state, action)
       // red('ruleEdit.ruleCreate.srejected', 'rejected')
       state.ruleCreateStatus = requestStatusStates.error
-      state.error = action.error.message
+      state.error = R.path(['error', 'message'], action)
     },
     // ruleUpdate
     [ruleUpdate.pending]: (state, action) => {
@@ -171,9 +199,9 @@ const rulesSlice = createSlice({
     },
     [ruleUpdate.rejected]: (state, action) => {
       // logFetchResults('ruleEdit.rejected', state, action)
-      red('ruleEdit.ruleUpdate.rejected', 'rejected')
+      // red('ruleEdit.ruleUpdate.rejected', 'rejected')
       state.ruleUpdateStatus = requestStatusStates.error
-      state.error = action.error.message
+      state.error = R.path(['error', 'message'], action)
     }
 
     // merged in /

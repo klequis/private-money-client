@@ -1,25 +1,31 @@
-// eslint-disable-next-line
+/**
+ * @module rulesSlice.js
+ */
+
 import { createSlice, current } from '@reduxjs/toolkit'
 import * as R from 'ramda'
 import {
   transactionOptionValues as optionValues,
-  transactionOptionNames
 } from 'globalConstants'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { selectorPaths } from 'features/selectors'
+import {
+  wdAll,
+  wdRuleRadio,
+  wdCategorizeRadio
+}
 
 // eslint-disable-next-line
 import { blue, red } from 'logger'
 
-const { ruleRadio, categorizeRadio } = transactionOptionNames
-
 const initialState = {
   options: {
-    [ruleRadio]: {
+    [wdRuleRadio]: {
       value: optionValues.all
     },
-    [categorizeRadio]: {
-      value: optionValues.both,
+     
+    [wdCategorizeRadio]: {
+      value: wdAll,
       disabled: false
     }
   },
@@ -43,7 +49,7 @@ const transactionsUiSlice = createSlice({
     updateRadioState(state, action) {
       const { name, value } = action.payload
       state.options.ruleRadio.value =
-        name === ruleRadio
+        name === wdRuleRadio
           ? value
           : R.path(selectorPaths.optionsRadioValue, state)
       state.options.categorizeRadio.value =

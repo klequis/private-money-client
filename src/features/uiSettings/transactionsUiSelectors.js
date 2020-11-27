@@ -1,18 +1,61 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
-import { selectorPaths } from 'features/selectors'
+// import { selectorPaths } from 'features/selectors'
+import {
+  wdCategorized,
+  wdTransactionsUi,
+  wdAll,
+  wdBoth,
+  wdOptions,
+  wdTransactionsUiOptions,
+  wdCategorizeRadio,
+  wdValue,
+  wdCategorizeRadioValue,
+  wdRuleRadioValue,
+  wdTransactionsItems,
+  wdTransactions,
+  wdItems,
+  wdHasRule
+} from 'appWords'
 
 // export const selectHasRulesChecked = (state) =>
-//   R.path(slicePaths.transactionsUiHasRulesChecked, state)
+//   R.path(selectorPaths..transactionsUiHasRulesChecked, state)
 // export const selectIsUncategorizedChecked = (state) =>
-//   R.path(slicePaths.transactionsUiIsUncategorizedChecked, state)
+//   R.path(selectorPaths..transactionsUiIsUncategorizedChecked, state)
+
+const paths = {
+  [wdTransactionsUiOptions]: [wdTransactionsUi, wdOptions],
+  [wdCategorizeRadioValue]: [
+    wdTransactionsUi,
+    wdOptions,
+    wdCategorizeRadio,
+    wdValue
+  ],
+  [wdRuleRadioValue]: [wdTransactionsUi, wdOptions],
+  [wdTransactionsItems]: [wdTransactions, wdItems]
+}
 
 /**
- * 
- * @param {object} state 
+ *
+ * @param {state} state
+ * @returns {boolean}
+ */
+const hasTransactionsUi = (state) => R.has(wdTransactionsUi)(state)
+/**
+ *
+ * @param {object} state
+ * @param {array} fullPath
+ */
+const getPath = (state, fullPath) =>
+  hasTransactionsUi(state) ? fullPath : R.tail(fullPath)
+
+/**
+ *
+ * @param {object} state
  */
 export const selectOptionState = (state) =>
-  R.path(selectorPaths.transactionsUiOptions, state)
+  // R.path(selectorPaths.transactionsUiOptions, state)
+  R.path(getPath(state, wdTransactionsUiOptions), state)
 
 /**
  *
@@ -24,7 +67,7 @@ const getHasRule = (filterByRule, ruleRadioOption) => {
   if (!filterByRule) {
     return null
   }
-  if (ruleRadioOption === 'hasRule') {
+  if (ruleRadioOption === wdHasRule) {
     return true
   }
   return false
@@ -40,7 +83,7 @@ const getHasCategory = (filterByCategory, categoryOptValue) => {
   if (!filterByCategory) {
     return null
   }
-  if (categoryOptValue === 'categorized') {
+  if (categoryOptValue === wdCategorized) {
     return true
   }
   return false
@@ -51,8 +94,10 @@ const getHasCategory = (filterByCategory, categoryOptValue) => {
  * @param {object} transactionsUi
  * @description returns a object with values where allConditions.prop is not null
  */
-const makeConditions = (transactionsUi) => {
-  const { options, filters } = transactionsUi
+const makeConditions = (state) => {
+
+  // const { options, filters } = transactionsUi
+  const { options, filters } = R.path(getPath(state,transactionsUi), state)
   const {
     date,
     acctId,
@@ -63,11 +108,15 @@ const makeConditions = (transactionsUi) => {
     type
   } = filters
 
-  const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
-  const ruleRadioOption = R.path(selectorPaths.ruleRadioValue, options)
-  const categorizeRadioOption = R.path(selectorPaths.categorizeRadioValue, options)
-  const filterByRule = ruleRadioOption === 'all' ? false : true
-  const filterByCategory = categorizeRadioOption === 'both' ? false : true
+  // const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
+  // const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
+  // const ruleRadioOption = R.path(selectorPaths.ruleRadioValue, options)
+  // const categorizeRadioOption = R.path(
+  //   selectorPaths.categorizeRadioValue,
+  //   options
+  // )
+  const filterByRule = ruleRadioOption === wdAll ? false : true
+  const filterByCategory = categorizeRadioOption === wdBoth ? false : true
 
   const allConditions = {
     hasRule: getHasRule(filterByRule, ruleRadioOption),
@@ -104,8 +153,11 @@ const allTests = (transactionsUi) => {
   } = filters
   const ruleRadioOptionValue = R.path(
     ['options', 'ruleRadio', 'value'],
+    // getPath(state)
     transactionsUi
   )
+
+  const ruleRadioOptionValue = R.path(getPath(state, ))
   const categorizeRadioOptionValue = R.path(
     ['options', 'categorizeRadio', 'value'],
     transactionsUi
@@ -125,13 +177,13 @@ const allTests = (transactionsUi) => {
 }
 
 /**
- * 
- * @param {object} state 
+ *
+ * @param {object} state
  */
 export const selectFilteredTransactions = (state) => {
   const { transactionsUi } = state
-  const transactions = R.path(selectorPaths.transactionsItems, state)
-  const currentConditions = makeConditions(transactionsUi)
+  const transactions = R.path(getPath(state, transactionsItems), state)
+  const currentConditions = makeConditions(state)
 
   if (isNilOrEmpty(currentConditions)) {
     console.groupEnd()

@@ -1,11 +1,11 @@
 // import * as R from 'ramda'
-// import { slicePaths } from 'slicePaths'
+// import { selectorPaths. } from 'selectorPaths.'
 
 // // eslint-disable-next-line
 // import { grpStart, grpEnd, blue, yellow, red } from 'logger'
 
 // red('requestStatus', 'hi')
-// red('slicePaths', slicePaths)
+// red('selectorPaths.', selectorPaths.)
 
 // export const requestStatusNames = {
 //   criteriaResultsFetchStatus: 'criteriaResultsFetchStatus',
@@ -92,7 +92,7 @@
 // }
 
 // const selectTransactionsFetchStatus = (state) => {
-//   return R.path(slicePaths.transactionsFetchStatus, state)
+//   return R.path(selectorPaths..transactionsFetchStatus, state)
 // }
 
 

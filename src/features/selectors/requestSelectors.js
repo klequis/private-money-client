@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { selectorPaths } from './slicePaths'
+import { selectorPaths } from './selectorPaths.'
 import { requestStatusNames, requestStatusStates } from 'globalConstants'
 // eslint-disable-next-line
 import { grpStart, grpEnd, blue, yellow, red } from 'logger'
