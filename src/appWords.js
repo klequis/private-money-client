@@ -31,5 +31,13 @@ export const wdTransactions = 'transactions'
 export const wdTransactionsFetchStatus = 'transactionsFetchStatus'
 export const wdTransactionsItems = 'transactionsItems'
 export const wdTransactionsUi = 'transactionsUi'
+export const wdTransactionsUiFilters = 'transactionsUiFilters'
 export const wdTransactionsUiOptions = 'transactionsUiOptions'
 export const wdValue = 'value'
+
+
+
+export const wdRequestStatusError = 'request-error'
+export const wdRequestStatusFulfilled = 'request-fulfilled'
+export const wdRequestStatusPending = 'request-pending'
+export const wdRequestStatusRefresh = 'refresh'

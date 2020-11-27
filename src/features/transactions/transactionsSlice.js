@@ -1,3 +1,7 @@
+/**
+ * @module transactionSlice.js
+ */
+
 import {
   createSlice,
   createAsyncThunk,
@@ -7,7 +11,17 @@ import {
 import { api } from 'api'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { requestStatusNames, requestStatusStates } from 'globalConstants'
+import {
+  wdActiveTransactionId,
+  wdCriteriaResults,
+  wdItems,
+  wdError,
+  wdTransactionsFetchStatus,
+  wdRequestStatusRefresh,
+  wdRequestStatusPending,
+  wdRequestStatusFulfilled,
+  wdRequestStatusError
+} from 'appWords'
 
 // eslint-disable-next-line
 import { blue, yellow, red } from 'logger'
@@ -15,22 +29,12 @@ import { blue, yellow, red } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
-  activeTransactionId: null,
-  criteriaResult: [],
-  error: null,
-  items: [],
-  [requestStatusNames.transactionsFetchStatus]: requestStatusStates.refresh
+  [wdActiveTransactionId]: null,
+  [wdCriteriaResults]: [],
+  [wdError]: null,
+  [wdItems]: [],
+  [wdTransactionsFetchStatus]: wdRequestStatusRefresh
 }
-
-// const initialStateFn = () => {
-//   return {
-//     activeTransactionId: null,
-//     criteriaResult: [],
-//     error: null,
-//     items: [],
-//     [requestStatusNames.transactionsFetchStatus]: requestStatusStates.refresh
-//   }
-// }
 
 const viewName = 'all-data-by-description'
 
@@ -67,24 +71,24 @@ const transactionsSlice = createSlice({
     },
     setTransactionsRefresh(state) {
       // logFetchResults('transactions.setStatusRefresh', state, action)
-      state.transactionsFetchStatus = requestStatusStates.refresh
+      state.transactionsFetchStatus = wdRequestStatusRefresh
     }
   },
   extraReducers: {
     [transactionsFetch.pending]: (state, action) => {
       // logFetchResults('transactions.pending', state, action)
-      state.transactionsFetchStatus = requestStatusStates.pending
+      state.transactionsFetchStatus = wdRequestStatusPending
       state.items = []
     },
     [transactionsFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
-      state.transactionsFetchStatus = requestStatusStates.fulfilled
+      state.transactionsFetchStatus = wdRequestStatusFulfilled
       state.items = R.path(['payload', 'data'], action)
     },
     [transactionsFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       red('transactions.rejected', 'rejected')
-      state.transactionsFetchStatus = R.path(['error'], requestStatusStates)
+      state.transactionsFetchStatus = wdRequestStatusError
       state.error = R.path(['error', 'message'], action)
       state.items = []
     }
