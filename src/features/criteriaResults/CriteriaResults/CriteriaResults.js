@@ -10,19 +10,22 @@ import * as R from 'ramda'
 import { TableBody } from './TableBody'
 import styled from 'styled-components'
 import {
-  selectRuleEditCriteria,
-  selectRuleEditActions,
-  selectActiveCriteria,
+  
   selectCriteriaResultsTransactions,
   selectRequestStatus, 
 } from 'features/selectors'
 import {
+  selectActiveCriteria,
+  selectRuleEditCriteria,
+  selectRuleEditActions,
+} from 'features/rules'
+
+import {
   RenderWhenReady
 } from 'components/RenderWhenReady'
-import { 
-  requestStatusNames 
-} from 'globalConstants'
-
+import {
+  wdCriteriaResultsFetchStatus
+} from 'appWords'
 // eslint-disable-next-line
 import { green, redf, yellow, purple, grpStart, grpEnd } from 'logger'
 // eslint-disable-next-line
@@ -84,7 +87,7 @@ export const CriteriaResults = () => {
   const dispatch = useDispatch()
 
   const status = useSelector((state) =>
-    selectRequestStatus([requestStatusNames.criteriaResultsFetchStatus], state)
+    selectRequestStatus([wdCriteriaResultsFetchStatus], state)
   )
 
   const criteria = useSelector(selectRuleEditCriteria)

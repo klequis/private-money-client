@@ -1,32 +1,27 @@
 import React, { useEffect } from 'react'
-
-import { useSelector, useDispatch } from 'react-redux'
-import {
-  transactionsFetch,
-  Transactions,
-} from 'features/transactions'
-import { 
-  RuleCreate,
-  rulesFetch,
-} from 'features/rules'
-import { 
-  requestStatusStates,
-} from 'globalConstants'
+import { useDispatch, useSelector } from 'react-redux'
 import {
   RenderWhenReady
 } from 'components/RenderWhenReady'
 // import { ContainerFluid } from 'components/ContainerFluid'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { useRuleEditSet } from 'features/rules/useRuleEditSet'
-
 import {
   selectRulesFetchStatus,
+  RuleCreate,
+  rulesFetch,
+} from 'features/rules'
+import {
+  transactionsFetch,
+  Transactions,
   selectActiveTransactionId,
-  selectRequestStatus,
   selectTransactionsFetchStatus
+} from 'features/transactions'
+import {
+  selectRequestStatus,
 } from 'features/selectors'
-import { wdRulesFetchStatus, wdTransactionsFetchStatus } from 'appWords'
 
+import { wdRulesFetchStatus, wdTransactionsFetchStatus } from 'appWords'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'

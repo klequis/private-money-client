@@ -1,10 +1,20 @@
 import { createSlice, createAsyncThunk/*,  current*/ } from '@reduxjs/toolkit'
 import { api } from 'api'
+// import {
+//   requestStatusNames,
+//   requestStatusStates
+// } from 'globalConstants'
 import {
-  requestStatusNames,
-  requestStatusStates
-} from 'globalConstants'
+  wdItems,
+  wdError,
+  wdCriteriaResultsFetchStatus,
+  wdRequestStatusRefresh,
+  wdRequestStatusPending,
+  wdRequestStatusFulfilled,
+  wdRequestStatusError
 
+} from 'appWords'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { blue, yellow } from 'logger'
@@ -12,9 +22,9 @@ import { blue, yellow } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
-  items: [],
-  [requestStatusNames.criteriaResultsFetchStatus]: requestStatusStates.refresh,
-  error: null,
+  [wdItems]: [],
+  [wdCriteriaResultsFetchStatus]: wdRequestStatusRefresh,
+  [wdError]: null,
 }
 
 export const criteriaResultsFetch = createAsyncThunk(
@@ -38,18 +48,18 @@ const criteriaResultsSlice = createSlice({
   extraReducers: {
     [criteriaResultsFetch.pending]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.pending', state, action)
-      state.criteriaResultsFetchStatus = requestStatusStates.pending
+      state.criteriaResultsFetchStatus = wdRequestStatusPending
       state.items = []
     },
     [criteriaResultsFetch.fulfilled]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.fulfilled', state, action)
-      state.criteriaResultsFetchStatus = requestStatusStates.fulfilled
-      state.items = action.payload.data
+      state.criteriaResultsFetchStatus = wdRequestStatusFulfilled
+      state.items = R.path(['payload', 'data'], action)
     },
     [criteriaResultsFetch.rejected]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.rejected', state, action)
-      state.criteriaResultsFetchStatus = requestStatusStates.error
-      state.error = action.error.message
+      state.criteriaResultsFetchStatus = wdRequestStatusError
+      state.error = R.path(['error', 'message'], action)
       state.items = []
     }  
   }

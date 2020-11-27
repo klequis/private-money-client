@@ -1,29 +1,49 @@
+/**
+ * @module requestSelectors.js
+ */
+
 import * as R from 'ramda'
-import { selectorPaths } from './selectorPaths.'
-import { requestStatusNames, requestStatusStates } from 'globalConstants'
+import {
+  wdCriteriaResultsFetchStatus,
+  wdTransactionsFetchStatus,
+  wdRuleCreateStatus,
+  wdRuleUpdateStatus,
+  wdRulesFetchStatus,
+  wdRequestStatusError,
+  wdRequestStatusPending,
+  wdRequestStatusRefresh,
+  wdRequestStatusFulfilled
+} from 'appWords'
+import {
+  selectCriteriaResultsFetchStatus,
+  
+} from 'features/criteriaResults'
+import {
+  selectTransactionsFetchStatus,
+} from 'features/transactions'
+import {
+  selectRulesFetchStatus,
+  selectRuleCreateStatus,
+  selectRuleUpdateStatus
+} from 'features/rules'
+
 // eslint-disable-next-line
 import { grpStart, grpEnd, blue, yellow, red } from 'logger'
 
 const statusValues = (statusName, state) => {
-  const {
-    criteriaResultsFetchStatus: criteriaResultsFetchStatus,
-    transactionsFetchStatus,
-    rulesFetchStatus,
-    ruleCreateStatus,
-    ruleUpdateStatus
-  } = requestStatusNames
+  // const {
+  //   criteriaResultsFetchStatus: criteriaResultsFetchStatus,
+  //   transactionsFetchStatus,
+  //   rulesFetchStatus,
+  //   ruleCreateStatus,
+  //   ruleUpdateStatus
+  // } = requestStatusNames
   const values = {
-    [criteriaResultsFetchStatus]: R.path(
-      ['criteriaResults', requestStatusNames.criteriaResultsFetchStatus],
-      state
-    ),
-    [transactionsFetchStatus]: R.path(
-      selectorPaths.transactionsFetchStatus,
-      state
-    ),
-    [rulesFetchStatus]: R.path(selectorPaths.rulesFetchStatus, state),
-    [ruleCreateStatus]: R.path(selectorPaths.ruleCreateStatus, state),
-    [ruleUpdateStatus]: R.path(selectorPaths.ruleUpdateStatus, state)
+    [wdCriteriaResultsFetchStatus]: selectCriteriaResultsFetchStatus(state),
+    [wdTransactionsFetchStatus]: selectTransactionsFetchStatus(state),
+    [wdRulesFetchStatus]: selectRulesFetchStatus(state),
+    [wdRuleCreateStatus]: selectRuleCreateStatus(state),
+    [wdRuleUpdateStatus]: selectRuleUpdateStatus(state)
   }
   return values[statusName]
 }
@@ -48,51 +68,32 @@ const any = (statusNames, matchStatusState, state) => {
  * @param {object} state
  */
 export const selectRequestStatus = (statusNames, state) => {
- 
-  const { error, fulfilled, pending, refresh } = requestStatusStates
 
-  // blue('statusNames', statusNames)  
+  // blue('statusNames', statusNames)
   // blue('state', state)
 
-  if (any(statusNames, error, state)) {
+  if (any(statusNames, wdRequestStatusError, state)) {
     // yellow('1: any', 'error')
-    return requestStatusStates.error
+    return wdRequestStatusError
   }
-  if (any(statusNames, pending, state)) {
+  if (any(statusNames, wdRequestStatusPending, state)) {
     // yellow('3: any', pending)
-    return requestStatusStates.pending
+    return wdRequestStatusPending
   }
-  if (any(statusNames, refresh, state)) {
+  if (any(statusNames, wdRequestStatusRefresh, state)) {
     // yellow('4: any', refresh)
-    return requestStatusStates.refresh
+    return wdRequestStatusRefresh
   }
-  if (all(statusNames, fulfilled, state)) {
+  if (all(statusNames, wdRequestStatusFulfilled, state)) {
     // yellow('5: all', 'fulfilled')
-    return requestStatusStates.fulfilled
+    return wdRequestStatusFulfilled
   }
   // yellow('6: error', error)
-  return requestStatusStates.error
+  return wdRequestStatusError
 }
 
-/**
- *
- * @param {object} state
- * @return {string} one of requestStatusStates
- */
-export const selectTransactionsFetchStatus = (state) => {
-  return R.path(selectorPaths.transactionsFetchStatus, state)
-}
 
-/**
- * 
- * @param {state} state 
- * @return {string} one of requestStatusStates
- */
-export const selectRulesFetchStatus = (state) => R.path(selectorPaths.rulesFetchStatus, state)
 
-/**
- * 
- * @param {state} state 
- * @return {string} one of requestStatusStates
- */
-export const selectCriteriaResultsFetchStatus = (state) => R.path(selectorPaths.criteriaResultsFetchStatus, state)
+
+
+

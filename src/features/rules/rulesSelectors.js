@@ -182,3 +182,11 @@ export const selectCriteriaResults = (state) => {
     ids.includes(t._id)
   )
 }
+
+/**
+ *
+ * @param {state} state
+ * @return {string} a request status word from appWords.js
+ */
+export const selectRulesFetchStatus = (state) =>
+  R.path(getPath(state, wdRulesFetchStatus), state)

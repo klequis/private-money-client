@@ -90,7 +90,19 @@ export const selectActiveTransactionId = (state) => {
 //   return t[fieldName]
 // }
 
-export const selectTransactionsFetchStatus = (state) => R.path(selectorPaths.transactionsFetchStatus, state)
+/**
+ * 
+ * @param {object} state 
+ * @returns {string} a request status word from appWords.js
+ */
+export const selectTransactionsFetchStatus = (state) => 
+  R.path(getPath(state, wdTransactionsFetchStatus).transactionsFetchStatus, state)
+
+/**
+ * 
+ * @param {object} state 
+ * @returns a request status word from appWords.js
+ */
 export const selectTransactionsFetchStatus = (state) => 
   R.path(getPath(state, paths.transactionsFetchStatus), state)
   // R.path(selectorPaths.transactionsFetchStatus, state)

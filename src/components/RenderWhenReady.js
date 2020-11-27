@@ -1,6 +1,12 @@
 import React from 'react'
-import { requestStatusStates } from 'globalConstants'
+// import { requestStatusStates } from 'globalConstants'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import {
+  wdRequestStatusError,
+  wdRequestStatusFulfilled,
+  wdRequestStatusPending,
+  wdRequestStatusRefresh
+} from 'appWords'
 // eslint-disable-next-line
 import { green } from 'logger'
 
@@ -8,17 +14,16 @@ export const RenderWhenReady = ({ status, children }) => {
 
   // ! Component is dependent upon order of if statements ! //
 
-  const { fulfilled, pending, error, refresh } = requestStatusStates
 
-  if (status === fulfilled) {
+  if (status === wdRequestStatusFulfilled) {
     return React.Children.only(children)
   }
 
-  if (status === pending) {
+  if (status === wdRequestStatusPending) {
     return <h1>Pending</h1>
   }
 
-  if (status === error) {
+  if (status === wdRequestStatusError) {
     return <h1>Error</h1>
   }
 
@@ -26,7 +31,7 @@ export const RenderWhenReady = ({ status, children }) => {
     return <h1>status is empty string</h1>
   }
 
-  if (status === refresh) {
+  if (status === wdRequestStatusRefresh) {
     return <h1>Refreshing data</h1>
   }
 
