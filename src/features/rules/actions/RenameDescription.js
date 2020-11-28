@@ -6,11 +6,11 @@ import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { purple, green, redf } from 'logger'
-import { selectRuleEditRenameDescriptionAction } from 'features/selectors'
+import { selectRuleEditRenameAction } from 'features/selectors'
 
 export const RenameDescription = () => {
 
-  const [_action, _setAction] = useState(useSelector(selectRuleEditRenameDescriptionAction))
+  const [_action, _setAction] = useState(useSelector(selectRuleEditRenameAction))
   const { replaceWithValue, _id: actionId } = _action
 
   const dispatch = useDispatch()

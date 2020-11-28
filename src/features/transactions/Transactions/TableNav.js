@@ -6,11 +6,22 @@ import {
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
 import {
-  selectOptionState,
   selectRuleRadioValue,
   selectCategorizeRadioValue,
   selectCategorizeRadioDisabled
 } from 'features/selectors'
+import {
+  wdRuleRadio,
+  wdAll,
+  wdHasRule,
+  wdDoesNotHaveRule,
+  wdCategorizeRadio,
+  wdCategorized,
+  wdUncategorized,
+  wdBoth
+} from 'appWords'
+
+
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
@@ -48,27 +59,27 @@ export const TableNav = () => {
           groupValue={ruleGroupValue}
           id='allId'
           label="All"
-          name={ruleRadio}
+          name={wdRuleRadio}
           onChange={_radioChange}
           width={70}
-          value={optionValues.all}
+          value={wdAll}
         />
         <Radio
           groupValue={ruleGroupValue}
           id='hasRuleId'
           label="Has rule"
-          name={ruleRadio}
+          name={wdRuleRadio}
           onChange={_radioChange}
           width={120}
-          value={optionValues.hasRule}
+          value={wdHasRule}
         />
         <Radio
           groupValue={ruleGroupValue}
           id='doesNotHaveRuleId'
           label="Does not have rule"
-          name={ruleRadio}
+          name={wdRuleRadio}
           onChange={_radioChange}
-          value={optionValues.doesNotHaveRule}
+          value={wdDoesNotHaveRule}
         />
 
       </Row>
@@ -79,9 +90,9 @@ export const TableNav = () => {
           groupValue={categorizeGroupValue}
           id="bothId"
           label="Both"
-          name={categorizeRadio}
+          name={wdCategorizeRadio}
           onChange={_radioChange}
-          value={optionValues.both}
+          value={wdBoth}
           width={70}
         />
         <Radio
@@ -89,19 +100,19 @@ export const TableNav = () => {
           groupValue={categorizeGroupValue}
           id="categorizedId"
           label="Categorized"
-          name={categorizeRadio}
+          name={wdCategorizeRadio}
           onChange={_radioChange}
           width={120}
-          value={optionValues.categorized}
+          value={wdCategorized}
         />
         <Radio
           disabled={categorizeDisabled}
           groupValue={categorizeGroupValue}
           id="uncategorizedId"
           label="Uncategorized"
-          name={categorizeRadio}
+          name={wdCategorizeRadio}
           onChange={_radioChange}
-          value={optionValues.uncategorized}
+          value={wdUncategorized}
         />
       </Row>
     </Options>

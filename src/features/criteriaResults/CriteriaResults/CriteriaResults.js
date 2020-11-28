@@ -13,7 +13,7 @@ import {
   selectActiveCriteria,
   selectRuleEditCriteria,
   selectRuleEditActions,
-  selectCriteriaResultsTransactions,
+  selectCriteriaResults,
   selectRequestStatus, 
 } from 'features/selectors'
 import {
@@ -102,7 +102,7 @@ export const CriteriaResults = () => {
   }, [criteria])
   // }, [activeCriteria, dispatch])
 
-  const transactions = useSelector(selectCriteriaResultsTransactions)
+  const transactions = useSelector(selectCriteriaResults)
 
   if (R.isEmpty(criteria) || R.isEmpty(actions)) {
     return null

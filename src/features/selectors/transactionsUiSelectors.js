@@ -26,7 +26,7 @@ import {
 // export const selectIsUncategorizedChecked = (state) =>
 //   R.path(selectorPaths..transactionsUiIsUncategorizedChecked, state)
 
-const paths = {
+export const uiPaths = {
   [wdTransactionsUiOptions]: [wdTransactionsUi, wdOptions],
   [wdCategorizeRadioDisabled]: [wdTransactionsUi, wdOptions, wdCategorizeRadio, wdDisabled],
   [wdCategorizeRadioValue]: [
@@ -94,7 +94,7 @@ const getHasCategory = (filterByCategory, categoryOptValue) => {
  */
 const makeConditions = (state) => {
   // const { options, filters } = transactionsUi
-  const filters = R.path(getPath(state, paths.transactionsUiFilters), state)
+  const filters = R.path(getPath(state, uiPaths.transactionsUiFilters), state)
   const {
     date,
     acctId,
@@ -115,8 +115,8 @@ const makeConditions = (state) => {
   // const filterByRule =  ruleRadioOption === wdAll ? false : true
 
 
-  const ruleRadioValue = R.path(getPath(state, paths.ruleRadioOptionValue), state)
-  const categorizeRadioValue = R.path(getPath(state, paths.categorizeRadioValue), state)
+  const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioOptionValue), state)
+  const categorizeRadioValue = R.path(getPath(state, uiPaths.categorizeRadioValue), state)
 
   const filterByRule = ruleRadioValue === wdAll ? false : true
   // const filterByCategory = ???  === wdBoth ? false : true
@@ -145,7 +145,7 @@ const makeConditions = (state) => {
  * @returns {object} an object of all filter properties with test for each prop
  */
 const allTests = (state) => {
-  const filters = R.path(getPath(state, paths.transactionsUiFilters), state)
+  const filters = R.path(getPath(state, uiPaths.transactionsUiFilters), state)
   const {
     date,
     acctId,
@@ -161,7 +161,7 @@ const allTests = (state) => {
   //   transactionsUi
   // )
   const ruleRadioOptionValue = R.path(
-    getPath(state, paths.ruleRadioValue),
+    getPath(state, uiPaths.ruleRadioValue),
     state
   )
 
@@ -169,7 +169,7 @@ const allTests = (state) => {
   //   ['options', 'categorizeRadio', 'value'],
   //   transactionsUi
   // )
-  const categorizeRadioOptionValue = R.path(getPath(state, paths.categorizeRadioValue), state)
+  const categorizeRadioOptionValue = R.path(getPath(state, uiPaths.categorizeRadioValue), state)
 
   return {
     hasRule: R.equals(R.__, ruleRadioOptionValue === 'hasRule'),
@@ -191,7 +191,7 @@ const allTests = (state) => {
  */
 export const selectFilteredTransactions = (state) => {
   const { transactionsUi } = state
-  const transactions = R.path(getPath(state, paths.transactionsItems), state)
+  const transactions = R.path(getPath(state, uiPaths.transactionsItems), state)
   const currentConditions = makeConditions(state)
   if (isNilOrEmpty(currentConditions)) {
     console.groupEnd()

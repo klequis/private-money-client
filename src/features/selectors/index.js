@@ -1,6 +1,5 @@
 export * from './criteriaResultsSelectors'
 export * from './requestSelectors'
 export * from './rulesSelectors'
-export * from './selectorPaths.'
 export * from './transactionsSelectors'
 export * from './transactionsUiSelectors'

@@ -15,20 +15,32 @@ import {
   removeInactiveCriteria,
   removeTmpIdField
 } from 'features/helpers'
-import { requestStatusNames, requestStatusStates } from 'globalConstants'
-import {
-  items,
-  error,
-  ruleEdit,
-  rulesFetchStatus,
-  ruleCreateStatus,
-  ruleUpdateStatus
-} from './pathWords'
-
+// import {
+//   items,
+//   error,
+//   ruleEdit,
+//   rulesFetchStatus,
+//   ruleCreateStatus,
+//   ruleUpdateStatus
+// } from './pathWords'
 import {
   selectRuleEditActions,
+  selectRuleEditCriteria,
   rulePaths
-} from './rulesSelectors'
+} from 'features/selectors'
+import {
+  wdRequestStatusError,
+  wdRequestStatusFulfilled,
+  wdRequestStatusPending,
+  wdRequestStatusRefresh,
+  wdItems,
+  wdRulesFetchStatus,
+  wdRuleCreateStatus,
+  wdRuleUpdateStatus,
+  wdError,
+  wdRuleEdit
+} from 'appWords'
+
 
 // eslint-disable-next-line
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -41,12 +53,12 @@ import { logFetchResults } from 'lib/logFetchResults'
  * @see https://github.com/klequis/private-money-client/wiki/State for properties of ruleEdit which are created at runtime.
  */
 const initialState = {
-  [items]: [],
-  [rulesFetchStatus]: requestStatusStates.refresh,
-  [ruleCreateStatus]: requestStatusStates.refresh,
-  [ruleUpdateStatus]: requestStatusStates.refresh,
-  [error]: null,
-  [ruleEdit]: {
+  [wdItems]: [],
+  [wdRulesFetchStatus]: wdRequestStatusRefresh,
+  [wdRuleCreateStatus]: wdRequestStatusRefresh,
+  [wdRuleUpdateStatus]: wdRequestStatusRefresh,
+  [wdError]: null,
+  [wdRuleEdit]: {
   }
 }
 
@@ -131,9 +143,8 @@ const rulesSlice = createSlice({
         currCriteria
       )
       const newState = R.pipe(
-        // R.assocPath(R.tail(selectorPaths.ruleEditCriteria), newCriteria),
-        R.assocPath(selectorPaths..ruleEditCriteria, newCriteria),
-        R.assocPath(['ruleEdit', 'dirty'], true)
+        R.assocPath(rulePaths.pathRuleEditCriteria, newCriteria),
+        R.assocPath(rulePaths.pathRuleEditDirty, true)
       )(currState)
       return newState
     },
@@ -152,55 +163,55 @@ const rulesSlice = createSlice({
       state.ruleEdit = ruleTmpMake(origDescription, date)
     },
     setRulesRefresh(state) {
-      state.rulesFetchStatus = requestStatusStates.refresh
+      state.rulesFetchStatus = wdRequestStatusRefresh
     }
   },
   extraReducers: {
     // rulesFetch
     [rulesFetch.pending]: (state, action) => {
       // logFetchResults('fetchRules.pending', state, action)
-      state.rulesFetchStatus = requestStatusStates.pending
+      state.rulesFetchStatus = wdRequestStatusPending
       state.items = []
     },
     [rulesFetch.fulfilled]: (state, action) => {
       // logFetchResults('fetchRules.fulfilled', state, action)
-      state.rulesFetchStatus = requestStatusStates.fulfilled
-      state.items = R.path(['payload', 'data'], actions)
+      state.rulesFetchStatus = wdRequestStatusFulfilled
+      state.items = R.path(['payload', 'data'], action)
     },
     [rulesFetch.rejected]: (state, action) => {
       // logFetchResults('fetchRules.rejected', state, action)
-      state.rulesFetchStatus = requestStatusStates.error
+      state.rulesFetchStatus = wdRequestStatusError
       state.error = R.path(['error', 'message'], action)
       state.items = []
     },
     // ruleCreate
     [ruleCreate.pending]: (state, action) => {
       // logFetchResults('ruleEdit.pending', state, action)
-      state.ruleCreateStatus = requestStatusStates.pending
+      state.ruleCreateStatus = wdRequestStatusPending
     },
     [ruleCreate.fulfilled]: (state, action) => {
       // logFetchResults('ruleEdit.fulfilled', state, action)
-      state.ruleCreateStatus = requestStatusStates.fulfilled
+      state.ruleCreateStatus = wdRequestStatusFulfilled
     },
     [ruleCreate.rejected]: (state, action) => {
       // logFetchResults('ruleEdit.rejected', state, action)
       // red('ruleEdit.ruleCreate.srejected', 'rejected')
-      state.ruleCreateStatus = requestStatusStates.error
+      state.ruleCreateStatus = wdRequestStatusError
       state.error = R.path(['error', 'message'], action)
     },
     // ruleUpdate
     [ruleUpdate.pending]: (state, action) => {
       // logFetchResults('ruleEdit.pending', state, action)
-      state.ruleUpdateStatus = requestStatusStates.pending
+      state.ruleUpdateStatus = wdRequestStatusPending
     },
     [ruleUpdate.fulfilled]: (state, action) => {
       // logFetchResults('ruleEdit.fulfilled', state, action)
-      state.ruleUpdateStatus = requestStatusStates.fulfilled
+      state.ruleUpdateStatus = wdRequestStatusFulfilled
     },
     [ruleUpdate.rejected]: (state, action) => {
       // logFetchResults('ruleEdit.rejected', state, action)
       // red('ruleEdit.ruleUpdate.rejected', 'rejected')
-      state.ruleUpdateStatus = requestStatusStates.error
+      state.ruleUpdateStatus = wdRequestStatusError
       state.error = R.path(['error', 'message'], action)
     }
 

@@ -1,5 +1,4 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { selectorPaths } from './s
 import {
   wdActiveTransactionId,
   wdCriteriaResults,
@@ -8,7 +7,8 @@ import {
   wdTransactions,
   wdTransactionsFetchStatus,
   wdTransactionsItems
-} from 'features/pathWords'
+} from 'appWords'
+import * as R from 'ramda'
 
 const paths = {
   [wdActiveTransactionId]: [wdTransactions, wdActiveTransactionId],
@@ -38,7 +38,6 @@ const getPath = (state, fullPath) =>
  * @returns {array} of transactions objects
  */
 export const selectAllTransactions = (state) => {
-  state.transactions.items
   return R.path(getPath(state, paths.transactionsItems))
 }
 
@@ -95,8 +94,8 @@ export const selectActiveTransactionId = (state) => {
  * @param {object} state 
  * @returns {string} a request status word from appWords.js
  */
-export const selectTransactionsFetchStatus = (state) => 
-  R.path(getPath(state, wdTransactionsFetchStatus).transactionsFetchStatus, state)
+// export const selectTransactionsFetchStatus = (state) => 
+//   R.path(getPath(state, wdTransactionsFetchStatus).transactionsFetchStatus, state)
 
 /**
  * 

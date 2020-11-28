@@ -1,13 +1,23 @@
-import { selectorPaths } from './selectorPaths.'
 import * as R from 'ramda'
 import { valueOrEmptyArray } from './helpers'
-import { wdCriteriaResults } from 'appWords'
+import { 
+  wdCriteriaResults,
+  wdCriteriaResultsItems,
+  wdCriteriaResultsFetchStatus,
+  wdItems,
+  wdError
+} from 'appWords'
 
-const hasCriteriaResults = (state) => R.has('criteriaResults')(state)
+const hasCriteriaResults = (state) => R.has(wdCriteriaResults)(state)
 const getPath = (state, fullPath) => 
   hasCriteriaResults(state) ? fullPath : R.tail(fullPath)
 
 
+export const criteriaResultsPaths = {
+  [wdCriteriaResultsItems]: [wdCriteriaResults, wdItems],
+  [wdCriteriaResultsFetchStatus]: [wdCriteriaResults, wdCriteriaResultsFetchStatus],
+  [wdError]: [wdCriteriaResults, wdError]
+}
 /**
  * 
  * @param {state} state 
@@ -46,4 +56,4 @@ export const selectCriteriaResults = (state) => {
  * @return {string} a request status word from appWords.js
  */
 export const selectCriteriaResultsFetchStatus = (state) =>
-  R.path(selectorPaths.criteriaResultsFetchStatus, state)
+  R.path(criteriaResultsPaths.criteriaResultsFetchStatus, state)

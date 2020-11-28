@@ -23,7 +23,7 @@ import {
   selectRequestStatus,
 } from 'features/selectors'
 
-import { wdRulesFetchStatus, wdTransactionsFetchStatus } from 'appWords'
+import { wdRequestStatusRefresh, wdRulesFetchStatus, wdTransactionsFetchStatus } from 'appWords'
 
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
@@ -54,10 +54,10 @@ export const App = () => {
   const rulesFetchStatus = useSelector(selectRulesFetchStatus)
 
   useEffect(() => {
-    if (transactionsFetchStatus === requestStatusStates.refresh) {
+    if (transactionsFetchStatus === wdRequestStatusRefresh) {
       dispatch(transactionsFetch())
     }
-    if (rulesFetchStatus === requestStatusStates.refresh) {
+    if (rulesFetchStatus === wdRequestStatusRefresh) {
       dispatch(rulesFetch())
     }
   }, [dispatch, transactionsFetchStatus, rulesFetchStatus])

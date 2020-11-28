@@ -10,10 +10,11 @@ import {
   wdActions,
   wdCriteria,
   wdIsTmpRule,
-  pathRuleCreateStatus,
+  wdRuleCreateStatus,
   wdRulesFetchStatus,
   // ruleRadio,
-  wdRuleUpdateStatus
+  wdRuleUpdateStatus,
+  wdRulesItems
   // value
 } from 'appWords'
 
@@ -25,7 +26,7 @@ export const rulePaths = {
   ruleEditCriteria: [wdRules, wdRuleEdit, wdCriteria],
   ruleEditIsDirty: [wdRules, wdRuleEdit, wdIsDirty],
   ruleEditIsTmpRule: [wdRules, wdRuleEdit, wdIsTmpRule],
-  ruleCreateStatus: [wdRules, pathRuleCreateStatus],
+  ruleCreateStatus: [wdRules, wdRuleCreateStatus],
   ruleUpdateStatus: [wdRules, wdRuleUpdateStatus],
   rulesFetchStatus: [wdRules, wdRulesFetchStatus],
   rulesItems: [wdRules, wdItems]
@@ -175,3 +176,14 @@ export const selectRuleEditCategorizeAction = (state) => {
  */
 export const selectRulesFetchStatus = (state) =>
   R.path(getPath(state, wdRulesFetchStatus), state)
+
+export const selectRuleCreateStatus = (state) => 
+  R.path(getPath(state, wdRuleCreateStatus), state)
+
+export const selectRuleUpdateStatus = state => {
+  R.path(getPath(state, wdRuleUpdateStatus))
+}
+
+export const selectRulesItems = (state) => {
+  R.path(getPath(state, wdRulesItems))
+}
