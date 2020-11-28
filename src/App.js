@@ -26,7 +26,7 @@ import {
 import { wdRequestStatusRefresh, wdRulesFetchStatus, wdTransactionsFetchStatus } from 'appWords'
 
 // eslint-disable-next-line
-import { green, yellow, red } from 'logger'
+import { green, yellow, red, purple } from 'logger'
 // eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
 
@@ -34,7 +34,7 @@ let countTotal = 0
 let countReturn = 0
 
 export const App = () => {
-
+  purple('App', 'render')
   countTotal = countTotal + 1
 
   const dispatch = useDispatch()
@@ -52,6 +52,7 @@ export const App = () => {
   )
   const transactionsFetchStatus = useSelector(selectTransactionsFetchStatus)
   const rulesFetchStatus = useSelector(selectRulesFetchStatus)
+
 
   useEffect(() => {
     if (transactionsFetchStatus === wdRequestStatusRefresh) {

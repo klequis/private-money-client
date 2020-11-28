@@ -41,10 +41,15 @@ export const wdRequestStatusRefresh = 'refresh'
 export const wdRuleCreateStatus = 'ruleCreateStatus'
 
 export const wdRuleEdit = 'ruleEdit'
+export const wdRuleEditActions = 'ruleEditActions'
+export const wdRuleEditCriteria = 'ruleEditCriteria'
+export const wdRuleEditDirty = 'ruleEditDirty'
+export const wdRuleEditIsTmpRule = 'ruleEditIsTmpRule'
 export const wdRuleRadio = 'ruleRadio'
 export const wdRuleRadioValue = 'ruleRadioValue'
 export const wdRuleUpdateStatus = 'ruleUpdateStatus'
 export const wdRules = 'rules'
+                                   
 export const wdRulesFetchStatus = 'rulesFetchStatus'
 export const wdRulesItems = 'rulesItems'
 // u

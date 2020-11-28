@@ -5,13 +5,18 @@ import { valueOrEmptyArray, valueOrEmptyObject } from './helpers'
 import {
   wdIsDirty,
   wdItems,
-  wdRules,
+  
   wdRuleEdit,
   wdActions,
   wdCriteria,
   wdIsTmpRule,
   wdRuleCreateStatus,
+  wdRules,
   wdRulesFetchStatus,
+  wdRuleEditActions,
+  wdRuleEditCriteria,
+  wdRuleEditDirty,
+  wdRuleEditIsTmpRule,
   // ruleRadio,
   wdRuleUpdateStatus,
   wdRulesItems
@@ -20,16 +25,18 @@ import {
 
 // eslint-disable-next-line
 import { blue, grpStart, grpEnd } from 'logger'
+import { green } from 'logger'
+import { red } from 'logger'
 
 export const rulePaths = {
-  ruleEditActions: [wdRules, wdRuleEdit, wdActions],
-  ruleEditCriteria: [wdRules, wdRuleEdit, wdCriteria],
-  ruleEditIsDirty: [wdRules, wdRuleEdit, wdIsDirty],
-  ruleEditIsTmpRule: [wdRules, wdRuleEdit, wdIsTmpRule],
-  ruleCreateStatus: [wdRules, wdRuleCreateStatus],
-  ruleUpdateStatus: [wdRules, wdRuleUpdateStatus],
-  rulesFetchStatus: [wdRules, wdRulesFetchStatus],
-  rulesItems: [wdRules, wdItems]
+  [wdRuleEditActions]: [wdRules, wdRuleEdit, wdActions],
+  [wdRuleEditCriteria]: [wdRules, wdRuleEdit, wdCriteria],
+  [wdRuleEditDirty]: [wdRules, wdRuleEdit, wdIsDirty],
+  [wdRuleEditIsTmpRule]: [wdRules, wdRuleEdit, wdIsTmpRule],
+  [wdRuleCreateStatus]: [wdRules, wdRuleCreateStatus],
+  [wdRuleUpdateStatus]: [wdRules, wdRuleUpdateStatus],
+  [wdRulesFetchStatus]: [wdRules, wdRulesFetchStatus],
+  [wdRulesItems]: [wdRules, wdItems]
 }
 
 
@@ -39,15 +46,32 @@ export const rulePaths = {
  * @param {object} state
  * @returns {boolean}
  */
-const hasRules = (state) => R.has('rules')(state)
+const hasRules = (state) => {
+  return R.has(wdRules)(state)
+}
+
+
+
+// so what really is the use of getPath
+// called from within this module it should take a word and return a path
+
 
 /**
  *
  * @param {object} state
  * @param {array} fullPath
  */
-const getPath = (state, fullPath) =>
-  hasRules(state) ? fullPath : R.tail(fullPath)
+const getPath = (state, fullPath) => {
+  const ret = hasRules(state) ? fullPath : R.tail(fullPath)
+  // grpStart('getPath')
+  // blue('hasRules(state)', hasRules(state))
+  // blue('state', state)
+  // blue('fullPath', fullPath)
+  // blue('state.rules.rulesFetchStatus', state.rules.rulesFetchStatus)
+  // blue('ret', ret)
+  // grpEnd()
+  return ret
+}
 
 // export const selectRuleCriteria = (ruleId, state) => {
 //   const { criteria } = getRule(ruleId, state)
@@ -167,23 +191,23 @@ export const selectRuleEditCategorizeAction = (state) => {
   return a
 }
 
-
-
 /**
  *
  * @param {state} state
  * @return {string} a request status word from appWords.js
  */
-export const selectRulesFetchStatus = (state) =>
-  R.path(getPath(state, wdRulesFetchStatus), state)
+export const selectRulesFetchStatus = (state) => {
+  return R.path(getPath(state, rulePaths.rulesFetchStatus), state)
+}
 
 export const selectRuleCreateStatus = (state) => 
-  R.path(getPath(state, wdRuleCreateStatus), state)
+  R.path(getPath(state, rulePaths.ruleCreateStatus), state)
 
 export const selectRuleUpdateStatus = state => {
-  R.path(getPath(state, wdRuleUpdateStatus))
+  R.path(getPath(state, rulePaths.ruleUpdateStatus))
 }
 
 export const selectRulesItems = (state) => {
-  R.path(getPath(state, wdRulesItems))
+  R.path(getPath(state, rulePaths.ruleItems))
 }
+

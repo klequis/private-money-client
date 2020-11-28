@@ -23,7 +23,7 @@ const paths = {
  * @param {state} state 
  * @returns {boolean}
  */
-const hasTransactions = (state) => R.has('transactions')(state)
+const hasTransactions = (state) => R.has(wdTransactions)(state)
 /**
  *
  * @param {object} state
