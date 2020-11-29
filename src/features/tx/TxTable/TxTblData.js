@@ -5,6 +5,6 @@ import React from 'react'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-export const TableData = ({ align, children }) => {
+export const TxTblData = ({ align, children }) => {
   return <td>{children}</td>
 }

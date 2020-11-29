@@ -6,9 +6,9 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 
 import { Table as BaseTable } from 'components/Table'
-import { TableBody } from './TableBody'
-import { TableHead } from './TableHead'
-import { TableNav } from './TableNav'
+import { TxTblBody } from './TxTblBody'
+import { TxTblHead } from './TxTblHead'
+import { TxTblNav } from './TxTblNav'
 // import { transactionOptionValues as optionValues } from 'globalConstants'
 // import * as R from 'ramda'
 import {
@@ -19,7 +19,7 @@ import {
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
-export const Table = () => {
+export const TxTbl = () => {
   // ColumnHeadFilters
   // const [/*_filter,*/ _setFilter] = useState({
   //   field: '',
@@ -35,12 +35,12 @@ export const Table = () => {
 
   return (
     <>
-      <TableNav />
+      <TxTblNav />
       <BaseTable>
-        <TableHead />
+        <TxTblHead />
         {/* TODO: tmp code. Sort is hard coded */}
         {filteredTransactions.map((t) => (
-          <TableBody key={t._id} transactionId={t._id} />
+          <TxTblBody key={t._id} transactionId={t._id} />
         ))}
       </BaseTable>
     </>

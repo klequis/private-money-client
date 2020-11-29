@@ -8,13 +8,13 @@ import {
   selectOneTransaction,
   selectActiveTransactionId
 } from 'features/selectors'
-import styles from './TableBody.module.css'
-import { TableData } from './TableData'
+// TODO: needed? import styles from './TableBody.module.css'
+import { TxTblData } from './TxTblData'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
 
-export const TableBody = ({ transactionId }) => {
+export const TxTblBody = ({ transactionId }) => {
   const dispatch = useDispatch()
 
   const activeTransactionId = useSelector(selectActiveTransactionId)
@@ -42,28 +42,29 @@ export const TableBody = ({ transactionId }) => {
 
   return (
     <>
-      <tbody onClick={_rowClick} className={showRow ? styles.rowIdShow : ''}>
+      {/* <tbody onClick={_rowClick} className={showRow ? styles.rowIdShow : ''}> */}
+      <tbody>
         <tr>
-          <TableData>{date}</TableData>
-          <TableData>{acctId}</TableData>
+          <TxTblData>{date}</TxTblData>
+          <TxTblData>{acctId}</TxTblData>
           {/* <TableData align="left">
             <div>{description}</div>
             {_id === activeTransactionId ? <div>{origDescription}</div> : null}
           </TableData> */}
-          <TableData align="left">
+          <TxTblData align="left">
             <div>{description}</div>
             <div>{_id}</div>
-          </TableData>
-          <TableData>{amount}</TableData>
-          <TableData>{category1}</TableData>
-          <TableData>{category2}</TableData>
-          <TableData>{type}</TableData>
-          <TableData>{omit ? 'yes' : 'no'}</TableData>
-          <TableData align="center">
+          </TxTblData>
+          <TxTblData>{amount}</TxTblData>
+          <TxTblData>{category1}</TxTblData>
+          <TxTblData>{category2}</TxTblData>
+          <TxTblData>{type}</TxTblData>
+          <TxTblData>{omit ? 'yes' : 'no'}</TxTblData>
+          <TxTblData align="center">
             {isNilOrEmpty(ruleIds)
               ? null
               : ruleIds.map((id) => <div key={id}>{id}</div>)}
-          </TableData>
+          </TxTblData>
         </tr>
       </tbody>
     </>

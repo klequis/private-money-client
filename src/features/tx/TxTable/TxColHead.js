@@ -21,7 +21,7 @@ const TextInput = styled.input`
   flex-flow: column now;
 */
 
-export const ColumnHead = ({ fieldName }) => {
+export const TxColHead = ({ fieldName }) => {
   const dispatch = useDispatch()
 
   const [_value, _setValue] = useState('')

@@ -38,7 +38,7 @@ const Options = styled.div`
   padding: 5px;
 `
 
-export const TableNav = () => {
+export const TxTblNav = () => {
 
   const dispatch = useDispatch()
 
