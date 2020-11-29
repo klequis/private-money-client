@@ -1,7 +1,6 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
   wdActiveTransactionId,
-  wdCriteriaResults,
   wdError,
   wdItems,
   wdTransactions,
@@ -12,10 +11,9 @@ import * as R from 'ramda'
 
 const paths = {
   [wdActiveTransactionId]: [wdTransactions, wdActiveTransactionId],
-  [wdCriteriaResults]: [wdTransactions, wdCriteriaResults],
   [wdError]: [wdTransactions, wdError],
-  [wdTransactionsFetchStatus]: [wdTransactions, wdTransactionsFetchStatus],
-  [wdTransactionsItems]: [wdTransactions, wdItems]
+  [wdTransactionsItems]: [wdTransactions, wdItems],
+  [wdTransactionsFetchStatus]: [wdTransactions, wdTransactionsFetchStatus]
 }
 
 /**

@@ -20,6 +20,8 @@ export const wdDisabled = 'disabled'
 export const wdDoesNotHaveRule = 'doesNotHaveRule'
 // e
 export const wdError = 'error'
+// f
+export const wdFilters = 'filters'
 // h
 export const wdHasRule = 'hasRule' 
 export const wdHasRules = 'hasRules' 

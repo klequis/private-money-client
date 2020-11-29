@@ -17,6 +17,7 @@ import {
   wdTransactionsItems,
   wdTransactionsUi,
   wdTransactionsUiFilters,
+  wdFilters,
   wdTransactionsUiOptions,
   wdValue,
 } from 'appWords'
@@ -37,7 +38,7 @@ export const uiPaths = {
   ],
   [wdRuleRadioValue]: [wdTransactionsUi, wdOptions],
   [wdTransactionsItems]: [wdTransactions, wdItems],
-  [wdTransactionsUiFilters]: [wdTransactionsUi, wdTransactionsUiFilters]
+  [wdTransactionsUiFilters]: [wdTransactionsUi, wdFilters]
 }
 
 /**
@@ -49,7 +50,7 @@ const hasTransactionsUi = (state) => R.has(wdTransactionsUi)(state)
 /**
  *
  * @param {object} state
- * @param {array} fullPath
+ * @param {array[string]} fullPath
  * @description returns path as array with or without slice name as first element
  */
 const getPath = (state, fullPath) =>
@@ -115,7 +116,8 @@ const makeConditions = (state) => {
   // const filterByRule =  ruleRadioOption === wdAll ? false : true
 
 
-  const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioOptionValue), state)
+  // const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioOptionValue), state)
+  const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioValue), state)
   const categorizeRadioValue = R.path(getPath(state, uiPaths.categorizeRadioValue), state)
 
   const filterByRule = ruleRadioValue === wdAll ? false : true

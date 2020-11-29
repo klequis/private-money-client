@@ -1,71 +1,52 @@
+# Paths
 
-```js
-cosnt state = {
-  transactions: {
-    activeTransactionId: string, // mongodb _id
-    criteriaResult: array, // of transaction objects
-    error: any, // fetch error message
-    items: array, // of all transactions
-    transactionsFetchStatus: string
-  },
-  rules: {
-    items: array, // of rule objects
-    rulesFetchStatus: string,
-    ruleCreateStatus: string,
-    ruleUpdateStatus: string,
-    error: string, // fetch error message
-    ruleEdit: {
-      _id: string, // mongodb _id
-      isDirty: boolean,
-      criteria: [
-        {
-          _id: string // mongodb _id,
-          field: string,
-          operation: string,
-          value: string || number
-          action: boolean
-        }
-      ],
-      actions: [
-        {
-          _id: string // mongodb _id,
-          actionsType: 'replaceAll',
-          field: "description",
-          replaceWithValue: string || number,
-        },
-        {
-          _id: string // mongodb _id,
-          actionType: "categorize",
-          category1: string,
-          category2: string
-        }
-      ]
-    }
-  },
-  criteriaResults: {
-    items: array, // of transaction objects
-    criteriaResultsFetchStatus: string,
-    error: string // fetch error message
-  },
-  transactionsUi: {
-    options: {
-      ruleRadio: {
-        value: 'all' || 'hasRule' || 'doesNotHaveRule'
-      },
-      categorizeRadio: {
-        value: 'both' || 'categorized' || 'uncategorized',
-        disabled: boolean,
-      }
-    },
-    filters: {
-      acctId: string,
-      amount: number,
-      category1: string,
-      category2: string,
-      date: string, // a string date,
-      description: string,
-      type: string
-    }
-  }
-}
-```
+- removed 'options'
+
+transactions.activeTransactionId // wdTransactionsActiveId
+            .error // wdTransactionsFetchError
+            .items // wdTransactionsItems
+            .transactionsFetchStatus // wdTransactionsFetchStatus
+rules.items
+     .rulesFetchStatus // wdRulesFetchStatus
+     .ruleCreateStatus // wdRuleCreateStatus
+     .ruleUpdateStatus // wdRuleUpdateStatus
+     .ruleFetchError // wdRuleFetchError
+     .ruleCreateError // wdRuleCreateError
+     .ruleUpdateError // wdRuleUpdateError
+     .ruleEdit._id  // wdRuleEditId
+              .isDirty // wdRuleEditIsDirty
+              .isTmpRule // wdRuleEditIsTmpRule
+              .criteria // wdRuleEditCriteria
+              .actions // wdRuleEditActions
+criteriaResults.items // wdCriteriaResultsItems
+               .criteriaResultsFetchStatus // wdCriteriaResultsFetchStatus
+               .criteriaResultsFetchError // wdCriteriaResultsFetchError
+transactionsUi.ruleRadio.value
+               .categorizeRadio.value
+                               .disabled
+              .filters.acctId
+                      .amount
+                      .category1
+                      .category2
+                      .date
+                      .description
+                      .type
+
+
+## New
+
+### Repaces transactionsUi
+
+transactionsTable.hasRuleRadio.Value: wdAll || wdHasRule || wdDoesNotHaveRule // wdTransactionsTableHasRuleRadioValue
+transTbl.hasRuleRadio.Value: wdAll || wdHasRule || wdDoesNotHaveRule // wdTransTblHasRuleRadioValue
+txTbl.hasRuleRadio.Value: wdAll || wdHasRule || wdDoesNotHaveRule // wdTxTblHasRuleRadioValue
+
+                 .hasCategoryRadio.value: wdBoth || wdCategorized || wdUncategorized
+
+                 .filters.acctId
+                         .amount
+                         .category1
+                         .category2
+                         .date
+                         .description
+                         .type
