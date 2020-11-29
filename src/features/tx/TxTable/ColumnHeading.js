@@ -1,7 +1,7 @@
 // TODO: re-enable sort
 
 import React, { useState } from 'react'
-import { transactionFields as tFields } from 'features/transactions'
+import { txFields } from 'features/tx'
 
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -22,13 +22,13 @@ export const ColumnHeading = ({ fieldName, setFilter }) => {
   const [_value, _setValue] = useState('')
 
   // useEffect(() => {
-  //   fieldName === tfields.omit.name ? _setValue('No') : _setValue('')
+  //   fieldName === txFields.omit.name ? _setValue('No') : _setValue('')
   // }, [fieldName])
 
   const _valueChanged = (event) => {
     // const name = event.target.name
     const value = event.target.value
-    // if (name === tfields.omit.name) {
+    // if (name === txFields.omit.name) {
     // value === 'true' ? _setValue(true) : _setValue(false)
     // } else {
     _setValue(value)
@@ -42,7 +42,7 @@ export const ColumnHeading = ({ fieldName, setFilter }) => {
   return (
     <th>
       <div>
-        {fieldName === tFields.omit.name ? (
+        {fieldName === txFields.omit.name ? (
           ''
         ) : (
           <input

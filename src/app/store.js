@@ -1,5 +1,5 @@
 import { configureStore } from '@reduxjs/toolkit'
-import { transactionsReducer } from 'features/transactions'
+import { transactionsReducer } from 'features/tx'
 import { rulesReducer } from 'features/rules'
 import { criteriaResultsReducer } from 'features/criteriaResults'
 import { transactionsUiReducer } from 'features/uiSettings/transactionsUiSlice'

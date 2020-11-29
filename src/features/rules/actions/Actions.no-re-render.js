@@ -5,7 +5,7 @@ import { ActionEdit } from './ActionEdit'
 import { RenameDescription } from './RenameDescription'
 import { Categorize } from './Categorize'
 import { actionTypes } from 'features/rules'
-import { transactionFields as tFields } from 'features/transactions'
+import { txFields } from 'features/tx'
 import styled from 'styled-components'
 
 // eslint-disable-next-line
@@ -38,7 +38,7 @@ export const Actions = () => {
   const actions = useSelector((state) => selectRuleEditActions(state))
 
   const Component = ({ action }) => {
-    if (action.field === tFields.description.name) {
+    if (action.field === txFields.description.name) {
       return (
         <RenameDescription
           key={action._id}

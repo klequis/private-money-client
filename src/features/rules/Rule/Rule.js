@@ -7,9 +7,9 @@ import {
   setRulesRefresh
 } from 'features/rules'
 import {
-  activeTransactionIdClear,
-  setTransactionsRefresh
-} from 'features/transactions'
+  txActiveIdClear,
+  txFetchStatusSetRefresh
+} from 'features/tx'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
@@ -38,15 +38,15 @@ export const Rule = () => {
     } else {
       await dispatch(ruleUpdate(ruleEdit))
     }
-    dispatch(setTransactionsRefresh())
+    dispatch(txFetchStatusSetRefresh())
     dispatch(setRulesRefresh())
-    dispatch(activeTransactionIdClear())
+    dispatch(txActiveIdClear())
   }
 
   const _handleCancelClick = () => {
-    dispatch(activeTransactionIdClear())
+    dispatch(txActiveIdClear())
     dispatch(ruleEditClear())
-    dispatch(activeTransactionIdClear())
+    dispatch(txActiveIdClear())
   }
 
   const { dirty, _id: ruleId } = ruleEdit

@@ -3,7 +3,7 @@ import { useDispatch } from 'react-redux'
 import { TextEdit } from 'components/TextEdit'
 import * as R from 'ramda'
 import { ruleEditActionUpdate } from 'features/rules'
-import { transactionFields as tFields } from 'features/transactions'
+import { txFields } from 'features/tx'
 // import styled from 'styled-components'
 
 // eslint-disable-next-line
@@ -28,7 +28,7 @@ export const Categorize = ({ action, minChars }) => {
     <>
       <TextEdit
         disabled={false}
-        name={tFields.category1.name}
+        name={txFields.category1.name}
         labelText='Category 1'
         value={category1}
         minChars={minChars}
@@ -37,7 +37,7 @@ export const Categorize = ({ action, minChars }) => {
       />
       <TextEdit
         disabled={false}
-        name={tFields.category2.name}
+        name={txFields.category2.name}
         labelText='Category 2'
         value={category2}
         minChars={minChars}

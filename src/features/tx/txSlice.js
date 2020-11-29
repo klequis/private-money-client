@@ -12,15 +12,10 @@ import { api } from 'api'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
-  wdActiveTransactionId,
-  wdCriteriaResults,
-  wdItems,
-  wdError,
-  wdTransactionsFetchStatus,
-  wdRequestStatusRefresh,
   wdRequestStatusPending,
   wdRequestStatusFulfilled,
-  wdRequestStatusError
+  wdRequestStatusError,
+  wdRequestStatusFetch
 } from 'appWords'
 
 // eslint-disable-next-line
@@ -29,11 +24,12 @@ import { blue, yellow, red } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
-  [wdActiveTransactionId]: null,
-  [wdCriteriaResults]: [],
-  [wdError]: null,
-  [wdItems]: [],
-  [wdTransactionsFetchStatus]: wdRequestStatusRefresh
+  activeId: '',
+  items: [],
+  fetch: {
+    status: wdRequestStatusFetch,
+    error: wdRequestStatusError
+  }
 }
 
 const viewName = 'all-data-by-description'
@@ -47,7 +43,7 @@ const addFields = (data) => {
   }, data)
 }
 
-export const transactionsFetch = createAsyncThunk(
+export const txFetch = createAsyncThunk(
   'transactions/get',
   async () => {
     const r = await api.views.read(viewName)
@@ -56,49 +52,48 @@ export const transactionsFetch = createAsyncThunk(
   }
 )
 
-const transactionsSlice = createSlice({
-  name: 'transactions',
+const txSlice = createSlice({
+  name: 'tx',
   initialState,
-  // initialState: () => initialStateFn(),
   reducers: {
-    activeTransactionIdSet(state, action) {
+    txActiveIdSet(state, action) {
       // logFetchResults('transactions.activeTransactionSet', state, action)
-      state.activeTransactionId = action.payload
+      state.activeId = action.payload
     },
-    activeTransactionIdClear(state, action) {
+    txActiveIdClear(state, action) {
       // logFetchResults('transactions.activeTransactionClear', state, action)
-      state.activeTransactionId = null
+      state.activeId = null
     },
-    setTransactionsRefresh(state) {
+    txFetchStatusSetRefresh(state) {
       // logFetchResults('transactions.setStatusRefresh', state, action)
-      state.transactionsFetchStatus = wdRequestStatusRefresh
+      state.fetch.status = wdRequestStatusFetch
     }
   },
   extraReducers: {
-    [transactionsFetch.pending]: (state, action) => {
+    [txFetch.pending]: (state, action) => {
       // logFetchResults('transactions.pending', state, action)
-      state.transactionsFetchStatus = wdRequestStatusPending
+      state.fetch.status = wdRequestStatusPending
       state.items = []
     },
-    [transactionsFetch.fulfilled]: (state, action) => {
+    [txFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
-      state.transactionsFetchStatus = wdRequestStatusFulfilled
+      state.fetch.status = wdRequestStatusFulfilled
       state.items = R.path(['payload', 'data'], action)
     },
-    [transactionsFetch.rejected]: (state, action) => {
+    [txFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       red('transactions.rejected', 'rejected')
-      state.transactionsFetchStatus = wdRequestStatusError
+      state.fetch.status = wdRequestStatusError
       state.error = R.path(['error', 'message'], action)
       state.items = []
     }
   }
 })
 
-export const transactionsReducer = transactionsSlice.reducer
+export const transactionsReducer = txSlice.reducer
 export const {
-  activeTransactionIdClear,
-  activeTransactionIdSet,
-  setTransactionsRefresh
-} = transactionsSlice.actions
+  txActiveIdClear: activeTransactionIdClear,
+  txActiveIdSet: activeTransactionIdSet,
+  txFetchStatusSetRefresh: setTransactionsRefresh
+} = txSlice.actions
 

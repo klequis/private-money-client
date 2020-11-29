@@ -1,13 +1,13 @@
 import React, { useEffect } from 'react'
 import App from './App'
 import { useDispatch } from 'react-redux'
-import { activeTransactionidSet } from 'features/transactions'
+import { activeTransactionidSet } from 'features/tx'
 /*
 import * as R from 'ramda'
 import {
   fetchTransactions,
   selectActiveTransaction
-} from 'features/transactions'
+} from 'features/tx'
 
 import { fetchRules } from 'features/rules'
 */

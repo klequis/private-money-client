@@ -12,10 +12,10 @@ import {
   rulesFetch,
 } from 'features/rules'
 import {
-  transactionsFetch,
+  txFetch,
   Transactions,
   
-} from 'features/transactions'
+} from 'features/tx'
 import {
   selectActiveTransactionId,
   selectTransactionsFetchStatus,
@@ -56,7 +56,7 @@ export const App = () => {
 
   useEffect(() => {
     if (transactionsFetchStatus === wdRequestStatusRefresh) {
-      dispatch(transactionsFetch())
+      dispatch(txFetch())
     }
     if (rulesFetchStatus === wdRequestStatusRefresh) {
       dispatch(rulesFetch())
@@ -67,19 +67,20 @@ export const App = () => {
 
   countReturn = countReturn + 1
 
-  return (
-    <RenderWhenReady
-      status={status}
-      className="container-fluid"
-    >
-      <>
-        <RenderCount
-          componentName="App"
-          countTotal={{ actual: countTotal, min: 8, max: 14 }}
-          countReturn={{ actual: countReturn, min: 8, max: 10 }}
-        />
-        {isNilOrEmpty(activeTransactionId) ? <Transactions /> : <RuleCreate />}
-      </>
-    </RenderWhenReady>
-  )
+  return <h1>App</h1>
+  // return (
+  //   <RenderWhenReady
+  //     status={status}
+  //     className="container-fluid"
+  //   >
+  //     <>
+  //       <RenderCount
+  //         componentName="App"
+  //         countTotal={{ actual: countTotal, min: 8, max: 14 }}
+  //         countReturn={{ actual: countReturn, min: 8, max: 10 }}
+  //       />
+  //       {isNilOrEmpty(activeTransactionId) ? <Transactions /> : <RuleCreate />}
+  //     </>
+  //   </RenderWhenReady>
+  // )
 }

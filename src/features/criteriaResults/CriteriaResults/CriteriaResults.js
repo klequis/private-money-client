@@ -6,7 +6,7 @@ import { useDispatch, useSelector } from 'react-redux'
 import { criteriaResultsFetch } from 'features/criteriaResults'
 import { Table } from 'components/Table'
 import * as R from 'ramda'
-// import { transactionFields as tFields } from 'features/transactions'
+// import { txFields } from 'features/tx'
 import { TableBody } from './TableBody'
 import styled from 'styled-components'
 import {

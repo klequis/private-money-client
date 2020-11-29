@@ -1,8 +1,8 @@
 import shortid from 'shortid'
 import { operatorFields } from 'features/rules'
 import { 
-  transactionFields as tFields
-} from 'features/transactions'
+  txFields
+} from 'features/tx'
 import { 
   actionTypes, 
 } from 'features/rules'
@@ -29,14 +29,14 @@ export const ruleTmpMake = (origDescription, date) => {
     criteria: [
       {
         _id: ruleTmpMakeId(),
-        field: tFields.description.name,
+        field: txFields.description.name,
         operation: operatorFields.equals.name,
         value: origDescription,
         active: true,
       },
       {
         _id: ruleTmpMakeId(),
-        field: tFields.date.name,
+        field: txFields.date.name,
         operation: operatorFields.equals.name,
         value: date,
         active: false
@@ -46,7 +46,7 @@ export const ruleTmpMake = (origDescription, date) => {
       {
         _id: ruleTmpMakeId(),
         actionType: actionTypes.replaceAll.name,
-        field: tFields.description.name,
+        field: txFields.description.name,
         replaceWithValue: origDescription
       },
       {

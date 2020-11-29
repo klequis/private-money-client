@@ -4,7 +4,7 @@ import { ActionEdit } from './ActionEdit'
 import { RenameDescription } from './RenameDescription'
 import { Categorize } from './Categorize'
 import { actionTypes } from 'features/rules'
-import { transactionFields as tFields } from 'features/transactions'
+import { txFields } from 'features/tx'
 import styled from 'styled-components'
 import { selectRuleEditActions } from 'features/selectors'
 
@@ -41,7 +41,7 @@ export const Actions = () => {
       <Wrapper>
         {actions.map((a) => {
           const { _id, field, actionType } = a
-          if (field === tFields.description.name) {
+          if (field === txFields.description.name) {
             return (
               <RenameDescription
                 key={_id}

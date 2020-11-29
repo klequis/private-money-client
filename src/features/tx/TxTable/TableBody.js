@@ -2,8 +2,8 @@ import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
-  activeTransactionIdSet,
-} from 'features/transactions'
+  txActiveIdSet,
+} from 'features/tx'
 import {
   selectOneTransaction,
   selectActiveTransactionId
@@ -37,7 +37,7 @@ export const TableBody = ({ transactionId }) => {
   } = transaction
 
   const _rowClick = () => {
-    dispatch(activeTransactionIdSet(transactionId))
+    dispatch(txActiveIdSet(transactionId))
   }
 
   return (

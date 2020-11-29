@@ -3,9 +3,9 @@ import PropTypes from 'prop-types'
 import { TextEdit } from 'components/TextEdit'
 import { DatePicker } from 'components/DatePicker'
 import {
-  transactionFields as tFields,
+  txFields,
   transactionFieldNames
-} from 'features/transactions'
+} from 'features/tx'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
@@ -35,7 +35,7 @@ export const TextEditOrDatePicker = ({
   // }
 
   countReturn = countReturn + 1
-  if (field === tFields.date.name) {
+  if (field === txFields.date.name) {
     return (
       <DatePicker
         disabled={disabled}

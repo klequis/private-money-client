@@ -1,5 +1,5 @@
 import * as R from 'ramda'
-import { transactionFields as tFields } from 'features/transactions'
+import { txFields } from 'features/tx'
 
 // eslint-disable-next-line
 import { green, redf, yellow, blue, purple } from 'logger'
@@ -10,11 +10,11 @@ import { green, redf, yellow, blue, purple } from 'logger'
  * 
  */
 export const criteriaFields = {
-  acctId: tFields.acctId,
-  amount: tFields.amount,
-  date: tFields.date,
-  description: tFields.description,
-  type: tFields.type
+  acctId: txFields.acctId,
+  amount: txFields.amount,
+  date: txFields.date,
+  description: txFields.description,
+  type: txFields.type
 }
 
 /**

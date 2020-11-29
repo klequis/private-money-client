@@ -1,7 +1,7 @@
 import React from 'react'
 import { Select } from 'components/Select'
 import { TextEdit } from 'components/TextEdit'
-import { transactionFields as tFields } from 'features/transactions'
+import { txFields } from 'features/tx'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
@@ -15,8 +15,8 @@ export const Strip = ({ action, onChange }) => {
         onChange={onChange}
         maxWidth={100}
       >
-        <option value={tFields.description.name}>Description</option>
-        <option value={tFields.type.name}>Type</option>
+        <option value={txFields.description.name}>Description</option>
+        <option value={txFields.type.name}>Type</option>
       </Select>
       <TextEdit
         name="findValue"
