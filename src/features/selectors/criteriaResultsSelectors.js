@@ -1,4 +1,3 @@
-import * as R from 'ramda'
 import { valueOrEmptyArray } from 'features/helpers'
 import { 
   pathCriteriaResultsFetchStatus,
@@ -18,19 +17,19 @@ import { blue } from 'logger'
 
 /**
  * 
- * @param {state} state 
- * @returns {object || []} of transactions objects
+ * @param {state} state state
+ * @returns {object|Array} of transactions objects
  */
 export const selectCriteriaResults = (state) => {
   const criteriaResults = getStateValue(wdCriteriaResults, pathCriteriaResults, state)
-  valueOrEmptyArray(criteriaResults)
+  return valueOrEmptyArray(criteriaResults)
 }
 
-/**
- *
- * @param {object} state
- * @return {array} of transaction objects
- */
+// /**
+//  *
+//  * @param {object} state
+//  * @returns {array} of transaction objects
+//  */
 
  // TODO: which is currect selectCriteriaResults - above or below ?
 /*
@@ -49,8 +48,8 @@ export const selectCriteriaResults = (state) => {
 
 /**
  *
- * @param {state} state
- * @return {string} a request status word from appWords.js
+ * @param {state} state state
+ * @returns {string} a request status word from appWords.js
  */
 export const selectCriteriaResultsFetchStatus = (state) => {
   blue('path', pathCriteriaResultsFetchStatus)

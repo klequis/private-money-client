@@ -12,7 +12,7 @@ import {
   selectRulesFetchStatus,
   selectRequestStatus,
   // tmp
-  selectCriteriaResultsFetchStatus
+  // selectCriteriaResultsFetchStatus
 } from 'features/selectors'
 
 import {
@@ -31,9 +31,7 @@ let countReturn = 0
 
 export const App = () => {
 
-  const a = useSelector(selectCriteriaResultsFetchStatus)
-  green('a', a)
-  return <h1>App</h1>
+  // const a = useSelector(selectCriteriaResultsFetchStatus)
   purple('App', 'render')
   countTotal = countTotal + 1
 
@@ -60,20 +58,19 @@ export const App = () => {
 
   countReturn = countReturn + 1
 
-  return <h1>App</h1>
-  // return (
-  //   <RenderWhenReady
-  //     status={status}
-  //     className="container-fluid"
-  //   >
-  //     <>
-  //       <RenderCount
-  //         componentName="App"
-  //         countTotal={{ actual: countTotal, min: 8, max: 14 }}
-  //         countReturn={{ actual: countReturn, min: 8, max: 10 }}
-  //       />
-  //       {isNilOrEmpty(activeTransactionId) ? <TxTbl /> : <RuleCreate />}
-  //     </>
-  //   </RenderWhenReady>
-  // )
+  return (
+    <RenderWhenReady
+      status={status}
+      className="container-fluid"
+    >
+      <>
+        <RenderCount
+          componentName="App"
+          countTotal={{ actual: countTotal, min: 8, max: 14 }}
+          countReturn={{ actual: countReturn, min: 8, max: 10 }}
+        />
+        {isNilOrEmpty(activeTransactionId) ? <TxTbl /> : <RuleCreate />}
+      </>
+    </RenderWhenReady>
+  )
 }

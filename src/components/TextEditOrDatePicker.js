@@ -11,7 +11,6 @@ import {
 import { green, redf, purple } from 'logger'
 // eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
-import * as R from 'ramda'
 
 let countTotal = 0
 let countReturn = 0

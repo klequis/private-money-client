@@ -6,7 +6,7 @@ import {
 } from 'features/tx'
 import {
   selectOneTransaction,
-  selectActiveTransactionId
+  // selectActiveTransactionId
 } from 'features/selectors'
 // TODO: needed? import styles from './TableBody.module.css'
 import { TxTblData } from './TxTblData'
@@ -17,8 +17,10 @@ import { green, red } from 'logger'
 export const TxTblBody = ({ transactionId }) => {
   const dispatch = useDispatch()
 
-  const activeTransactionId = useSelector(selectActiveTransactionId)
-  const showRow = activeTransactionId === transactionId
+
+  // TODO: Should the original description be shown when the row is clicked on?
+  // const activeTransactionId = useSelector(selectActiveTransactionId)
+  // const showRow = activeTransactionId === transactionId
   const transaction = useSelector((state) =>
     selectOneTransaction(transactionId, state)
   )
@@ -42,8 +44,9 @@ export const TxTblBody = ({ transactionId }) => {
 
   return (
     <>
+      {/* <tbody> */}
       {/* <tbody onClick={_rowClick} className={showRow ? styles.rowIdShow : ''}> */}
-      <tbody>
+      <tbody onClick={_rowClick}>
         <tr>
           <TxTblData>{date}</TxTblData>
           <TxTblData>{acctId}</TxTblData>

@@ -21,8 +21,8 @@ import { blue, grpStart, grpEnd } from 'logger'
 
 /**
  *
- * @param {object} state
- * @returns {array}
+ * @param {object} state state
+ * @returns {Array} of Criteria objects
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
 export const selectActiveCriteria = (state) => {
@@ -33,8 +33,8 @@ export const selectActiveCriteria = (state) => {
 
 /**
  *
- * @param {*} state
- * @return {object} state.ruleEdit
+ * @param {*} state state
+ * @returns {object} state.ruleEdit
  */
 export const selectRuleEdit = (state) => {
   const ruleEdit = getStateValue(wdRules, pathRuleEdit, state)
@@ -43,8 +43,8 @@ export const selectRuleEdit = (state) => {
 
 /**
  *
- * @param {object} state
- * @returns {array} state.ruleEdit.criteria || []
+ * @param {object} state state
+ * @returns {Array} state.ruleEdit.criteria || []
  */
 export const selectRuleEditCriteria = (state) => {
   const criteria = R.path(wdRules, pathRuleEditCritera, state)
@@ -53,8 +53,8 @@ export const selectRuleEditCriteria = (state) => {
 
 /**
  *
- * @param {object} state
- * @returns {array} state.ruleEdit.actions
+ * @param {object} state state
+ * @returns {Array} state.ruleEdit.actions
  *
  */
 export const selectRuleEditActions = (state) => {
@@ -64,7 +64,7 @@ export const selectRuleEditActions = (state) => {
 
 /**
  *
- * @param {object} state
+ * @param {object} state state
  * @returns {boolean} state.ruleEdit.isDirty
  */
 export const selectRuleEditIsDirty = (state) => {
@@ -73,7 +73,7 @@ export const selectRuleEditIsDirty = (state) => {
 
 /**
  *
- * @param {object} state
+ * @param {object} state state
  * @returns {boolean} state.ruleEdit.isTmpRule
  */
 export const selectRuleEditIsTmpRule = (state) => {
@@ -82,7 +82,7 @@ export const selectRuleEditIsTmpRule = (state) => {
 
 /**
  *
- * @param {object} state
+ * @param {object} state state
  * @returns {object} state.ruleEdit.actions[fn]
  */
 export const selectRuleEditRenameAction = (state) => {
@@ -103,7 +103,7 @@ const getCategorizeAction = (actions) => {
 
 /**
  *
- * @param {object} state
+ * @param {object} state state
  * @returns {object} state.ruleEdit.actions[fn]
  */
 export const selectRuleEditCategorizeAction = (state) => {
@@ -118,8 +118,8 @@ export const selectRuleEditCategorizeAction = (state) => {
 
 /**
  *
- * @param {state} state
- * @return {string} a request status word from appWords.js
+ * @param {state} state state
+ * @returns {string} a request status word from appWords.js
  */
 export const selectRulesFetchStatus = (state) => {
   return getStateValue(wdRules, pathRulesFetchStatus, state)
@@ -128,27 +128,27 @@ export const selectRulesFetchStatus = (state) => {
 
 /**
  *
- * @param {state} state
- * @return {string} a request status word from appWords.js
+ * @param {state} state state state
+ * @returns {string} a request status word from appWords.js
  */
 export const selectRuleCreateStatus = (state) => 
   getStateValue(wdRules, pathRulesCreateStatus, state)
 
-  /**
+/**
  *
- * @param {state} state
- * @return {string} a request status word from appWords.js
+ * @param {state} state state
+ * @returns {string} a request status word from appWords.js
  */
 export const selectRuleUpdateStatus = state => {
-  getStateValue(wdRules, pathRulesUpdateStatus, state)
+  return getStateValue(wdRules, pathRulesUpdateStatus, state)
 }
 
 /**
  *
- * @param {state} state
- * @return {array} state.rules.items
+ * @param {state} state state state
+ * @returns {Array} state.rules.items
  */
 export const selectRulesItems = (state) => {
-  getStateValue(wdRules, pathRulesItems, state)
+  return getStateValue(wdRules, pathRulesItems, state)
 }
 

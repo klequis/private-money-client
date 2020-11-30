@@ -43,7 +43,7 @@ const txTblSlice= createSlice({
   initialState,
   reducers: {
     updateRadioState(state, action) {
-      const { name, value } = action.payload
+      const { value } = action.payload
       const currState = current(state)
       switch (value) {
         case wdAll:

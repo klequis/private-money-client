@@ -60,7 +60,7 @@ const getPath = (state, fullPath) =>
  *
  * @param {object} filterByCategory
  * @param {object} categoryOptValue
- * @return {null || true || false}
+ * @returns {null || true || false}
  */
 const getHasRule = (filterByRule, ruleRadioOption) => {
   if (!filterByRule) {
@@ -76,7 +76,7 @@ const getHasRule = (filterByRule, ruleRadioOption) => {
  *
  * @param {object} filterByCategory
  * @param {object} categoryOptValue
- * @return {null || true || false}
+ * @returns {null || true || false}
  */
 const getHasCategory = (filterByCategory, categoryOptValue) => {
   if (!filterByCategory) {
@@ -209,7 +209,7 @@ export const selectFilteredTransactions = (state) => {
 /**
  * 
  * @param {state} state 
- * @return {string} wdAll || wdHasRule || wdDoesNotHaveRule
+ * @returns {string} wdAll || wdHasRule || wdDoesNotHaveRule
  */
 export const selectRuleRadioValue = (state) => {
   return R.path(getPath(state, wdRuleRadioValue), state)
@@ -218,7 +218,7 @@ export const selectRuleRadioValue = (state) => {
 /**
  * 
  * @param {state} state 
- * @return {string} wdBoth || wdCategorized || wdUncategorized
+ * @returns {string} wdBoth || wdCategorized || wdUncategorized
  */
 export const selectCategorizeRadioValue = (state) => {
   return R.path(getPath(state, wdRadioCategorizedValue), state)
@@ -227,7 +227,7 @@ export const selectCategorizeRadioValue = (state) => {
 /**
  * 
  * @param {state} state 
- * @return {boolean} true || false
+ * @returns {boolean} true || false
  */
 export const selectCategorizeRadioDisabled = (state) => {
   return R.path(getPath(state, wdRadioCategorizedValue), state)
