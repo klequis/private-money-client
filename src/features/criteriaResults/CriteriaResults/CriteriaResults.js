@@ -20,7 +20,7 @@ import {
   RenderWhenReady
 } from 'components/RenderWhenReady'
 import {
-  wdCriteriaResultsFetchStatus
+  pathCriteriaResultsFetchStatus
 } from 'appWords'
 // eslint-disable-next-line
 import { green, redf, yellow, purple, grpStart, grpEnd } from 'logger'
@@ -83,7 +83,7 @@ export const CriteriaResults = () => {
   const dispatch = useDispatch()
 
   const status = useSelector((state) =>
-    selectRequestStatus([wdCriteriaResultsFetchStatus], state)
+    selectRequestStatus([pathCriteriaResultsFetchStatus], state)
   )
 
   const criteria = useSelector(selectRuleEditCriteria)

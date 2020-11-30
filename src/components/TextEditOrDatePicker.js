@@ -4,7 +4,7 @@ import { TextEdit } from 'components/TextEdit'
 import { DatePicker } from 'components/DatePicker'
 import {
   txFields,
-  transactionFieldNames
+  txFieldNames
 } from 'features/tx'
 
 // eslint-disable-next-line
@@ -78,7 +78,7 @@ TextEditOrDatePicker.propTypes = {
     color: PropTypes.string.isRequired,
     message: PropTypes.string.isRequired
   }),
-  field: PropTypes.oneOf(transactionFieldNames),
+  field: PropTypes.oneOf(txFieldNames),
   value: PropTypes.any,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,

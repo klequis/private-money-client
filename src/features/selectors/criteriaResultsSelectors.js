@@ -1,31 +1,28 @@
 import * as R from 'ramda'
-import { valueOrEmptyArray } from './helpers'
+import { valueOrEmptyArray } from 'features/helpers'
 import { 
-  wdCriteriaResults,
-  wdCriteriaResultsItems,
-  wdCriteriaResultsFetchStatus,
-  wdItems,
-  wdError
+  pathCriteriaResultsFetchStatus,
+  pathCriteriaResults,
+  wdCriteriaResults
 } from 'appWords'
+import { getStateValue } from 'features/helpers'
 
-const hasCriteriaResults = (state) => R.has(wdCriteriaResults)(state)
-const getPath = (state, fullPath) => 
-  hasCriteriaResults(state) ? fullPath : R.tail(fullPath)
+// eslint-disable-next-line
+import { blue } from 'logger'
 
 
-export const criteriaResultsPaths = {
-  [wdCriteriaResultsItems]: [wdCriteriaResults, wdItems],
-  [wdCriteriaResultsFetchStatus]: [wdCriteriaResults, wdCriteriaResultsFetchStatus],
-  [wdError]: [wdCriteriaResults, wdError]
-}
+// const hasCriteriaResults = (state) => R.has(wdCriteriaResults)(state)
+// const getPath = (state, fullPath) => 
+//   hasCriteriaResults(state) ? fullPath : R.tail(fullPath)
+
+
 /**
  * 
  * @param {state} state 
  * @returns {object || []} of transactions objects
  */
 export const selectCriteriaResults = (state) => {
-  const path = getPath(state, wdCriteriaResults)
-  const criteriaResults = R.path(path, state)
+  const criteriaResults = getStateValue(wdCriteriaResults, pathCriteriaResults, state)
   valueOrEmptyArray(criteriaResults)
 }
 
@@ -55,5 +52,8 @@ export const selectCriteriaResults = (state) => {
  * @param {state} state
  * @return {string} a request status word from appWords.js
  */
-export const selectCriteriaResultsFetchStatus = (state) =>
-  R.path(criteriaResultsPaths.criteriaResultsFetchStatus, state)
+export const selectCriteriaResultsFetchStatus = (state) => {
+  blue('path', pathCriteriaResultsFetchStatus)
+  return getStateValue(wdCriteriaResults, pathCriteriaResultsFetchStatus, state)
+}
+  

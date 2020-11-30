@@ -9,14 +9,11 @@ import { api } from 'api'
 //   requestStatusStates
 // } from 'globalConstants'
 import {
-  wdItems,
-  wdError,
-  wdCriteriaResultsFetchStatus,
-  wdRequestStatusRefresh,
+  wdRequestStatusFetch,
   wdRequestStatusPending,
   wdRequestStatusFulfilled,
-  wdRequestStatusError
-
+  wdRequestStatusError,
+  wdCriteriaResults
 } from 'appWords'
 import * as R from 'ramda'
 
@@ -26,9 +23,11 @@ import { blue, yellow } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 
 const initialState = {
-  [wdItems]: [],
-  [wdCriteriaResultsFetchStatus]: wdRequestStatusRefresh,
-  [wdError]: null,
+  items: [],
+  fetch: {
+    status: wdRequestStatusFetch,
+    error: null
+  }
 }
 
 export const criteriaResultsFetch = createAsyncThunk(
@@ -41,7 +40,7 @@ export const criteriaResultsFetch = createAsyncThunk(
 )
 
 const criteriaResultsSlice = createSlice({
-  name: 'criteriaResult',
+  name: wdCriteriaResults,
   initialState,
   reducers: {
     criteriaResultsClear(state, action) {

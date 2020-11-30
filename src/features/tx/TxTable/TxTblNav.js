@@ -2,7 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   updateRadioState,
-} from 'features/uiSettings/transactionsUiSlice'
+} from 'features/txTbl'
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
 import {
@@ -11,15 +11,19 @@ import {
   selectCategorizeRadioDisabled
 } from 'features/selectors'
 import {
-  wdRuleRadio,
+  wdRadioHasRule,
   wdAll,
   wdHasRule,
   wdDoesNotHaveRule,
-  wdCategorizeRadio,
+  wdRadioCategorized,
   wdCategorized,
   wdUncategorized,
   wdBoth
 } from 'appWords'
+
+const allId = 'allId'
+const hasRuleId = 'hasRuleId'
+const doesNotHaveRuleId = 'doesNotaveRuleId'
 
 
 // eslint-disable-next-line
@@ -57,27 +61,27 @@ export const TxTblNav = () => {
         <RowTitle>Transactions: </RowTitle>
         <Radio
           groupValue={ruleGroupValue}
-          id='allId'
+          id={allId}
           label="All"
-          name={wdRuleRadio}
+          name={wdRadioHasRule}
           onChange={_radioChange}
           width={70}
           value={wdAll}
         />
         <Radio
           groupValue={ruleGroupValue}
-          id='hasRuleId'
+          id={hasRuleId}
           label="Has rule"
-          name={wdRuleRadio}
+          name={wdRadioHasRule}
           onChange={_radioChange}
           width={120}
           value={wdHasRule}
         />
         <Radio
           groupValue={ruleGroupValue}
-          id='doesNotHaveRuleId'
+          id={doesNotHaveRuleId}
           label="Does not have rule"
-          name={wdRuleRadio}
+          name={wdRadioHasRule}
           onChange={_radioChange}
           value={wdDoesNotHaveRule}
         />
@@ -90,7 +94,7 @@ export const TxTblNav = () => {
           groupValue={categorizeGroupValue}
           id="bothId"
           label="Both"
-          name={wdCategorizeRadio}
+          name={wdRadioCategorized}
           onChange={_radioChange}
           value={wdBoth}
           width={70}
@@ -100,7 +104,7 @@ export const TxTblNav = () => {
           groupValue={categorizeGroupValue}
           id="categorizedId"
           label="Categorized"
-          name={wdCategorizeRadio}
+          name={wdRadioCategorized}
           onChange={_radioChange}
           width={120}
           value={wdCategorized}
@@ -110,7 +114,7 @@ export const TxTblNav = () => {
           groupValue={categorizeGroupValue}
           id="uncategorizedId"
           label="Uncategorized"
-          name={wdCategorizeRadio}
+          name={wdRadioCategorized}
           onChange={_radioChange}
           value={wdUncategorized}
         />

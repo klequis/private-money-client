@@ -8,7 +8,7 @@ import {
 } from 'lib/dataTypes'
 import * as R from 'ramda'
 
-export const transactionFields = {
+export const txFields = {
   _id: {
     name: '_id',
     description: 'Id',
@@ -89,4 +89,4 @@ export const transactionFields = {
   }
 }
 
-export const transactionFieldNames = R.values(R.map(x => x.name, transactionFields))
+export const txFieldNames = R.values(R.map(x => x.name, txFields))

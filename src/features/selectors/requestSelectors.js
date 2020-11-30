@@ -4,15 +4,15 @@
 
 import * as R from 'ramda'
 import {
-  wdCriteriaResultsFetchStatus,
-  wdTransactionsFetchStatus,
-  wdRuleCreateStatus,
-  wdRuleUpdateStatus,
+  wdTxFetchStatus,
+  wdRulesCreateStatus,
+  wdRulesUpdateStatus,
   wdRulesFetchStatus,
   wdRequestStatusError,
   wdRequestStatusPending,
-  wdRequestStatusRefresh,
-  wdRequestStatusFulfilled
+  wdRequestStatusFetch,
+  wdRequestStatusFulfilled,
+  wdCriteriaResultsFetchStatus
 } from 'appWords'
 import {
   selectTransactionsFetchStatus,
@@ -35,25 +35,22 @@ const statusValues = (statusName, state) => {
   // } = requestStatusNames
   const values = {
     [wdCriteriaResultsFetchStatus]: selectCriteriaResultsFetchStatus(state),
-    [wdTransactionsFetchStatus]: selectTransactionsFetchStatus(state),
+    [wdTxFetchStatus]: selectTransactionsFetchStatus(state),
     [wdRulesFetchStatus]: selectRulesFetchStatus(state),
-    [wdRuleCreateStatus]: selectRuleCreateStatus(state),
-    [wdRuleUpdateStatus]: selectRuleUpdateStatus(state)
+    [wdRulesCreateStatus]: selectRuleCreateStatus(state),
+    [wdRulesUpdateStatus]: selectRuleUpdateStatus(state)
   }
+  blue('values', values)
   return values[statusName]
 }
 
-const getStateValues = (statusNames, state) => {
-  return R.map((x) => statusValues(x, state), statusNames)
-}
-
 const all = (statusNames, matchStatusState, state) => {
-  const values = getStateValues(statusNames, state)
+  const values = statusValues(statusNames, state)
   return R.all(R.equals(R.__, matchStatusState))(values)
 }
 
 const any = (statusNames, matchStatusState, state) => {
-  const values = getStateValues(statusNames, state)
+  const values = statusValues(statusNames, state)
   return R.any(R.equals(R.__, matchStatusState))(values)
 }
 
@@ -64,8 +61,8 @@ const any = (statusNames, matchStatusState, state) => {
  */
 export const selectRequestStatus = (statusNames, state) => {
 
-  // blue('statusNames', statusNames)
-  // blue('state', state)
+  blue('statusNames', statusNames)
+  blue('state', state)
 
   if (any(statusNames, wdRequestStatusError, state)) {
     // yellow('1: any', 'error')
@@ -75,9 +72,9 @@ export const selectRequestStatus = (statusNames, state) => {
     // yellow('3: any', pending)
     return wdRequestStatusPending
   }
-  if (any(statusNames, wdRequestStatusRefresh, state)) {
+  if (any(statusNames, wdRequestStatusFetch, state)) {
     // yellow('4: any', refresh)
-    return wdRequestStatusRefresh
+    return wdRequestStatusFetch
   }
   if (all(statusNames, wdRequestStatusFulfilled, state)) {
     // yellow('5: all', 'fulfilled')

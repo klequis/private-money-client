@@ -7,18 +7,18 @@ import {
   wdCategorized,
   wdHasRule,
   wdOptions,
-  wdCategorizeRadio,
-  wdCategorizeRadioDisabled,
-  wdCategorizeRadioValue,
+  wdRadioCategorized,
+  wdRadioCategorizedDisabled,
+  wdRadioCategorizedValue,
   wdDisabled,
   wdItems,
   wdRuleRadioValue,
-  wdTransactions,
-  wdTransactionsItems,
-  wdTransactionsUi,
-  wdTransactionsUiFilters,
+  wdTx,
+  wdTxItems,
+  wdTxUi,
+  wdTxUiFilters,
   wdFilters,
-  wdTransactionsUiOptions,
+  wdTxUiOptions,
   wdValue,
 } from 'appWords'
 
@@ -28,17 +28,17 @@ import {
 //   R.path(selectorPaths..transactionsUiIsUncategorizedChecked, state)
 
 export const uiPaths = {
-  [wdTransactionsUiOptions]: [wdTransactionsUi, wdOptions],
-  [wdCategorizeRadioDisabled]: [wdTransactionsUi, wdOptions, wdCategorizeRadio, wdDisabled],
-  [wdCategorizeRadioValue]: [
-    wdTransactionsUi,
+  [wdTxUiOptions]: [wdTxUi, wdOptions],
+  [wdRadioCategorizedDisabled]: [wdTxUi, wdOptions, wdRadioCategorized, wdDisabled],
+  [wdRadioCategorizedValue]: [
+    wdTxUi,
     wdOptions,
-    wdCategorizeRadio,
+    wdRadioCategorized,
     wdValue
   ],
-  [wdRuleRadioValue]: [wdTransactionsUi, wdOptions],
-  [wdTransactionsItems]: [wdTransactions, wdItems],
-  [wdTransactionsUiFilters]: [wdTransactionsUi, wdFilters]
+  [wdRuleRadioValue]: [wdTxUi, wdOptions],
+  [wdTxItems]: [wdTx, wdItems],
+  [wdTxUiFilters]: [wdTxUi, wdFilters]
 }
 
 /**
@@ -46,7 +46,7 @@ export const uiPaths = {
  * @param {state} state
  * @returns {boolean}
  */
-const hasTransactionsUi = (state) => R.has(wdTransactionsUi)(state)
+const hasTransactionsUi = (state) => R.has(wdTxUi)(state)
 /**
  *
  * @param {object} state
@@ -221,7 +221,7 @@ export const selectRuleRadioValue = (state) => {
  * @return {string} wdBoth || wdCategorized || wdUncategorized
  */
 export const selectCategorizeRadioValue = (state) => {
-  return R.path(getPath(state, wdCategorizeRadioValue), state)
+  return R.path(getPath(state, wdRadioCategorizedValue), state)
 }
 
 /**
@@ -230,7 +230,7 @@ export const selectCategorizeRadioValue = (state) => {
  * @return {boolean} true || false
  */
 export const selectCategorizeRadioDisabled = (state) => {
-  return R.path(getPath(state, wdCategorizeRadioValue), state)
+  return R.path(getPath(state, wdRadioCategorizedValue), state)
 }
 
 

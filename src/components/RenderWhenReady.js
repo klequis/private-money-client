@@ -5,7 +5,7 @@ import {
   wdRequestStatusError,
   wdRequestStatusFulfilled,
   wdRequestStatusPending,
-  wdRequestStatusRefresh
+  wdRequestStatusFetch
 } from 'appWords'
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -31,7 +31,7 @@ export const RenderWhenReady = ({ status, children }) => {
     return <h1>status is empty string</h1>
   }
 
-  if (status === wdRequestStatusRefresh) {
+  if (status === wdRequestStatusFetch) {
     return <h1>Refreshing data</h1>
   }
 

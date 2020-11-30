@@ -2,11 +2,7 @@
  * @module rulesSlice.js
  */
 
-import {
-  createSlice,
-  createAsyncThunk,
-  current
-} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import * as R from 'ramda'
 import { ruleTmpMake } from './ruleTmpMake'
@@ -25,22 +21,23 @@ import {
 // } from './pathWords'
 import {
   selectRuleEditActions,
-  selectRuleEditCriteria,
-  rulePaths
+  selectRuleEditCriteria
 } from 'features/selectors'
 import {
   wdRequestStatusError,
   wdRequestStatusFulfilled,
   wdRequestStatusPending,
-  wdRequestStatusRefresh,
-  wdItems,
-  wdRulesFetchStatus,
-  wdRuleCreateStatus,
-  wdRuleUpdateStatus,
-  wdError,
-  wdRuleEdit
+  wdRequestStatusFetch,
+  wdRules,
+  pathRuleEditCritera,
+  pathRuleEditIsDirty,
+  pathRuleEdit,
+  pathRulesFetchStatus,
+  pathRulesItems,
+  pathRulesFetchError,
+  pathRuleEditActions
 } from 'appWords'
-
+import { setStateValue } from 'features/helpers'
 
 // eslint-disable-next-line
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -53,15 +50,21 @@ import { logFetchResults } from 'lib/logFetchResults'
  * @see https://github.com/klequis/private-money-client/wiki/State for properties of ruleEdit which are created at runtime.
  */
 const initialState = {
-  [wdItems]: [],
-  [wdRulesFetchStatus]: wdRequestStatusRefresh,
-  [wdRuleCreateStatus]: wdRequestStatusRefresh,
-  [wdRuleUpdateStatus]: wdRequestStatusRefresh,
-  [wdError]: null,
-  [wdRuleEdit]: {
-  }
+  items: [],
+  create: {
+    status: wdRequestStatusFetch,
+    error: null
+  },
+  fetch: {
+    status: wdRequestStatusFetch,
+    error: null
+  },
+  update: {
+    status: wdRequestStatusFetch,
+    error: null
+  },
+  ruleEdit: {}
 }
-
 
 export const rulesFetch = createAsyncThunk('rules/get', async () => {
   const r = await api.rules.read()
@@ -103,23 +106,19 @@ const rulesSlice = createSlice({
       // console.log('state.ruleEdit.actions', currState.ruleEdit.actions)
       const currActions = selectRuleEditActions(state)
       // console.log('currActions', currActions)
-      const idxOfActionToReplace = R.findIndex(
-        R.propEq('_id', newActionId)
-      )(currActions)
-      const newActions = R.update(
-        idxOfActionToReplace, 
-        newAction, 
+      const idxOfActionToReplace = R.findIndex(R.propEq('_id', newActionId))(
         currActions
       )
+      const newActions = R.update(idxOfActionToReplace, newAction, currActions)
       const newState = R.pipe(
-        R.assocPath(rulePaths.ruleEditActions, newActions),
-        R.assocPath(rulePaths.ruleEditIsDirty, true)
+        R.assocPath(pathRuleEditActions, newActions),
+        R.assocPath(pathRuleEditIsDirty, true)
       )(currState)
       return newState
     },
     /**
-     * 
-     * @param {object} state 
+     *
+     * @param {object} state
      */
     ruleEditClear(state) {
       state.ruleEdit = {}
@@ -143,46 +142,61 @@ const rulesSlice = createSlice({
         currCriteria
       )
       const newState = R.pipe(
-        R.assocPath(rulePaths.pathRuleEditCriteria, newCriteria),
-        R.assocPath(rulePaths.pathRuleEditDirty, true)
+        // R.assocPath(rulePaths.pathRuleEditCriteria, newCriteria),
+        setStateValue(wdRules, pathRuleEditCritera, newCriteria, currState),
+        // R.assocPath(rulePaths.pathRuleEditDirty, true)
+        setStateValue(wdRules, pathRuleEditIsDirty, true, currState)
       )(currState)
       return newState
     },
     ruleEditSetExistingRule(state, action) {
       const ruleId = R.path(['payload', 'ruleId'], action)
-      state.ruleEdit = getRule(ruleId, current(state))
+      const rule = getRule(ruleId, current(state))
+      setStateValue(wdRules, pathRuleEdit, rule, current(state))
     },
     ruleEditSetNewRule(state, action) {
       const { payload } = action
       const { origDescription, date } = payload
-      state.ruleEdit = ruleTmpMake(origDescription, date)
-    },
-    ruleEditTmpMake(state, action) {
-      const { payload } = action
-      const { origDescription, date } = payload
-      state.ruleEdit = ruleTmpMake(origDescription, date)
+      const rule = ruleTmpMake(origDescription, date)
+      setStateValue(wdRules, pathRuleEdit, rule, current(state))
     },
     setRulesRefresh(state) {
-      state.rulesFetchStatus = wdRequestStatusRefresh
+      // state.rulesFetchStatus = wdRequestStatusFetch
+      setStateValue(wdRules, pathRulesFetchStatus, wdRequestStatusFetch, state)
     }
   },
   extraReducers: {
     // rulesFetch
-    [rulesFetch.pending]: (state, action) => {
+    [rulesFetch.pending]: (state) => {
       // logFetchResults('fetchRules.pending', state, action)
-      state.rulesFetchStatus = wdRequestStatusPending
-      state.items = []
+      // state.rulesFetchStatus = wdRequestStatusPending
+      // state.items = []
+      return R.pipe(
+        setStateValue(wdRules, pathRulesFetchStatus, wdRequestStatusPending),
+        setStateValue(wdRules, pathRulesItems, [])
+      )(current(state))
     },
     [rulesFetch.fulfilled]: (state, action) => {
       // logFetchResults('fetchRules.fulfilled', state, action)
-      state.rulesFetchStatus = wdRequestStatusFulfilled
-      state.items = R.path(['payload', 'data'], action)
+      // state.rulesFetchStatus = wdRequestStatusFulfilled
+      const newItems = R.path(['payload', 'data'], action)
+      R.pipe(
+        setStateValue(wdRules, pathRulesFetchStatus, wdRequestStatusFulfilled),
+        setStateValue(wdRules, pathRulesItems, newItems)
+      )(current(state))
     },
     [rulesFetch.rejected]: (state, action) => {
       // logFetchResults('fetchRules.rejected', state, action)
-      state.rulesFetchStatus = wdRequestStatusError
-      state.error = R.path(['error', 'message'], action)
-      state.items = []
+      // state.rulesFetchStatus = wdRequestStatusError
+      // state.error = R.path(['error', 'message'], action)
+      // state.items = []
+
+      const error = R.path(['error', 'message'], action)
+      R.pipe(
+        setStateValue(wdRules, pathRulesFetchStatus, wdRequestStatusError),
+        setStateValue(wdRules, pathRulesFetchError, error),
+        setStateValue(wdRules, pathRulesItems, [])
+      )(current(state))
     },
     // ruleCreate
     [ruleCreate.pending]: (state, action) => {

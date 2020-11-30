@@ -2,13 +2,13 @@
  * @module rulesSlice.js
  */
 
-import { createSlice, current } from '@reduxjs/toolkit'
+
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
   wdAll,
   wdRuleRadio,
-  wdCategorizeRadio,
+  wdRadioCategorized,
   wdDoesNotHaveRule
 } from 'appWords'
 import {
@@ -20,27 +20,7 @@ import {
 // eslint-disable-next-line
 import { blue, red } from 'logger'
 
-const initialState = {
-  options: {
-    [wdRuleRadio]: {
-      value: wdAll
-    },
-     
-    [wdCategorizeRadio]: {
-      value: wdAll,
-      disabled: false
-    }
-  },
-  filters: {
-    acctId: null,
-    amount: null,
-    category1: null,
-    category2: null,
-    date: null,
-    description: null,
-    type: null
-  }
-}
+
 
 const valueOrEmptyString = (value) => (isNilOrEmpty(value) ? '' : value)
 
@@ -70,9 +50,9 @@ const transactionsUiSlice = createSlice({
       switch (value) {
         case wdAll:
           // state.options.ruleRadio.value = wdAll
-          R.assocPath(R.path(state, uiPaths.RleRadioValue), wdAll)
-        default
-          // do nothing
+          return R.assocPath(R.path(state, uiPaths.RleRadioValue), wdAll)
+        default:
+          // TODO: what to do here? 
       }
 
       // R.assocPath(
@@ -84,7 +64,7 @@ const transactionsUiSlice = createSlice({
       // )
       // R.assocPath(
       //   R.path(state, uiPaths.categorizeRadioValue),
-      //   name === wdCategorizeRadio
+      //   name === wdRadioCategorized
       //     ? value
       //     : selectCategorizeRadioValue(state)
       // )
@@ -100,7 +80,7 @@ const transactionsUiSlice = createSlice({
           ? value
           : R.path(uiPaths.ruleRadioValue, state)
       state.options.categorizeRadio.value =
-        name === wdCategorizeRadio
+        name === wdRadioCategorized
           ? value
           : R.path(uiPaths.pathCategorizeRadioValue, state)
       state.options.categorizeRadio.disabled =
@@ -111,12 +91,12 @@ const transactionsUiSlice = createSlice({
       state.filters[name] = valueOrEmptyString(value)
     },
 
-    isUncategorizedToggle(state) {
-      state.isUncategorized.checked = !state.isUncategorized.checked
-    },
-    hasRulesToggle(state) {
-      state.hasRules.checked = !state.hasRules.checked
-    }
+    // isUncategorizedToggle(state) {
+    //   state.isUncategorized.checked = !state.isUncategorized.checked
+    // },
+    // hasRulesToggle(state) {
+    //   state.hasRules.checked = !state.hasRules.checked
+    // }
   }
 })
 

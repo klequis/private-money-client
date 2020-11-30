@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
-import { updateFilters } from 'features/uiSettings/transactionsUiSlice'
+import { updateFilters } from 'features/txTbl'
 
 // eslint-disable-next-line
 import { green } from 'logger'

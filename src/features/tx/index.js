@@ -1,3 +1,3 @@
-export { Transactions } from './Transactions'
-export * from './transactionFields'
-export * from './transactionsSlice'
+export { TxTbl } from './TxTable'
+export * from './txFields'
+export * from './txSlice'

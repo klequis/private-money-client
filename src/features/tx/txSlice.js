@@ -15,7 +15,7 @@ import {
   wdRequestStatusPending,
   wdRequestStatusFulfilled,
   wdRequestStatusError,
-  wdRequestStatusFetch
+  wdRequestStatusFetch,
 } from 'appWords'
 
 // eslint-disable-next-line
@@ -28,7 +28,7 @@ const initialState = {
   items: [],
   fetch: {
     status: wdRequestStatusFetch,
-    error: wdRequestStatusError
+    error: null
   }
 }
 
@@ -67,6 +67,9 @@ const txSlice = createSlice({
     txFetchStatusSetRefresh(state) {
       // logFetchResults('transactions.setStatusRefresh', state, action)
       state.fetch.status = wdRequestStatusFetch
+    },
+    txUiRadioHasRuleValueSet(state, action) {
+      // wdAll, wdHasRule, wdDoesNotHaveRule
     }
   },
   extraReducers: {
@@ -90,10 +93,10 @@ const txSlice = createSlice({
   }
 })
 
-export const transactionsReducer = txSlice.reducer
+export const txReducer = txSlice.reducer
 export const {
-  txActiveIdClear: activeTransactionIdClear,
-  txActiveIdSet: activeTransactionIdSet,
-  txFetchStatusSetRefresh: setTransactionsRefresh
+  txActiveIdClear,
+  txActiveIdSet,
+  txFetchStatusSetRefresh
 } = txSlice.actions
 
