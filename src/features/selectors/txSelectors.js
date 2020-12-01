@@ -5,21 +5,21 @@ import { getStateValue } from 'features/helpers'
 
 /**
  *
- * @param {object} state
- * @returns {array} of transactions objects
+ * @param {object} state state
+ * @returns {Array} of transactions objects
  */
-export const selectAllTransactions = (state) => {
+export const selectTxItems = (state) => {
   // return R.path(pathTxItems, state)
   return getStateValue(wdTx, pathTxItems, state)
 }
 
 /**
  *
- * @param {string} transactionId
- * @param {object} state
+ * @param {string} transactionId mongo ObjectId for existing tx
+ * @param {object} state state
  * @returns {object} one transaction
  */
-export const selectOneTransaction = (transactionId, state) => {
+export const selectOneTx = (transactionId, state) => {
   // const tItems = R.path(pathTxItems, state)
   const tItems = getStateValue(wdTx, pathTxItems, state)
   if (isNilOrEmpty(tItems)) {
@@ -31,17 +31,17 @@ export const selectOneTransaction = (transactionId, state) => {
 
 /**
  *
- * @param {object} state
- * @returns {string}
+ * @param {object} state state
+ * @returns {string} _id of active Tx
  */
-export const selectActiveTransactionId = (state) => {
+export const selectActiveTxId = (state) => {
   return getStateValue(wdTx, pathTxActiveId, state)
 }
 
 /**
  *
- * @param {object} state
+ * @param {object} state state
  * @returns {string} a request status word from appWords.js
  */
-export const selectTransactionsFetchStatus = (state) =>
+export const selectTxFetchStatus = (state) =>
   getStateValue(wdTx, pathTxFetchStatus, state)

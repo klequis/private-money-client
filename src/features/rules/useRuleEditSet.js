@@ -4,7 +4,7 @@ import { ruleEditSetNewRule, ruleEditSetExistingRule } from 'features/rules'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
 import {
-  selectOneTransaction,
+  selectOneTx,
 } from 'features/selectors'
 
 // eslint-disable-next-line
@@ -23,7 +23,7 @@ export const useRuleEditSet = (transactionId) => {
   const dispatch = useDispatch()
 
   const transaction = useSelector((state) =>
-    selectOneTransaction(transactionId, state)
+    selectOneTx(transactionId, state)
   )
   useEffect(() => {
     if (!isNilOrEmpty(transaction)) {

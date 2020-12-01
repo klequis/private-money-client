@@ -7,8 +7,8 @@ import { useRuleEditSet } from 'features/rules/useRuleEditSet'
 import { RuleCreate, rulesFetch } from 'features/rules'
 import { txFetch, TxTbl } from 'features/tx'
 import {
-  selectActiveTransactionId,
-  selectTransactionsFetchStatus,
+  selectActiveTxId,
+  selectTxFetchStatus,
   selectRulesFetchStatus,
   selectRequestStatus,
   // tmp
@@ -36,13 +36,12 @@ export const App = () => {
   countTotal = countTotal + 1
 
   const dispatch = useDispatch()
-
-  const activeTransactionId = useSelector(selectActiveTransactionId)
-
+  
+  const activeTransactionId = useSelector(selectActiveTxId)
   const status = useSelector((state) =>
     selectRequestStatus([wdRulesFetchStatus, wdTxFetchStatus], state)
   )
-  const transactionsFetchStatus = useSelector(selectTransactionsFetchStatus)
+  const transactionsFetchStatus = useSelector(selectTxFetchStatus)
   const rulesFetchStatus = useSelector(selectRulesFetchStatus)
 
   useEffect(() => {
@@ -55,7 +54,6 @@ export const App = () => {
   }, [dispatch, transactionsFetchStatus, rulesFetchStatus])
 
   useRuleEditSet(activeTransactionId)
-
   countReturn = countReturn + 1
 
   return (

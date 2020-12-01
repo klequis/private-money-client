@@ -5,7 +5,7 @@ import {
   txActiveIdSet,
 } from 'features/tx'
 import {
-  selectOneTransaction,
+  selectOneTx,
   // selectActiveTransactionId
 } from 'features/selectors'
 // TODO: needed? import styles from './TableBody.module.css'
@@ -22,7 +22,7 @@ export const TxTblBody = ({ transactionId }) => {
   // const activeTransactionId = useSelector(selectActiveTransactionId)
   // const showRow = activeTransactionId === transactionId
   const transaction = useSelector((state) =>
-    selectOneTransaction(transactionId, state)
+    selectOneTx(transactionId, state)
   )
   const {
     _id,

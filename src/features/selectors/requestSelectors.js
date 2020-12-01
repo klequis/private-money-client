@@ -15,7 +15,7 @@ import {
   wdCriteriaResultsFetchStatus
 } from 'appWords'
 import {
-  selectTransactionsFetchStatus,
+  selectTxFetchStatus,
   selectCriteriaResultsFetchStatus,
   selectRulesFetchStatus,
   selectRuleCreateStatus,
@@ -25,7 +25,14 @@ import {
 // eslint-disable-next-line
 import { grpStart, grpEnd, blue, yellow, red } from 'logger'
 
-const statusValues = (statusName, state) => {
+/**
+ * 
+ * @param {Array} statusNames one of wdCriteriaResultsFetchStatus | wdTxFetchStatus | wdRulesFetchStatus | wdRulesCreateStatus | wdRulesUpdateStatus
+ * @param {*} state state
+ * @returns {Array} of status state values
+ */
+const statusStateValues = (statusNames, state) => {
+  // grpStart('statusValues')
   // const {
   //   criteriaResultsFetchStatus: criteriaResultsFetchStatus,
   //   transactionsFetchStatus,
@@ -35,34 +42,51 @@ const statusValues = (statusName, state) => {
   // } = requestStatusNames
   const values = {
     [wdCriteriaResultsFetchStatus]: selectCriteriaResultsFetchStatus(state),
-    [wdTxFetchStatus]: selectTransactionsFetchStatus(state),
+    [wdTxFetchStatus]: selectTxFetchStatus(state),
     [wdRulesFetchStatus]: selectRulesFetchStatus(state),
     [wdRulesCreateStatus]: selectRuleCreateStatus(state),
     [wdRulesUpdateStatus]: selectRuleUpdateStatus(state)
   }
-  blue('values', values)
-  return values[statusName]
+  // blue('statusNames', statusNames)
+  // blue('values', values)
+
+  // const x = R.map(name => values[name], statusNames)
+  // blue('x', x)
+
+  const ret = R.map(name => values[name], statusNames)
+  // blue('ret', ret)
+  // grpEnd()
+  return ret
 }
 
 const all = (statusNames, matchStatusState, state) => {
-  const values = statusValues(statusNames, state)
+  const values = statusStateValues(statusNames, state)
   return R.all(R.equals(R.__, matchStatusState))(values)
 }
 
 const any = (statusNames, matchStatusState, state) => {
-  const values = statusValues(statusNames, state)
-  return R.any(R.equals(R.__, matchStatusState))(values)
+  // grpStart('any')
+  // blue('statusNames', statusNames)
+  // blue('matchStatusState', matchStatusState)
+  // blue('state', state)
+  
+  const values = statusStateValues(statusNames, state)
+  // blue('values', values)
+  const ret = R.any(R.equals(R.__, matchStatusState))(values)
+  // blue('ret', ret)
+  // grpEnd()
+  return ret
 }
 
 /**
  *
- * @param {array} statusNames
- * @param {object} state
+ * @param {Array} statusNames a status name
+ * @param {object} state state
+ * @returns {string} wdRequestStatusError | wdRequestStatusPending | wdRequestStatusFetch | wdRequestStatusFulfilled
  */
 export const selectRequestStatus = (statusNames, state) => {
-
-  blue('statusNames', statusNames)
-  blue('state', state)
+  // blue('statusNames', statusNames)
+  // blue('state', state)
 
   if (any(statusNames, wdRequestStatusError, state)) {
     // yellow('1: any', 'error')
@@ -83,9 +107,3 @@ export const selectRequestStatus = (statusNames, state) => {
   // yellow('6: error', error)
   return wdRequestStatusError
 }
-
-
-
-
-
-

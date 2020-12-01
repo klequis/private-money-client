@@ -52,7 +52,7 @@ export const selectCriteriaResults = (state) => {
  * @returns {string} a request status word from appWords.js
  */
 export const selectCriteriaResultsFetchStatus = (state) => {
-  blue('path', pathCriteriaResultsFetchStatus)
+  // blue('path', pathCriteriaResultsFetchStatus)
   return getStateValue(wdCriteriaResults, pathCriteriaResultsFetchStatus, state)
 }
   

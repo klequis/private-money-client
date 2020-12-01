@@ -67,8 +67,7 @@ const initialState = {
 }
 
 export const rulesFetch = createAsyncThunk('rules/get', async () => {
-  const r = await api.rules.read()
-  return r
+  return await api.rules.read()
 })
 
 export const ruleCreate = createAsyncThunk(
@@ -79,7 +78,6 @@ export const ruleCreate = createAsyncThunk(
     await api.rules.create(newRule)
   }
 )
-
 export const ruleUpdate = createAsyncThunk(
   'rules/rule-update',
   async (rule) => {
@@ -96,7 +94,8 @@ const rulesSlice = createSlice({
     /**
      *
      * @param {object} state the rulesSlice
-     * @param {object} action where action.payload is an action
+     * @param {object} action  an Action {payload: { ... }}
+     * @returns {object} the new slice state
      */
     ruleEditActionUpdate(state, action) {
       const currState = current(state)
@@ -114,11 +113,13 @@ const rulesSlice = createSlice({
         R.assocPath(pathRuleEditActions, newActions),
         R.assocPath(pathRuleEditIsDirty, true)
       )(currState)
+
       return newState
     },
     /**
      *
-     * @param {object} state
+     * @param {object} state the rules slice
+     * @returns {void} void
      */
     ruleEditClear(state) {
       state.ruleEdit = {}
@@ -126,7 +127,8 @@ const rulesSlice = createSlice({
     /**
      *
      * @param {object} state the rulesSlice
-     * @param {object} action where action.payload is a criterion
+     * @param {object} action a Criterion {payload: { ... }}
+     * @returns {object} the new state
      */
     ruleEditCriterionUpdate(state, action) {
       const currState = current(state)
@@ -149,20 +151,42 @@ const rulesSlice = createSlice({
       )(currState)
       return newState
     },
+    /**
+     *
+     * @param {object} state state
+     * @param {object} action payload: { ruleId: ruleId: string }
+     * @returns {object} the new state
+     */
     ruleEditSetExistingRule(state, action) {
       const ruleId = R.path(['payload', 'ruleId'], action)
       const rule = getRule(ruleId, current(state))
-      setStateValue(wdRules, pathRuleEdit, rule, current(state))
+      return setStateValue(wdRules, pathRuleEdit, rule, current(state))
     },
+    /**
+     *
+     * @param {object} state state
+     * @param {object} action an Action object {payload: { action: {...} }}
+     * @returns {object} the new sate
+     */
     ruleEditSetNewRule(state, action) {
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
-      setStateValue(wdRules, pathRuleEdit, rule, current(state))
+      return setStateValue(wdRules, pathRuleEdit, rule, current(state))
     },
+    /**
+     *
+     * @param {object} state state
+     * @returns {object} the new state
+     */
     setRulesRefresh(state) {
       // state.rulesFetchStatus = wdRequestStatusFetch
-      setStateValue(wdRules, pathRulesFetchStatus, wdRequestStatusFetch, state)
+      return setStateValue(
+        wdRules,
+        pathRulesFetchStatus,
+        wdRequestStatusFetch,
+        state
+      )
     }
   },
   extraReducers: {
@@ -180,7 +204,7 @@ const rulesSlice = createSlice({
       // logFetchResults('fetchRules.fulfilled', state, action)
       // state.rulesFetchStatus = wdRequestStatusFulfilled
       const newItems = R.path(['payload', 'data'], action)
-      R.pipe(
+      return R.pipe(
         setStateValue(wdRules, pathRulesFetchStatus, wdRequestStatusFulfilled),
         setStateValue(wdRules, pathRulesItems, newItems)
       )(current(state))
@@ -192,18 +216,18 @@ const rulesSlice = createSlice({
       // state.items = []
 
       const error = R.path(['error', 'message'], action)
-      R.pipe(
+      return R.pipe(
         setStateValue(wdRules, pathRulesFetchStatus, wdRequestStatusError),
         setStateValue(wdRules, pathRulesFetchError, error),
         setStateValue(wdRules, pathRulesItems, [])
       )(current(state))
     },
     // ruleCreate
-    [ruleCreate.pending]: (state, action) => {
+    [ruleCreate.pending]: (state) => {
       // logFetchResults('ruleEdit.pending', state, action)
       state.ruleCreateStatus = wdRequestStatusPending
     },
-    [ruleCreate.fulfilled]: (state, action) => {
+    [ruleCreate.fulfilled]: (state) => {
       // logFetchResults('ruleEdit.fulfilled', state, action)
       state.ruleCreateStatus = wdRequestStatusFulfilled
     },
@@ -214,11 +238,11 @@ const rulesSlice = createSlice({
       state.error = R.path(['error', 'message'], action)
     },
     // ruleUpdate
-    [ruleUpdate.pending]: (state, action) => {
+    [ruleUpdate.pending]: (state) => {
       // logFetchResults('ruleEdit.pending', state, action)
       state.ruleUpdateStatus = wdRequestStatusPending
     },
-    [ruleUpdate.fulfilled]: (state, action) => {
+    [ruleUpdate.fulfilled]: (state) => {
       // logFetchResults('ruleEdit.fulfilled', state, action)
       state.ruleUpdateStatus = wdRequestStatusFulfilled
     },

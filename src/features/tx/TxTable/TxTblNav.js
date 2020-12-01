@@ -6,9 +6,10 @@ import {
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
 import {
-  selectRuleRadioValue,
-  selectCategorizeRadioValue,
-  selectCategorizeRadioDisabled
+  selectRadioHasRuleValue,
+  selectRadioCategorizedValue,
+  selectRadioCategorizedDisabled
+  
 } from 'features/selectors'
 import {
   wdRadioHasRule,
@@ -51,16 +52,16 @@ export const TxTblNav = () => {
     dispatch(updateRadioState({ name, value }))
   }
 
-  const ruleGroupValue = useSelector(selectRuleRadioValue)
-  const categorizeGroupValue = useSelector(selectCategorizeRadioValue)
-  const categorizeDisabled = useSelector(selectCategorizeRadioDisabled)
+  const radioHasRuleValue = useSelector(selectRadioHasRuleValue)
+  const radioCategorizedValue = useSelector(selectRadioCategorizedValue)
+  const radioCategorizedDisabled = useSelector(selectRadioCategorizedDisabled)
 
   return (
     <Options>
       <Row>
         <RowTitle>Transactions: </RowTitle>
         <Radio
-          groupValue={ruleGroupValue}
+          groupValue={radioHasRuleValue}
           id={allId}
           label="All"
           name={wdRadioHasRule}
@@ -69,7 +70,7 @@ export const TxTblNav = () => {
           value={wdAll}
         />
         <Radio
-          groupValue={ruleGroupValue}
+          groupValue={radioHasRuleValue}
           id={hasRuleId}
           label="Has rule"
           name={wdRadioHasRule}
@@ -78,7 +79,7 @@ export const TxTblNav = () => {
           value={wdHasRule}
         />
         <Radio
-          groupValue={ruleGroupValue}
+          groupValue={radioHasRuleValue}
           id={doesNotHaveRuleId}
           label="Does not have rule"
           name={wdRadioHasRule}
@@ -90,8 +91,8 @@ export const TxTblNav = () => {
       <Row>
         <RowTitle>Category: </RowTitle>
         <Radio
-          disabled={categorizeDisabled}
-          groupValue={categorizeGroupValue}
+          disabled={radioCategorizedDisabled}
+          groupValue={radioCategorizedValue}
           id="bothId"
           label="Both"
           name={wdRadioCategorized}
@@ -100,8 +101,8 @@ export const TxTblNav = () => {
           width={70}
         />
         <Radio
-          disabled={categorizeDisabled}
-          groupValue={categorizeGroupValue}
+          disabled={radioCategorizedDisabled}
+          groupValue={radioCategorizedValue}
           id="categorizedId"
           label="Categorized"
           name={wdRadioCategorized}
@@ -110,8 +111,8 @@ export const TxTblNav = () => {
           value={wdCategorized}
         />
         <Radio
-          disabled={categorizeDisabled}
-          groupValue={categorizeGroupValue}
+          disabled={radioCategorizedDisabled}
+          groupValue={radioCategorizedValue}
           id="uncategorizedId"
           label="Uncategorized"
           name={wdRadioCategorized}

@@ -16,12 +16,17 @@ import {
   wdRequestStatusFulfilled,
   wdRequestStatusError,
   wdRequestStatusFetch,
+  wdTx,
+  pathTxFetchStatus,
+  pathTxFetchError,
+  pathTxItems,
 } from 'appWords'
 
 // eslint-disable-next-line
 import { blue, yellow, red } from 'logger'
 // eslint-disable-next-line
 import { logFetchResults } from 'lib/logFetchResults'
+import { setStateValue } from 'features/helpers'
 
 const initialState = {
   activeId: '',
@@ -75,20 +80,36 @@ const txSlice = createSlice({
   extraReducers: {
     [txFetch.pending]: (state, action) => {
       // logFetchResults('transactions.pending', state, action)
-      state.fetch.status = wdRequestStatusPending
-      state.items = []
+      // state.fetch.status = wdRequestStatusPending
+      // state.items = []
+      return R.pipe(
+        setStateValue(wdTx, pathTxFetchStatus, wdRequestStatusPending),
+        setStateValue(wdTx, pathTxItems, [])
+      )(current(state))
+      
     },
     [txFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
-      state.fetch.status = wdRequestStatusFulfilled
-      state.items = R.path(['payload', 'data'], action)
+      // state.fetch.status = wdRequestStatusFulfilled
+      // state.items = R.path(['payload', 'data'], action)
+      const items = R.path(['payload', 'data'], action)
+      return R.pipe(
+        setStateValue(wdTx, pathTxFetchStatus, wdRequestStatusFulfilled),
+        setStateValue(wdTx, pathTxItems, items)
+      )(current(state))
     },
     [txFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
       red('transactions.rejected', 'rejected')
-      state.fetch.status = wdRequestStatusError
-      state.error = R.path(['error', 'message'], action)
-      state.items = []
+      // state.fetch.status = wdRequestStatusError
+      // state.error = R.path(['error', 'message'], action)
+      // state.items = []
+      
+      return R.pipe(
+        setStateValue(wdTx, pathTxFetchStatus, wdRequestStatusFulfilled),
+        setStateValue(wdTx, pathTxItems, []),
+        setStateValue(wdTx, pathTxFetchError, R.path(['error', 'message'], action))
+      )
     }
   }
 })

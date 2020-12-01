@@ -12,7 +12,7 @@ import { TxTblNav } from './TxTblNav'
 // import { transactionOptionValues as optionValues } from 'globalConstants'
 // import * as R from 'ramda'
 import {
-  selectAllTransactions,
+  selectTxItems,
   selectFilteredTransactions
 } from 'features/selectors'
 
@@ -28,7 +28,7 @@ export const TxTbl = () => {
   // })
 
   const filteredTransactions = useSelector(selectFilteredTransactions)
-  const transactions = useSelector(selectAllTransactions)
+  const transactions = useSelector(selectTxItems)
   if (isNilOrEmpty(transactions)) {
     return null
   }

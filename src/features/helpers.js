@@ -75,14 +75,14 @@ export const getStateValue = (root, path, state) => {
   const ret = R.has(root)(state)
     ? R.path(path, state)
     : R.path(path, R.tail(state))
-  if (R.equals(path, ['criteriaResults', 'fetch', 'status'])) {
-    grpStart('getStateValue')
-    blue('root', root)
-    blue('path', path)
-    blue('state', state)
-    blue('ret', ret)
-    grpEnd()
-  }
+  // if (R.equals(path, ['criteriaResults', 'fetch', 'status'])) {
+  //   grpStart('getStateValue')
+  //   blue('root', root)
+  //   blue('path', path)
+  //   blue('state', state)
+  //   blue('ret', ret)
+  //   grpEnd()
+  // }
   return ret
 }
 
@@ -91,12 +91,22 @@ export const getStateValue = (root, path, state) => {
  * @param {string} root name of path root such as 'tx' or 'rules'
  * @param {Array} path full path to desirec values
  * @param {any} newValue the new value to set for the specified path state
- * @param {state} state current state with or without root property
- * @returns {any} returns whatever is in state
+ * @param {object} state current state with or without root property
+ * @returns {any} returns the past in state with the specified value modified
  */
-export const setStateValue = (root, path, newValue, state) => {
-  const actualPath = R.has(root) ? path : R.tail(path)
+export const setStateValue = R.curry((root, path, newValue, state) => {
+  const actualPath = R.has(root)(state) ? path : R.tail(path)
   const ret = R.assocPath(actualPath, newValue, state)
-  red('WHAT DOES THIS RETURN setStateValue: ret', ret)
+
+  // red('WHAT DOES THIS RETURN setStateValue: ret', {
+  //   root,
+  //   path,
+  //   actualPath,
+  //   newValue,
+  //   ret
+  // })
+  if (R.type(ret) !== 'Object') {
+    red('hey this return value is not an object', ret)
+  }
   return ret
-}
+})
