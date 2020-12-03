@@ -105,3 +105,13 @@ export const pathTxTblFiltersType = [wdTxTbl, wdFilters, wdType]
 export const pathTxTblRadioCategorizedDisabled = [wdTxTbl, wdRadioCategorized, wdDisabled]
 export const pathTxTblRadioCategorizedValue = [wdTxTbl, wdRadioCategorized, wdValue]
 export const pathTxTblRadioHasRuleValue = [wdTxTbl, wdRadioHasRule, wdValue]
+
+
+export const pathTxTblFilterProps = {
+  acctId: [wdTxTbl, wdFilters, wdAcctId],
+  category1: [wdTxTbl, wdFilters, wdCategory1],
+  category2: [wdTxTbl, wdFilters, wdCategory2],
+  date: [wdTxTbl, wdFilters, wdDate],
+  description: [wdTxTbl, wdFilters, wdDescription],
+  type: [wdTxTbl, wdFilters, wdType]
+}

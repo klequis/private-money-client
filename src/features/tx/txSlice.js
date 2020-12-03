@@ -20,6 +20,7 @@ import {
   pathTxFetchStatus,
   pathTxFetchError,
   pathTxItems,
+  pathTxActiveId
 } from 'appWords'
 
 // eslint-disable-next-line
@@ -27,6 +28,7 @@ import { blue, yellow, red } from 'logger'
 // eslint-disable-next-line
 import { logFetchResults } from 'lib/logFetchResults'
 import { setStateValue } from 'features/helpers'
+import { selectTxFetchStatus } from 'features/selectors'
 
 const initialState = {
   activeId: '',
@@ -39,6 +41,42 @@ const initialState = {
 
 const viewName = 'all-data-by-description'
 
+/* eslint-disable */
+
+/**
+ *
+ * @param {string} id id from a txItem _id
+ * @returns {(state: object) => object} state with updated value
+ */
+const activeIdSet = (id) => (state) =>
+  setStateValue(wdTx, pathTxActiveId, id, state)
+
+/**
+ *
+ * @param {Array} items an array of txItem objects
+ * @returns {(state: object) => object} state with updated value
+ */
+const itemsSet = (items) => (state) =>
+  setStateValue(wdTx, pathTxItems, items, state) // (state)
+
+/**
+ *
+ * @param {string} status one of wdRequestStatusPending, wdRequestStatusFulfilled, wdRequestStatusError, wdRequestStatusRefresh
+ * @returns {(state: object) => object} state with updated value
+ */
+const txFetchStatusSet = (status) => (state) =>
+  setStateValue(wdTx, pathTxFetchStatus, status, state)
+
+/**
+ *
+ * @param {string} errorMessage  the error message
+ * @returns {(state: object) => object} state with updated value
+ */
+const txFetchErrorSet = (errorMessage) => (state) =>
+  setStateValue(wdTx, pathTxFetchError, errorMessage, state)
+
+/* eslint-enable */
+
 const addFields = (data) => {
   return R.map((t) => {
     return R.mergeRight(t, {
@@ -48,68 +86,55 @@ const addFields = (data) => {
   }, data)
 }
 
-export const txFetch = createAsyncThunk(
-  'transactions/get',
-  async () => {
-    const r = await api.views.read(viewName)
-    const { data } = r
-    return R.mergeRight(r, { data: addFields(data) })
-  }
-)
+export const txFetch = createAsyncThunk('transactions/get', async () => {
+  const r = await api.views.read(viewName)
+  const { data } = r
+  return R.mergeRight(r, { data: addFields(data) })
+})
 
 const txSlice = createSlice({
-  name: 'tx',
+  name: wdTx,
   initialState,
+  // TODO: document payload for all
   reducers: {
     txActiveIdSet(state, action) {
       // logFetchResults('transactions.activeTransactionSet', state, action)
-      state.activeId = action.payload
+      const id = action.payload
+      return activeIdSet(id, state)
     },
-    txActiveIdClear(state, action) {
+    txActiveIdClear(state) {
       // logFetchResults('transactions.activeTransactionClear', state, action)
-      state.activeId = null
+      return activeIdSet(null, state)
     },
     txFetchStatusSetRefresh(state) {
       // logFetchResults('transactions.setStatusRefresh', state, action)
-      state.fetch.status = wdRequestStatusFetch
+      return txFetchStatusSet(wdRequestStatusFetch, state)
     },
-    txUiRadioHasRuleValueSet(state, action) {
-      // wdAll, wdHasRule, wdDoesNotHaveRule
-    }
   },
   extraReducers: {
-    [txFetch.pending]: (state, action) => {
+    [txFetch.pending]: (state) => {
       // logFetchResults('transactions.pending', state, action)
-      // state.fetch.status = wdRequestStatusPending
-      // state.items = []
       return R.pipe(
-        setStateValue(wdTx, pathTxFetchStatus, wdRequestStatusPending),
-        setStateValue(wdTx, pathTxItems, [])
+        txFetchStatusSet(wdRequestStatusPending),
+        itemsSet([])
       )(current(state))
-      
     },
     [txFetch.fulfilled]: (state, action) => {
       // logFetchResults('transactions.fulfilled', state, action)
-      // state.fetch.status = wdRequestStatusFulfilled
-      // state.items = R.path(['payload', 'data'], action)
       const items = R.path(['payload', 'data'], action)
       return R.pipe(
-        setStateValue(wdTx, pathTxFetchStatus, wdRequestStatusFulfilled),
-        setStateValue(wdTx, pathTxItems, items)
+        txFetchStatusSet(wdRequestStatusFulfilled),
+        itemsSet(items)
       )(current(state))
     },
     [txFetch.rejected]: (state, action) => {
       // logFetchResults('transactions.rejected', state, action)
-      red('transactions.rejected', 'rejected')
-      // state.fetch.status = wdRequestStatusError
-      // state.error = R.path(['error', 'message'], action)
-      // state.items = []
-      
+      const error = R.path(['error', 'message'], action)
       return R.pipe(
-        setStateValue(wdTx, pathTxFetchStatus, wdRequestStatusFulfilled),
-        setStateValue(wdTx, pathTxItems, []),
-        setStateValue(wdTx, pathTxFetchError, R.path(['error', 'message'], action))
-      )
+        selectTxFetchStatus(wdRequestStatusError),
+        itemsSet([]),
+        txFetchErrorSet(error)
+      )(current(state))
     }
   }
 })
@@ -120,4 +145,3 @@ export const {
   txActiveIdSet,
   txFetchStatusSetRefresh
 } = txSlice.actions
-

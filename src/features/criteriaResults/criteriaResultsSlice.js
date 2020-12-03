@@ -2,20 +2,20 @@
  * @module criteriaResultsSlice.js
  */
 
-import { createSlice, createAsyncThunk/*,  current*/ } from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
-// import {
-//   requestStatusNames,
-//   requestStatusStates
-// } from 'globalConstants'
 import {
   wdRequestStatusFetch,
   wdRequestStatusPending,
   wdRequestStatusFulfilled,
   wdRequestStatusError,
-  wdCriteriaResults
+  wdCriteriaResults,
+  pathCriteriaResultsItems,
+  pathCriteriaResultsFetchStatus,
+  pathCriteriaResultsFetchError
 } from 'appWords'
 import * as R from 'ramda'
+import { setStateValue } from 'features/helpers'
 
 // eslint-disable-next-line
 import { blue, yellow } from 'logger'
@@ -39,32 +39,65 @@ export const criteriaResultsFetch = createAsyncThunk(
   }
 )
 
+// OK,
+// 1. I setItems, setFetchStatus, etc to work with pipe so must be curried
+// 2. That means I currey setItems, setFetchStatus, etc && setStatusValue
+// 3. Is it worth it?
+//    - Look at rulesSlice. There are a number of errors already wrt state.error
+
+const itemsSet = (items) => (state) =>
+  setStateValue(wdCriteriaResults, pathCriteriaResultsItems, items, state)
+
+const fetchStatusSet = (status) => (state) =>
+  setStateValue(
+    wdCriteriaResults,
+    pathCriteriaResultsFetchStatus,
+    status,
+    state
+  )
+
+const fetchErrorSet = (errorMessage) => (state) =>
+  setStateValue(
+    wdCriteriaResults,
+    pathCriteriaResultsFetchError,
+    errorMessage,
+    state
+  )
+
 const criteriaResultsSlice = createSlice({
   name: wdCriteriaResults,
   initialState,
   reducers: {
-    criteriaResultsClear(state, action) {
-      // blue('criteriaResultsClear')
-      state.items = []
+    criteriaResultsClear(state) {
+      const currState = current(state)
+      itemsSet([], currState)
     }
   },
   extraReducers: {
-    [criteriaResultsFetch.pending]: (state, action) => {
+    [criteriaResultsFetch.pending]: (state) => {
       // logFetchResults('fetchCriteriaResults.pending', state, action)
-      state.criteriaResultsFetchStatus = wdRequestStatusPending
-      state.items = []
+      return R.pipe(
+        fetchStatusSet(wdRequestStatusPending),
+        itemsSet([])
+      )(current(state))
     },
     [criteriaResultsFetch.fulfilled]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.fulfilled', state, action)
-      state.criteriaResultsFetchStatus = wdRequestStatusFulfilled
-      state.items = R.path(['payload', 'data'], action)
+      const newItems = R.path(['payload', 'data'], action)
+      R.pipe(
+        fetchStatusSet(wdRequestStatusFulfilled),
+        itemsSet(newItems)
+      )(current(state))
     },
     [criteriaResultsFetch.rejected]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.rejected', state, action)
-      state.criteriaResultsFetchStatus = wdRequestStatusError
-      state.error = R.path(['error', 'message'], action)
-      state.items = []
-    }  
+      const error = R.path(['error', 'message'], action)
+      R.pipe(
+        fetchStatusSet(wdRequestStatusError),
+        fetchErrorSet(error),
+        itemsSet([])
+      )(current(state))
+    }
   }
 })
 

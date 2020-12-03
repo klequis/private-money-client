@@ -29,6 +29,7 @@ export const Rule = () => {
   countTotal = countTotal + 1
 
   const ruleEdit = useSelector(selectRuleEdit)
+  green('Rule: ruleEdit', ruleEdit)
   const dispatch = useDispatch()
 
   const _handleSaveClick = async () => {

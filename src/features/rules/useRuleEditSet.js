@@ -25,6 +25,7 @@ export const useRuleEditSet = (transactionId) => {
   const transaction = useSelector((state) =>
     selectOneTx(transactionId, state)
   )
+  // green('useRuleEditSet: transaction', transaction)
   useEffect(() => {
     if (!isNilOrEmpty(transaction)) {
       if (hasRule(transaction)) {

@@ -4,6 +4,7 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { grpStart, grpEnd, blue, yellow, red } from 'logger'
+import { pathRuleEdit } from 'appWords'
 
 // /**
 //  *
@@ -95,9 +96,22 @@ export const getStateValue = (root, path, state) => {
  * @returns {any} returns the past in state with the specified value modified
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
+  
+  
   const actualPath = R.has(root)(state) ? path : R.tail(path)
+  
+  
   const ret = R.assocPath(actualPath, newValue, state)
-
+  if (root === 'tx') {
+  grpStart('SetStateValue')
+  blue('root', root)           // rules
+  blue('path', path)           // [rules, items]
+  blue('newValue', newValue)   // []
+  blue('state', state)         // the rules slice
+  blue('actualPath', actualPath)
+  blue('ret', ret)
+  grpEnd()
+  }
   // red('WHAT DOES THIS RETURN setStateValue: ret', {
   //   root,
   //   path,

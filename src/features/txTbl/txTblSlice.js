@@ -6,9 +6,11 @@ import {
   wdTxTbl,
   pathTxTblRadioHasRuleValue,
   pathTxTblRadioCategorizedDisabled,
+  wdUncategorized,
   wdHasRule,
   wdDoesNotHaveRule,
-  pathTxTblRadioCategorizedValue
+  pathTxTblRadioCategorizedValue,
+  pathTxTblFilterProps
 } from 'appWords'
 import { setStateValue, valueOrEmptyString } from 'features/helpers'
 import * as R from 'ramda'
@@ -38,6 +40,14 @@ const initialState = {
   }
 }
 
+const radioHasRuleValueSet = value => state => setStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, value, state)
+
+const radioCategorizedDisabledSet = value => state => setStateValue(wdTxTbl, pathTxTblRadioCategorizedDisabled, value, state)
+
+const radioCategorizedValueSet = value => state => setStateValue(wdTxTbl, pathTxTblRadioCategorizedValue, value, state)
+
+const filterUpdate = value => path => state => setStateValue(wdTxTbl, path, value, state)
+
 const txTblSlice= createSlice({
   name: wdTxTbl,
   initialState,
@@ -48,31 +58,37 @@ const txTblSlice= createSlice({
       switch (value) {
         case wdAll:
           return R.pipe(
-            setStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, value),
-            setStateValue(wdTxTbl, pathTxTblRadioCategorizedDisabled, false)
+            radioHasRuleValueSet(wdAll),
+            radioCategorizedDisabledSet(false)
           )(currState)
         case wdHasRule:
           return R.pipe(
-            setStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, value),
-            setStateValue(wdTxTbl, pathTxTblRadioCategorizedDisabled, false)
-          )
+            radioHasRuleValueSet(wdHasRule),
+            radioCategorizedDisabledSet(false)
+          )(currState)
         case wdDoesNotHaveRule:
           return R.pipe(
-            setStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, value),
-            setStateValue(wdTxTbl, pathTxTblRadioCategorizedDisabled, true)
+            radioHasRuleValueSet(wdDoesNotHaveRule),
+            radioCategorizedDisabledSet(true)
           )(currState)
         case wdCategorized:
-          return setStateValue(wdTxTbl, pathTxTblRadioCategorizedValue, value, currState)
-
+          return radioCategorizedValueSet(wdCategorized, currState)
+        case wdUncategorized:
+          return radioCategorizedValueSet(wdUncategorized, currState)
         default:
           throw new Error('unknown radio value')
       }
-    }
+    },
+    updateFilters(state, action) {
+      const { name, value } = action.payload
+      // state.filters[name] = valueOrEmptyString(value)
+      const path = pathTxTblFilterProps[name]
+      const currState = current(state)
+      const finalVal = valueOrEmptyString(value)
+      return filterUpdate(finalVal, path, currState)
+    },
   },
-  updateFilters(state, action) {
-    const { name, value } = action.payload
-    state.filters[name] = valueOrEmptyString(value)
-  },
+  
 
 })
 
