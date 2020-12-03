@@ -1,2 +1,2 @@
-export * from './CriteriaResults'
+export { CriteriaResults } from './CriteriaResults'
 export * from './criteriaResultsSlice'

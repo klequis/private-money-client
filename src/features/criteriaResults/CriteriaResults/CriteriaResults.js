@@ -20,7 +20,7 @@ import {
   RenderWhenReady
 } from 'components/RenderWhenReady'
 import {
-  pathCriteriaResultsFetchStatus
+  wdCriteriaResultsFetchStatus
 } from 'appWords'
 // eslint-disable-next-line
 import { green, redf, yellow, purple, grpStart, grpEnd } from 'logger'
@@ -79,19 +79,19 @@ let countTotal = 0
 let countReturn = 0
 
 export const CriteriaResults = () => {
+  // purple('CriteriaResults', 'called')
   countTotal = countTotal + 1
   const dispatch = useDispatch()
 
   const status = useSelector((state) =>
-    selectRequestStatus([pathCriteriaResultsFetchStatus], state)
+    selectRequestStatus([wdCriteriaResultsFetchStatus], state)
   )
-
+  // green('CriteriaResults: status', status)
   const criteria = useSelector(selectRuleEditCriteria)
-
+  // green('CriteriaResults: criteria', criteria)
   const actions = useSelector(selectRuleEditActions)
-  // purple('1', '1')
+  // green('CriteriaResults: actions', actions)
   const activeCriteria = useSelector(selectActiveCriteria)
-  // purple('2', 2)
   // green('CriteriaResults: activeCriteria', activeCriteria)
   
   useEffect(() => {
@@ -127,9 +127,11 @@ export const CriteriaResults = () => {
         <Button>Test</Button> */}
           <Table size="sm" variant="dark">
             <TableHead />
-            {transactions.map((t) => (
-              <TableBody key={t._id} actions={actions} transaction={t} />
-            ))}
+            {transactions.map((t) => {
+              green('t', t)
+              return <TableBody key={t._id} actions={actions} transaction={t} />
+
+            })}
           </Table>
         </div>
       </RenderWhenReady>

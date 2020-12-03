@@ -103,11 +103,17 @@ export const getStateValue = (root, path, state) => {
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
   // blue('setStateValue', 'called')
-  // blue('newValue', newValue)
+  
   // blue('state', state)
+  if (root === 'criteriaResults') {
+    blue('newValue', newValue)
+  }
   const actualPath = R.has(root)(state) ? path : R.tail(path)
   const ret = R.assocPath(actualPath, newValue, state)
-  // blue('ret', ret)
+  if (root === 'criteriaResults') {
+    blue('ret', ret)
+  }
+  
   if (R.type(ret) !== 'Object') {
     red('hey this return value is not an object', ret)
   }

@@ -26,14 +26,14 @@ import { blue, yellow, grpStart, grpEnd } from 'logger'
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
 export const selectActiveCriteria = (state) => {
-  blue('selectActiveCriteria: state', state)
+  // blue('selectActiveCriteria: state', state)
   const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
-  blue('selectActiveCriteria: criteria', criteria)
+  // blue('selectActiveCriteria: criteria', criteria)
   if (isNilOrEmpty(criteria)) {
     return []
   }
   const activeCriteria = getActiveCriteria(criteria)
-  blue('selectActiveCriteria: activeCriteria', activeCriteria)
+  // blue('selectActiveCriteria: activeCriteria', activeCriteria)
   return valueOrEmptyArray(activeCriteria)
 }
 

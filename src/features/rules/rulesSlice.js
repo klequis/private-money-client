@@ -77,7 +77,7 @@ export const rulesFetch = createAsyncThunk('rules/get', async () => {
 export const ruleCreate = createAsyncThunk(
   'rules/rule-create',
   async (rule) => {
-    purple('ruleCreate: rule', rule)
+    // purple('ruleCreate: rule', rule)
     const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
     await api.rules.create(newRule)
   }
@@ -85,7 +85,7 @@ export const ruleCreate = createAsyncThunk(
 export const ruleUpdate = createAsyncThunk(
   'rules/rule-update',
   async (rule) => {
-    purple('ruleUpdate: rule', rule)
+    // purple('ruleUpdate: rule', rule)
     const newRule = removeInactiveCriteria(rule)
     await api.rules.update(rule._id, newRule)
   }
@@ -146,15 +146,15 @@ const rulesSlice = createSlice({
      * @returns {object} the new slice state
      */
     ruleEditActionUpdate(state, action) {
-      grpEnd('ruleEditActionUpdate')
-      blue('action', action)
+      // grpEnd('ruleEditActionUpdate')
+      // blue('action', action)
       const currState = current(state)
 
       const newAction = R.path(['payload'], action)
-      blue('newAction', newAction)
+      // blue('newAction', newAction)
       const newActionId = R.prop('_id', newAction)
       const currActions = selectRuleEditActions(currState)
-      blue('currActions', currActions)
+      // blue('currActions', currActions)
       const idxOfActionToReplace = R.findIndex(
         R.propEq('_id', newActionId))(
       )(currActions)
@@ -163,8 +163,8 @@ const rulesSlice = createSlice({
         newAction, 
         currActions
       )
-      blue('newActions', newActions)
-      grpEnd()
+      // blue('newActions', newActions)
+      // grpEnd()
       return R.pipe(
         // R.assocPath(pathRuleEditActions, newActions),
         ruleEditActionsSet(newActions),

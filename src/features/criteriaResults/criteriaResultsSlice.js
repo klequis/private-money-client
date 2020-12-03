@@ -45,6 +45,7 @@ const itemsSet = R.curry((items, state) => {
   
 
 const fetchStatusSet = R.curry((status, state) => {
+  blue('criteriaResultsSlice.fetchStatusSet: status', status)
   return setStateValue(
     wdCriteriaResults,
     pathCriteriaResultsFetchStatus,
@@ -81,9 +82,10 @@ const criteriaResultsSlice = createSlice({
       )(current(state))
     },
     [criteriaResultsFetch.fulfilled]: (state, action) => {
-      // logFetchResults('fetchCriteriaResults.fulfilled', state, action)
+      // START HERE
+      logFetchResults('fetchCriteriaResults.fulfilled', state, action)
       const newItems = R.path(['payload', 'data'], action)
-      R.pipe(
+      return R.pipe(
         fetchStatusSet(wdRequestStatusFulfilled),
         itemsSet(newItems)
       )(current(state))
@@ -91,7 +93,7 @@ const criteriaResultsSlice = createSlice({
     [criteriaResultsFetch.rejected]: (state, action) => {
       // logFetchResults('fetchCriteriaResults.rejected', state, action)
       const error = R.path(['error', 'message'], action)
-      R.pipe(
+      return R.pipe(
         fetchStatusSet(wdRequestStatusError),
         fetchErrorSet(error),
         itemsSet([])
