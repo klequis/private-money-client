@@ -3,8 +3,9 @@ import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
-import { grpStart, grpEnd, blue, yellow, red } from 'logger'
-import { pathRuleEdit } from 'appWords'
+import { grpStart, grpEnd, purple, blue, yellow, red } from 'logger'
+import { pathRuleEdit, pathTxActiveId } from 'appWords'
+
 
 // /**
 //  *
@@ -73,9 +74,14 @@ export const valueOrEmptyString = (value) => (isNilOrEmpty(value) ? '' : value)
  * @returns {any} returns whatever is in state
  */
 export const getStateValue = (root, path, state) => {
+  // grpStart('getStateValue')
+  // blue('root', root)
+  // blue('path', path)
+  // blue('state', state)
+  // grpEnd()
   const ret = R.has(root)(state)
     ? R.path(path, state)
-    : R.path(path, R.tail(state))
+    : R.path(R.tail(path), state)
   // if (R.equals(path, ['criteriaResults', 'fetch', 'status'])) {
   //   grpStart('getStateValue')
   //   blue('root', root)
@@ -96,29 +102,12 @@ export const getStateValue = (root, path, state) => {
  * @returns {any} returns the past in state with the specified value modified
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
-  
-  
+  // blue('setStateValue', 'called')
+  // blue('newValue', newValue)
+  // blue('state', state)
   const actualPath = R.has(root)(state) ? path : R.tail(path)
-  
-  
   const ret = R.assocPath(actualPath, newValue, state)
-  if (root === 'tx') {
-  grpStart('SetStateValue')
-  blue('root', root)           // rules
-  blue('path', path)           // [rules, items]
-  blue('newValue', newValue)   // []
-  blue('state', state)         // the rules slice
-  blue('actualPath', actualPath)
-  blue('ret', ret)
-  grpEnd()
-  }
-  // red('WHAT DOES THIS RETURN setStateValue: ret', {
-  //   root,
-  //   path,
-  //   actualPath,
-  //   newValue,
-  //   ret
-  // })
+  // blue('ret', ret)
   if (R.type(ret) !== 'Object') {
     red('hey this return value is not an object', ret)
   }

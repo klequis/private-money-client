@@ -10,7 +10,10 @@
       // "port": 3000,
       "name": "Launch Chrome against localhost",
       "url": "http://localhost:3000",
-      "webRoot": "${workspaceFolder}"
+      "webRoot": "${workspaceFolder}",
+      "skipFiles": [
+        "${workspaceFolder}/node_modules/**/*.js",
+      ] 
     }
   ]
 }

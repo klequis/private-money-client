@@ -89,10 +89,10 @@ export const CriteriaResults = () => {
   const criteria = useSelector(selectRuleEditCriteria)
 
   const actions = useSelector(selectRuleEditActions)
-  purple('1', '1')
+  // purple('1', '1')
   const activeCriteria = useSelector(selectActiveCriteria)
-  purple('2', 2)
-  green('CriteriaResults: activeCriteria', activeCriteria)
+  // purple('2', 2)
+  // green('CriteriaResults: activeCriteria', activeCriteria)
   
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation

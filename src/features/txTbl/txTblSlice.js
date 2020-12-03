@@ -23,7 +23,7 @@ const initialState = {
     radioHasRule: {
       value: wdAll
     },
-     
+
     radioCategorize: {
       value: wdBoth,
       disabled: false
@@ -40,15 +40,24 @@ const initialState = {
   }
 }
 
-const radioHasRuleValueSet = value => state => setStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, value, state)
+const radioHasRuleValueSet = R.curry((value, state) => {
+  return setStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, value, state)
+})
 
-const radioCategorizedDisabledSet = value => state => setStateValue(wdTxTbl, pathTxTblRadioCategorizedDisabled, value, state)
+const radioCategorizedDisabledSet = R.curry((value, state) => {
+  return setStateValue(wdTxTbl, pathTxTblRadioCategorizedDisabled, value, state)
+})
 
-const radioCategorizedValueSet = value => state => setStateValue(wdTxTbl, pathTxTblRadioCategorizedValue, value, state)
+const radioCategorizedValueSet = R.curry((value, state) => {
+  return setStateValue(wdTxTbl, pathTxTblRadioCategorizedValue, value, state)
+})
 
-const filterUpdate = value => path => state => setStateValue(wdTxTbl, path, value, state)
+const filterUpdate = R.curry((value, path) => (state) => {
+  return setStateValue(wdTxTbl, path, value, state)
+})
+  
 
-const txTblSlice= createSlice({
+const txTblSlice = createSlice({
   name: wdTxTbl,
   initialState,
   reducers: {
@@ -86,15 +95,10 @@ const txTblSlice= createSlice({
       const currState = current(state)
       const finalVal = valueOrEmptyString(value)
       return filterUpdate(finalVal, path, currState)
-    },
-  },
-  
-
+    }
+  }
 })
 
 export const txTblReducer = txTblSlice.reducer
 
-export const {
-  updateRadioState,
-  updateFilters
-} = txTblSlice.actions
+export const { updateRadioState, updateFilters } = txTblSlice.actions

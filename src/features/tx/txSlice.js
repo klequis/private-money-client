@@ -22,13 +22,14 @@ import {
   pathTxItems,
   pathTxActiveId
 } from 'appWords'
-
-// eslint-disable-next-line
-import { blue, yellow, red } from 'logger'
-// eslint-disable-next-line
-import { logFetchResults } from 'lib/logFetchResults'
 import { setStateValue } from 'features/helpers'
 import { selectTxFetchStatus } from 'features/selectors'
+
+// eslint-disable-next-line
+import { blue, yellow, red, purple } from 'logger'
+// eslint-disable-next-line
+import { logFetchResults } from 'lib/logFetchResults'
+
 
 const initialState = {
   activeId: '',
@@ -40,42 +41,6 @@ const initialState = {
 }
 
 const viewName = 'all-data-by-description'
-
-/* eslint-disable */
-
-/**
- *
- * @param {string} id id from a txItem _id
- * @returns {(state: object) => object} state with updated value
- */
-const activeIdSet = (id) => (state) =>
-  setStateValue(wdTx, pathTxActiveId, id, state)
-
-/**
- *
- * @param {Array} items an array of txItem objects
- * @returns {(state: object) => object} state with updated value
- */
-const itemsSet = (items) => (state) =>
-  setStateValue(wdTx, pathTxItems, items, state) // (state)
-
-/**
- *
- * @param {string} status one of wdRequestStatusPending, wdRequestStatusFulfilled, wdRequestStatusError, wdRequestStatusRefresh
- * @returns {(state: object) => object} state with updated value
- */
-const txFetchStatusSet = (status) => (state) =>
-  setStateValue(wdTx, pathTxFetchStatus, status, state)
-
-/**
- *
- * @param {string} errorMessage  the error message
- * @returns {(state: object) => object} state with updated value
- */
-const txFetchErrorSet = (errorMessage) => (state) =>
-  setStateValue(wdTx, pathTxFetchError, errorMessage, state)
-
-/* eslint-enable */
 
 const addFields = (data) => {
   return R.map((t) => {
@@ -90,7 +55,24 @@ export const txFetch = createAsyncThunk('transactions/get', async () => {
   const r = await api.views.read(viewName)
   const { data } = r
   return R.mergeRight(r, { data: addFields(data) })
+})  
+
+const itemsSet = R.curry((items, state) => {
+  return setStateValue(wdTx, pathTxItems, items, state)
 })
+
+const txFetchStatusSet = R.curry((status, state) => {
+  return setStateValue(wdTx, pathTxFetchStatus, status, state)
+})
+
+const txFetchErrorSet = R.curry((errorMessage, state) => {
+  return setStateValue(wdTx, pathTxFetchError, errorMessage, state)
+})
+
+const activeIdSet = R.curry((id, state) => {
+  return setStateValue(wdTx, pathTxActiveId, id, state)
+})
+
 
 const txSlice = createSlice({
   name: wdTx,
@@ -98,29 +80,27 @@ const txSlice = createSlice({
   // TODO: document payload for all
   reducers: {
     txActiveIdSet(state, action) {
-      // logFetchResults('transactions.activeTransactionSet', state, action)
+      const currState = current(state)
       const id = action.payload
-      return activeIdSet(id, state)
+      return activeIdSet(id, currState) // (currState)
     },
     txActiveIdClear(state) {
-      // logFetchResults('transactions.activeTransactionClear', state, action)
-      return activeIdSet(null, state)
+      const currState = current(state)
+      return activeIdSet(null, currState)
     },
     txFetchStatusSetRefresh(state) {
-      // logFetchResults('transactions.setStatusRefresh', state, action)
-      return txFetchStatusSet(wdRequestStatusFetch, state)
-    },
+      const currState = current(state)
+      return txFetchStatusSet(wdRequestStatusFetch, currState)
+    }
   },
   extraReducers: {
     [txFetch.pending]: (state) => {
-      // logFetchResults('transactions.pending', state, action)
       return R.pipe(
         txFetchStatusSet(wdRequestStatusPending),
         itemsSet([])
       )(current(state))
     },
     [txFetch.fulfilled]: (state, action) => {
-      // logFetchResults('transactions.fulfilled', state, action)
       const items = R.path(['payload', 'data'], action)
       return R.pipe(
         txFetchStatusSet(wdRequestStatusFulfilled),
@@ -128,7 +108,6 @@ const txSlice = createSlice({
       )(current(state))
     },
     [txFetch.rejected]: (state, action) => {
-      // logFetchResults('transactions.rejected', state, action)
       const error = R.path(['error', 'message'], action)
       return R.pipe(
         selectTxFetchStatus(wdRequestStatusError),

@@ -39,30 +39,29 @@ export const criteriaResultsFetch = createAsyncThunk(
   }
 )
 
-// OK,
-// 1. I setItems, setFetchStatus, etc to work with pipe so must be curried
-// 2. That means I currey setItems, setFetchStatus, etc && setStatusValue
-// 3. Is it worth it?
-//    - Look at rulesSlice. There are a number of errors already wrt state.error
+const itemsSet = R.curry((items, state) => {
+  return setStateValue(wdCriteriaResults, pathCriteriaResultsItems, items, state)
+})
+  
 
-const itemsSet = (items) => (state) =>
-  setStateValue(wdCriteriaResults, pathCriteriaResultsItems, items, state)
-
-const fetchStatusSet = (status) => (state) =>
-  setStateValue(
+const fetchStatusSet = R.curry((status, state) => {
+  return setStateValue(
     wdCriteriaResults,
     pathCriteriaResultsFetchStatus,
     status,
     state
   )
+})
 
-const fetchErrorSet = (errorMessage) => (state) =>
-  setStateValue(
+const fetchErrorSet = R.curry((errorMessage, state) => {
+  return setStateValue(
     wdCriteriaResults,
     pathCriteriaResultsFetchError,
     errorMessage,
     state
   )
+})
+  
 
 const criteriaResultsSlice = createSlice({
   name: wdCriteriaResults,

@@ -39,7 +39,7 @@ export const TxTblBody = ({ transactionId }) => {
   } = transaction
 
   const _rowClick = () => {
-    green('_rowClick: transactionId', transactionId)
+    // green('_rowClick: transactionId', transactionId)
     dispatch(txActiveIdSet(transactionId))
   }
 

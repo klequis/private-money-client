@@ -91,45 +91,52 @@ export const ruleUpdate = createAsyncThunk(
   }
 )
 
-const ruleEditSet = (value) => (state) =>
-  setStateValue(wdRules, pathRuleEdit, value, current(state))
+const ruleEditSet = R.curry((value, state) => {
+  return setStateValue(wdRules, pathRuleEdit, value, state)
+})
+  
+const ruleEditActionsSet = R.curry((newActions, state) => {
+  return setStateValue(wdRules, pathRuleEditActions, newActions, state)
+})
+  
+const ruleEditIsDirtySet = R.curry((value, state) => {
+  return setStateValue(wdRules, pathRuleEditIsDirty, value, state)
+})
 
-// R.assocPath(pathRuleEditActions, newActions),
-const ruleEditActionsSet = (newActions) => (state) =>
-  setStateValue(wdRules, pathRuleEditActions, newActions, state)
+const ruleEditCriteriaSet = R.curry((newCriteria, state) => {
+  return setStateValue(wdRules, pathRuleEditCritera, newCriteria, state)
+})
 
-// R.assocPath(pathRuleEditIsDirty, true)
-const ruleEditIsDirtySet = (value) => (state) =>
-  setStateValue(wdRules, pathRuleEditIsDirty, value, state)
+const rulesFetchStatusSet = R.curry((status, state) => {
+  return setStateValue(wdRules, pathRulesFetchStatus, status, state)
+})
 
-// setStateValue(wdRules, pathRuleEditCritera, newCriteria, currState),
-const ruleEditCriteriaSet = (newCriteria) => (state) =>
-  setStateValue(wdRules, pathRuleEditCritera, newCriteria, state)
+const rulesItemsSet = R.curry((items, state) => {
+  return setStateValue(wdRules, pathRulesItems, items, state)
+})
 
-const rulesFetchStatusSet = (status) => (state) =>
-  setStateValue(wdRules, pathRulesFetchStatus, status, state)
+const rulesFetchErrorSet = R.curry((errorMessage, state) => {
+  return setStateValue(wdRules, pathRulesFetchError, errorMessage, state)
+})
 
-// setStateValue(wdRules, pathRulesItems, [])
-const rulesItemsSet = (items) => (state) =>
-  setStateValue(wdRules, pathRulesItems, items, state)
+const rulesCreateStatusFetchSet = R.curry((status, state) => {
+  return setStateValue(wdRules, pathRulesCreateStatus, status, state)
+})
 
-const rulesFetchErrorSet = (errorMessage) => (state) =>
-  setStateValue(wdRules, pathRulesFetchError, errorMessage, state)
+const rulesCreateStatusErrorSet = R.curry((errorMessage, state) => {
+  return setStateValue(wdRules, pathRulesCreateError, errorMessage, state)
+})
 
-const rulesCreateStatusFetchSet = (status) => (state) =>
-  setStateValue(wdRules, pathRulesCreateStatus, status, state)
+const rulesUpdateStatusSet = R.curry((status, state) => {
+  return setStateValue(wdRules, pathRulesUpdateStatus, status, state)
+})
 
-const rulesCreateStatusErrorSet = (errorMessage) => (state) =>
-  setStateValue(wdRules, pathRulesCreateError, errorMessage, state)
-
-const rulesUpdateStatusSet = (status) => (state) =>
-  setStateValue(wdRules, pathRulesUpdateStatus, status, state)
-
-const rulesUpdateErrorSet = (errorMessage) => (state) =>
-  setStateValue(wdRules, pathRulesUpdateError, errorMessage, state)
+const rulesUpdateErrorSet = R.curry((errorMessage, state) =>{
+  return setStateValue(wdRules, pathRulesUpdateError, errorMessage, state)
+})
 
 const rulesSlice = createSlice({
-  name: 'rules',
+  name: wdRules,
   initialState,
   reducers: {
     /**
@@ -139,14 +146,25 @@ const rulesSlice = createSlice({
      * @returns {object} the new slice state
      */
     ruleEditActionUpdate(state, action) {
+      grpEnd('ruleEditActionUpdate')
+      blue('action', action)
       const currState = current(state)
-      const newAction = R.path(['payload', action])
+
+      const newAction = R.path(['payload'], action)
+      blue('newAction', newAction)
       const newActionId = R.prop('_id', newAction)
-      const currActions = selectRuleEditActions(state)
-      const idxOfActionToReplace = R.findIndex(R.propEq('_id', newActionId))(
+      const currActions = selectRuleEditActions(currState)
+      blue('currActions', currActions)
+      const idxOfActionToReplace = R.findIndex(
+        R.propEq('_id', newActionId))(
+      )(currActions)
+      const newActions = R.update(
+        idxOfActionToReplace, 
+        newAction, 
         currActions
       )
-      const newActions = R.update(idxOfActionToReplace, newAction, currActions)
+      blue('newActions', newActions)
+      grpEnd()
       return R.pipe(
         // R.assocPath(pathRuleEditActions, newActions),
         ruleEditActionsSet(newActions),
@@ -174,14 +192,17 @@ const rulesSlice = createSlice({
       const newCriterion = R.path(['payload'], action)
       const newCriterionId = R.prop('_id', newCriterion)
       const currCriteria = selectRuleEditCriteria(currState)
+      // blue('currCriteria', currCriteria)
       const idxOfCriteriaToReplace = R.findIndex(
         R.propEq('_id', newCriterionId)
       )(currCriteria)
+
       const newCriteria = R.update(
         idxOfCriteriaToReplace,
         newCriterion,
         currCriteria
       )
+      // blue('newCriteria', newCriteria)
       return R.pipe(
         ruleEditCriteriaSet(newCriteria),
         ruleEditIsDirtySet(true)

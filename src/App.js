@@ -32,7 +32,7 @@ let countReturn = 0
 export const App = () => {
 
   // const a = useSelector(selectCriteriaResultsFetchStatus)
-  purple('App', 'render')
+  // purple('App', 'render')
   countTotal = countTotal + 1
 
   const dispatch = useDispatch()

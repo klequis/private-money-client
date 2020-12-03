@@ -17,7 +17,7 @@ import {
 import { getStateValue } from 'features/helpers'
 
 // eslint-disable-next-line
-import { blue, grpStart, grpEnd } from 'logger'
+import { blue, yellow, grpStart, grpEnd } from 'logger'
 
 /**
  *
@@ -55,6 +55,7 @@ export const selectRuleEdit = (state) => {
 export const selectRuleEditCriteria = (state) => {
   // const criteria = R.path(wdRules, pathRuleEditCritera, state)
   const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
+  // yellow('selectRuleEditCriteria: criteria', criteria)
   return valueOrEmptyArray(criteria)
 }
 
