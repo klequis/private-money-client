@@ -10,9 +10,7 @@ import {
   selectActiveTxId,
   selectTxFetchStatus,
   selectRulesFetchStatus,
-  selectRequestStatus,
-  // tmp
-  // selectCriteriaResultsFetchStatus
+  selectRequestStatus
 } from 'features/selectors'
 
 import {
@@ -21,22 +19,17 @@ import {
   wdTxFetchStatus
 } from 'appWords'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { green, yellow, red, purple } from 'logger'
-// eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
+/* eslint-enable */
 
 let countTotal = 0
 let countReturn = 0
 
 export const App = () => {
-
-  // const a = useSelector(selectCriteriaResultsFetchStatus)
-  // purple('App', 'render')
   countTotal = countTotal + 1
-
   const dispatch = useDispatch()
-  
   const activeTransactionId = useSelector(selectActiveTxId)
   const status = useSelector((state) =>
     selectRequestStatus([wdRulesFetchStatus, wdTxFetchStatus], state)
@@ -57,10 +50,7 @@ export const App = () => {
   countReturn = countReturn + 1
 
   return (
-    <RenderWhenReady
-      status={status}
-      className="container-fluid"
-    >
+    <RenderWhenReady status={status} className="container-fluid">
       <>
         <RenderCount
           componentName="App"

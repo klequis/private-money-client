@@ -43,10 +43,6 @@ export const TextEdit = React.memo(
   }) => {
     countTotal = countTotal + 1
     
-    // const validation = name === 'date' ? _validateDate : _validateStrings
-    // if (R.type(onChange) !== 'Function') {
-    //   green(`TextEditInput (${name}): onChange`, onChange)
-    // }
     countReturn = countReturn + 1
     return (
       <>

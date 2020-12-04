@@ -23,7 +23,6 @@ export const Actions = () => {
   countTotal = countTotal + 1
 
   const actions = useSelector((state) => selectRuleEditActions(state))
-  // green('Actions: actions', actions)
 
   if (!actions) {
     return null

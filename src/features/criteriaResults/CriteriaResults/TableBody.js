@@ -53,12 +53,10 @@ const createDiffs = (oldFields, newFields) => {
   }
 }
 
-
 export const TableBody = ({ actions, transaction }) => {
   const oldData = makeOldData(transaction)
   const newData = makeNewData(actions, transaction)
   const diffs = createDiffs(oldData, newData)
-  green('diffs', diffs)
 
   return (
     <tbody>

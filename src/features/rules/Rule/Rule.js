@@ -6,21 +6,16 @@ import {
   ruleEditClear,
   setRulesRefresh
 } from 'features/rules'
-import {
-  txActiveIdClear,
-  txFetchStatusSetRefresh
-} from 'features/tx'
+import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
-import {
-  selectRuleEdit,
-} from 'features/selectors'
+import { selectRuleEdit } from 'features/selectors'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { green, purple, red } from 'logger'
-// eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
+/* eslint-enable */
 
 let countTotal = 0
 let countReturn = 0
@@ -29,7 +24,6 @@ export const Rule = () => {
   countTotal = countTotal + 1
 
   const ruleEdit = useSelector(selectRuleEdit)
-  // green('Rule: ruleEdit', ruleEdit)
   const dispatch = useDispatch()
 
   const _handleSaveClick = async () => {

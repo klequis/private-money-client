@@ -14,7 +14,8 @@ let countTotal = 0
 let countReturn = 0
 
 const TextInput = styled.input`
-  max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
+  max-width: ${(props) =>
+    props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
   background-color: ${({ errorLevel }) => errorLevel.color};
 `
 
@@ -26,30 +27,18 @@ export const TextEditInput = ({
   name,
   onBlur,
   onChange,
-  placeholder,
+  placeholder
 }) => {
-
-
   countTotal = countTotal + 1
-  // const [_touched, _setTouched] = useState(false)
 
   const _handleChange = (event) => {
-    // _setTouched(true)
     onChange(event)
   }
 
   const _handleBlur = (event) => {
-    // _setTouched(true)
     onBlur(event)
   }
 
-  // if (_touched) {
-
-  // }
-  // if (R.type(onChange) !== 'Function') {
-  //   green(`TextEditInput: onChange for (${name}) is not a function`, onChange)
-  // }
-  
   countReturn = countReturn + 1
   return (
     <div>

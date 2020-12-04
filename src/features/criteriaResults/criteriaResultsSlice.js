@@ -17,10 +17,10 @@ import {
 import * as R from 'ramda'
 import { setStateValue } from 'features/helpers'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { blue, yellow } from 'logger'
-// eslint-disable-next-line
 import { logFetchResults } from 'lib/logFetchResults'
+/* eslint-enable */
 
 const initialState = {
   items: [],
@@ -33,19 +33,21 @@ const initialState = {
 export const criteriaResultsFetch = createAsyncThunk(
   'criteriaResult/get',
   async (criteria) => {
-    // yellow('fetchCriteriaResults: criteria', criteria)
     const r = await api.transactions.read(criteria)
     return r
   }
 )
 
 const itemsSet = R.curry((items, state) => {
-  return setStateValue(wdCriteriaResults, pathCriteriaResultsItems, items, state)
+  return setStateValue(
+    wdCriteriaResults,
+    pathCriteriaResultsItems,
+    items,
+    state
+  )
 })
-  
 
 const fetchStatusSet = R.curry((status, state) => {
-  blue('criteriaResultsSlice.fetchStatusSet: status', status)
   return setStateValue(
     wdCriteriaResults,
     pathCriteriaResultsFetchStatus,
@@ -62,7 +64,6 @@ const fetchErrorSet = R.curry((errorMessage, state) => {
     state
   )
 })
-  
 
 const criteriaResultsSlice = createSlice({
   name: wdCriteriaResults,
@@ -75,15 +76,12 @@ const criteriaResultsSlice = createSlice({
   },
   extraReducers: {
     [criteriaResultsFetch.pending]: (state) => {
-      // logFetchResults('fetchCriteriaResults.pending', state, action)
       return R.pipe(
         fetchStatusSet(wdRequestStatusPending),
         itemsSet([])
       )(current(state))
     },
     [criteriaResultsFetch.fulfilled]: (state, action) => {
-      // START HERE
-      logFetchResults('fetchCriteriaResults.fulfilled', state, action)
       const newItems = R.path(['payload', 'data'], action)
       return R.pipe(
         fetchStatusSet(wdRequestStatusFulfilled),
@@ -91,7 +89,6 @@ const criteriaResultsSlice = createSlice({
       )(current(state))
     },
     [criteriaResultsFetch.rejected]: (state, action) => {
-      // logFetchResults('fetchCriteriaResults.rejected', state, action)
       const error = R.path(['error', 'message'], action)
       return R.pipe(
         fetchStatusSet(wdRequestStatusError),

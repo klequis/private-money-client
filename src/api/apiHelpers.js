@@ -52,16 +52,6 @@ const getFullUri = (nodeEnv, route) => {
   return r
 }
 
-// const getToken = async () => {
-//   try {
-//     return await getTokenSilently()
-//   } catch (e) {
-//     const msg = '[api-helpers.getToken] ERROR: error fetching token'
-//     redf(msg, e)
-//     throw new Error(msg, e)
-//   }
-// }
-
 const getIt = async (url, options = {}) => {
   try {
     // const token = await getToken()

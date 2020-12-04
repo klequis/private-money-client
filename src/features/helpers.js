@@ -4,21 +4,6 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { grpStart, grpEnd, purple, blue, yellow, red } from 'logger'
-import { pathRuleEdit, pathTxActiveId } from 'appWords'
-
-
-// /**
-//  *
-//  * @param {object} state
-//  * @returns {array} rules.items[...]
-//  * @summary `state` may be all of Redux state or just the rules slice.
-//  *   In either case, return just items[...]
-//  */
-// const getRulesItems = (state) => {
-//   return R.has('rules')(state)
-//     ? R.path(selectRulesItems.rulesItems, state)
-//     : R.path(['items'], state)
-// }
 
 /**
  *
@@ -74,22 +59,9 @@ export const valueOrEmptyString = (value) => (isNilOrEmpty(value) ? '' : value)
  * @returns {any} returns whatever is in state
  */
 export const getStateValue = (root, path, state) => {
-  // grpStart('getStateValue')
-  // blue('root', root)
-  // blue('path', path)
-  // blue('state', state)
-  // grpEnd()
   const ret = R.has(root)(state)
     ? R.path(path, state)
     : R.path(R.tail(path), state)
-  // if (R.equals(path, ['criteriaResults', 'fetch', 'status'])) {
-  //   grpStart('getStateValue')
-  //   blue('root', root)
-  //   blue('path', path)
-  //   blue('state', state)
-  //   blue('ret', ret)
-  //   grpEnd()
-  // }
   return ret
 }
 
@@ -102,18 +74,8 @@ export const getStateValue = (root, path, state) => {
  * @returns {any} returns the past in state with the specified value modified
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
-  // blue('setStateValue', 'called')
-  
-  // blue('state', state)
-  if (root === 'criteriaResults') {
-    blue('newValue', newValue)
-  }
   const actualPath = R.has(root)(state) ? path : R.tail(path)
   const ret = R.assocPath(actualPath, newValue, state)
-  if (root === 'criteriaResults') {
-    blue('ret', ret)
-  }
-  
   if (R.type(ret) !== 'Object') {
     red('hey this return value is not an object', ret)
   }

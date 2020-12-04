@@ -8,6 +8,7 @@ import { selectRuleEditCriteria } from 'features/selectors'
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+
 let countTotal = 0
 let countReturn = 0
 
@@ -30,7 +31,6 @@ export const Criteria = () => {
   countTotal = countTotal + 1
 
   const criteria = useSelector(selectRuleEditCriteria)
-  // green('Criteria: criteria', criteria)
   const _handleButtonClick = () => {}
 
   if (!criteria) {

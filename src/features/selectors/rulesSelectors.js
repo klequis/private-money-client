@@ -26,14 +26,11 @@ import { blue, yellow, grpStart, grpEnd } from 'logger'
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
 export const selectActiveCriteria = (state) => {
-  // blue('selectActiveCriteria: state', state)
   const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
-  // blue('selectActiveCriteria: criteria', criteria)
   if (isNilOrEmpty(criteria)) {
     return []
   }
   const activeCriteria = getActiveCriteria(criteria)
-  // blue('selectActiveCriteria: activeCriteria', activeCriteria)
   return valueOrEmptyArray(activeCriteria)
 }
 
@@ -53,9 +50,7 @@ export const selectRuleEdit = (state) => {
  * @returns {Array} state.ruleEdit.criteria || []
  */
 export const selectRuleEditCriteria = (state) => {
-  // const criteria = R.path(wdRules, pathRuleEditCritera, state)
   const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
-  // yellow('selectRuleEditCriteria: criteria', criteria)
   return valueOrEmptyArray(criteria)
 }
 
@@ -98,15 +93,11 @@ export const selectRuleEditRenameAction = (state) => {
   if (isNilOrEmpty(actions)) {
     return null
   }
-  const action = R.find(R.propEq('field', 'description'), actions)
-  return action
+  return R.find(R.propEq('field', 'description'), actions)
 }
 
 const getCategorizeAction = (actions) => {
-  return R.find(
-    R.propEq('actionType', 'categorize'),
-    actions
-  )
+  return R.find(R.propEq('actionType', 'categorize'), actions)
 }
 
 /**
@@ -119,9 +110,7 @@ export const selectRuleEditCategorizeAction = (state) => {
   if (isNilOrEmpty(actions)) {
     return null
   }
-  const a = getCategorizeAction(actions)
-
-  return a
+  return getCategorizeAction(actions)
 }
 
 /**
@@ -131,7 +120,6 @@ export const selectRuleEditCategorizeAction = (state) => {
  */
 export const selectRulesFetchStatus = (state) => {
   return getStateValue(wdRules, pathRulesFetchStatus, state)
-
 }
 
 /**
@@ -139,7 +127,7 @@ export const selectRulesFetchStatus = (state) => {
  * @param {state} state state state
  * @returns {string} a request status word from appWords.js
  */
-export const selectRuleCreateStatus = (state) => 
+export const selectRuleCreateStatus = (state) =>
   getStateValue(wdRules, pathRulesCreateStatus, state)
 
 /**
@@ -147,7 +135,7 @@ export const selectRuleCreateStatus = (state) =>
  * @param {state} state state
  * @returns {string} a request status word from appWords.js
  */
-export const selectRuleUpdateStatus = state => {
+export const selectRuleUpdateStatus = (state) => {
   return getStateValue(wdRules, pathRulesUpdateStatus, state)
 }
 
@@ -159,4 +147,3 @@ export const selectRuleUpdateStatus = state => {
 export const selectRulesItems = (state) => {
   return getStateValue(wdRules, pathRulesItems, state)
 }
-
