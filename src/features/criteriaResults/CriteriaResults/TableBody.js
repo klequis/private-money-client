@@ -4,10 +4,6 @@ import { TableRow } from './TableRow'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-/**
- *
- * @param {object} param0
- */
 const makeOldData = ({
   date,
   description,
@@ -26,11 +22,6 @@ const makeOldData = ({
   }
 }
 
-/**
- *
- * @param {array} actions
- * @param {object} transaction
- */
 const makeNewData = (actions, transaction) => {
   const { replaceWithValue } = actions[0]
   const { category1, category2 } = actions[1]
@@ -46,11 +37,6 @@ const makeNewData = (actions, transaction) => {
   }
 }
 
-/**
- *
- * @param {any} value1
- * @param {any} value2
- */
 const isDiff = (value1, value2) => value1 !== value2
 
 /**
@@ -72,11 +58,12 @@ export const TableBody = ({ actions, transaction }) => {
   const oldData = makeOldData(transaction)
   const newData = makeNewData(actions, transaction)
   const diffs = createDiffs(oldData, newData)
+  green('diffs', diffs)
 
   return (
     <tbody>
-      <TableRow data={oldData} isNewData={false} diffs={diffs} />
-      <TableRow data={newData} isNewData={true} diffs={diffs} />
+      <TableRow data={oldData} isOriginalData={true} diffs={diffs} />
+      <TableRow data={newData} isOriginalData={false} diffs={diffs} />
     </tbody>
   )
 }
