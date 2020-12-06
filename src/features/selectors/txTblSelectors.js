@@ -13,6 +13,7 @@ import {
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
+import { green } from 'logger'
 
 /**
  *
@@ -175,8 +176,7 @@ const allTests = (state) => {
  * @param {object} state state
  * @returns {Array} of filtered transaction objects
  */
-export const selectFilteredTransactions = (state) => {
-  const { transactionsUi } = state
+export const selectFilteredTx = (state) => {
   const transactions = selectTxItems(state)
   const currentConditions = makeConditions(state)
   if (isNilOrEmpty(currentConditions)) {
@@ -184,9 +184,9 @@ export const selectFilteredTransactions = (state) => {
     return transactions
   }
   const keys = R.keys(currentConditions)
-  // const tests = allTests(transactionsUi)
   const tests = allTests(state)
   const specObj = R.pick(keys, tests)
+  green('specObj', specObj)
   const spec1 = R.where(specObj)
   return R.filter(spec1, transactions)
 }

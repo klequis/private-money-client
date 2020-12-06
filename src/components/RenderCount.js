@@ -28,13 +28,12 @@ import { green, yellow, red } from 'logger'
 // }
 
 export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
-  return null
-  // return (
-  //   <div>
+  return (
+    <div>
 
-  //     <span>{componentName} - </span><span>total: {countTotal.actual}</span><span>return: {countReturn.actual}</span>
-  //   </div>
-  // )
+      <span>{componentName} - </span><span>total: {countTotal.actual}</span><span>return: {countReturn.actual}</span>
+    </div>
+  )
 }
 
 

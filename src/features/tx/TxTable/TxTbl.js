@@ -1,6 +1,6 @@
 // TODO: re-enable Sort
 
-import React from 'react'
+import React , { useMemo } from 'react'
 import { useSelector } from 'react-redux'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
@@ -12,14 +12,20 @@ import { TxTblNav } from './TxTblNav'
 // import { transactionOptionValues as optionValues } from 'globalConstants'
 // import * as R from 'ramda'
 import {
-  selectTxItems,
-  selectFilteredTransactions
+  selectFilteredTx
 } from 'features/selectors'
+import { useFilteredTx } from './useFilteredTx'
 
-// eslint-disable-next-line
-import { purple, green } from 'logger'
+/* eslint-disable */
+import { purple, green, red } from 'logger'
+import { RenderCount } from 'components/RenderCount'
+/* eslint-enable */
+
+let countTotal = 0
+let countReturn = 0
 
 export const TxTbl = () => {
+  countTotal = countTotal + 1
   // ColumnHeadFilters
   // const [/*_filter,*/ _setFilter] = useState({
   //   field: '',
@@ -27,23 +33,36 @@ export const TxTbl = () => {
   //   active: false
   // })
 
-  const filteredTransactions = useSelector(selectFilteredTransactions)
-  const transactions = useSelector(selectTxItems)
-  if (isNilOrEmpty(transactions)) {
-    return null
-  }
+  const filteredTx = useSelector(selectFilteredTx)
+  // const filteredTx = useFilteredTx()
 
+  // red('filteredTransactions', filteredTransactions)
+  // const transactions = useSelector(selectTxItems)
+
+  // TODO this appears to be useless
+  // if (isNilOrEmpty(filteredTransactions)) {
+  //   // red('null', null)
+  //   return null
+  // }
+  green('filteredTx.length', filteredTx.length)
+  countReturn = countReturn + 1
   return (
     <>
+      <RenderCount
+          componentName="TxTbl"
+          countTotal={{ actual: countTotal, min: 8, max: 14 }}
+          countReturn={{ actual: countReturn, min: 8, max: 10 }}
+        />
+        <h1>TxTbl</h1>
       <TxTblNav />
       <BaseTable>
         <TxTblHead />
-        {/* TODO: tmp code. Sort is hard coded */}
-        {filteredTransactions.map((t) => (
+        {filteredTx.map((t) => (
           <TxTblBody key={t._id} transactionId={t._id} />
         ))}
       </BaseTable>
     </>
+    
   )
 }
 

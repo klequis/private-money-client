@@ -17,6 +17,8 @@ import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { blue, red } from 'logger'
+import { grpStart } from 'logger'
+import { grpEnd } from 'logger'
 
 const initialState = {
   options: {
@@ -52,7 +54,11 @@ const radioCategorizedValueSet = R.curry((value, state) => {
   return setStateValue(wdTxTbl, pathTxTblRadioCategorizedValue, value, state)
 })
 
-const filterUpdate = R.curry((value, path) => (state) => {
+const filterUpdate = R.curry((value, path, state) => {
+  grpStart('filterUpdate')
+  blue('value', value)
+  blue('state', state)
+  grpEnd()
   return setStateValue(wdTxTbl, path, value, state)
 })
   
