@@ -53,8 +53,7 @@ export const TxColHead = ({ fieldName }) => {
           <>
             count: {renderCount}
             <TextInput
-              // defaultValue={defaultValue}
-              // onChange={(e) => debounced.callback(e.target.value)}
+              type="text"
               onChange={_onChange}
             />
           </>
