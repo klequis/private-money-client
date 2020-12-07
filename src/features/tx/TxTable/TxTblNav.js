@@ -53,11 +53,11 @@ export const TxTblNav = () => {
   }
 
   const radioHasRuleValue = useSelector(selectRadioHasRuleValue)
-  green('radioHasRuleValue', radioHasRuleValue)
+  // green('radioHasRuleValue', radioHasRuleValue)
   const radioCategorizedValue = useSelector(selectRadioCategorizedValue)
-  green('radioCategorizedValue', radioCategorizedValue)
+  // green('radioCategorizedValue', radioCategorizedValue)
   const radioCategorizedDisabled = useSelector(selectRadioCategorizedDisabled)
-  green('radioCategorizedDisabled', radioCategorizedDisabled)
+  // green('radioCategorizedDisabled', radioCategorizedDisabled)
 
   return (
     <Options>

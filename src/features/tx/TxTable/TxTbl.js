@@ -44,7 +44,7 @@ export const TxTbl = () => {
   //   // red('null', null)
   //   return null
   // }
-  green('filteredTx.length', filteredTx.length)
+  // green('filteredTx.length', filteredTx.length)
   countReturn = countReturn + 1
   return (
     <>
@@ -55,6 +55,7 @@ export const TxTbl = () => {
         />
         <h1>TxTbl</h1>
       <TxTblNav />
+      <div>Number of rows: {filteredTx.length}</div>
       <BaseTable>
         <TxTblHead />
         {filteredTx.map((t) => (

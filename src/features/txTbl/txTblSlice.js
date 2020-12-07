@@ -66,10 +66,10 @@ const radioCategorizedValueSet = R.curry((value, state) => {
 })
 
 const filterUpdate = R.curry((value, path, state) => {
-  grpStart('filterUpdate')
-  blue('value', value)
-  blue('state', state)
-  grpEnd()
+  // grpStart('filterUpdate')
+  // blue('value', value)
+  // blue('state', state)
+  // grpEnd()
   return setStateValue(wdTxTbl, path, value, state)
 })
 

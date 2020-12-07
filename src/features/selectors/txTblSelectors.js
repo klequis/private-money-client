@@ -13,7 +13,10 @@ import {
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
-import { green } from 'logger'
+
+/* eslint-disable */
+import { green, blue, red } from 'logger'
+/* eslint-enable */
 
 /**
  *
@@ -134,7 +137,18 @@ const makeConditions = (state) => {
   }
 
   // get return conditions that are not null / empty
-  const conditionFilter = (val) => !isNilOrEmpty(val)
+  const conditionFilter = (val) => {
+    // let checkedVal
+    // if (val === null) {
+    //   checkedVal = val
+    // } else if (isNilOrEmpty(val.trim())) {
+    //   checkedVal = null
+    // } else {
+    //   checkedVal = val.trimLeft()
+    // }
+    // return !isNilOrEmpty(checkedVal)
+    return !isNilOrEmpty(val)
+  }
   return R.filter(conditionFilter, allConditions)
 }
 

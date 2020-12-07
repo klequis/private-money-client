@@ -1,22 +1,18 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
 import { updateFilters } from 'features/txTbl'
-import { useDebounce } from 'use-debounce'
+import { useDebouncedCallback } from 'use-debounce'
 
 // eslint-disable-next-line
-import { green, purple } from 'logger'
-import { render } from '@testing-library/react'
+import { green, purple, grpStart, grpEnd } from 'logger'
 
 // const TH = styled.th`
 //   width: 100%;
-
 // `
 
-const TextInput = styled.input`
-  
-`
+const TextInput = styled.input``
 /*
   width: 90%;
   display: flex;
@@ -29,68 +25,43 @@ export const TxColHead = ({ fieldName }) => {
   const dispatch = useDispatch()
 
   const [_value, _setValue] = useState('')
-  const [debouncedValue] = useDebounce(_value, 1000)
-  // green('typeof debouncedValue', typeof debouncedValue)
-  // green('debouncedValue', debouncedValue)
-  // useEffect(() => {
-  //   fieldName === txFields.omit.name ? _setValue('No') : _setValue('')
-  // }, [fieldName])
 
-  const _valueChanged = (event) => {
-    // const name = event.target.name
-    const value = event.target.value
-    // if (name === txFields.omit.name) {
-    // value === 'true' ? _setValue(true) : _setValue(false)
-    // } else {
-    _setValue(value)
-    
-    
-    // }
+  const debounced = useDebouncedCallback(
+    // function
+    (value) => {
+      _setValue(value)
+      purple('dispatch', value)
+      dispatch(updateFilters({ name: fieldName, value: value }))
+    },
+    // delay in ms
+    1000
+  )
+
+  const _onChange = (e) => {
+    const value = e.target.value
+    debounced.callback(value)
   }
 
-  useEffect(() => {
-    if (debouncedValue) {
-      purple('debouncedValue', debouncedValue)
-      dispatch(updateFilters({ name: fieldName, value: debouncedValue }))
-    }
-  }, [debouncedValue, dispatch, fieldName])
-
-  // console.group('ColumnHeading')
-  // console.groupEnd()
   renderCount = renderCount + 1
-  // green('renderCount', renderCount)
+
   return (
-    
-    
     <th>
       <div>
         {fieldName === txFields.omit.name ? (
           ''
         ) : (
-            // <input
-            //   id={fieldName}
-            //   type="text"
-            //   name={fieldName}
-            //   value={_value}
-            //   onChange={_valueChanged}
-            // />
-            <>
+          <>
             count: {renderCount}
             <TextInput
-              id={fieldName}
-              name={fieldName}
-              placeholder="filter"
-              onChange={_valueChanged}
-              type="text"
-              value={_value}
+              // defaultValue={defaultValue}
+              // onChange={(e) => debounced.callback(e.target.value)}
+              onChange={_onChange}
             />
-            </>
-          )}
+          </>
+        )}
         <div>{fieldName}</div>
         {/* <SortButtons updateSort={_updateSort} fieldName={fieldName} /> */}
       </div>
     </th>
   )
-
 }
-

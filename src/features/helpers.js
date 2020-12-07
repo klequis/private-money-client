@@ -49,7 +49,18 @@ export const valueOrEmptyObject = (value) => (isNilOrEmpty(value) ? {} : value)
  * @param {any} value  should be string, empty string, null, undefined but also {} or []
  * @returns {object} returns value if it is a non-empty string or '' for an empty string, undefined, null, etc
  */
-export const valueOrEmptyString = (value) => (isNilOrEmpty(value) ? '' : value)
+export const valueOrEmptyString = (value) => {
+  let finalVal
+
+  if (value === null) {
+    finalVal = value
+  } else if (isNilOrEmpty(value.trim)) {
+    finalVal = null
+  } else {
+    finalVal = value.trimLeft()
+  }
+  return isNilOrEmpty(finalVal) ? '' : finalVal
+}
 
 /**
  *
@@ -75,12 +86,12 @@ export const getStateValue = (root, path, state) => {
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
   
-  grpStart('setStateValue')
-  blue('root', root)
-  blue('path', path)
-  blue('newValue', newValue)
-  blue('state', state)
-  grpEnd()
+  // grpStart('setStateValue')
+  // blue('root', root)
+  // blue('path', path)
+  // blue('newValue', newValue)
+  // blue('state', state)
+  // grpEnd()
   const actualPath = R.has(root)(state) ? path : R.tail(path)
   const ret = R.assocPath(actualPath, newValue, state)
   if (R.type(ret) !== 'Object') {
