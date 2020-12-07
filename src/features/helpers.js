@@ -74,6 +74,13 @@ export const getStateValue = (root, path, state) => {
  * @returns {any} returns the past in state with the specified value modified
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
+  
+  grpStart('setStateValue')
+  blue('root', root)
+  blue('path', path)
+  blue('newValue', newValue)
+  blue('state', state)
+  grpEnd()
   const actualPath = R.has(root)(state) ? path : R.tail(path)
   const ret = R.assocPath(actualPath, newValue, state)
   if (R.type(ret) !== 'Object') {

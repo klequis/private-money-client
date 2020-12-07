@@ -3,6 +3,7 @@ export const wdAcctId =	'acctId'
 export const wdActions =	'actions'
 export const wdActiveId =	'activeId'
 export const wdAll = 'all'
+export const wdAmount = 'amount'
 export const wdBoth = 'both'
 export const wdCategorized = 'categorized'
 export const wdCategorizeAction =	'categorizeAction'
@@ -109,6 +110,7 @@ export const pathTxTblRadioHasRuleValue = [wdTxTbl, wdRadioHasRule, wdValue]
 
 export const pathTxTblFilterProps = {
   acctId: [wdTxTbl, wdFilters, wdAcctId],
+  amount: [wdTxTbl, wdFilters, wdAmount],
   category1: [wdTxTbl, wdFilters, wdCategory1],
   category2: [wdTxTbl, wdFilters, wdCategory2],
   date: [wdTxTbl, wdFilters, wdDate],

@@ -17,7 +17,7 @@ export const Radio = ({
   name,
   value,
   onChange,
-  groupValue,
+  currentGroupValue,
   width = null
 }) => {
 
@@ -29,7 +29,7 @@ export const Radio = ({
     <RadioWrapper className="form-check" width={width}>
       <input
         className="form-check-input"
-        checked={value === groupValue}
+        checked={value === currentGroupValue}
         disabled={disabled}
         id={id}
         name={name}

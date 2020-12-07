@@ -53,15 +53,18 @@ export const TxTblNav = () => {
   }
 
   const radioHasRuleValue = useSelector(selectRadioHasRuleValue)
+  green('radioHasRuleValue', radioHasRuleValue)
   const radioCategorizedValue = useSelector(selectRadioCategorizedValue)
+  green('radioCategorizedValue', radioCategorizedValue)
   const radioCategorizedDisabled = useSelector(selectRadioCategorizedDisabled)
+  green('radioCategorizedDisabled', radioCategorizedDisabled)
 
   return (
     <Options>
       <Row>
         <RowTitle>Transactions: </RowTitle>
         <Radio
-          groupValue={radioHasRuleValue}
+          currentGroupValue={radioHasRuleValue}
           id={allId}
           label="All"
           name={wdRadioHasRule}
@@ -70,7 +73,7 @@ export const TxTblNav = () => {
           value={wdAll}
         />
         <Radio
-          groupValue={radioHasRuleValue}
+          currentGroupValue={radioHasRuleValue}
           id={hasRuleId}
           label="Has rule"
           name={wdRadioHasRule}
@@ -79,7 +82,7 @@ export const TxTblNav = () => {
           value={wdHasRule}
         />
         <Radio
-          groupValue={radioHasRuleValue}
+          currentGroupValue={radioHasRuleValue}
           id={doesNotHaveRuleId}
           label="Does not have rule"
           name={wdRadioHasRule}
@@ -92,7 +95,7 @@ export const TxTblNav = () => {
         <RowTitle>Category: </RowTitle>
         <Radio
           disabled={radioCategorizedDisabled}
-          groupValue={radioCategorizedValue}
+          currentGroupValue={radioCategorizedValue}
           id="bothId"
           label="Both"
           name={wdRadioCategorized}
@@ -102,7 +105,7 @@ export const TxTblNav = () => {
         />
         <Radio
           disabled={radioCategorizedDisabled}
-          groupValue={radioCategorizedValue}
+          currentGroupValue={radioCategorizedValue}
           id="categorizedId"
           label="Categorized"
           name={wdRadioCategorized}
@@ -112,7 +115,7 @@ export const TxTblNav = () => {
         />
         <Radio
           disabled={radioCategorizedDisabled}
-          groupValue={radioCategorizedValue}
+          currentGroupValue={radioCategorizedValue}
           id="uncategorizedId"
           label="Uncategorized"
           name={wdRadioCategorized}

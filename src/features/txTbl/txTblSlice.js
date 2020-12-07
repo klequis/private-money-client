@@ -10,7 +10,20 @@ import {
   wdHasRule,
   wdDoesNotHaveRule,
   pathTxTblRadioCategorizedValue,
-  pathTxTblFilterProps
+  pathTxTblFilterProps,
+  //
+  wdRadioHasRule,
+  wdRadioCategorized,
+  wdDisabled,
+  wdValue,
+  wdFilters,
+  wdAcctId,
+  wdAmount,
+  wdCategory1,
+  wdCategory2,
+  wdDate,
+  wdDescription,
+  wdType
 } from 'appWords'
 import { setStateValue, valueOrEmptyString } from 'features/helpers'
 import * as R from 'ramda'
@@ -21,24 +34,22 @@ import { grpStart } from 'logger'
 import { grpEnd } from 'logger'
 
 const initialState = {
-  options: {
-    radioHasRule: {
-      value: wdAll
-    },
-
-    radioCategorize: {
-      value: wdBoth,
-      disabled: false
-    }
+  [wdRadioHasRule]: {
+    [wdValue]: wdAll
   },
-  filters: {
-    acctId: null,
-    amount: null,
-    category1: null,
-    category2: null,
-    date: null,
-    description: null,
-    type: null
+
+  [wdRadioCategorized]: {
+    [wdValue]: wdBoth,
+    [wdDisabled]: false
+  },
+  [wdFilters]: {
+    [wdAcctId]: null,
+    [wdAmount]: null,
+    [wdCategory1]: null,
+    [wdCategory2]: null,
+    [wdDate]: null,
+    [wdDescription]: null,
+    [wdType]: null
   }
 }
 
@@ -61,7 +72,6 @@ const filterUpdate = R.curry((value, path, state) => {
   grpEnd()
   return setStateValue(wdTxTbl, path, value, state)
 })
-  
 
 const txTblSlice = createSlice({
   name: wdTxTbl,
@@ -86,12 +96,14 @@ const txTblSlice = createSlice({
             radioHasRuleValueSet(wdDoesNotHaveRule),
             radioCategorizedDisabledSet(true)
           )(currState)
+        case wdBoth:
+          return radioCategorizedValueSet(wdBoth, currState)
         case wdCategorized:
           return radioCategorizedValueSet(wdCategorized, currState)
         case wdUncategorized:
           return radioCategorizedValueSet(wdUncategorized, currState)
         default:
-          throw new Error('unknown radio value')
+          throw new Error(`unknown radio value ${value}`)
       }
     },
     updateFilters(state, action) {

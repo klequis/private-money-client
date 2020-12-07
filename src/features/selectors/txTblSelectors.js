@@ -177,16 +177,17 @@ const allTests = (state) => {
  * @returns {Array} of filtered transaction objects
  */
 export const selectFilteredTx = (state) => {
-  const transactions = selectTxItems(state)
+  const txs = selectTxItems(state)
   const currentConditions = makeConditions(state)
   if (isNilOrEmpty(currentConditions)) {
     console.groupEnd()
-    return transactions
+    return txs
   }
   const keys = R.keys(currentConditions)
   const tests = allTests(state)
   const specObj = R.pick(keys, tests)
-  green('specObj', specObj)
+  // green('specObj', specObj)
   const spec1 = R.where(specObj)
-  return R.filter(spec1, transactions)
+  // green('spec1', spec1)
+  return R.filter(spec1, txs)
 }
