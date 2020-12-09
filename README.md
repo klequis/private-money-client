@@ -1,4 +1,66 @@
 ```js
+state = {
+  criteriaResults: {
+    fetch: {
+      error: '?',
+      status: string,
+    },
+    items: array,
+  },
+  rules: {
+    create: {
+      error: '?',
+      status: string,
+    },
+    fetch: {
+      error: '?',
+      status: string,
+    },
+    items: array,
+    ruleEdit: {
+      _id: string,
+      actions: array,
+      criteria: array,
+      hasActionTypeOmit: boolean,
+      isDirty: boolean,
+      isTmpRule: boolean,
+    },
+    update: {
+      error: '?',
+      status: string,
+    }
+  },
+  tx: {
+    activeId: string,
+    fetch: {
+      error: '?',
+      status: string,
+    },
+    items: array
+  },
+  txTbl: {
+    filters: {
+      acctId: string,
+      category1: string,
+      category2: string,
+      date: string,
+      description: string,
+      type: string
+    },
+    radioCategorized: {
+      disabled: boolean,
+      value: any,
+    },
+    radioHasRule: {
+      value: any
+    },
+  }
+}
+
+```
+
+
+```js
 TxColHead {
   _valueChanged = () => {
     _setValue(value)

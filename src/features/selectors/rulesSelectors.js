@@ -3,36 +3,32 @@ import { getActiveCriteria } from 'features/helpers'
 import * as R from 'ramda'
 import { valueOrEmptyArray, valueOrEmptyObject } from 'features/helpers'
 import {
-  wdRules,
+  // ruleEdit
+  pathRuleEdit,
   pathRuleEditActions,
   pathRuleEditCritera,
   pathRuleEditIsDirty,
   pathRuleEditIsTmpRule,
+  pathRuleEditHasActionTypeOmit,
+  // rules
+  pathRulesFetchError,
   pathRulesFetchStatus,
-  pathRulesItems,
-  pathRuleEdit,
+  pathRulesCreateError,
   pathRulesCreateStatus,
-  pathRulesUpdateStatus
+  pathRulesItems,
+  pathRulesUpdateError,
+  pathRulesUpdateStatus,
+  wdRules,
+
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 
 // eslint-disable-next-line
 import { blue, yellow, grpStart, grpEnd } from 'logger'
 
-/**
- *
- * @param {object} state state
- * @returns {Array} of Criteria objects
- * @description Gets criteria from state.RuleEdit where criteria.active===true
+/*
+ *  Paths to parts of state
  */
-export const selectActiveCriteria = (state) => {
-  const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
-  if (isNilOrEmpty(criteria)) {
-    return []
-  }
-  const activeCriteria = getActiveCriteria(criteria)
-  return valueOrEmptyArray(activeCriteria)
-}
 
 /**
  *
@@ -47,6 +43,17 @@ export const selectRuleEdit = (state) => {
 /**
  *
  * @param {object} state state
+ * @returns {Array} state.ruleEdit.actions
+ *
+ */
+export const selectRuleEditActions = (state) => {
+  const actions = getStateValue(wdRules, pathRuleEditActions, state)
+  return valueOrEmptyArray(actions)
+}
+
+/**
+ *
+ * @param {object} state state
  * @returns {Array} state.ruleEdit.criteria || []
  */
 export const selectRuleEditCriteria = (state) => {
@@ -55,15 +62,15 @@ export const selectRuleEditCriteria = (state) => {
 }
 
 /**
- *
+ * 
  * @param {object} state state
- * @returns {Array} state.ruleEdit.actions
- *
+ * @returns {boolean} value of state prop
  */
-export const selectRuleEditActions = (state) => {
-  const actions = getStateValue(wdRules, pathRuleEditActions, state)
-  return valueOrEmptyArray(actions)
+export const selectRuleEidtHasActionTypeOmit = (state) => {
+  return getStateValue(wdRules, pathRuleEditHasActionTypeOmit, state)
 }
+
+// export const selectRuleEditId = 
 
 /**
  *
@@ -83,29 +90,87 @@ export const selectRuleEditIsTmpRule = (state) => {
   return getStateValue(wdRules, pathRuleEditIsTmpRule, state)
 }
 
+// export const selectRules = 
+
+/**
+ *
+ * @param {state} state state state
+ * @returns {string} a request status word from appWords.js
+ */
+export const selectRuleCreateError = (state) =>
+  getStateValue(wdRules, pathRulesCreateError, state)
+
+/**
+ *
+ * @param {state} state state state
+ * @returns {string} a request status word from appWords.js
+ */
+export const selectRuleCreateStatus = (state) =>
+  getStateValue(wdRules, pathRulesCreateStatus, state)
+
+/**
+ *
+ * @param {state} state state
+ * @returns {string} a request status word from appWords.js
+ */
+export const selectRulesFetchError = (state) => {
+  return getStateValue(wdRules, pathRulesFetchError, state)
+}
+
+/**
+ *
+ * @param {state} state state
+ * @returns {string} a request status word from appWords.js
+ */
+export const selectRulesFetchStatus = (state) => {
+  return getStateValue(wdRules, pathRulesFetchStatus, state)
+}
+
+/**
+ *
+ * @param {state} state state state
+ * @returns {Array} state.rules.items
+ */
+export const selectRulesItems = (state) => {
+  return getStateValue(wdRules, pathRulesItems, state)
+}
+
+/**
+ *
+ * @param {state} state state
+ * @returns {string} a request status word from appWords.js
+ */
+export const selectRuleUpdateError = (state) => {
+  return getStateValue(wdRules, pathRulesUpdateError, state)
+}
+
+/**
+ *
+ * @param {state} state state
+ * @returns {string} a request status word from appWords.js
+ */
+export const selectRuleUpdateStatus = (state) => {
+  return getStateValue(wdRules, pathRulesUpdateStatus, state)
+}
+
+
+/*
+ *  Other selectors
+ */
+
 /**
  *
  * @param {object} state state
- * @returns {object} state.ruleEdit.actions[fn]
+ * @returns {Array} of Criteria objects
+ * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
-export const selectRuleEditRenameAction = (state) => {
-  const actions = getStateValue(wdRules, pathRuleEditActions, state)
-  if (isNilOrEmpty(actions)) {
-    return null
+export const selectRuleEditActiveCriteria = (state) => {
+  const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
+  if (isNilOrEmpty(criteria)) {
+    return []
   }
-  return R.find(R.propEq('field', 'description'), actions)
-}
-
-export const selectOmitAction = (state) => {
-  const actions = getStateValue(wdRules, pathRuleEditActions, state)
-  if (isNilOrEmpty(actions)) {
-    return null
-  }
-  return R.find(R.propEq('actionType', 'omit'), actions)
-}
-
-const getCategorizeAction = (actions) => {
-  return R.find(R.propEq('actionType', 'categorize'), actions)
+  const activeCriteria = getActiveCriteria(criteria)
+  return valueOrEmptyArray(activeCriteria)
 }
 
 /**
@@ -123,35 +188,35 @@ export const selectRuleEditCategorizeAction = (state) => {
 
 /**
  *
- * @param {state} state state
- * @returns {string} a request status word from appWords.js
+ * @param {object} state state
+ * @returns {object} state.ruleEdit.actions[fn]
  */
-export const selectRulesFetchStatus = (state) => {
-  return getStateValue(wdRules, pathRulesFetchStatus, state)
+export const selectRuleEditRenameAction = (state) => {
+  const actions = getStateValue(wdRules, pathRuleEditActions, state)
+  if (isNilOrEmpty(actions)) {
+    return null
+  }
+  return R.find(R.propEq('field', 'description'), actions)
 }
 
-/**
- *
- * @param {state} state state state
- * @returns {string} a request status word from appWords.js
- */
-export const selectRuleCreateStatus = (state) =>
-  getStateValue(wdRules, pathRulesCreateStatus, state)
 
-/**
- *
- * @param {state} state state
- * @returns {string} a request status word from appWords.js
- */
-export const selectRuleUpdateStatus = (state) => {
-  return getStateValue(wdRules, pathRulesUpdateStatus, state)
+
+
+
+
+
+
+
+
+
+
+
+
+
+const getCategorizeAction = (actions) => {
+  return R.find(R.propEq('actionType', 'categorize'), actions)
 }
 
-/**
- *
- * @param {state} state state state
- * @returns {Array} state.rules.items
- */
-export const selectRulesItems = (state) => {
-  return getStateValue(wdRules, pathRulesItems, state)
-}
+
+
+

@@ -1,12 +1,14 @@
 import React from 'react'
 import { TableRow } from './TableRow'
 import styled from 'styled-components'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { green } from 'logger'
 
 const TDStrikethrough = styled.td`
   text-decoration: line-through;
+  color: red;
 `
 const makeOldData = ({
   date,
@@ -84,11 +86,14 @@ export const TableBody = ({ actions, transaction }) => {
   const oldData = makeOldData(transaction)
   const newData = makeNewData(actions, transaction)
   const diffs = createDiffs(oldData, newData)
+  const hasDiffs = R.any(R.equals(R.__, true))(R.values(diffs))
 
   return (
     <tbody>
       <TableRow data={oldData} isOriginalData={true} diffs={diffs} />
-      <TableRow data={newData} isOriginalData={false} diffs={diffs} />
+      {hasDiffs ? (
+        <TableRow data={newData} isOriginalData={false} diffs={diffs} />
+      ) : null}
     </tbody>
   )
 }

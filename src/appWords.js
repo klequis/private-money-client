@@ -19,6 +19,7 @@ export const wdDoesNotHaveRule = 'doesNotHaveRule'
 export const wdError =	'error'
 export const wdFetch =	'fetch'
 export const wdFilters = 'filters'
+export const wdHasActionTypeOmit = 'hasActionTypeOmit'
 export const wdHasRule = 'hasRule'
 export const wdId =	'_id'
 export const wdIsDirty =	'isDirty'
@@ -59,30 +60,6 @@ export const wdTxTbl = 'txTbl'
 
 /* PATHS */
 
-// rules
-export const pathRulesCreateError = [wdRules, wdCreate, wdError]
-export const pathRulesCreateStatus = [wdRules, wdCreate, wdStatus]
-
-export const pathRulesUpdateError = [wdRules, wdUpdate, wdError]
-export const pathRulesUpdateStatus = [wdRules, wdUpdate, wdStatus]
-
-export const pathRuleEdit = [wdRules, wdRuleEdit]
-export const pathRuleEditActions = [wdRules, wdRuleEdit, wdActions]
-// export const pathRuleEditActionsCategorize = [wdRules, wdRuleEdit, wd] is a pseudo path
-// export const pathRuleEditActionsRename = [wdRules, wdRuleEdit,]  is a pseudo path
-export const pathRuleEditCritera = [wdRules, wdRuleEdit, wdCriteria]
-export const pathRuleEditId = [wdRules, wdRuleEdit, wdId]
-export const pathRuleEditIsDirty = [wdRules, wdRuleEdit, wdIsDirty]
-export const pathRuleEditIsTmpRule = [wdRules, wdRuleEdit, wdIsTmpRule]
-
-export const pathRulesFetchError = [wdRules, wdFetch, wdError]
-export const pathRulesFetchStatus = [wdRules, wdFetch, wdStatus]
-export const pathRulesItems = [wdRules, wdItems]
-
-export const pathRuleUpdateError = [wdRules, wdUpdate, wdError]
-export const pathRuleUpdateStatus = [wdRules, wdUpdate, wdStatus]
-
-
 // criteriaResults
 export const pathCriteriaResults = [wdCriteriaResults]
 export const pathCriteriaResultsFetchError = [wdCriteriaResults, wdFetch, wdError]
@@ -90,24 +67,39 @@ export const pathCriteriaResultsFetchStatus = [wdCriteriaResults, wdFetch, wdSta
 export const pathCriteriaResultsItems = [wdCriteriaResults, wdItems]
 
 
+// rules.ruleEdit
+export const pathRuleEdit = [wdRules, wdRuleEdit]
+export const pathRuleEditActions = [wdRules, wdRuleEdit, wdActions]
+export const pathRuleEditCritera = [wdRules, wdRuleEdit, wdCriteria]
+export const pathRuleEditHasActionTypeOmit = [wdRules, wdRuleEdit, wdHasActionTypeOmit]
+export const pathRuleEditId = [wdRules, wdRuleEdit, wdId]
+export const pathRuleEditIsDirty = [wdRules, wdRuleEdit, wdIsDirty]
+export const pathRuleEditIsTmpRule = [wdRules, wdRuleEdit, wdIsTmpRule]
+
+// rules
+export const pathRules = [wdRules]
+export const pathRulesCreateError = [wdRules, wdCreate, wdError]
+export const pathRulesCreateStatus = [wdRules, wdCreate, wdStatus]
+export const pathRulesFetchError = [wdRules, wdFetch, wdError]
+export const pathRulesFetchStatus = [wdRules, wdFetch, wdStatus]
+export const pathRulesItems = [wdRules, wdItems]
+export const pathRulesUpdateError = [wdRules, wdUpdate, wdError]
+export const pathRulesUpdateStatus = [wdRules, wdUpdate, wdStatus]
+
 // tx
 export const pathTxActiveId = [wdTx, wdActiveId]
 export const pathTxFetchError = [wdTx, wdFetch, wdError]
 export const pathTxFetchStatus = [wdTx, wdFetch, wdStatus]
 export const pathTxItems = [wdTx, wdItems]
 
+// txTbl
 export const pathTxTblFilters = [wdTxTbl, wdFilters]
-export const pathTxTblFiltersAcctId = [wdTxTbl, wdFilters, wdAcctId]
-export const pathTxTblFiltersCategory1 = [wdTxTbl, wdFilters, wdCategory1]
-export const pathTxTblFiltersCategory2 = [wdTxTbl, wdFilters, wdCategory2]
-export const pathTxTblFiltersDate = [wdTxTbl, wdFilters, wdDate]
-export const pathTxTblFiltersDescription = [wdTxTbl, wdFilters, wdDescription]
-export const pathTxTblFiltersType = [wdTxTbl, wdFilters, wdType]
-export const pathTxTblRadioCategorizedDisabled = [wdTxTbl, wdRadioCategorized, wdDisabled]
-export const pathTxTblRadioCategorizedValue = [wdTxTbl, wdRadioCategorized, wdValue]
-export const pathTxTblRadioHasRuleValue = [wdTxTbl, wdRadioHasRule, wdValue]
-
-
+// export const pathTxTblFiltersAcctId = [wdTxTbl, wdFilters, wdAcctId]
+// export const pathTxTblFiltersCategory1 = [wdTxTbl, wdFilters, wdCategory1]
+// export const pathTxTblFiltersCategory2 = [wdTxTbl, wdFilters, wdCategory2]
+// export const pathTxTblFiltersDate = [wdTxTbl, wdFilters, wdDate]
+// export const pathTxTblFiltersDescription = [wdTxTbl, wdFilters, wdDescription]
+// export const pathTxTblFiltersType = [wdTxTbl, wdFilters, wdType]
 export const pathTxTblFilterProps = {
   acctId: [wdTxTbl, wdFilters, wdAcctId],
   amount: [wdTxTbl, wdFilters, wdAmount],
@@ -117,3 +109,7 @@ export const pathTxTblFilterProps = {
   description: [wdTxTbl, wdFilters, wdDescription],
   type: [wdTxTbl, wdFilters, wdType]
 }
+export const pathTxTblRadioCategorizedDisabled = [wdTxTbl, wdRadioCategorized, wdDisabled]
+export const pathTxTblRadioCategorizedValue = [wdTxTbl, wdRadioCategorized, wdValue]
+export const pathTxTblRadioHasRuleValue = [wdTxTbl, wdRadioHasRule, wdValue]
+

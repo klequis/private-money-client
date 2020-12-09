@@ -21,6 +21,7 @@ import {
   wdRequestStatusPending,
   wdRequestStatusFetch,
   wdRules,
+  wdHasActionTypeOmit,
   pathRuleEditCritera,
   pathRuleEditIsDirty,
   pathRuleEdit,
@@ -34,6 +35,7 @@ import {
   pathRulesUpdateError
 } from 'appWords'
 import { setStateValue } from 'features/helpers'
+import { dataTypes } from 'lib/dataTypes'
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -80,6 +82,12 @@ export const ruleUpdate = createAsyncThunk(
     await api.rules.update(rule._id, newRule)
   }
 )
+
+const setHasActionTypeOmit = R.curry((rule) => {
+  const hasIt = R.find(R.propEq('actionType', 'omit'))
+  return ruleEditSet(wdRules, path)
+  return hasIt === undefined ? false : true
+})
 
 const ruleEditSet = R.curry((value, state) => {
   return setStateValue(wdRules, pathRuleEdit, value, state)
@@ -129,6 +137,7 @@ const rulesSlice = createSlice({
   name: wdRules,
   initialState,
   reducers: {
+
     /**
      * 
      * @param {object} state the rulesSlice
@@ -137,11 +146,16 @@ const rulesSlice = createSlice({
      * @description deletes all existing Actions and sets ruleEdit.actions = action.payload
      */
     ruleEditReplaceActions(state, action) {
+      // TODO: set omit action
       const currState = current(state)
-      const newActions = [R.path(['payload'], action)]
+      const payload = R.path(['payload'], action)
+      const newActions = R.type(payload) === dataTypes.Array
+        ? payload
+        : [payload]
       return R.pipe(
         ruleEditActionsSet(newActions),
-        ruleEditIsDirtySet(true)
+        ruleEditIsDirtySet(true),
+        
       )(currState)
     },
     /**
@@ -152,6 +166,7 @@ const rulesSlice = createSlice({
      * @description updates an existing action in ruleEdit.actions[]
      */
     ruleEditActionUpdate(state, action) {
+      // TODO: set omit action
       const currState = current(state)
       const newAction = R.path(['payload'], action)
       const newActionId = R.prop('_id', newAction)
@@ -162,7 +177,8 @@ const rulesSlice = createSlice({
       const newActions = R.update(idxOfActionToReplace, newAction, currActions)
       return R.pipe(
         ruleEditActionsSet(newActions),
-        ruleEditIsDirtySet(true)
+        ruleEditIsDirtySet(true),
+        
       )(currState)
     },
     /**
@@ -206,10 +222,14 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     ruleEditSetExistingRule(state, action) {
+      // TODO: set omit action
       const currState = current(state)
       const ruleId = R.path(['payload', 'ruleId'], action)
       const rule = getRule(ruleId, currState)
-      return ruleEditSet(rule, currState)
+      return R.pipe(
+        ruleEditSet(rule, currState),
+        setHasActionTypeOmit
+      ) 
     },
     /**
      *
@@ -218,10 +238,13 @@ const rulesSlice = createSlice({
      * @returns {object} the new sate
      */
     ruleEditSetNewRule(state, action) {
+      // TODO: set omit action
       const currState = current(state)
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
+      // new rule always has hasActionTypeOmit === false so
+      // no need to set
       return ruleEditSet(rule, currState)
     },
     /**

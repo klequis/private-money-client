@@ -9,7 +9,7 @@ import * as R from 'ramda'
 import { TableBody } from './TableBody'
 import styled from 'styled-components'
 import {
-  selectActiveCriteria,
+  selectRuleEditActiveCriteria,
   selectRuleEditCriteria,
   selectRuleEditActions,
   selectCriteriaResults,
@@ -57,7 +57,7 @@ export const CriteriaResults = () => {
   )
   const criteria = useSelector(selectRuleEditCriteria)
   const actions = useSelector(selectRuleEditActions)
-  const activeCriteria = useSelector(selectActiveCriteria)
+  const activeCriteria = useSelector(selectRuleEditActiveCriteria)
 
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
