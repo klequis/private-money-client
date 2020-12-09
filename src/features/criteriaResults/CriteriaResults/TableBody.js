@@ -1,9 +1,13 @@
 import React from 'react'
 import { TableRow } from './TableRow'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green } from 'logger'
 
+const TDStrikethrough = styled.td`
+  text-decoration: line-through;
+`
 const makeOldData = ({
   date,
   description,
@@ -53,7 +57,30 @@ const createDiffs = (oldFields, newFields) => {
   }
 }
 
+/*
+    If there is an actionType of 'omit' it is a special case.
+    There will be only one action and its actionType property
+    will equal 'omit'. In this case, apply strikethrough font
+    to all criteriaResult transactions.
+
+    If actionType==='omit'
+      return two table rows with strike-through
+
+*/
 export const TableBody = ({ actions, transaction }) => {
+  if (actions.length === 1 && actions[0].actionType === 'omit') {
+    const { date, description, amount } = transaction
+    return (
+      <tbody>
+        <tr>
+          <TDStrikethrough>{date}</TDStrikethrough>
+          <TDStrikethrough>{description}</TDStrikethrough>
+          <TDStrikethrough>{amount}</TDStrikethrough>
+        </tr>
+      </tbody>
+    )
+  }
+
   const oldData = makeOldData(transaction)
   const newData = makeNewData(actions, transaction)
   const diffs = createDiffs(oldData, newData)

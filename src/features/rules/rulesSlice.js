@@ -130,10 +130,26 @@ const rulesSlice = createSlice({
   initialState,
   reducers: {
     /**
+     * 
+     * @param {object} state the rulesSlice
+     * @param {object} action an Action {payload: { ... }}
+     * @returns {object} the new state slice
+     * @description deletes all existing Actions and sets ruleEdit.actions = action.payload
+     */
+    ruleEditReplaceActions(state, action) {
+      const currState = current(state)
+      const newActions = [R.path(['payload'], action)]
+      return R.pipe(
+        ruleEditActionsSet(newActions),
+        ruleEditIsDirtySet(true)
+      )(currState)
+    },
+    /**
      *
      * @param {object} state the rulesSlice
      * @param {object} action  an Action {payload: { ... }}
-     * @returns {object} the new slice state
+     * @returns {object} the new state slice
+     * @description updates an existing action in ruleEdit.actions[]
      */
     ruleEditActionUpdate(state, action) {
       const currState = current(state)
@@ -278,6 +294,7 @@ export const {
   ruleEditActionUpdate,
   ruleEditClear,
   ruleEditCriterionUpdate,
+  ruleEditReplaceActions,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
   ruleEditTmpMake,

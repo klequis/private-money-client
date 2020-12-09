@@ -96,6 +96,14 @@ export const selectRuleEditRenameAction = (state) => {
   return R.find(R.propEq('field', 'description'), actions)
 }
 
+export const selectOmitAction = (state) => {
+  const actions = getStateValue(wdRules, pathRuleEditActions, state)
+  if (isNilOrEmpty(actions)) {
+    return null
+  }
+  return R.find(R.propEq('actionType', 'omit'), actions)
+}
+
 const getCategorizeAction = (actions) => {
   return R.find(R.propEq('actionType', 'categorize'), actions)
 }

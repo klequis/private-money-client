@@ -1,13 +1,13 @@
-import React from 'react'
-import { useSelector } from 'react-redux'
+import React, { useEffect, useState } from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { ActionEdit } from './ActionEdit'
 import { RenameDescription } from './RenameDescription'
 import { Categorize } from './Categorize'
-import { actionTypes } from 'features/rules'
+import { actionFields, actionTypes, ruleEditReplaceActions } from 'features/rules'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
-import { selectRuleEditActions } from 'features/selectors'
-
+import { selectRuleEditActions, selectOmitAction } from 'features/selectors'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
@@ -15,17 +15,52 @@ import { RenderCount } from 'components/RenderCount'
 const Wrapper = styled.div`
   display: flex;
 `
+const OmitCheck = styled.input`
+  margin-top: 16px;
+  margin-bottom: 20px;
+`
 
 let countTotal = 0
 let countReturn = 0
 
 export const Actions = () => {
   countTotal = countTotal + 1
+  const [_omitChecked, _setOmitChecked] = useState(false)
 
   const actions = useSelector((state) => selectRuleEditActions(state))
+  green('Actions: actions', actions)
+  const o = useSelector(selectOmitAction)
+  green('o', o)
+  
+  const dispatch = useDispatch()
+  // useEffect(() => {
+  //   if (!isNilOrEmpty(actions)) {
+
+  //   }
+  // })
 
   if (!actions) {
     return null
+  }
+
+  const _handleOmitChange = (e) => {
+    _setOmitChecked(e.target.checked)
+    // add omit action
+
+    const action = {
+      actionType: actionTypes.omit.name,
+    }
+    dispatch(ruleEditReplaceActions(action))
+    /*
+        Need to remove all existing actions and
+        replace with the action above.
+
+        There is no need to send an action. I
+        can all be done in the reducer.
+
+        Remember. It is updating Redux and not
+        going to the db until save is clicked.
+    */
   }
 
   countReturn = countReturn + 1
@@ -37,7 +72,7 @@ export const Actions = () => {
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
-
+      <OmitCheck type="checkbox" checked={_omitChecked} onChange={_handleOmitChange} /> Omit transaction(s)
       <Wrapper>
         {actions.map((a) => {
           const { _id, field, actionType } = a

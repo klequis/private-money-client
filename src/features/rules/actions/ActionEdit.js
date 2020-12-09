@@ -22,6 +22,7 @@ export const ActionEdit = ({ action }) => {
     _setAction(newAction)
     dispatch(ruleEditActionUpdate(newAction))
   }
+
   const Control = () => {
     if (actionType === actionTypes.strip.name) {
       return <Strip action={action} onChange={_handleChange} />
@@ -31,6 +32,7 @@ export const ActionEdit = ({ action }) => {
       return null
     }
   }
+  
   return (
     <div>
       <div>

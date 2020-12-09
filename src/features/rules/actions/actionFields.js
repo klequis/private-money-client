@@ -12,6 +12,10 @@ export const actionTypes = {
   strip: {
     name: 'strip',
     descrption: 'Strip'
+  },
+  omit: {
+    name: 'omit',
+    description: 'Omit'
   }
 }
 
