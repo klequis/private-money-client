@@ -143,13 +143,6 @@ export const logReducer = (reducerName, state, type, payload) => {
 export const logRender = (componentName) =>
   LOG_RENDER && orange(`*${componentName} - render`)
 
-  /**
-   * 
-   * @param {string} label 
-   */
 export const grpStart = label => console.group(label)
 
-/**
- * 
- */
 export const grpEnd = console.groupEnd
