@@ -3,12 +3,12 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ActionEdit } from './ActionEdit'
 import { RenameDescription } from './RenameDescription'
 import { Categorize } from './Categorize'
-import { actionTypes, ruleEditReplaceActions } from 'features/rules'
+import { actionTypes, ruleEditActionsReplace } from 'features/rules'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
 import {
   selectRuleEditActions,
-  selectRuleEditHasActionTypeOmit
+  selectRuleEidtHasActionTypeOmit
 } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { makeTmpId } from 'lib/makeTmpId'
@@ -31,7 +31,8 @@ let countReturn = 0
 export const Actions = () => {
   countTotal = countTotal + 1
   const [_omitChecked, _setOmitChecked] = useState(
-    useSelector(selectRuleEditHasActionTypeOmit)
+    useSelector(selectRuleEidtHasActionTypeOmit)
+                
   )
   const [_prevActions, _setPrevActions] = useState([])
 
@@ -68,7 +69,7 @@ export const Actions = () => {
         }
       : _prevActions
 
-    _dispatch(ruleEditReplaceActions(newActions))
+    _dispatch(ruleEditActionsReplace(newActions))
   }
 
   countReturn = countReturn + 1

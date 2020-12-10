@@ -4,7 +4,7 @@ import {
   ruleUpdate,
   ruleCreate,
   ruleEditClear,
-  setRulesRefresh
+  rulesRefreshSet
 } from 'features/rules'
 import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
 import { RuleToolbar } from './RuleToolbar'
@@ -34,7 +34,7 @@ export const Rule = () => {
       await dispatch(ruleUpdate(ruleEdit))
     }
     dispatch(txFetchStatusSetRefresh())
-    dispatch(setRulesRefresh())
+    dispatch(rulesRefreshSet())
     dispatch(txActiveIdClear())
   }
 

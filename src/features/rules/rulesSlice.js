@@ -20,8 +20,8 @@ import {
   wdRequestStatusFulfilled,
   wdRequestStatusPending,
   wdRequestStatusFetch,
+  wdRuleEdit,
   wdRules,
-  wdHasActionTypeOmit,
   pathRuleEditCritera,
   pathRuleEditIsDirty,
   pathRuleEdit,
@@ -32,10 +32,12 @@ import {
   pathRulesCreateStatus,
   pathRulesCreateError,
   pathRulesUpdateStatus,
-  pathRulesUpdateError
+  pathRulesUpdateError,
+  pathRuleEditHasActionTypeOmit
 } from 'appWords'
 import { setStateValue } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
+import { isTmpRule } from 'lib/isTmpRule'
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -83,10 +85,33 @@ export const ruleUpdate = createAsyncThunk(
   }
 )
 
-const setHasActionTypeOmit = R.curry((rule) => {
-  const hasIt = R.find(R.propEq('actionType', 'omit'))
-  return ruleEditSet(wdRules, path)
-  return hasIt === undefined ? false : true
+const ruleHasActionTypeOmit = (rule) => {
+  const { actions } = rule
+  return R.find(R.propEq('action', 'omit'), actions) === undefined ? false : true
+}
+
+/**
+ * @description used only when a rule is initially put into rules.ruleEdit
+ * @summary Assumes state has ruleEdit
+ */
+const ruleMetaPropsAdd = R.curry((state) => {
+  // hasActionTypeOmit: boolean,
+  // isDirty: boolean,
+  // isTmpRule: boolean,
+
+  blue('state', state)
+  const rule = R.path(['ruleEdit'], state)
+  blue('rule', rule)
+  const { _id } = rule
+
+  const newRule = R.mergeRight(rule, {
+    isDirty: false, 
+    isTmpRule: isTmpRule(_id),
+    hasActionTypeOmit: ruleHasActionTypeOmit(rule)
+  })
+
+  return R.assocPath([wdRuleEdit], newRule, state)
+
 })
 
 const ruleEditSet = R.curry((value, state) => {
@@ -145,9 +170,7 @@ const rulesSlice = createSlice({
      * @returns {object} the new state slice
      * @description deletes all existing Actions and sets ruleEdit.actions = action.payload
      */
-    ruleEditReplaceActions(state, action) {
-      // TODO: set omit action
-      const currState = current(state)
+    ruleEditActionsReplace(state, action) {
       const payload = R.path(['payload'], action)
       const newActions = R.type(payload) === dataTypes.Array
         ? payload
@@ -155,8 +178,8 @@ const rulesSlice = createSlice({
       return R.pipe(
         ruleEditActionsSet(newActions),
         ruleEditIsDirtySet(true),
-        
-      )(currState)
+        ruleMetaPropsAdd
+      )(current(state))
     },
     /**
      *
@@ -166,7 +189,7 @@ const rulesSlice = createSlice({
      * @description updates an existing action in ruleEdit.actions[]
      */
     ruleEditActionUpdate(state, action) {
-      // TODO: set omit action
+      
       const currState = current(state)
       const newAction = R.path(['payload'], action)
       const newActionId = R.prop('_id', newAction)
@@ -178,7 +201,7 @@ const rulesSlice = createSlice({
       return R.pipe(
         ruleEditActionsSet(newActions),
         ruleEditIsDirtySet(true),
-        
+        ruleMetaPropsAdd
       )(currState)
     },
     /**
@@ -187,8 +210,7 @@ const rulesSlice = createSlice({
      * @returns {void} void
      */
     ruleEditClear(state) {
-      const currState = current(state)
-      return ruleEditSet([], currState)
+      return ruleEditSet([], current(state))
     },
     /**
      *
@@ -227,9 +249,9 @@ const rulesSlice = createSlice({
       const ruleId = R.path(['payload', 'ruleId'], action)
       const rule = getRule(ruleId, currState)
       return R.pipe(
-        ruleEditSet(rule, currState),
-        setHasActionTypeOmit
-      ) 
+        ruleEditSet(rule),
+        ruleMetaPropsAdd
+      )(currState)
     },
     /**
      *
@@ -239,22 +261,23 @@ const rulesSlice = createSlice({
      */
     ruleEditSetNewRule(state, action) {
       // TODO: set omit action
-      const currState = current(state)
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
       // new rule always has hasActionTypeOmit === false so
       // no need to set
-      return ruleEditSet(rule, currState)
+      return R.pipe(
+        ruleEditSet(rule),
+        ruleMetaPropsAdd
+      )(current(state))
     },
     /**
      *
      * @param {object} state state
      * @returns {object} the new state
      */
-    setRulesRefresh(state) {
-      const currState = current(state)
-      return rulesFetchStatusSet(wdRequestStatusFetch, currState)
+    rulesRefreshSet(state) {
+      return rulesFetchStatusSet(wdRequestStatusFetch, current(state))
     }
   },
   extraReducers: {
@@ -317,11 +340,11 @@ export const {
   ruleEditActionUpdate,
   ruleEditClear,
   ruleEditCriterionUpdate,
-  ruleEditReplaceActions,
+  ruleEditActionsReplace,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
   ruleEditTmpMake,
-  setRulesRefresh
+  rulesRefreshSet
 } = rulesSlice.actions
 
 export const rulesReducer = rulesSlice.reducer

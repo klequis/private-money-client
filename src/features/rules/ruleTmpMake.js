@@ -5,7 +5,6 @@ import {
 import { 
   actionTypes, 
 } from 'features/rules'
-import * as R from 'ramda'
 import { makeTmpId } from 'lib/makeTmpId'
 
 /**
@@ -18,9 +17,6 @@ export const ruleTmpMake = (origDescription, date) => {
   const id = makeTmpId()
   return {
     _id: id,
-    dirty: false,
-    isTmpRule: R.startsWith('tmp_', id),
-    hasActionTypeOmit: false,
     criteria: [
       {
         _id: makeTmpId(),
