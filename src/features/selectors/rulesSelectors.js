@@ -19,12 +19,14 @@ import {
   pathRulesUpdateError,
   pathRulesUpdateStatus,
   wdRules,
+  pathRuleEditId,
 
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 
 // eslint-disable-next-line
 import { blue, yellow, grpStart, grpEnd } from 'logger'
+import { red } from 'logger'
 
 /*
  *  Paths to parts of state
@@ -70,7 +72,11 @@ export const selectRuleEidtHasActionTypeOmit = (state) => {
   return getStateValue(wdRules, pathRuleEditHasActionTypeOmit, state)
 }
 
-// export const selectRuleEditId = 
+export const selectRuleEditId = (state) => {
+  red('state', state)
+  const ret = getStateValue(wdRules, pathRuleEditId, state)
+  red('ret', ret)
+}
 
 /**
  *

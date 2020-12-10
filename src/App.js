@@ -22,6 +22,7 @@ import {
 /* eslint-disable */
 import { green, yellow, red, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+import { store } from 'app/store'
 /* eslint-enable */
 
 let countTotal = 0
@@ -48,7 +49,8 @@ export const App = () => {
 
   useRuleEditSet(activeTransactionId)
   countReturn = countReturn + 1
-
+  
+  console.log('store', store.getState())
   return (
     <RenderWhenReady status={status} className="container-fluid">
       

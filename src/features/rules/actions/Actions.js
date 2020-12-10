@@ -8,14 +8,15 @@ import { txFields } from 'features/tx'
 import styled from 'styled-components'
 import {
   selectRuleEditActions,
-  selectRuleEidtHasActionTypeOmit
+  selectRuleEdit
 } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { makeTmpId } from 'lib/makeTmpId'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { green, redf, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+/* eslint-enable */
 
 const Wrapper = styled.div`
   display: flex;
@@ -30,13 +31,19 @@ let countReturn = 0
 
 export const Actions = () => {
   countTotal = countTotal + 1
-  const [_omitChecked, _setOmitChecked] = useState(
-    useSelector(selectRuleEidtHasActionTypeOmit)
-                
-  )
-  const [_prevActions, _setPrevActions] = useState([])
+  
 
   const _actions = useSelector((state) => selectRuleEditActions(state))
+  const _rule = useSelector(selectRuleEdit)
+  // green('_rule', _rule)
+  const { hasActionTypeOmit } = _rule
+           
+  // green('hasActionTypeOmit', hasActionTypeOmit)
+  const [_omitChecked, _setOmitChecked] = useState(hasActionTypeOmit || false)
+  const [_prevActions, _setPrevActions] = useState([])
+
+  
+
   // const _hasOmitAction =
   const _dispatch = useDispatch()
 

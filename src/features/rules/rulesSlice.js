@@ -13,27 +13,32 @@ import {
 } from 'features/helpers'
 import {
   selectRuleEditActions,
-  selectRuleEditCriteria
+  selectRuleEditCriteria,
 } from 'features/selectors'
 import {
-  wdRequestStatusError,
-  wdRequestStatusFulfilled,
-  wdRequestStatusPending,
-  wdRequestStatusFetch,
-  wdRuleEdit,
-  wdRules,
   pathRuleEditCritera,
   pathRuleEditIsDirty,
   pathRuleEdit,
   pathRulesFetchStatus,
   pathRulesItems,
   pathRulesFetchError,
+  wdRuleEdit,
   pathRuleEditActions,
+  pathRuleEditIsTmpRule,
+  wdRules,
   pathRulesCreateStatus,
   pathRulesCreateError,
   pathRulesUpdateStatus,
   pathRulesUpdateError,
-  pathRuleEditHasActionTypeOmit
+  pathRuleEditHasActionTypeOmit,
+  wdActions,
+  wdActionType,
+  wdHasActionTypeOmit,
+  wdOmit,
+  wdRequestStatusError,
+  wdRequestStatusFetch,
+  wdRequestStatusFulfilled,
+  wdRequestStatusPending
 } from 'appWords'
 import { setStateValue } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
@@ -85,78 +90,110 @@ export const ruleUpdate = createAsyncThunk(
   }
 )
 
-const ruleHasActionTypeOmit = (rule) => {
-  const { actions } = rule
-  return R.find(R.propEq('action', 'omit'), actions) === undefined ? false : true
-}
-
-/**
- * @description used only when a rule is initially put into rules.ruleEdit
- * @summary Assumes state has ruleEdit
- */
-const ruleMetaPropsAdd = R.curry((state) => {
-  // hasActionTypeOmit: boolean,
-  // isDirty: boolean,
-  // isTmpRule: boolean,
-
-  blue('state', state)
-  const rule = R.path(['ruleEdit'], state)
-  blue('rule', rule)
-  const { _id } = rule
-
-  const newRule = R.mergeRight(rule, {
-    isDirty: false, 
-    isTmpRule: isTmpRule(_id),
-    hasActionTypeOmit: ruleHasActionTypeOmit(rule)
-  })
-
-  return R.assocPath([wdRuleEdit], newRule, state)
-
-})
-
 const ruleEditSet = R.curry((value, state) => {
   return setStateValue(wdRules, pathRuleEdit, value, state)
 })
 
-const ruleEditActionsSet = R.curry((newActions, state) => {
-  return setStateValue(wdRules, pathRuleEditActions, newActions, state)
+const actionsSet = R.curry((newActions, state) => {
+  // yellow('ruleEditActionsSet: newActions', newActions)
+  const ret = setStateValue(wdRules, pathRuleEditActions, newActions, state)
+  // yellow('ruleEditActionsSet: ret', ret)
+  return ret
 })
 
-const ruleEditIsDirtySet = R.curry((value, state) => {
-  return setStateValue(wdRules, pathRuleEditIsDirty, value, state)
-})
-
-const ruleEditCriteriaSet = R.curry((newCriteria, state) => {
+const criteriaSet = R.curry((newCriteria, state) => {
   return setStateValue(wdRules, pathRuleEditCritera, newCriteria, state)
 })
 
-const rulesFetchStatusSet = R.curry((status, state) => {
+const fetchStatusSet = R.curry((status, state) => {
   return setStateValue(wdRules, pathRulesFetchStatus, status, state)
 })
 
-const rulesItemsSet = R.curry((items, state) => {
+const itemsSet = R.curry((items, state) => {
   return setStateValue(wdRules, pathRulesItems, items, state)
 })
 
-const rulesFetchErrorSet = R.curry((errorMessage, state) => {
+const fetchErrorSet = R.curry((errorMessage, state) => {
   return setStateValue(wdRules, pathRulesFetchError, errorMessage, state)
 })
 
-const rulesCreateStatusFetchSet = R.curry((status, state) => {
+const createStatusFetchSet = R.curry((status, state) => {
   return setStateValue(wdRules, pathRulesCreateStatus, status, state)
 })
 
-const rulesCreateStatusErrorSet = R.curry((errorMessage, state) => {
+const createStatusErrorSet = R.curry((errorMessage, state) => {
   return setStateValue(wdRules, pathRulesCreateError, errorMessage, state)
 })
 
-const rulesUpdateStatusSet = R.curry((status, state) => {
+const updateStatusSet = R.curry((status, state) => {
   return setStateValue(wdRules, pathRulesUpdateStatus, status, state)
 })
 
-const rulesUpdateErrorSet = R.curry((errorMessage, state) => {
+const updateErrorSet = R.curry((errorMessage, state) => {
   return setStateValue(wdRules, pathRulesUpdateError, errorMessage, state)
 })
+
+
+
+// /**
+//  * @description used only when a rule is initially put into rules.ruleEdit
+//  * @summary Assumes state has ruleEdit
+//  */
+// const ruleMetaPropsAdd = R.curry((state) => {
+//   // hasActionTypeOmit: boolean,
+//   // isDirty: boolean,
+//   // isTmpRule: boolean,
+//   // grpStart('ruleMetaPropsAdd')
+//   // blue('state', state)
+//   const rule = R.path(['ruleEdit'], state)
+//   // blue('rule', rule)
+//   const { _id } = rule
+//   // blue('hasActionTypeOmit', hasActionTypeOmit)
+
+//   const newRule = R.mergeRight(rule, {
+//     isDirty: false, 
+//     isTmpRule: isTmpRule(_id),
+//     hasActionTypeOmit: ruleHasActionTypeOmit(rule)
+//   })
+
+//   // blue('newRule', newRule)
+
+//   const ret = R.assocPath([wdRuleEdit], newRule, state)
+//   // blue('ret', ret)
+//   // grpEnd()
+//   return ret
+
+// })
+
+const isDirtySet = R.curry((value, state) => {
+  return setStateValue(wdRules, pathRuleEditIsDirty, value, state)
+})
+
+
+const hasActionTypeOmitSet = R.curry((state) => {
+  // blue('hasActionTypeOmitSet: state', state.ruleEdit.actions)
+  const actions = R.path([wdRuleEdit, wdActions], state)
+  const hasOmit = R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
+  return setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state )
+})
+
+const isTmpRuleSet = R.curry((state) => {
+  // blue('ruleEditIsTmpRuleSet: state', state)
+  red('isTmpRuleSet', 'hard coded value')
+  return setStateValue(
+    [wdRules, pathRuleEditIsTmpRule],
+    true,
+    state
+  )
+
+  // return setStateValue(
+  //   [wdRules, pathRuleEditIsTmpRule],
+  //   isTmpRule(selectRuleEditId(state)),
+  //   state
+  // )
+})
+
+const _log = message => value => console.log(message, value)
 
 const rulesSlice = createSlice({
   name: wdRules,
@@ -172,14 +209,22 @@ const rulesSlice = createSlice({
      */
     ruleEditActionsReplace(state, action) {
       const payload = R.path(['payload'], action)
+      // yellow('payload', payload)
       const newActions = R.type(payload) === dataTypes.Array
         ? payload
         : [payload]
-      return R.pipe(
-        ruleEditActionsSet(newActions),
-        ruleEditIsDirtySet(true),
-        ruleMetaPropsAdd
+      // yellow('newActions', newActions)
+      const ret = R.pipe(
+        // R.tap(log('stsart')),
+        actionsSet(newActions),
+        // R.tap(log('actions updated')),
+        isDirtySet(true),
+        // R.tap(log('dirty true')),
+        hasActionTypeOmitSet,
+        // R.tap(log('rule meta'))
       )(current(state))
+      blue('ruleEditActionsReplace: ret', ret)
+      return ret
     },
     /**
      *
@@ -199,9 +244,8 @@ const rulesSlice = createSlice({
       )
       const newActions = R.update(idxOfActionToReplace, newAction, currActions)
       return R.pipe(
-        ruleEditActionsSet(newActions),
-        ruleEditIsDirtySet(true),
-        ruleMetaPropsAdd
+        actionsSet(newActions),
+        isDirtySet(true),
       )(currState)
     },
     /**
@@ -233,8 +277,8 @@ const rulesSlice = createSlice({
         currCriteria
       )
       return R.pipe(
-        ruleEditCriteriaSet(newCriteria),
-        ruleEditIsDirtySet(true)
+        criteriaSet(newCriteria),
+        isDirtySet(true)
       )(currState)
     },
     /**
@@ -244,13 +288,14 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     ruleEditSetExistingRule(state, action) {
-      // TODO: set omit action
       const currState = current(state)
       const ruleId = R.path(['payload', 'ruleId'], action)
       const rule = getRule(ruleId, currState)
       return R.pipe(
         ruleEditSet(rule),
-        ruleMetaPropsAdd
+        hasActionTypeOmitSet,
+        isDirtySet(false), 
+        isTmpRuleSet
       )(currState)
     },
     /**
@@ -260,7 +305,6 @@ const rulesSlice = createSlice({
      * @returns {object} the new sate
      */
     ruleEditSetNewRule(state, action) {
-      // TODO: set omit action
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
@@ -268,7 +312,11 @@ const rulesSlice = createSlice({
       // no need to set
       return R.pipe(
         ruleEditSet(rule),
-        ruleMetaPropsAdd
+        R.tap(_log('ruleEditSet')),
+        hasActionTypeOmitSet,
+        R.tap(_log('hasActionTypeOmitSet'))
+        // isDirtySet(true),
+        // isTmpRuleSet
       )(current(state))
     },
     /**
@@ -277,60 +325,60 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     rulesRefreshSet(state) {
-      return rulesFetchStatusSet(wdRequestStatusFetch, current(state))
+      return fetchStatusSet(wdRequestStatusFetch, current(state))
     }
   },
   extraReducers: {
     // rulesFetch
     [rulesFetch.pending]: (state) => {
       return R.pipe(
-        rulesFetchStatusSet(wdRequestStatusPending),
-        rulesItemsSet([])
+        fetchStatusSet(wdRequestStatusPending),
+        itemsSet([])
       )(current(state))
     },
     [rulesFetch.fulfilled]: (state, action) => {
       const newItems = R.path(['payload', 'data'], action)
       return R.pipe(
-        rulesFetchStatusSet(wdRequestStatusFulfilled),
-        rulesItemsSet(newItems)
+        fetchStatusSet(wdRequestStatusFulfilled),
+        itemsSet(newItems)
       )(current(state))
     },
     [rulesFetch.rejected]: (state, action) => {
       const error = R.path(['error', 'message'], action)
       return R.pipe(
-        rulesFetchStatusSet(wdRequestStatusError),
-        rulesFetchErrorSet(error),
-        rulesItemsSet([])
+        fetchStatusSet(wdRequestStatusError),
+        fetchErrorSet(error),
+        itemsSet([])
       )(current(state))
     },
     // ruleCreate
     [ruleCreate.pending]: (state) => {
       const currState = current(state)
-      return rulesCreateStatusFetchSet(wdRequestStatusPending, currState)
+      return createStatusFetchSet(wdRequestStatusPending, currState)
     },
     [ruleCreate.fulfilled]: (state) => {
       const currState = current(state)
-      return rulesCreateStatusFetchSet(wdRequestStatusFulfilled, currState)
+      return createStatusFetchSet(wdRequestStatusFulfilled, currState)
     },
     [ruleCreate.rejected]: (state, action) => {
       const error = R.path(['error', 'message'], action)
       return R.pipe(
-        rulesCreateStatusFetchSet(wdRequestStatusError),
-        rulesCreateStatusErrorSet(error)
+        createStatusFetchSet(wdRequestStatusError),
+        createStatusErrorSet(error)
       )(current(state))
     },
     // ruleUpdate
     [ruleUpdate.pending]: (state) => {
-      return rulesUpdateStatusSet(wdRequestStatusPending, state)
+      return updateStatusSet(wdRequestStatusPending, state)
     },
     [ruleUpdate.fulfilled]: (state) => {
-      return rulesUpdateStatusSet(wdRequestStatusFulfilled, state)
+      return updateStatusSet(wdRequestStatusFulfilled, state)
     },
     [ruleUpdate.rejected]: (state, action) => {
       const error = R.path(['error', 'message'], action)
       return R.pipe(
-        rulesUpdateStatusSet(wdRequestStatusError),
-        rulesUpdateErrorSet(error)
+        updateStatusSet(wdRequestStatusError),
+        updateErrorSet(error)
       )(current(state))
     }
   }

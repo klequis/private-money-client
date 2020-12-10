@@ -1,9 +1,11 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { pathRuleEditActions } from 'appWords'
 
 // eslint-disable-next-line
 import { grpStart, grpEnd, purple, blue, yellow, red } from 'logger'
+
 
 /**
  *
@@ -76,6 +78,8 @@ export const getStateValue = (root, path, state) => {
   return ret
 }
 
+// const _isPath = path => R.equals(path, pathRuleEditId)
+
 /**
  *
  * @param {string} root name of path root such as 'tx' or 'rules'
@@ -85,17 +89,24 @@ export const getStateValue = (root, path, state) => {
  * @returns {any} returns the past in state with the specified value modified
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
-  
-  // grpStart('setStateValue')
-  // blue('root', root)
-  // blue('path', path)
-  // blue('newValue', newValue)
-  // blue('state', state)
-  // grpEnd()
+  // const isPath = _isPath(path)
+  // if (isPath) {
+  //   grpStart('setStateValue')
+  //   blue('root', root)
+  //   blue('path', path)
+  //   blue('newValue', newValue)
+  //   blue('state', state)
+  // }
+
   const actualPath = R.has(root)(state) ? path : R.tail(path)
+  // if (isPath) blue('actualPath', actualPath)
   const ret = R.assocPath(actualPath, newValue, state)
+  // red('ret', ret)
+  // if (isPath) console.assert(ret.ruleEdit.actions.length === 1, 'should be 1 action')
   if (R.type(ret) !== 'Object') {
     red('hey this return value is not an object', ret)
   }
+  // if (isPath) blue('setStateValue: ret', ret)
+  // if (isPath) grpEnd()
   return ret
 })
