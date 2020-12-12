@@ -15,7 +15,9 @@ import {
 import {
   selectRuleEditActions,
   selectRuleEditCriteria,
-  selectRuleEditId
+  selectRuleEditId,
+  selectRuleEditIsTmpRule,
+  selectRuleEdit
 } from 'features/selectors'
 import {
   pathRuleEditCritera,
@@ -81,16 +83,49 @@ export const rulesFetch = createAsyncThunk('rules/get', async () => {
 export const ruleCreate = createAsyncThunk(
   'rules/rule-create',
   async (rule, thunkApi) => {
-    const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
-    await api.rules.create(newRule)
-    const { dispatch } = thunkApi
-    dispatch(txFetchStatusSetRefresh())
-    dispatch(rulesRefreshSet())
-    dispatch(txActiveIdClear())
-    dispatch(ruleEditClear())
+    try {
+      purple('ruleCreate', 'start')
+      blue('ruleCreate: thunkApi', thunkApi)
+      const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
+      blue('ruleCreate: newRule', newRule)
+      await api.rules.create(newRule)
+      const { dispatch } = thunkApi
+      dispatch(txFetchStatusSetRefresh())
+      dispatch(rulesRefreshSet())
+      dispatch(txActiveIdClear())
+      dispatch(ruleEditClear())
+      purple('ruleCreate', 'end')
+    } catch (e) {
+      red('ruleCreateError', e)
+    }
   }
-  
 )
+
+export const ruleEditSave = createAsyncThunk(
+  'rules/rule-edit-save',
+  async (noRulePassed, thunkApi) => {
+    try {
+      const { getState, dispatch } = thunkApi
+      const state = getState()
+      const rule = selectRuleEdit(state)
+      const isTmp = selectRuleEditIsTmpRule(state)
+      if (isTmp) {
+        const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
+        await api.rules.create(newRule)
+      } else {
+        const newRule = removeInactiveCriteria(rule)
+        await api.rules.update(rule._id, newRule)
+      }
+      dispatch(txFetchStatusSetRefresh())
+      dispatch(rulesRefreshSet())
+      dispatch(txActiveIdClear())
+      dispatch(ruleEditClear())
+    } catch (e) {
+      red('ruleEditSave Error', e)
+    }
+  }
+)
+
 export const ruleUpdate = createAsyncThunk(
   'rules/rule-update',
   async (rule) => {
@@ -142,8 +177,6 @@ const updateErrorSet = R.curry((errorMessage, state) => {
   return setStateValue(wdRules, pathRulesUpdateError, errorMessage, state)
 })
 
-
-
 // /**
 //  * @description used only when a rule is initially put into rules.ruleEdit
 //  * @summary Assumes state has ruleEdit
@@ -160,7 +193,7 @@ const updateErrorSet = R.curry((errorMessage, state) => {
 //   // blue('hasActionTypeOmit', hasActionTypeOmit)
 
 //   const newRule = R.mergeRight(rule, {
-//     isDirty: false, 
+//     isDirty: false,
 //     isTmpRule: isTmpRule(_id),
 //     hasActionTypeOmit: ruleHasActionTypeOmit(rule)
 //   })
@@ -178,7 +211,6 @@ const isDirtySet = R.curry((value, state) => {
   return setStateValue(wdRules, pathRuleEditIsDirty, value, state)
 })
 
-
 // const hasActionTypeOmitSet = R.curry((state) => {
 //   const actions = R.path([wdRuleEdit, wdActions], state)
 //   grpStart('hasActionTypeOmitSet')
@@ -193,8 +225,9 @@ const isDirtySet = R.curry((value, state) => {
 
 const hasActionTypeOmitSet = R.curry((state) => {
   const actions = R.path([wdRuleEdit, wdActions], state)
-  const hasOmit = R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
-  return setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state )
+  const hasOmit =
+    R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
+  return setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state)
 })
 
 const isTmpRuleSet = R.curry((state) => {
@@ -206,22 +239,23 @@ const isTmpRuleSet = R.curry((state) => {
   )
 })
 
-const _log = message => value => console.log(message, value)
+const _log = (message) => (value) => console.log(message, value)
 
 const rulesSlice = createSlice({
   name: wdRules,
   initialState,
   reducers: {
-    ruleEditSave(state, payload) {
-      blue('ruleEditSave', 'start')
-      const currentState = current(state)
-      const rule = getStateValue(wdRules, pathRuleEdit, currentState)
-      ruleCreate(rule)
-
-    },
+    // ruleEditSave(state) {
+    //   purple('ruleEditSave', 'start')
+    //   const currentState = current(state)
+    //   const rule = getStateValue(wdRules, pathRuleEdit, currentState)
+    //   blue('ruleEditSave: rule', rule)
+    //   ruleCreate(rule)
+    //   purple('ruleEditSave', 'end')
+    // },
 
     /**
-     * 
+     *
      * @param {object} state the rulesSlice
      * @param {object} action an Action {payload: { ... }}
      * @returns {object} the new state slice
@@ -230,9 +264,8 @@ const rulesSlice = createSlice({
     ruleEditActionsReplace(state, action) {
       const payload = R.path(['payload'], action)
       // yellow('payload', payload)
-      const newActions = R.type(payload) === dataTypes.Array
-        ? payload
-        : [payload]
+      const newActions =
+        R.type(payload) === dataTypes.Array ? payload : [payload]
       // yellow('newActions', newActions)
       const ret = R.pipe(
         // R.tap(log('stsart')),
@@ -240,7 +273,7 @@ const rulesSlice = createSlice({
         // R.tap(log('actions updated')),
         isDirtySet(true),
         // R.tap(log('dirty true')),
-        hasActionTypeOmitSet,
+        hasActionTypeOmitSet
         // R.tap(log('rule meta'))
       )(current(state))
       return ret
@@ -253,7 +286,6 @@ const rulesSlice = createSlice({
      * @description updates an existing action in ruleEdit.actions[]
      */
     ruleEditActionUpdate(state, action) {
-      
       const currState = current(state)
       const newAction = R.path(['payload'], action)
       const newActionId = R.prop('_id', newAction)
@@ -262,10 +294,7 @@ const rulesSlice = createSlice({
         currActions
       )
       const newActions = R.update(idxOfActionToReplace, newAction, currActions)
-      return R.pipe(
-        actionsSet(newActions),
-        isDirtySet(true),
-      )(currState)
+      return R.pipe(actionsSet(newActions), isDirtySet(true))(currState)
     },
     /**
      *
@@ -296,10 +325,7 @@ const rulesSlice = createSlice({
         newCriterion,
         currCriteria
       )
-      return R.pipe(
-        criteriaSet(newCriteria),
-        isDirtySet(true)
-      )(currState)
+      return R.pipe(criteriaSet(newCriteria), isDirtySet(true))(currState)
     },
     /**
      *
@@ -314,7 +340,7 @@ const rulesSlice = createSlice({
       return R.pipe(
         ruleEditSet(rule),
         hasActionTypeOmitSet,
-        isDirtySet(false), 
+        isDirtySet(false),
         isTmpRuleSet
       )(currState)
     },
@@ -407,7 +433,6 @@ export const {
   ruleEditClear,
   ruleEditCriterionUpdate,
   ruleEditActionsReplace,
-  ruleEditSave,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
   ruleEditTmpMake,

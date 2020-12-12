@@ -11,11 +11,12 @@ import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
-import { selectRuleEdit } from 'features/selectors'
+import { selectRuleEdit, selectRuleEditIsTmpRule } from 'features/selectors'
 
 /* eslint-disable */
 import { green, purple, red } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+import * as R from 'ramda'
 /* eslint-enable */
 
 let countTotal = 0
@@ -28,15 +29,16 @@ export const Rule = () => {
   const dispatch = useDispatch()
 
   const _handleSaveClick = async () => {
-    const { isTmpRule } = ruleEdit
-    if (isTmpRule) {
-      const a = await dispatch(ruleCreate(ruleEdit))
-      purple('1 - a tmp rule', a)
-      // dispatch(ruleEditSave())
-    } else {
-      const b = await dispatch(ruleUpdate(ruleEdit))
-      purple('1 - an existing rule', b)
-    }
+    // const { isTmpRule } = ruleEdit
+    dispatch(ruleEditSave())
+    // if (isTmpRule) {
+    //   const a = await dispatch(ruleCreate(ruleEdit))
+    //   // const a = dispatch(ruleEditSave())
+    //   purple('1 - a tmp rule', a)
+    // } else {
+    //   const b = await dispatch(ruleUpdate(ruleEdit))
+    //   purple('1 - an existing rule', b)
+    // }
   }
 
   const _handleCancelClick = () => {
