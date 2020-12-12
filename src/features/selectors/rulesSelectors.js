@@ -73,9 +73,7 @@ export const selectRuleEidtHasActionTypeOmit = (state) => {
 }
 
 export const selectRuleEditId = (state) => {
-  red('state', state)
-  const ret = getStateValue(wdRules, pathRuleEditId, state)
-  red('ret', ret)
+  return getStateValue(wdRules, pathRuleEditId, state)
 }
 
 /**

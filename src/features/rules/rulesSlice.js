@@ -15,6 +15,7 @@ import {
 import {
   selectRuleEditActions,
   selectRuleEditCriteria,
+  selectRuleEditId
 } from 'features/selectors'
 import {
   pathRuleEditCritera,
@@ -178,28 +179,31 @@ const isDirtySet = R.curry((value, state) => {
 })
 
 
+// const hasActionTypeOmitSet = R.curry((state) => {
+//   const actions = R.path([wdRuleEdit, wdActions], state)
+//   grpStart('hasActionTypeOmitSet')
+
+//   const hasOmit = R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
+//   blue('hasOmit', hasOmit)
+//   const ret = setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state )
+//   blue('ret', ret)
+//   grpEnd()
+//   return ret
+// })
+
 const hasActionTypeOmitSet = R.curry((state) => {
-  // blue('hasActionTypeOmitSet: state', state.ruleEdit.actions)
   const actions = R.path([wdRuleEdit, wdActions], state)
   const hasOmit = R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
   return setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state )
 })
 
 const isTmpRuleSet = R.curry((state) => {
-  // blue('ruleEditIsTmpRuleSet: state', state)
-  red('isTmpRuleSet', 'hard coded value')
   return setStateValue(
     wdRules,
     pathRuleEditIsTmpRule,
-    true,
+    isTmpRule(selectRuleEditId(state)),
     state
   )
-
-  // return setStateValue(
-  //   [wdRules, pathRuleEditIsTmpRule],
-  //   isTmpRule(selectRuleEditId(state)),
-  //   state
-  // )
 })
 
 const _log = message => value => console.log(message, value)

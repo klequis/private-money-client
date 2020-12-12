@@ -37,17 +37,10 @@ export const Rule = () => {
       const b = await dispatch(ruleUpdate(ruleEdit))
       purple('1 - an existing rule', b)
     }
-    
-    // dispatch(txFetchStatusSetRefresh())
-    // purple('2 - tx set refresh', 'done')
-    // dispatch(rulesRefreshSet())
-    // purple('3 - rules set refresh', 'done')
-    // dispatch(txActiveIdClear())
-    // purple('4 - active id clear', 'done')
-    // dispatch(ruleEditClear())
   }
 
   const _handleCancelClick = () => {
+    // TODO: ? create a ruleEditCancel action that executes these 3 actions?
     dispatch(txActiveIdClear())
     dispatch(ruleEditClear())
     dispatch(txActiveIdClear())

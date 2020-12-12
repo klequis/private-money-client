@@ -6,12 +6,10 @@ import { Categorize } from './Categorize'
 import { actionTypes, ruleEditActionsReplace } from 'features/rules'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
-import {
-  selectRuleEditActions,
-  selectRuleEdit
-} from 'features/selectors'
+import { selectRuleEditActions, selectRuleEdit } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { makeTmpId } from 'lib/makeTmpId'
+import * as R from 'ramda'
 
 /* eslint-disable */
 import { green, redf, purple } from 'logger'
@@ -31,34 +29,27 @@ let countReturn = 0
 
 export const Actions = () => {
   countTotal = countTotal + 1
-  
 
   const _actions = useSelector((state) => selectRuleEditActions(state))
   const _rule = useSelector(selectRuleEdit)
   // green('_rule', _rule)
-  const { hasActionTypeOmit } = _rule
-           
+
   // green('hasActionTypeOmit', hasActionTypeOmit)
-  const [_omitChecked, _setOmitChecked] = useState(hasActionTypeOmit || false)
+  const [_omitChecked, _setOmitChecked] = useState(false)
+  // green('Actions: _omitChecked', _omitChecked)
+
   const [_prevActions, _setPrevActions] = useState([])
-
-  
-
-  // const _hasOmitAction =
   const _dispatch = useDispatch()
 
-  // green('_hasOmitAction', _hasOmitAction)
-  // green('Actions: actions', actions)
-  // const o = useSelector(selectOmitAction)
-  // green('o', o)
-  // green('_prevActions', _prevActions)
-
-  // useEffect(() => {
-  //   if (!isNilOrEmpty(_actions)) {
-  //     _setOmitChecked()
-  //   }
-  //   // eslint-disable-next-line
-  // }, [])
+  useEffect(() => {
+    const { hasActionTypeOmit } = _rule
+    // green('Actions: hasActionTypeOmit', R.type(hasActionTypeOmit))
+    if (!isNilOrEmpty(hasActionTypeOmit)) {
+      // green('set it ***************')
+      _setOmitChecked(hasActionTypeOmit)
+    }
+    
+  }, [_rule])
 
   if (isNilOrEmpty(_actions)) {
     return null
