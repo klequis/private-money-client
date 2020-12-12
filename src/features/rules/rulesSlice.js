@@ -8,7 +8,6 @@ import * as R from 'ramda'
 import { ruleTmpMake } from './ruleTmpMake'
 import {
   getRule,
-  getStateValue,
   removeInactiveCriteria,
   removeTmpIdField
 } from 'features/helpers'
@@ -37,7 +36,6 @@ import {
   pathRuleEditHasActionTypeOmit,
   wdActions,
   wdActionType,
-  wdHasActionTypeOmit,
   wdOmit,
   wdRequestStatusError,
   wdRequestStatusFetch,
@@ -53,8 +51,6 @@ import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 /* eslint-enable */
-
-
 
 /**
  * @name initialState
@@ -86,17 +82,13 @@ export const ruleCreate = createAsyncThunk(
   'rules/rule-create',
   async (rule, thunkApi) => {
     try {
-      purple('ruleCreate', 'start')
-      blue('ruleCreate: thunkApi', thunkApi)
       const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
-      blue('ruleCreate: newRule', newRule)
       await api.rules.create(newRule)
       const { dispatch } = thunkApi
       dispatch(txFetchStatusSetRefresh())
       dispatch(rulesRefreshSet())
       dispatch(txActiveIdClear())
       dispatch(ruleEditClear())
-      purple('ruleCreate', 'end')
     } catch (e) {
       red('ruleCreateError', e)
     }
@@ -141,10 +133,7 @@ const ruleEditSet = R.curry((value, state) => {
 })
 
 const actionsSet = R.curry((newActions, state) => {
-  // yellow('ruleEditActionsSet: newActions', newActions)
-  const ret = setStateValue(wdRules, pathRuleEditActions, newActions, state)
-  // yellow('ruleEditActionsSet: ret', ret)
-  return ret
+  return setStateValue(wdRules, pathRuleEditActions, newActions, state)
 })
 
 const criteriaSet = R.curry((newCriteria, state) => {
@@ -179,51 +168,9 @@ const updateErrorSet = R.curry((errorMessage, state) => {
   return setStateValue(wdRules, pathRulesUpdateError, errorMessage, state)
 })
 
-// /**
-//  * @description used only when a rule is initially put into rules.ruleEdit
-//  * @summary Assumes state has ruleEdit
-//  */
-// const ruleMetaPropsAdd = R.curry((state) => {
-//   // hasActionTypeOmit: boolean,
-//   // isDirty: boolean,
-//   // isTmpRule: boolean,
-//   // grpStart('ruleMetaPropsAdd')
-//   // blue('state', state)
-//   const rule = R.path(['ruleEdit'], state)
-//   // blue('rule', rule)
-//   const { _id } = rule
-//   // blue('hasActionTypeOmit', hasActionTypeOmit)
-
-//   const newRule = R.mergeRight(rule, {
-//     isDirty: false,
-//     isTmpRule: isTmpRule(_id),
-//     hasActionTypeOmit: ruleHasActionTypeOmit(rule)
-//   })
-
-//   // blue('newRule', newRule)
-
-//   const ret = R.assocPath([wdRuleEdit], newRule, state)
-//   // blue('ret', ret)
-//   // grpEnd()
-//   return ret
-
-// })
-
 const isDirtySet = R.curry((value, state) => {
   return setStateValue(wdRules, pathRuleEditIsDirty, value, state)
 })
-
-// const hasActionTypeOmitSet = R.curry((state) => {
-//   const actions = R.path([wdRuleEdit, wdActions], state)
-//   grpStart('hasActionTypeOmitSet')
-
-//   const hasOmit = R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
-//   blue('hasOmit', hasOmit)
-//   const ret = setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state )
-//   blue('ret', ret)
-//   grpEnd()
-//   return ret
-// })
 
 const hasActionTypeOmitSet = R.curry((state) => {
   const actions = R.path([wdRuleEdit, wdActions], state)
@@ -256,18 +203,12 @@ const rulesSlice = createSlice({
      */
     ruleEditActionsReplace(state, action) {
       const payload = R.path(['payload'], action)
-      // yellow('payload', payload)
       const newActions =
         R.type(payload) === dataTypes.Array ? payload : [payload]
-      // yellow('newActions', newActions)
       const ret = R.pipe(
-        // R.tap(log('stsart')),
         actionsSet(newActions),
-        // R.tap(log('actions updated')),
         isDirtySet(true),
-        // R.tap(log('dirty true')),
         hasActionTypeOmitSet
-        // R.tap(log('rule meta'))
       )(current(state))
       return ret
     },
