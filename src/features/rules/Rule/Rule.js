@@ -29,23 +29,12 @@ export const Rule = () => {
   const dispatch = useDispatch()
 
   const _handleSaveClick = async () => {
-    // const { isTmpRule } = ruleEdit
     dispatch(ruleEditSave())
-    // if (isTmpRule) {
-    //   const a = await dispatch(ruleCreate(ruleEdit))
-    //   // const a = dispatch(ruleEditSave())
-    //   purple('1 - a tmp rule', a)
-    // } else {
-    //   const b = await dispatch(ruleUpdate(ruleEdit))
-    //   purple('1 - an existing rule', b)
-    // }
   }
 
   const _handleCancelClick = () => {
-    // TODO: ? create a ruleEditCancel action that executes these 3 actions?
     dispatch(txActiveIdClear())
     dispatch(ruleEditClear())
-    dispatch(txActiveIdClear())
   }
 
   const { dirty, _id: ruleId } = ruleEdit

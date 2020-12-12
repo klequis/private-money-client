@@ -9,6 +9,5 @@ import { red } from 'logger'
  * @returns {boolean} true if the ruleId starts with 'tmp_
  */
 export const isTmpRule = (ruleId) => {
-  red('ruleId', ruleId)
   return R.startsWith('tmp_', ruleId)
 }

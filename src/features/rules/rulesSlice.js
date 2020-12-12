@@ -54,6 +54,8 @@ import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 /* eslint-enable */
 
+
+
 /**
  * @name initialState
  * @type {object}
@@ -245,15 +247,6 @@ const rulesSlice = createSlice({
   name: wdRules,
   initialState,
   reducers: {
-    // ruleEditSave(state) {
-    //   purple('ruleEditSave', 'start')
-    //   const currentState = current(state)
-    //   const rule = getStateValue(wdRules, pathRuleEdit, currentState)
-    //   blue('ruleEditSave: rule', rule)
-    //   ruleCreate(rule)
-    //   purple('ruleEditSave', 'end')
-    // },
-
     /**
      *
      * @param {object} state the rulesSlice
@@ -302,7 +295,6 @@ const rulesSlice = createSlice({
      * @returns {void} void
      */
     ruleEditClear(state) {
-      blue('ruleEditClear', 'called')
       return ruleEditSet({}, current(state))
     },
     /**
