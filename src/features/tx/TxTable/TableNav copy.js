@@ -57,11 +57,6 @@ export const TableNav = () => {
 
   const _radioChange = (event) => {
     const { name, checked, value } = event.target
-    console.group('Radio._onChange')
-    console.log('name', name)
-    console.log('value', value)
-    console.groupEnd()
-
     _setOptionState(
       R.mergeDeepRight(
         _optionState,
@@ -69,12 +64,6 @@ export const TableNav = () => {
       )
     )
   }
-
-  console.group('_optionState')
-  console.log('ruleRadio.value', _optionState.ruleRadio.value)
-  console.log('categorizeRadio.value', _optionState.categorizeRadio.value)
-  console.log('categorizeRadio.disabled', _optionState.categorizeRadio.disabled)
-  console.groupEnd()
 
   return (
     <Options>

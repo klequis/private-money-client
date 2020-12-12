@@ -8,6 +8,7 @@ import * as R from 'ramda'
 import { ruleTmpMake } from './ruleTmpMake'
 import {
   getRule,
+  getStateValue,
   removeInactiveCriteria,
   removeTmpIdField
 } from 'features/helpers'
@@ -43,6 +44,7 @@ import {
 import { setStateValue } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
 import { isTmpRule } from 'lib/isTmpRule'
+import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -77,10 +79,16 @@ export const rulesFetch = createAsyncThunk('rules/get', async () => {
 
 export const ruleCreate = createAsyncThunk(
   'rules/rule-create',
-  async (rule) => {
+  async (rule, thunkApi) => {
     const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
     await api.rules.create(newRule)
+    const { dispatch } = thunkApi
+    dispatch(txFetchStatusSetRefresh())
+    dispatch(rulesRefreshSet())
+    dispatch(txActiveIdClear())
+    dispatch(ruleEditClear())
   }
+  
 )
 export const ruleUpdate = createAsyncThunk(
   'rules/rule-update',
@@ -181,7 +189,8 @@ const isTmpRuleSet = R.curry((state) => {
   // blue('ruleEditIsTmpRuleSet: state', state)
   red('isTmpRuleSet', 'hard coded value')
   return setStateValue(
-    [wdRules, pathRuleEditIsTmpRule],
+    wdRules,
+    pathRuleEditIsTmpRule,
     true,
     state
   )
@@ -199,6 +208,13 @@ const rulesSlice = createSlice({
   name: wdRules,
   initialState,
   reducers: {
+    ruleEditSave(state, payload) {
+      blue('ruleEditSave', 'start')
+      const currentState = current(state)
+      const rule = getStateValue(wdRules, pathRuleEdit, currentState)
+      ruleCreate(rule)
+
+    },
 
     /**
      * 
@@ -223,7 +239,6 @@ const rulesSlice = createSlice({
         hasActionTypeOmitSet,
         // R.tap(log('rule meta'))
       )(current(state))
-      blue('ruleEditActionsReplace: ret', ret)
       return ret
     },
     /**
@@ -254,7 +269,8 @@ const rulesSlice = createSlice({
      * @returns {void} void
      */
     ruleEditClear(state) {
-      return ruleEditSet([], current(state))
+      blue('ruleEditClear', 'called')
+      return ruleEditSet({}, current(state))
     },
     /**
      *
@@ -312,11 +328,9 @@ const rulesSlice = createSlice({
       // no need to set
       return R.pipe(
         ruleEditSet(rule),
-        R.tap(_log('ruleEditSet')),
         hasActionTypeOmitSet,
-        R.tap(_log('hasActionTypeOmitSet'))
-        // isDirtySet(true),
-        // isTmpRuleSet
+        isDirtySet(true),
+        isTmpRuleSet
       )(current(state))
     },
     /**
@@ -389,6 +403,7 @@ export const {
   ruleEditClear,
   ruleEditCriterionUpdate,
   ruleEditActionsReplace,
+  ruleEditSave,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
   ruleEditTmpMake,

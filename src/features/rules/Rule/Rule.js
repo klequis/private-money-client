@@ -2,6 +2,7 @@ import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
   ruleUpdate,
+  ruleEditSave,
   ruleCreate,
   ruleEditClear,
   rulesRefreshSet
@@ -29,13 +30,21 @@ export const Rule = () => {
   const _handleSaveClick = async () => {
     const { isTmpRule } = ruleEdit
     if (isTmpRule) {
-      await dispatch(ruleCreate(ruleEdit))
+      const a = await dispatch(ruleCreate(ruleEdit))
+      purple('1 - a tmp rule', a)
+      // dispatch(ruleEditSave())
     } else {
-      await dispatch(ruleUpdate(ruleEdit))
+      const b = await dispatch(ruleUpdate(ruleEdit))
+      purple('1 - an existing rule', b)
     }
-    dispatch(txFetchStatusSetRefresh())
-    dispatch(rulesRefreshSet())
-    dispatch(txActiveIdClear())
+    
+    // dispatch(txFetchStatusSetRefresh())
+    // purple('2 - tx set refresh', 'done')
+    // dispatch(rulesRefreshSet())
+    // purple('3 - rules set refresh', 'done')
+    // dispatch(txActiveIdClear())
+    // purple('4 - active id clear', 'done')
+    // dispatch(ruleEditClear())
   }
 
   const _handleCancelClick = () => {
