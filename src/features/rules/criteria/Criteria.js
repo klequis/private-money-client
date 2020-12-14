@@ -48,7 +48,6 @@ export const Criteria = () => {
       <ButtonRow id="Criteria.Row">
         <H4>Criteria</H4>
         <Btn onClick={_handleButtonClick}>Add</Btn>
-        <Btn onClick={_handleButtonClick}>Reset</Btn>
       </ButtonRow>
 
       {criteria.map((c) => (
