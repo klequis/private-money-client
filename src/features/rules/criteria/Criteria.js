@@ -31,6 +31,7 @@ export const Criteria = () => {
   countTotal = countTotal + 1
 
   const criteria = useSelector(selectRuleEditCriteria)
+
   const _handleButtonClick = () => {
     // TODO: not implemented yet
   }
