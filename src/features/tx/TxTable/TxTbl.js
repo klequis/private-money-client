@@ -34,17 +34,8 @@ export const TxTbl = () => {
   // })
 
   const filteredTx = useSelector(selectFilteredTx)
-  // const filteredTx = useFilteredTx()
+  // green('filteredTx', filteredTx)
 
-  // red('filteredTransactions', filteredTransactions)
-  // const transactions = useSelector(selectTxItems)
-
-  // TODO this appears to be useless
-  // if (isNilOrEmpty(filteredTransactions)) {
-  //   // red('null', null)
-  //   return null
-  // }
-  // green('filteredTx.length', filteredTx.length)
   countReturn = countReturn + 1
   return (
     <>
@@ -59,7 +50,7 @@ export const TxTbl = () => {
       <BaseTable>
         <TxTblHead />
         {filteredTx.map((t) => (
-          <TxTblBody key={t._id} transactionId={t._id} />
+          <TxTblBody key={t._id} txId={t._id} />
         ))}
       </BaseTable>
     </>

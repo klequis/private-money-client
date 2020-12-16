@@ -1,14 +1,26 @@
 import { operatorFields } from 'features/rules'
-import { 
-  txFields
-} from 'features/tx'
-import { 
-  actionTypes, 
-} from 'features/rules'
+import { txFields } from 'features/tx'
+import { actionTypes } from 'features/rules'
 import { makeTmpId } from 'lib/makeTmpId'
 
+export const defaultActions = (origDescription) => {
+  return [
+    {
+      _id: makeTmpId(),
+      actionType: actionTypes.replaceAll.name,
+      field: txFields.description.name,
+      replaceWithValue: origDescription
+    },
+    {
+      _id: makeTmpId(),
+      actionType: actionTypes.categorize.name,
+      category1: '',
+      category2: ''
+    }
+  ]
+}
 /**
- * 
+ *
  * @param {string} origDescription origDescription from active transaction
  * @param {Date} date date from active transaction
  * @returns {object} A new Rule
@@ -23,7 +35,7 @@ export const ruleTmpMake = (origDescription, date) => {
         field: txFields.description.name,
         operation: operatorFields.equals.name,
         value: origDescription,
-        active: true,
+        active: true
       },
       {
         _id: makeTmpId(),
@@ -33,19 +45,6 @@ export const ruleTmpMake = (origDescription, date) => {
         active: false
       }
     ],
-    actions: [
-      {
-        _id: makeTmpId(),
-        actionType: actionTypes.replaceAll.name,
-        field: txFields.description.name,
-        replaceWithValue: origDescription
-      },
-      {
-        _id: makeTmpId(),
-        actionType: actionTypes.categorize.name,
-        category1: '',
-        category2: '',
-      }
-    ],
+    actions: defaultActions(origDescription)
   }
 }

@@ -5,7 +5,7 @@
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import * as R from 'ramda'
-import { ruleTmpMake } from './ruleTmpMake'
+import { ruleTmpMake, defaultActions } from './ruleTmpMake'
 import {
   getRule,
   removeInactiveCriteria,
@@ -16,7 +16,8 @@ import {
   selectRuleEditCriteria,
   selectRuleEditId,
   selectRuleEditIsTmpRule,
-  selectRuleEdit
+  selectRuleEdit,
+  selectActiveTxOrigDescription
 } from 'features/selectors'
 import {
   pathRuleEditCritera,
@@ -212,6 +213,14 @@ const rulesSlice = createSlice({
       )(current(state))
       return ret
     },
+    ruleEditSetDefaultActions(state, action) {
+      const newActions = defaultActions(action.payload)
+      return R.pipe(
+        actionsSet(newActions),
+        isDirtySet(true),
+        hasActionTypeOmitSet
+      )(current(state))
+    },
     /**
      *
      * @param {object} state the rulesSlice
@@ -287,6 +296,7 @@ const rulesSlice = createSlice({
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
+      blue('ruleEditSetNewRule: rule', rule)
       // new rule always has hasActionTypeOmit === false so
       // no need to set
       return R.pipe(
@@ -368,6 +378,7 @@ export const {
   ruleEditActionsReplace,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
+  ruleEditSetDefaultActions,
   ruleEditTmpMake,
   rulesRefreshSet
 } = rulesSlice.actions

@@ -3,6 +3,10 @@ import { pathTxActiveId, wdTx, pathTxItems, pathTxFetchStatus } from 'appWords'
 import * as R from 'ramda'
 import { getStateValue } from 'features/helpers'
 
+/* eslint-disable */
+import { blue, grpStart, grpEnd } from 'logger'
+/* eslint-enable */
+
 /**
  *
  * @param {object} state state
@@ -13,20 +17,23 @@ export const selectTxItems = (state) => {
   return getStateValue(wdTx, pathTxItems, state)
 }
 
-/**
- *
- * @param {string} transactionId mongo ObjectId for existing tx
- * @param {object} state state
- * @returns {object} one transaction
- */
-export const selectOneTx = (transactionId, state) => {
-  // const tItems = R.path(pathTxItems, state)
+const getTx = (txId, state) => {
   const tItems = getStateValue(wdTx, pathTxItems, state)
   if (isNilOrEmpty(tItems)) {
     return tItems
   }
-  const ret = R.find(R.propEq('_id', transactionId))(tItems)
+  const ret = R.find(R.propEq('_id', txId))(tItems)
   return R.equals(R.type(ret), 'Undefined') ? null : ret
+}
+
+/**
+ *
+ * @param {string} txId mongo ObjectId for existing tx
+ * @param {object} state state
+ * @returns {object} one transaction
+ */
+export const selectOneTx = (txId, state) => {
+  return getTx(txId, state)
 }
 
 /**
@@ -45,3 +52,20 @@ export const selectActiveTxId = (state) => {
  */
 export const selectTxFetchStatus = (state) =>
   getStateValue(wdTx, pathTxFetchStatus, state)
+
+/**
+ *
+ * @param {object} state  state
+ * @returns {null|string} null or the transaction's origDescription
+ */
+export const selectActiveTxOrigDescription = (state) => {
+  const txId = selectActiveTxId(state)
+  blue('txId', txId)
+  const tx = getTx(txId, state)
+  if (isNilOrEmpty(tx)) {
+    return null
+  } else {
+    const { origDescription } = tx
+    return origDescription
+  }
+}

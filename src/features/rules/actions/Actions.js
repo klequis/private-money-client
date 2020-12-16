@@ -3,10 +3,10 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ActionEdit } from './ActionEdit'
 import { RenameDescription } from './RenameDescription'
 import { Categorize } from './Categorize'
-import { actionTypes, ruleEditActionsReplace } from 'features/rules'
+import { actionTypes, ruleEditActionsReplace, ruleEditSetDefaultActions } from 'features/rules'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
-import { selectRuleEditActions, selectRuleEdit } from 'features/selectors'
+import { selectRuleEditActions, selectRuleEdit, selectActiveTxOrigDescription } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { makeTmpId } from 'lib/makeTmpId'
 import * as R from 'ramda'
@@ -41,6 +41,8 @@ export const Actions = () => {
   const [_prevActions, _setPrevActions] = useState([])
   const _dispatch = useDispatch()
 
+  const _origDescription = useSelector(selectActiveTxOrigDescription)
+
   useEffect(() => {
     const { hasActionTypeOmit } = _rule
     // green('Actions: hasActionTypeOmit', R.type(hasActionTypeOmit))
@@ -57,17 +59,21 @@ export const Actions = () => {
 
   const _handleOmitChange = (e) => {
     const checked = e.target.checked
+    green('checked', checked)
     _setOmitChecked(checked)
     _setPrevActions(_actions)
-
-    const newActions = checked
-      ? {
-          _id: makeTmpId(),
-          actionType: actionTypes.omit.name
-        }
-      : _prevActions
-
-    _dispatch(ruleEditActionsReplace(newActions))
+    if (checked) {
+      _dispatch(ruleEditActionsReplace({
+        _id: makeTmpId(),
+        actionType: actionTypes.omit.name
+      }))
+    } else {
+      if (!isNilOrEmpty(_prevActions)) {
+        _dispatch(ruleEditActionsReplace(_prevActions))
+      } else {
+        _dispatch(ruleEditSetDefaultActions(_origDescription))
+      }
+    }
   }
 
   countReturn = countReturn + 1

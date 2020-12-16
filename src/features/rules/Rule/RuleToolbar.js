@@ -13,7 +13,7 @@ const Btn = styled(Button)`
   margin-right: 12px;
 `
 
-export const RuleToolbar = ({ save, cancel }) => {
+export const RuleToolbar = ({ save, cancel, deleteRule }) => {
   const dirty = useSelector(selectRuleEditIsDirty)
   return (
     <Wrapper>
@@ -21,6 +21,7 @@ export const RuleToolbar = ({ save, cancel }) => {
         Save
       </Btn>
       <Btn onClick={cancel}>Cancel</Btn>
+      <Btn onClick={deleteRule}>Delete</Btn>
     </Wrapper>
   )
 }

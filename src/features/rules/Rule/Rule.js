@@ -37,6 +37,10 @@ export const Rule = () => {
     dispatch(ruleEditClear())
   }
 
+  const _handleDeleteClick = () => {
+    // TODO: not implemented yet
+  }
+
   const { dirty, _id: ruleId } = ruleEdit
 
   countReturn = countReturn + 1
@@ -51,6 +55,7 @@ export const Rule = () => {
       <RuleToolbar
         save={_handleSaveClick}
         cancel={_handleCancelClick}
+        deleteRule={_handleDeleteClick}
         dirty={dirty}
       />
       <Criteria />

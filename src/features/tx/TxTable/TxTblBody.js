@@ -8,10 +8,10 @@ import { TxTblData } from './TxTblData'
 // eslint-disable-next-line
 import { green, red } from 'logger'
 
-export const TxTblBody = ({ transactionId }) => {
-  const dispatch = useDispatch()
+export const TxTblBody = ({ txId }) => {
 
-  const transaction = useSelector((state) => selectOneTx(transactionId, state))
+  const dispatch = useDispatch()
+  const transaction = useSelector((state) => selectOneTx(txId, state))
   const {
     _id,
     acctId,
@@ -26,7 +26,7 @@ export const TxTblBody = ({ transactionId }) => {
   } = transaction
 
   const _rowClick = () => {
-    dispatch(txActiveIdSet(transactionId))
+    dispatch(txActiveIdSet(txId))
   }
 
   return (
