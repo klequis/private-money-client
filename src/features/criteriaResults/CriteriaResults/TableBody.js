@@ -38,7 +38,7 @@ const makeNewData = (actions, transaction) => {
     date: date,
     description: replaceWithValue,
     amount: amount,
-    category1,
+    category1: category1,
     category2: category2
   }
 }
