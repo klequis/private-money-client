@@ -34,10 +34,10 @@ export const TableRow = ({ data, isOriginalData, diffs }) => {
         {description}
       </DescriptionTD>
       <td>{amount}</td>
-      <CategoryTD color={diffs.description ? changeColor : 'inherit'}>
+      <CategoryTD color={diffs.category1 ? changeColor : 'inherit'}>
         {diffs.category1 ? (R.isEmpty(category1) ? '(blank)' : category1) : ''}
       </CategoryTD>
-      <CategoryTD color={diffs.description ? changeColor : 'inherit'}>
+      <CategoryTD color={diffs.category2 ? changeColor : 'inherit'}>
         {diffs.category2 ? (R.isEmpty(category2) ? '(blank)' : category2) : ''}
       </CategoryTD>
     </tr>
