@@ -19,8 +19,6 @@ const TextInput = styled.input``
   flex-flow: column now;
 */
 
-let renderCount = 0
-
 export const TxColHead = ({ fieldName }) => {
   const dispatch = useDispatch()
 
@@ -42,7 +40,6 @@ export const TxColHead = ({ fieldName }) => {
     debounced.callback(value)
   }
 
-  renderCount = renderCount + 1
 
   return (
     <th>
@@ -51,7 +48,6 @@ export const TxColHead = ({ fieldName }) => {
           ''
         ) : (
           <>
-            count: {renderCount}
             <TextInput
               type="text"
               onChange={_onChange}
