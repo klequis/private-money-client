@@ -13,7 +13,7 @@ const RadioWrapper = styled.div`
 export const Radio = ({
   disabled,
   id,
-  label,
+  labelText,
   name,
   value,
   onChange,
@@ -27,7 +27,10 @@ export const Radio = ({
 
   return (
     <RadioWrapper className="form-check" width={width}>
-      <input
+      <label
+        className="form-check-label"
+      >
+        <input
         className="form-check-input"
         checked={value === currentGroupValue}
         disabled={disabled}
@@ -37,11 +40,7 @@ export const Radio = ({
         type="radio"
         value={value}
       />
-      <label
-        className="form-check-label"
-        htmlFor={id}
-      >
-        {label}
+        {labelText}
       </label>
     </RadioWrapper>
   )

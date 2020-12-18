@@ -1,5 +1,6 @@
 import React, { useState } from 'react'
 import styled from 'styled-components'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
@@ -8,12 +9,11 @@ const CheckBoxDiv = styled.div`
   background-color: blue;
 `
 
-
 export const CheckBox = ({
   checked,
   disabled,
   id,
-  label,
+  labelText,
   name,
   onChange,
 }) => {
@@ -26,22 +26,37 @@ export const CheckBox = ({
   }
 
   return <CheckBoxDiv className="form-check">
-    <label
-      className="form-check-label"
-      htmlFor={id}
-    >
-      <input 
-        className="form-check-input"
-        checked={_checked}
-        disabled={disabled}
-        id={id}
-        name={name}
-        onChange={_onChange}
-        type="checkbox" 
-      />
-
-      {label}
-    </label>
+    {
+      isNilOrEmpty(labelText)
+        ? (
+            <input 
+              className="form-check-input"
+              checked={_checked}
+              disabled={disabled}
+              id={id}
+              name={name}
+              onChange={_onChange}
+              type="checkbox" 
+            />  
+        )
+        : (
+            <label
+              className="form-check-label"
+            >
+              <input 
+                className="form-check-input"
+                checked={_checked}
+                disabled={disabled}
+                id={id}
+                name={name}
+                onChange={_onChange}
+                type="checkbox" 
+              />
+  
+              {labelText}
+            </label>
+          )
+    }
   </CheckBoxDiv>
 }
 

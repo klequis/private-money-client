@@ -72,7 +72,7 @@ export const TableNav = () => {
         <Radio
           groupValue={_optionState.ruleRadio.value}
           id='allId'
-          label="All"
+          labelText="All"
           name={ruleRadio}
           onChange={_radioChange}
           width={70}
@@ -81,7 +81,7 @@ export const TableNav = () => {
         <Radio
           groupValue={_optionState.ruleRadio.value}
           id='hasRuleId'
-          label="Has rule"
+          labelText="Has rule"
           name={ruleRadio}
           onChange={_radioChange}
           width={120}
@@ -90,7 +90,7 @@ export const TableNav = () => {
         <Radio
           groupValue={_optionState.ruleRadio.value}
           id='doesNotHaveRuleId'
-          label="Does not have rule"
+          labelText="Does not have rule"
           name={ruleRadio}
           onChange={_radioChange}
           value={optionValues.doesNotHaveRule}
@@ -103,7 +103,7 @@ export const TableNav = () => {
           disabled={_optionState.categorizeRadio.disabled}
           groupValue={_optionState.categorizeRadio.value}
           id="bothId"
-          label="Both"
+          labelText="Both"
           name={categorizeRadio}
           onChange={_radioChange}
           value={optionValues.both}
@@ -113,7 +113,7 @@ export const TableNav = () => {
           disabled={_optionState.categorizeRadio.disabled}
           groupValue={_optionState.categorizeRadio.value}
           id="categorizedId"
-          label="Categorized"
+          labelText="Categorized"
           name={categorizeRadio}
           onChange={_radioChange}
           width={120}
@@ -123,7 +123,7 @@ export const TableNav = () => {
           disabled={_optionState.categorizeRadio.disabled}
           groupValue={_optionState.categorizeRadio.value}
           id="uncategorizedId"
-          label="Uncategorized"
+          labelText="Uncategorized"
           name={categorizeRadio}
           onChange={_radioChange}
           value={optionValues.uncategorized}

@@ -86,7 +86,7 @@ export const TxTblNav = () => {
           <Radio
             currentGroupValue={radioHasRuleValue}
             id={allId}
-            label="All"
+            labelText="All"
             name={wdRadioHasRule}
             onChange={_radioChange}
             width={70}
@@ -95,7 +95,7 @@ export const TxTblNav = () => {
           <Radio
             currentGroupValue={radioHasRuleValue}
             id={hasRuleId}
-            label="Has rule"
+            labelText="Has rule"
             name={wdRadioHasRule}
             onChange={_radioChange}
             width={120}
@@ -104,7 +104,7 @@ export const TxTblNav = () => {
           <Radio
             currentGroupValue={radioHasRuleValue}
             id={doesNotHaveRuleId}
-            label="Does not have rule"
+            labelText="Does not have rule"
             name={wdRadioHasRule}
             onChange={_radioChange}
             value={wdDoesNotHaveRule}
@@ -117,7 +117,7 @@ export const TxTblNav = () => {
             disabled={radioCategorizedDisabled}
             currentGroupValue={radioCategorizedValue}
             id="bothId"
-            label="Both"
+            labelText="Both"
             name={wdRadioCategorized}
             onChange={_radioChange}
             value={wdBoth}
@@ -127,7 +127,7 @@ export const TxTblNav = () => {
             disabled={radioCategorizedDisabled}
             currentGroupValue={radioCategorizedValue}
             id="categorizedId"
-            label="Categorized"
+            labelText="Categorized"
             name={wdRadioCategorized}
             onChange={_radioChange}
             width={120}
@@ -137,7 +137,7 @@ export const TxTblNav = () => {
             disabled={radioCategorizedDisabled}
             currentGroupValue={radioCategorizedValue}
             id="uncategorizedId"
-            label="Uncategorized"
+            labelText="Uncategorized"
             name={wdRadioCategorized}
             onChange={_radioChange}
             value={wdUncategorized}
@@ -149,7 +149,7 @@ export const TxTblNav = () => {
           checked={checkboxShowOmitedValue}
           disabled={false}
           id="chk-omitted" 
-          label="Show omitted" 
+          labelText="Show omitted" 
           name={wdCheckboxShowOmitted}
           onChange={_checkboxChange}
         />

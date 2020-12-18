@@ -18,14 +18,14 @@ export const ReplaceAll = ({ action, onChange }) => {
       </Select>
       <TextEdit
         name="findValue"
-        label="findValue"
+        labelText="findValue"
         placeholder="find value"
         value={action.findValue}
         onBlur={_handleBlur}
       />
       <TextEdit
         name="numAdditionalChars"
-        label="numAdditionalChars"
+        labelText="numAdditionalChars"
         placeholder="numAdditionalChars"
         value={action.numAdditionalChars}
         onChange={onChange}

@@ -20,14 +20,14 @@ export const Strip = ({ action, onChange }) => {
       </Select>
       <TextEdit
         name="findValue"
-        label="findValue"
+        labelText="findValue"
         onChange={onChange}
         placeholder="find value"
         value={action.findValue}
       />
       <TextEdit
         name="numAdditionalChars"
-        label="numAdditionalChars"
+        labelText="numAdditionalChars"
         placeholder="numAdditionalChars"
         value={action.numAdditionalChars}
         onChange={onChange}
