@@ -23,7 +23,10 @@ import {
   pathTxActiveId
 } from 'appWords'
 import { setStateValue } from 'features/helpers'
-import { selectTxFetchStatus } from 'features/selectors'
+import { 
+  selectTxFetchStatus, 
+  selectCheckboxShowOmittedValue
+} from 'features/selectors'
 
 // eslint-disable-next-line
 import { blue, yellow, red, purple } from 'logger'
@@ -51,11 +54,19 @@ const addFields = (data) => {
   }, data)
 }
 
-export const txFetch = createAsyncThunk('transactions/get', async () => {
-  const r = await api.views.read(viewName)
-  const { data } = r
-  return R.mergeRight(r, { data: addFields(data) })
-})  
+export const txFetch = createAsyncThunk(
+  'transactions/get', 
+  async (noValuePassed, thunkApi) => {
+    
+    const { getState } = thunkApi
+    const state = getState()
+    const showOmitted = selectCheckboxShowOmittedValue(state)
+    blue('txFetch: showOmitted', showOmitted)
+    const r = await api.views.read(viewName, showOmitted)
+    const { data } = r
+    return R.mergeRight(r, { data: addFields(data) })
+  }
+)  
 
 const itemsSet = R.curry((items, state) => {
   return setStateValue(wdTx, pathTxItems, items, state)

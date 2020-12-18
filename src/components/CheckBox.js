@@ -1,36 +1,47 @@
-import React from 'react'
+import React, { useState } from 'react'
 import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, redf } from 'logger'
 
 const CheckBoxDiv = styled.div`
-  
+  background-color: blue;
 `
 
-/*
-@media (min-width: 601px) {
-    margin-bottom: 29.1665;
-  }
-
-  @media (max-width: 600px) {
-    margin-bottom: 0;
-    text-align: center;
-  }
-*/
 
 export const CheckBox = ({
-  name,
   checked,
+  disabled,
+  id,
+  label,
+  name,
   onChange,
 }) => {
-  return <CheckBoxDiv>
-    <input 
-      type="checkbox" 
-      name={name} 
-      checked={checked} 
-      onChange={onChange}
-    />
+
+  const [_checked, _setChecked] = useState(checked)
+
+  const _onChange = (event) => {
+    _setChecked(event.target.checked)
+    onChange(event)
+  }
+
+  return <CheckBoxDiv className="form-check">
+    <label
+      className="form-check-label"
+      htmlFor={id}
+    >
+      <input 
+        className="form-check-input"
+        checked={_checked}
+        disabled={disabled}
+        id={id}
+        name={name}
+        onChange={_onChange}
+        type="checkbox" 
+      />
+
+      {label}
+    </label>
   </CheckBoxDiv>
 }
 

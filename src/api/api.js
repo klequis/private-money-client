@@ -104,10 +104,10 @@ export const api = {
     }
   },
   views: {
-    async read(viewUrlPart) {
+    async read(viewUrlPart, includeOmittendTx) {
       // orange('api.views.read: viewUrlPart', viewUrlPart)
       try {
-        const url = `/api/views/${viewUrlPart}`
+        const url = `/api/views/${viewUrlPart}/${includeOmittendTx}`
         // orange('api.views.read: url', url)
         const data = await fetchJson(url, {
           method: 'GET'

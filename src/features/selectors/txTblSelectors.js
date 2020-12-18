@@ -1,6 +1,7 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
 import {
+  pathTxTblCheckBoxShowOmitted,
   pathTxTblFilters,
   pathTxTblRadioCategorizedDisabled,
   pathTxTblRadioCategorizedValue,
@@ -25,6 +26,15 @@ import { green, blue, red } from 'logger'
  */
 export const selectRadioHasRuleValue = (state) => {
   return getStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, state)
+}
+
+/**
+ * 
+ * @param {object} state state
+ * @returns {boolean} value of checkbox
+ */
+export const selectCheckboxShowOmittedValue = (state) => {
+  return getStateValue(wdTxTbl, pathTxTblCheckBoxShowOmitted, state)
 }
 
 /**
