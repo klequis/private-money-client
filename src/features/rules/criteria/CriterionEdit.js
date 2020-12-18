@@ -142,6 +142,7 @@ export const CriterionEdit = ({ criterion }) => {
           field={field}
           value={value}
           maxWidth={900}
+          minWidth={500}
           name="value"
           onChange={_onChange}
           onBlur={_onBlur}

@@ -22,6 +22,7 @@ export const TextEditOrDatePicker = ({
   value,
   maxWidth,
   minChars,
+  minWidth,
   name,
   onChange,
   onBlur,

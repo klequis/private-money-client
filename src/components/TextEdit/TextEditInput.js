@@ -17,6 +17,8 @@ const TextInput = styled.input`
   max-width: ${(props) =>
     props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
   background-color: ${({ errorLevel }) => errorLevel.color};
+  max-width: ${(props) =>
+    props.minWidth === 'none' ? 'none' : props.minWidth + 'px'};
 `
 
 export const TextEditInput = ({
@@ -24,6 +26,7 @@ export const TextEditInput = ({
   errorLevel,
   value,
   maxWidth = 'none',
+  minWidth,
   name,
   onBlur,
   onChange,
@@ -47,6 +50,7 @@ export const TextEditInput = ({
         disabled={disabled}
         errorLevel={errorLevel}
         maxWidth={maxWidth}
+        minWidth={minWidth}
         name={name}
         onBlur={_handleBlur}
         onChange={_handleChange}

@@ -35,6 +35,7 @@ export const TextEdit = React.memo(
     labelText = '',
     maxWidth,
     minChars = 0,
+    minWidth,
     name,
     onBlur,
     onChange,
@@ -57,6 +58,7 @@ export const TextEdit = React.memo(
             disabled={disabled}
             errorLevel={errorLevel}
             maxWidth={maxWidth}
+            minWidth={minWidth}
             name={name}
             onBlur={onBlur}
             onChange={onChange}
