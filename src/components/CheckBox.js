@@ -5,7 +5,11 @@ import styled from 'styled-components'
 import { green, redf } from 'logger'
 
 const CheckBoxDiv = styled.div`
-  
+
+`
+
+const CheckBoxInput = styled.input`
+vertical-align: middle;
 `
 
 /*
@@ -25,10 +29,10 @@ export const CheckBox = ({
   onChange,
 }) => {
   return <CheckBoxDiv>
-    <input 
-      type="checkbox" 
-      name={name} 
-      checked={checked} 
+    <CheckBoxInput
+      type="checkbox"
+      name={name}
+      checked={checked}
       onChange={onChange}
     />
   </CheckBoxDiv>
