@@ -15,6 +15,7 @@ import { selectRuleEdit } from 'features/selectors'
 /* eslint-disable */
 import { green, purple, red } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+import { ContainerFluid } from 'components/ContainerFluid'
 /* eslint-enable */
 
 let countTotal = 0
@@ -48,7 +49,7 @@ export const Rule = () => {
 
   countReturn = countReturn + 1
   return (
-    <>
+    <ContainerFluid>
       <RenderCount
         componentName="Rule"
         countTotal={{ actual: countTotal, min: 8, max: 14 }}
@@ -62,6 +63,6 @@ export const Rule = () => {
       />
       <Criteria />
       <Actions />
-    </>
+    </ContainerFluid>
   )
 }
