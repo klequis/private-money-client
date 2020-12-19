@@ -47,6 +47,7 @@ export const Actions = () => {
                 key={_id}
                 actionId={_id}
                 minChars={3}
+                width={300}
                 maxWidth={10}
               />
             )

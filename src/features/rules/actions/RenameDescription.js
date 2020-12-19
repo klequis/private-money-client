@@ -3,12 +3,18 @@ import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ruleEditActionUpdate } from 'features/rules'
 import * as R from 'ramda'
+import styled from 'styled-components'
+import PropTypes from 'prop-types'
 
 // eslint-disable-next-line
 import { purple, green, redf } from 'logger'
 import { selectRuleEditRenameAction } from 'features/selectors'
 
-export const RenameDescription = () => {
+const TextInput = styled.input`
+  width: ${(props) => props.width + 'px'};
+`
+
+export const RenameDescription = ({ width }) => {
 
   const [_action, _setAction] = useState(useSelector(selectRuleEditRenameAction))
   const { replaceWithValue, _id: actionId } = _action
@@ -23,9 +29,10 @@ export const RenameDescription = () => {
   }
 
   return (
-    <input
+    <TextInput
       key={actionId}
       className="mr-1"
+      width={width}
       type="text"
       value={replaceWithValue}
       name="replaceWithValue"
@@ -34,6 +41,11 @@ export const RenameDescription = () => {
       placeholder='hi'
     />
   )
+}
+
+
+RenameDescription.propTypes = {
+  width: PropTypes.number,
 }
 
 /*

@@ -14,6 +14,7 @@ let countTotal = 0
 let countReturn = 0
 
 const TextInput = styled.input`
+  width: ${(props) => props.width + 'px'};
   max-width: ${(props) =>
     props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
   background-color: ${({ errorLevel }) => errorLevel.color};
@@ -23,6 +24,7 @@ export const TextEditInput = ({
   disabled,
   errorLevel,
   value,
+  width,
   maxWidth = 'none',
   name,
   onBlur,
@@ -46,6 +48,7 @@ export const TextEditInput = ({
         className={classNames(['form-control', 'form-control-sm'])}
         disabled={disabled}
         errorLevel={errorLevel}
+        width={width}
         maxWidth={maxWidth}
         name={name}
         onBlur={_handleBlur}

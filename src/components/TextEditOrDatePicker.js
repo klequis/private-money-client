@@ -20,6 +20,7 @@ export const TextEditOrDatePicker = ({
   errorLevel,
   field,
   value,
+  width,
   maxWidth,
   minChars,
   name,
@@ -46,10 +47,11 @@ export const TextEditOrDatePicker = ({
   }
   return (
     <>
-      
+
       <TextEdit
         disabled={disabled}
         errorLevel={errorLevel}
+        width={width}
         maxWidth={maxWidth}
         name={name}
         onBlur={onBlur}
@@ -75,6 +77,7 @@ TextEditOrDatePicker.propTypes = {
   }),
   field: PropTypes.oneOf(txFieldNames),
   value: PropTypes.any,
+  width: PropTypes.number,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   name: PropTypes.string.isRequired,

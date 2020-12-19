@@ -111,7 +111,7 @@ export const CriterionEdit = ({ criterion }) => {
         <CheckBox name="active" checked={active} onChange={_onChange} />
         <Select
           disabled={!active}
-          maxWidth={125}
+          maxWidth={130}
           name="field"
           onBlur={_onBlur}
           onChange={_onChange}
@@ -125,7 +125,7 @@ export const CriterionEdit = ({ criterion }) => {
         </Select>
         <Select
           disabled={!active}
-          maxWidth={125}
+          maxWidth={150}
           name="operation"
           onBlur={_onBlur}
           onChange={_onChange}
@@ -141,6 +141,7 @@ export const CriterionEdit = ({ criterion }) => {
           disabled={!active}
           field={field}
           value={value}
+          width={300}
           maxWidth={900}
           name="value"
           onChange={_onChange}

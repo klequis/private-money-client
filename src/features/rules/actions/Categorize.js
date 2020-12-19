@@ -20,7 +20,7 @@ export const Categorize = ({ action, minChars }) => {
     const newAction = R.mergeRight(_action, { [name]: value })
     _setAction(newAction)
     // if (eventType === 'blur') {
-      dispatch(ruleEditActionUpdate(newAction))
+    dispatch(ruleEditActionUpdate(newAction))
     // }
   }
 
@@ -31,6 +31,7 @@ export const Categorize = ({ action, minChars }) => {
         name={txFields.category1.name}
         labelText='Category 1'
         value={category1}
+        width={200}
         minChars={minChars}
         onBlur={_handleEvent}
         onChange={_handleEvent}
@@ -40,6 +41,7 @@ export const Categorize = ({ action, minChars }) => {
         name={txFields.category2.name}
         labelText='Category 2'
         value={category2}
+        width={200}
         minChars={minChars}
         onBlur={_handleEvent}
         onChange={_handleEvent}
