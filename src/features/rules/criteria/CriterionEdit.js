@@ -106,7 +106,7 @@ export const CriterionEdit = ({ criterion }) => {
         countTotal={{ actual: countTotal, min: 4, max: 4 }}
         countReturn={{ actual: countReturn, min: 4, max: 4 }}
       />
-      <Row>
+      <Row className="my-1">
         {/* <CheckDiv id='CheckDiv'> */}
         <CheckBox name="active" checked={active} onChange={_onChange} />
         <Select

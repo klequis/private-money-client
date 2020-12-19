@@ -42,7 +42,7 @@ export const TextEdit = React.memo(
     value = ''
   }) => {
     countTotal = countTotal + 1
-    
+
     countReturn = countReturn + 1
     return (
       <>
@@ -51,7 +51,7 @@ export const TextEdit = React.memo(
           countTotal={{ actual: countTotal, min: 4, max: 4 }}
           countReturn={{ actual: countReturn, min: 4, max: 4 }}
         />
-        <TextEditDiv>
+        <TextEditDiv className="mx-1">
           <InputLabel>{labelText}</InputLabel>
           <TextEditInput
             disabled={disabled}

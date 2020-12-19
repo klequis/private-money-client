@@ -1,5 +1,5 @@
 
-import React, {useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ruleEditActionUpdate } from 'features/rules'
 import * as R from 'ramda'
@@ -25,6 +25,7 @@ export const RenameDescription = () => {
   return (
     <input
       key={actionId}
+      className="mr-1"
       type="text"
       value={replaceWithValue}
       name="replaceWithValue"

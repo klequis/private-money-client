@@ -14,7 +14,6 @@ let countReturn = 0
 
 const ButtonRow = styled.div`
   display: flex;
-  padding-bottom: 16px;
   align-items: center;
 `
 
@@ -31,7 +30,7 @@ export const Criteria = () => {
   countTotal = countTotal + 1
 
   const criteria = useSelector(selectRuleEditCriteria)
-  const _handleButtonClick = () => {}
+  const _handleButtonClick = () => { }
 
   if (!criteria) {
     return null
@@ -39,13 +38,13 @@ export const Criteria = () => {
 
   countReturn = countReturn + 1
   return (
-    <div id="Criteria">
+    <div id="Criteria" className="mb-3">
       <RenderCount
         componentName="Criteria"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
-      <ButtonRow id="Criteria.Row">
+      <ButtonRow id="Criteria.Row" className="my-1">
         <H4>Criteria</H4>
         <Btn onClick={_handleButtonClick}>Add</Btn>
         <Btn onClick={_handleButtonClick}>Reset</Btn>

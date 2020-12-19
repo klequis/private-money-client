@@ -30,15 +30,15 @@ export const Actions = () => {
 
   countReturn = countReturn + 1
   return (
-    <div>
-      <h4>Actions</h4>
+    <div className="mb-3">
+      <h4 className="mb-1">Actions</h4>
       <RenderCount
         componentName="Actions"
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
 
-      <Wrapper>
+      <Wrapper className="my-1">
         {actions.map((a) => {
           const { _id, field, actionType } = a
           if (field === txFields.description.name) {

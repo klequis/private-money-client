@@ -45,7 +45,7 @@ export const DatePicker = React.memo(({ disabled, maxWidth, name, value }) => {
   }
 
   return (
-    <DatePickerDiv>
+    <DatePickerDiv className="mx-1">
       <DayPickerInput
         // disabled={disabled} TODO: not working
         inputProps={{

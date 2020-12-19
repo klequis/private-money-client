@@ -47,7 +47,7 @@ export const Select = ({
 }) => {
   const { errorLevelNone } = errorLevels
   return (
-    <div>
+    <div className="mx-1">
       <SelectControl
         className={classNames('custom-select', 'custom-select-sm')}
         disabled={disabled}

@@ -8,7 +8,7 @@ import { green, yellow, red } from 'logger'
 // const RenderResult = ({ title, count }) => {
 //   const { actual, min, max } = count
 //   return (
-    
+
 //     <span>
 //       <span>{title}:</span> (<span>actual=<b>{actual}</b></span>, <span>min=<b>{min}</b></span>, <span>max=<b>{max}</b></span>)
 //     </span>
@@ -29,9 +29,9 @@ import { green, yellow, red } from 'logger'
 
 export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
   return (
-    <div>
+    <div className="my-1">
 
-      <span>{componentName} - </span><span>total: {countTotal.actual}</span><span>return: {countReturn.actual}</span>
+      <span>{componentName} - </span><span>total: {countTotal.actual}</span> <span>return: {countReturn.actual}</span>
     </div>
   )
 }
@@ -70,5 +70,5 @@ RenderCount.propTypes = {
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired
   }).isRequired
-  
+
 }
