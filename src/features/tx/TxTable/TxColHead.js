@@ -4,6 +4,10 @@ import { txFields } from 'features/tx'
 import styled from 'styled-components'
 import { updateFilters } from 'features/txTbl'
 import { useDebouncedCallback } from 'use-debounce'
+import { SortAscTriangle } from 'components/SortAscTriangle'
+import { SortDescTriangle } from 'components/SortDescTriangle'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import classNames from 'classnames'
 
 // eslint-disable-next-line
 import { green, purple, grpStart, grpEnd } from 'logger'
@@ -12,12 +16,60 @@ import { green, purple, grpStart, grpEnd } from 'logger'
 //   width: 100%;
 // `
 
-const TextInput = styled.input``
+const TextInput = styled.input`
+  width: 100%;
+  height: 24px;
+`
 /*
   width: 90%;
   display: flex;
   flex-flow: column now;
 */
+
+const SortIconDiv = styled.div`
+  display: flex;
+  flex-direction: column;
+`
+
+const ColNameDiv = styled.div`
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+`
+
+const FieldNameDiv = styled.div`
+ self-align: flex-start;
+ margin-right: 15px;
+`
+
+const Spacer = styled.div`
+  height: 1px;
+`
+const _activeColor = 'red'
+const _inactiveColor = 'gray'
+
+const SortIcons = ({ fieldName }) => {
+  const [_currentOrder, _setCurrentOrder] = useState('none')
+
+  const _click = (fieldName) => {
+    green('fieldName', fieldName)
+    
+    if (_currentOrder === 'none') {
+      _setCurrentOrder('asc')
+    } else if (_currentOrder === 'asc') {
+      _setCurrentOrder('desc')
+    } else {
+      _setCurrentOrder('none')
+    }
+  }
+  return (
+    <SortIconDiv onClick={() => _click(fieldName)}>
+      <SortAscTriangle width={15} fillColor={ _currentOrder === 'asc' ? _activeColor : _inactiveColor } />
+      <Spacer></Spacer>
+      <SortDescTriangle width={15} fillColor={ _currentOrder === 'desc' ? _activeColor : _inactiveColor } />
+    </SortIconDiv>
+  )
+}
 
 export const TxColHead = ({ fieldName }) => {
   const dispatch = useDispatch()
@@ -44,18 +96,21 @@ export const TxColHead = ({ fieldName }) => {
   return (
     <th>
       <div>
+        <ColNameDiv>
+          <FieldNameDiv>{fieldName}</FieldNameDiv>
+          <SortIcons fieldName={fieldName}/>
+        </ColNameDiv>
         {fieldName === txFields.omit.name ? (
           ''
         ) : (
           <>
             <TextInput
+              className={classNames(['form-control', 'form-control-sm'])}
               type="text"
               onChange={_onChange}
             />
           </>
         )}
-        <div>{fieldName}</div>
-        {/* <SortButtons updateSort={_updateSort} fieldName={fieldName} /> */}
       </div>
     </th>
   )

@@ -10,10 +10,13 @@ import {
   wdCategorized,
   wdAll,
   wdBoth,
-  wdTxTbl
+  wdTxTbl,
+  pathTxTblSortFieldName,
+  pathTxTblSortOrder
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
+import { compareAsc, compareDesc } from 'date-fns'
 
 /* eslint-disable */
 import { green, blue, red } from 'logger'
@@ -195,17 +198,63 @@ const allTests = (state) => {
   }
 }
 
+const selectTxTblSortFieldName = R.curry((state) => {
+  return getStateValue(wdTxTbl, pathTxTblSortFieldName, state)
+})
+
+const selectTxTblSortOrder = R.curry((state) => {
+  return getStateValue(wdTxTbl, pathTxTblSortOrder, state)
+})
+
+// const compareDateFn = function(sortOrder, a, b){
+//   if (sortOrder === 'asc') {
+//     return compareAsc(new Date(a), new Date(b))
+//   }
+  
+// }
+
+const compareDateDesc = function(a, b){
+  return compareDesc(new Date(R.prop('dob')(a)), new Date(R.prop('dob')(b)))
+}
+
+const getCompareFn = (sortField, sortOrder) => {
+  if (sortField === 'date') {
+    if (sortOrder === 'asc') {
+      return (a, b) => compareAsc(new Date(a), new Date(b))
+    } else {
+      return (a, b) => compareDesc(new Date(a), new Date(b))
+    }
+  } else if (sortField === 'amount') {
+    // TODO: return number compare fn
+  } else {
+    // TODO: return text compare fn
+  }
+}
+
+const sortTxItems = R.curry((sortField, sortOrder, items) => {
+  const compareFn = getCompareFn(sortField, sortOrder)
+  return R.sort(compareFn, items)
+})
+
+const filterAndSort = (spec, items, sort) => {
+  const ret = R.pipe(
+    R.filter(spec, items),
+    sortTxItems(sort.field, sort.order)
+  )(spec, items, sort)
+  return ret
+}
+
 /**
  *
  * @param {object} state state
  * @returns {Array} of filtered transaction objects
  */
 export const selectFilteredTx = (state) => {
-  const txs = selectTxItems(state)
+  const txItems = selectTxItems(state)
   const currentConditions = makeConditions(state)
   if (isNilOrEmpty(currentConditions)) {
     console.groupEnd()
-    return txs
+    return txItems
   }
   const keys = R.keys(currentConditions)
   const tests = allTests(state)
@@ -213,5 +262,27 @@ export const selectFilteredTx = (state) => {
   // green('specObj', specObj)
   const spec1 = R.where(specObj)
   // green('spec1', spec1)
-  return R.filter(spec1, txs)
+  const sort = {
+    field: selectTxTblSortFieldName(state),
+    order: selectTxTblSortOrder(state) 
+  }
+  const ret = filterAndSort(spec1, txItems, sort)
+  return ret
 }
+
+
+// export const selectFilteredTx = (state) => {
+//   const txItems = selectTxItems(state)
+//   const currentConditions = makeConditions(state)
+//   if (isNilOrEmpty(currentConditions)) {
+//     console.groupEnd()
+//     return txItems
+//   }
+//   const keys = R.keys(currentConditions)
+//   const tests = allTests(state)
+//   const specObj = R.pick(keys, tests)
+//   // green('specObj', specObj)
+//   const spec1 = R.where(specObj)
+//   // green('spec1', spec1)
+//   return R.filter(spec1, txItems)
+// }

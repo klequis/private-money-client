@@ -28,6 +28,7 @@ let countTotal = 0
 let countReturn = 0
 
 export const App = () => {
+  purple('App', 'app')
   countTotal = countTotal + 1
   const dispatch = useDispatch()
   const activeTransactionId = useSelector(selectActiveTxId)

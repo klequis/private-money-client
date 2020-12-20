@@ -1,32 +1,36 @@
 import { createSlice, current } from '@reduxjs/toolkit'
 import {
+  pathTxTblCheckBoxShowOmitted,
+  pathTxTblFilterProps,
+  pathTxTblRadioCategorizedDisabled,
+  pathTxTblRadioCategorizedValue,
+  pathTxTblRadioHasRuleValue,
+  wdAcctId,
   wdAll,
   wdBoth,
-  wdCategorized,
-  wdTxTbl,
-  pathTxTblRadioHasRuleValue,
-  pathTxTblRadioCategorizedDisabled,
-  wdUncategorized,
-  wdHasRule,
-  wdDoesNotHaveRule,
-  pathTxTblRadioCategorizedValue,
-  pathTxTblFilterProps,
-  //
-  wdRadioHasRule,
-  wdRadioCategorized,
-  wdDisabled,
-  wdValue,
-  wdFilters,
-  wdAcctId,
   wdAmount,
+  wdCategorized,
   wdCategory1,
   wdCategory2,
+  wdCheckboxShowOmitted,
   wdChecked,
   wdDate,
   wdDescription,
-  wdCheckboxShowOmitted,
+  wdDisabled,
+  wdDoesNotHaveRule,
+  wdFieldName,
+  wdFilters,
+  wdHasRule,
+  wdRadioHasRule,
+  wdRadioCategorized,
+  wdSort,
+  wdSortOrder,
+  wdValue,
+  
+  wdTxTbl,
   wdType,
-  pathTxTblCheckBoxShowOmitted,
+  wdUncategorized,
+  
 } from 'appWords'
 import { setStateValue, valueOrEmptyString } from 'features/helpers'
 import * as R from 'ramda'
@@ -57,7 +61,12 @@ const initialState = {
   },
   [wdCheckboxShowOmitted]: {
     [wdChecked]: false
+  },
+  [wdSort]: {
+    [wdFieldName]: '',
+    [wdSortOrder]: ''
   }
+
 }
 
 const _radioHasRuleValueSet = R.curry((value, state) => {
