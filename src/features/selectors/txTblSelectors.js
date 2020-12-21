@@ -238,7 +238,7 @@ const _sortTxItems = R.curry((sortField, sortOrder, items) => {
 
 const _filterAndSort = (spec, items, sort) => {
   const ret = R.pipe(
-    R.filter(spec, items),
+    R.filter(R.__, items),
     _sortTxItems(sort.field, sort.order)
   )(spec, items, sort)
   return ret
