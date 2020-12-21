@@ -25,7 +25,7 @@ const TextInput = styled.input``
 let renderCount = 0
 
 export const TxColHead = ({ fieldName }) => {
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
   const [_value, _setValue] = useState('')
   const [debouncedValue] = useDebounce(_value, 1000)

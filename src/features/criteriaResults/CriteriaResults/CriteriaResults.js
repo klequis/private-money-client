@@ -50,29 +50,29 @@ let countReturn = 0
 
 export const CriteriaResults = () => {
   countTotal = countTotal + 1
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
-  const status = useSelector((state) =>
+  const _status = useSelector((state) =>
     selectRequestStatus([wdCriteriaResultsFetchStatus], state)
   )
-  const criteria = useSelector(selectRuleEditCriteria)
-  const actions = useSelector(selectRuleEditActions)
-  const activeCriteria = useSelector(selectRuleEditActiveCriteria)
+  const _criteria = useSelector(selectRuleEditCriteria)
+  const _actions = useSelector(selectRuleEditActions)
+  const _activeCriteria = useSelector(selectRuleEditActiveCriteria)
 
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria
     // const valid = isCriteriaValid(activeCriteria)
-    if (!R.isEmpty(activeCriteria)) {
-      dispatch(criteriaResultsFetch(activeCriteria))
+    if (!R.isEmpty(_activeCriteria)) {
+      _dispatch(criteriaResultsFetch(_activeCriteria))
     }
     // eslint-disable-next-line
-  }, [criteria])
+  }, [_criteria])
   // }, [activeCriteria, dispatch])
 
-  const transactions = useSelector(selectCriteriaResults)
+  const _transactions = useSelector(selectCriteriaResults)
 
-  if (R.isEmpty(criteria) || R.isEmpty(actions)) {
+  if (R.isEmpty(_criteria) || R.isEmpty(_actions)) {
     return null
   }
 
@@ -80,8 +80,8 @@ export const CriteriaResults = () => {
   return (
     <CriteriaResultsDiv>
       <H4>Criteria Results</H4>
-      <div>{transactions.length} transactions found.</div>
-      <RenderWhenReady status={status}>
+      <div>{_transactions.length} transactions found.</div>
+      <RenderWhenReady status={_status}>
         <div>
           <RenderCount
             componentName="CriteriaResults"
@@ -90,8 +90,8 @@ export const CriteriaResults = () => {
           />
           <Table size="sm" variant="dark">
             <TableHead />
-            {transactions.map((t) => {
-              return <TableBody key={t._id} actions={actions} transaction={t} />
+            {_transactions.map((t) => {
+              return <TableBody key={t._id} actions={_actions} transaction={t} />
             })}
           </Table>
         </div>

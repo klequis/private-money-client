@@ -1,11 +1,6 @@
-/**
- * @module transactionSlice.js
- */
-
 import {
   createSlice,
   createAsyncThunk,
-  // eslint-disable-next-line
   current
 } from '@reduxjs/toolkit'
 import { api } from 'api'
@@ -28,11 +23,10 @@ import {
   selectCheckboxShowOmittedValue
 } from 'features/selectors'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { blue, yellow, red, purple } from 'logger'
-// eslint-disable-next-line
 import { logFetchResults } from 'lib/logFetchResults'
-
+/* eslint-enable */
 
 const initialState = {
   activeId: '',
@@ -43,9 +37,9 @@ const initialState = {
   }
 }
 
-const viewName = 'all-data-by-description'
+const _viewName = 'all-data-by-description'
 
-const addFields = (data) => {
+const _addFields = (data) => {
   return R.map((t) => {
     return R.mergeRight(t, {
       hasRule: !isNilOrEmpty(R.prop('ruleIds')(t)),
@@ -62,25 +56,25 @@ export const txFetch = createAsyncThunk(
     const state = getState()
     const showOmitted = selectCheckboxShowOmittedValue(state)
     blue('txFetch: showOmitted', showOmitted)
-    const r = await api.views.read(viewName, showOmitted)
+    const r = await api.views.read(_viewName, showOmitted)
     const { data } = r
-    return R.mergeRight(r, { data: addFields(data) })
+    return R.mergeRight(r, { data: _addFields(data) })
   }
 )  
 
-const itemsSet = R.curry((items, state) => {
+const _itemsSet = R.curry((items, state) => {
   return setStateValue(wdTx, pathTxItems, items, state)
 })
 
-const txFetchStatusSet = R.curry((status, state) => {
+const _txFetchStatusSet = R.curry((status, state) => {
   return setStateValue(wdTx, pathTxFetchStatus, status, state)
 })
 
-const txFetchErrorSet = R.curry((errorMessage, state) => {
+const _txFetchErrorSet = R.curry((errorMessage, state) => {
   return setStateValue(wdTx, pathTxFetchError, errorMessage, state)
 })
 
-const activeIdSet = R.curry((id, state) => {
+const _activeIdSet = R.curry((id, state) => {
   return setStateValue(wdTx, pathTxActiveId, id, state)
 })
 
@@ -93,37 +87,37 @@ const txSlice = createSlice({
     txActiveIdSet(state, action) {
       const currState = current(state)
       const id = action.payload
-      return activeIdSet(id, currState) // (currState)
+      return _activeIdSet(id, currState) // (currState)
     },
     txActiveIdClear(state) {
       const currState = current(state)
-      return activeIdSet(null, currState)
+      return _activeIdSet(null, currState)
     },
     txFetchStatusSetRefresh(state) {
       const currState = current(state)
-      return txFetchStatusSet(wdRequestStatusFetch, currState)
+      return _txFetchStatusSet(wdRequestStatusFetch, currState)
     }
   },
   extraReducers: {
     [txFetch.pending]: (state) => {
       return R.pipe(
-        txFetchStatusSet(wdRequestStatusPending),
-        itemsSet([])
+        _txFetchStatusSet(wdRequestStatusPending),
+        _itemsSet([])
       )(current(state))
     },
     [txFetch.fulfilled]: (state, action) => {
       const items = R.path(['payload', 'data'], action)
       return R.pipe(
-        txFetchStatusSet(wdRequestStatusFulfilled),
-        itemsSet(items)
+        _txFetchStatusSet(wdRequestStatusFulfilled),
+        _itemsSet(items)
       )(current(state))
     },
     [txFetch.rejected]: (state, action) => {
       const error = R.path(['error', 'message'], action)
       return R.pipe(
         selectTxFetchStatus(wdRequestStatusError),
-        itemsSet([]),
-        txFetchErrorSet(error)
+        _itemsSet([]),
+        _txFetchErrorSet(error)
       )(current(state))
     }
   }

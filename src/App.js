@@ -28,38 +28,36 @@ let countTotal = 0
 let countReturn = 0
 
 export const App = () => {
-  purple('App', 'app')
   countTotal = countTotal + 1
-  const dispatch = useDispatch()
-  const activeTransactionId = useSelector(selectActiveTxId)
-  const status = useSelector((state) =>
+  const _dispatch = useDispatch()
+  const _activeTransactionId = useSelector(selectActiveTxId)
+  const _status = useSelector((state) =>
     selectRequestStatus([wdRulesFetchStatus, wdTxFetchStatus], state)
   )
-  const transactionsFetchStatus = useSelector(selectTxFetchStatus)
-  const rulesFetchStatus = useSelector(selectRulesFetchStatus)
+  const _transactionsFetchStatus = useSelector(selectTxFetchStatus)
+  const _rulesFetchStatus = useSelector(selectRulesFetchStatus)
 
   useEffect(() => {
-    if (transactionsFetchStatus === wdRequestStatusFetch) {
-      dispatch(txFetch())
+    if (_transactionsFetchStatus === wdRequestStatusFetch) {
+      _dispatch(txFetch())
     }
-    if (rulesFetchStatus === wdRequestStatusFetch) {
-      dispatch(rulesFetch())
+    if (_rulesFetchStatus === wdRequestStatusFetch) {
+      _dispatch(rulesFetch())
     }
-  }, [dispatch, transactionsFetchStatus, rulesFetchStatus])
+  }, [_dispatch, _transactionsFetchStatus, _rulesFetchStatus])
 
-  useRuleEditSet(activeTransactionId)
+  useRuleEditSet(_activeTransactionId)
   countReturn = countReturn + 1
   
   return (
-    <RenderWhenReady status={status} className="container-fluid">
-      
+    <RenderWhenReady status={_status} className="container-fluid">
       <>
         <RenderCount
           componentName="App"
           countTotal={{ actual: countTotal, min: 8, max: 14 }}
           countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />
-        {isNilOrEmpty(activeTransactionId) ? <TxTbl /> : <RuleCreate />}
+        {isNilOrEmpty(_activeTransactionId) ? <TxTbl /> : <RuleCreate />}
       </>
     </RenderWhenReady>
   )

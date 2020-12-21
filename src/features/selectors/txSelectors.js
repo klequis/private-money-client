@@ -17,7 +17,7 @@ export const selectTxItems = (state) => {
   return getStateValue(wdTx, pathTxItems, state)
 }
 
-const getTx = (txId, state) => {
+const _getTx = (txId, state) => {
   const tItems = getStateValue(wdTx, pathTxItems, state)
   if (isNilOrEmpty(tItems)) {
     return tItems
@@ -33,7 +33,7 @@ const getTx = (txId, state) => {
  * @returns {object} one transaction
  */
 export const selectOneTx = (txId, state) => {
-  return getTx(txId, state)
+  return _getTx(txId, state)
 }
 
 /**
@@ -61,7 +61,7 @@ export const selectTxFetchStatus = (state) =>
 export const selectActiveTxOrigDescription = (state) => {
   const txId = selectActiveTxId(state)
   blue('txId', txId)
-  const tx = getTx(txId, state)
+  const tx = _getTx(txId, state)
   if (isNilOrEmpty(tx)) {
     return null
   } else {

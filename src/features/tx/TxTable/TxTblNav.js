@@ -36,55 +36,55 @@ const doesNotHaveRuleId = 'doesNotaveRuleId'
 // eslint-disable-next-line
 import { purple, green } from 'logger'
 
-const Row = styled.div`
+const RowDiv = styled.div`
   display: flex;
   padding: 0 0 .5em 0;
 `
 
-const RowTitle = styled.div`
+const RowTitleDiv = styled.div`
   width: 100px;
 `
 
-const Options = styled.div`
+const OptionsDiv = styled.div`
   display: flex;
   padding: 5px;
 `
 
-const Column = styled.div`
+const ColumnDiv = styled.div`
   display: flex;
   flex-direction: column
 `
 
 export const TxTblNav = () => {
 
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
   const _radioChange = (event) => {
     const { name, value } = event.target
-    dispatch(updateRadioState({ name, value }))
+    _dispatch(updateRadioState({ name, value }))
   }
 
   const _checkboxChange = (event) => {
     const { checked } = event.target
-    dispatch(updateCheckboxShowOmitted({ checked }))
-    dispatch(txFetchStatusSetRefresh())
+    _dispatch(updateCheckboxShowOmitted({ checked }))
+    _dispatch(txFetchStatusSetRefresh())
   }
 
-  const radioHasRuleValue = useSelector(selectRadioHasRuleValue)
+  const _radioHasRuleValue = useSelector(selectRadioHasRuleValue)
   // green('radioHasRuleValue', radioHasRuleValue)
-  const radioCategorizedValue = useSelector(selectRadioCategorizedValue)
+  const _radioCategorizedValue = useSelector(selectRadioCategorizedValue)
   // green('radioCategorizedValue', radioCategorizedValue)
-  const radioCategorizedDisabled = useSelector(selectRadioCategorizedDisabled)
+  const _radioCategorizedDisabled = useSelector(selectRadioCategorizedDisabled)
   // green('radioCategorizedDisabled', radioCategorizedDisabled)
-  const checkboxShowOmitedValue = useSelector(selectCheckboxShowOmittedValue)
+  const _checkboxShowOmitedValue = useSelector(selectCheckboxShowOmittedValue)
 
   return (
-    <Options>
-      <Column style={{ backgroundColor: 'red' }}>
-        <Row>
-          <RowTitle>Transactions: </RowTitle>
+    <OptionsDiv>
+      <ColumnDiv style={{ backgroundColor: 'red' }}>
+        <RowDiv>
+          <RowTitleDiv>Transactions: </RowTitleDiv>
           <Radio
-            currentGroupValue={radioHasRuleValue}
+            currentGroupValue={_radioHasRuleValue}
             id={allId}
             labelText="All"
             name={wdRadioHasRule}
@@ -93,7 +93,7 @@ export const TxTblNav = () => {
             value={wdAll}
           />
           <Radio
-            currentGroupValue={radioHasRuleValue}
+            currentGroupValue={_radioHasRuleValue}
             id={hasRuleId}
             labelText="Has rule"
             name={wdRadioHasRule}
@@ -102,7 +102,7 @@ export const TxTblNav = () => {
             value={wdHasRule}
           />
           <Radio
-            currentGroupValue={radioHasRuleValue}
+            currentGroupValue={_radioHasRuleValue}
             id={doesNotHaveRuleId}
             labelText="Does not have rule"
             name={wdRadioHasRule}
@@ -110,12 +110,12 @@ export const TxTblNav = () => {
             value={wdDoesNotHaveRule}
           />
 
-        </Row>
-        <Row>
-          <RowTitle>Category: </RowTitle>
+        </RowDiv>
+        <RowDiv>
+          <RowTitleDiv>Category: </RowTitleDiv>
           <Radio
-            disabled={radioCategorizedDisabled}
-            currentGroupValue={radioCategorizedValue}
+            disabled={_radioCategorizedDisabled}
+            currentGroupValue={_radioCategorizedValue}
             id="bothId"
             labelText="Both"
             name={wdRadioCategorized}
@@ -124,8 +124,8 @@ export const TxTblNav = () => {
             width={70}
           />
           <Radio
-            disabled={radioCategorizedDisabled}
-            currentGroupValue={radioCategorizedValue}
+            disabled={_radioCategorizedDisabled}
+            currentGroupValue={_radioCategorizedValue}
             id="categorizedId"
             labelText="Categorized"
             name={wdRadioCategorized}
@@ -134,27 +134,26 @@ export const TxTblNav = () => {
             value={wdCategorized}
           />
           <Radio
-            disabled={radioCategorizedDisabled}
-            currentGroupValue={radioCategorizedValue}
+            disabled={_radioCategorizedDisabled}
+            currentGroupValue={_radioCategorizedValue}
             id="uncategorizedId"
             labelText="Uncategorized"
             name={wdRadioCategorized}
             onChange={_radioChange}
             value={wdUncategorized}
           />
-        </Row>
-      </Column>
-      <Column  style={{ backgroundColor: 'green' }}>
+        </RowDiv>
+      </ColumnDiv>
+      <ColumnDiv  style={{ backgroundColor: 'green' }}>
         <CheckBox
-          checked={checkboxShowOmitedValue}
+          checked={_checkboxShowOmitedValue}
           disabled={false}
           id="chk-omitted" 
           labelText="Show omitted" 
           name={wdCheckboxShowOmitted}
           onChange={_checkboxChange}
         />
-        
-      </Column>
-    </Options>
+      </ColumnDiv>
+    </OptionsDiv>
   )
 }

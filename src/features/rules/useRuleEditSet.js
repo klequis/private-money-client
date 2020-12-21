@@ -10,8 +10,8 @@ import {
 // eslint-disable-next-line
 import { blue, green, yellow, grpStart, grpEnd } from 'logger'
 
-const hasRule = (transaction) => R.prop('hasRule')(transaction)
-const getRuleId = (transaction) => R.prop('ruleIds')(transaction)
+const _hasRule = (transaction) => R.prop('hasRule')(transaction)
+const _getRuleId = (transaction) => R.prop('ruleIds')(transaction)
 
 /*
     - if transactionId === '' 
@@ -20,24 +20,23 @@ const getRuleId = (transaction) => R.prop('ruleIds')(transaction)
       - get the transaction{}
 */
 export const useRuleEditSet = (transactionId) => {
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
-  const transaction = useSelector((state) =>
+  const _transaction = useSelector((state) =>
     selectOneTx(transactionId, state)
   )
   useEffect(() => {
-    if (!isNilOrEmpty(transaction)) {
-      if (hasRule(transaction)) {
+    if (!isNilOrEmpty(_transaction)) {
+      if (_hasRule(_transaction)) {
         // While the front-end assumes each transaction has on ruleId, the 
         // server still assumes a transaction can have multiple ruleIds
         // therefore, ruleIds is always an array of 1
-        const ruleId = getRuleId(transaction)[0]
-        dispatch(ruleEditSetExistingRule({ ruleId }))
+        const _ruleId = _getRuleId(_transaction)[0]
+        _dispatch(ruleEditSetExistingRule({ ruleId: _ruleId }))
       } else {
-        const { origDescription, date } = transaction
-        dispatch(ruleEditSetNewRule({ origDescription, date }))
+        const { origDescription, date } = _transaction
+        _dispatch(ruleEditSetNewRule({ origDescription, date }))
       }
     }
-  }, [dispatch, transaction])
-  grpEnd()
+  }, [_dispatch, _transaction])
 }

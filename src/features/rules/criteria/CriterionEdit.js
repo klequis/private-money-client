@@ -12,17 +12,17 @@ import { isStringDate } from 'lib/dataTypes'
 import { TextEditOrDatePicker } from 'components/TextEditOrDatePicker'
 import { errorLevels } from 'globalConstants'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { green, redf, purple, grpStart, grpEnd } from 'logger'
-// eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
+/* eslint-enable */
 
 let countTotal = 0
 let countReturn = 0
 
 const { errorLevelNone, errorLevelError } = errorLevels
 
-const Row = styled.div`
+const RowDiv = styled.div`
   display: flex;
 `
 
@@ -71,14 +71,14 @@ export const CriterionEdit = ({ criterion }) => {
 
   const { operation, field, value, active } = _criterion
 
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
   const _onChange = (event) => {
     const { name, value, checked, type } = event.target
     const newProp = { [name]: type === 'checkbox' ? checked : value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
-    dispatch(ruleEditCriterionUpdate(newCriterion))
+    _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
   const _onBlur = (event) => {
@@ -94,7 +94,7 @@ export const CriterionEdit = ({ criterion }) => {
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
     if (newCriterion.active && validation.name === errorLevelNone.name) {
-      dispatch(ruleEditCriterionUpdate(newCriterion))
+      _dispatch(ruleEditCriterionUpdate(newCriterion))
     }
   }
 
@@ -106,8 +106,7 @@ export const CriterionEdit = ({ criterion }) => {
         countTotal={{ actual: countTotal, min: 4, max: 4 }}
         countReturn={{ actual: countReturn, min: 4, max: 4 }}
       />
-      <Row>
-        {/* <CheckDiv id='CheckDiv'> */}
+      <RowDiv>
         <CheckBox name="active" checked={active} onChange={_onChange} />
         <Select
           disabled={!active}
@@ -148,7 +147,7 @@ export const CriterionEdit = ({ criterion }) => {
           onBlur={_onBlur}
           errorLevel={_valueErrorLevel}
         />
-      </Row>
+      </RowDiv>
     </>
   )
 }

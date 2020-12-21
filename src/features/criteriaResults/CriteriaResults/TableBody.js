@@ -6,7 +6,7 @@ import * as R from 'ramda'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-const TDStrikethrough = styled.td`
+const StrikethroughTD = styled.td`
   text-decoration: line-through;
   color: red;
 `
@@ -43,7 +43,7 @@ const makeNewData = (actions, transaction) => {
   }
 }
 
-const isDiff = (value1, value2) => value1 !== value2
+const _isDiff = (value1, value2) => value1 !== value2
 
 /**
  *
@@ -53,9 +53,9 @@ const isDiff = (value1, value2) => value1 !== value2
  */
 const createDiffs = (oldFields, newFields) => {
   return {
-    description: isDiff(oldFields.description, newFields.description),
-    category1: isDiff(oldFields.category1, newFields.category1),
-    category2: isDiff(oldFields.category2, newFields.category2)
+    description: _isDiff(oldFields.description, newFields.description),
+    category1: _isDiff(oldFields.category1, newFields.category1),
+    category2: _isDiff(oldFields.category2, newFields.category2)
   }
 }
 
@@ -75,24 +75,24 @@ export const TableBody = ({ actions, transaction }) => {
     return (
       <tbody>
         <tr>
-          <TDStrikethrough>{date}</TDStrikethrough>
-          <TDStrikethrough>{description}</TDStrikethrough>
-          <TDStrikethrough>{amount}</TDStrikethrough>
+          <StrikethroughTD>{date}</StrikethroughTD>
+          <StrikethroughTD>{description}</StrikethroughTD>
+          <StrikethroughTD>{amount}</StrikethroughTD>
         </tr>
       </tbody>
     )
   }
 
-  const oldData = makeOldData(transaction)
-  const newData = makeNewData(actions, transaction)
-  const diffs = createDiffs(oldData, newData)
-  const hasDiffs = R.any(R.equals(R.__, true))(R.values(diffs))
+  const _oldData = makeOldData(transaction)
+  const _newData = makeNewData(actions, transaction)
+  const _diffs = createDiffs(_oldData, _newData)
+  const _hasDiffs = R.any(R.equals(R.__, true))(R.values(_diffs))
 
   return (
     <tbody>
-      <TableRow data={oldData} isOriginalData={true} diffs={diffs} />
-      {hasDiffs ? (
-        <TableRow data={newData} isOriginalData={false} diffs={diffs} />
+      <TableRow data={_oldData} isOriginalData={true} diffs={_diffs} />
+      {_hasDiffs ? (
+        <TableRow data={_newData} isOriginalData={false} diffs={_diffs} />
       ) : null}
     </tbody>
   )

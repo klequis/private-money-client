@@ -4,7 +4,7 @@ import styled from 'styled-components'
 import { Button } from 'components/Button'
 import { selectRuleEditIsDirty } from 'features/selectors'
 
-const Wrapper = styled.div`
+const RuleToolbarDiv = styled.div`
   padding-top: 16px;
   padding-bottom: 16px;
 `
@@ -14,14 +14,14 @@ const Btn = styled(Button)`
 `
 
 export const RuleToolbar = ({ save, cancel, deleteRule }) => {
-  const dirty = useSelector(selectRuleEditIsDirty)
+  const _dirty = useSelector(selectRuleEditIsDirty)
   return (
-    <Wrapper>
-      <Btn onClick={save} disabled={!dirty}>
+    <RuleToolbarDiv>
+      <Btn onClick={save} disabled={!_dirty}>
         Save
       </Btn>
       <Btn onClick={cancel}>Cancel</Btn>
       <Btn onClick={deleteRule}>Delete</Btn>
-    </Wrapper>
+    </RuleToolbarDiv>
   )
 }

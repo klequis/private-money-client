@@ -1,7 +1,3 @@
-/**
- * @module criteriaResultsSlice.js
- */
-
 import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import {
@@ -38,7 +34,7 @@ export const criteriaResultsFetch = createAsyncThunk(
   }
 )
 
-const itemsSet = R.curry((items, state) => {
+const _itemsSet = R.curry((items, state) => {
   return setStateValue(
     wdCriteriaResults,
     pathCriteriaResultsItems,
@@ -47,7 +43,7 @@ const itemsSet = R.curry((items, state) => {
   )
 })
 
-const fetchStatusSet = R.curry((status, state) => {
+const _fetchStatusSet = R.curry((status, state) => {
   return setStateValue(
     wdCriteriaResults,
     pathCriteriaResultsFetchStatus,
@@ -56,7 +52,7 @@ const fetchStatusSet = R.curry((status, state) => {
   )
 })
 
-const fetchErrorSet = R.curry((errorMessage, state) => {
+const _fetchErrorSet = R.curry((errorMessage, state) => {
   return setStateValue(
     wdCriteriaResults,
     pathCriteriaResultsFetchError,
@@ -71,29 +67,29 @@ const criteriaResultsSlice = createSlice({
   reducers: {
     criteriaResultsClear(state) {
       const currState = current(state)
-      itemsSet([], currState)
+      _itemsSet([], currState)
     }
   },
   extraReducers: {
     [criteriaResultsFetch.pending]: (state) => {
       return R.pipe(
-        fetchStatusSet(wdRequestStatusPending),
-        itemsSet([])
+        _fetchStatusSet(wdRequestStatusPending),
+        _itemsSet([])
       )(current(state))
     },
     [criteriaResultsFetch.fulfilled]: (state, action) => {
       const newItems = R.path(['payload', 'data'], action)
       return R.pipe(
-        fetchStatusSet(wdRequestStatusFulfilled),
-        itemsSet(newItems)
+        _fetchStatusSet(wdRequestStatusFulfilled),
+        _itemsSet(newItems)
       )(current(state))
     },
     [criteriaResultsFetch.rejected]: (state, action) => {
       const error = R.path(['error', 'message'], action)
       return R.pipe(
-        fetchStatusSet(wdRequestStatusError),
-        fetchErrorSet(error),
-        itemsSet([])
+        _fetchStatusSet(wdRequestStatusError),
+        _fetchErrorSet(error),
+        _itemsSet([])
       )(current(state))
     }
   }

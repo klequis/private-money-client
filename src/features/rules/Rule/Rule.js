@@ -1,17 +1,14 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import {
-  ruleUpdate,
   ruleEditSave,
-  ruleCreate,
   ruleEditClear,
-  rulesRefreshSet
 } from 'features/rules'
-import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
+import { txActiveIdClear } from 'features/tx'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
-import { selectRuleEdit, selectRuleEditIsTmpRule } from 'features/selectors'
+import { selectRuleEdit } from 'features/selectors'
 
 /* eslint-disable */
 import { green, purple, red } from 'logger'
@@ -25,23 +22,23 @@ let countReturn = 0
 export const Rule = () => {
   countTotal = countTotal + 1
 
-  const ruleEdit = useSelector(selectRuleEdit)
-  const dispatch = useDispatch()
+  const _ruleEdit = useSelector(selectRuleEdit)
+  const _dispatch = useDispatch()
 
   const _handleSaveClick = async () => {
-    dispatch(ruleEditSave())
+    _dispatch(ruleEditSave())
   }
 
   const _handleCancelClick = () => {
-    dispatch(txActiveIdClear())
-    dispatch(ruleEditClear())
+    _dispatch(txActiveIdClear())
+    _dispatch(ruleEditClear())
   }
 
   const _handleDeleteClick = () => {
     // TODO: not implemented yet
   }
 
-  const { dirty, _id: ruleId } = ruleEdit
+  const { dirty, _id: ruleId } = _ruleEdit
 
   countReturn = countReturn + 1
   return (

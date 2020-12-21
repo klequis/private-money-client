@@ -20,7 +20,7 @@ const H2 = styled.h2`
 
 export const RuleCreate = React.memo(() => {
   countTotal = countTotal + 1
-  const isTmpRule = useSelector(selectRuleEditIsTmpRule)
+  const _isTmpRule = useSelector(selectRuleEditIsTmpRule)
   countReturn = countReturn + 1
   return (
     <ContainerFluid id="RuleCreates">
@@ -30,7 +30,7 @@ export const RuleCreate = React.memo(() => {
         countReturn={{ actual: countReturn, min: 8, max: 10 }}
       />
       <div>
-        {isTmpRule ? <H2>Create Rule</H2> : <H2>Edit Rule</H2>}
+        {_isTmpRule ? <H2>Create Rule</H2> : <H2>Edit Rule</H2>}
         <Rule />
       </div>
       <div>

@@ -13,15 +13,13 @@ export const Categorize = ({ action, minChars }) => {
   const [_action, _setAction] = useState(action)
   const { category1, category2 } = _action
 
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
   const _handleEvent = (event) => {
     const { name, value } = event.target
     const newAction = R.mergeRight(_action, { [name]: value })
     _setAction(newAction)
-    // if (eventType === 'blur') {
-      dispatch(ruleEditActionUpdate(newAction))
-    // }
+    _dispatch(ruleEditActionUpdate(newAction))
   }
 
   return (

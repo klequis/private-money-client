@@ -10,8 +10,8 @@ import { green, red } from 'logger'
 
 export const TxTblBody = ({ txId }) => {
 
-  const dispatch = useDispatch()
-  const transaction = useSelector((state) => selectOneTx(txId, state))
+  const _dispatch = useDispatch()
+  const _transaction = useSelector((state) => selectOneTx(txId, state))
   const {
     _id,
     acctId,
@@ -23,16 +23,14 @@ export const TxTblBody = ({ txId }) => {
     omit,
     ruleIds,
     type
-  } = transaction
+  } = _transaction
 
   const _rowClick = () => {
-    dispatch(txActiveIdSet(txId))
+    _dispatch(txActiveIdSet(txId))
   }
 
   return (
     <>
-      {/* <tbody> */}
-      {/* <tbody onClick={_rowClick} className={showRow ? styles.rowIdShow : ''}> */}
       <tbody onClick={_rowClick}>
         <tr>
           <TxTblData>{date}</TxTblData>

@@ -14,13 +14,13 @@ export const ActionEdit = ({ action }) => {
   const [_action, _setAction] = useState(action)
   const { actionType } = _action
 
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
   const _handleChange = (event) => {
     const { name, value } = event.target
     const newAction = R.mergeRight(_action, { [name]: value })
     _setAction(newAction)
-    dispatch(ruleEditActionUpdate(newAction))
+    _dispatch(ruleEditActionUpdate(newAction))
   }
 
   const Control = () => {

@@ -1,11 +1,9 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { pathRuleEditActions } from 'appWords'
 
 // eslint-disable-next-line
 import { grpStart, grpEnd, purple, blue, yellow, red } from 'logger'
-
 
 /**
  *
@@ -77,8 +75,6 @@ export const getStateValue = (root, path, state) => {
     : R.path(R.tail(path), state)
   return ret
 }
-
-// const _isPath = path => R.equals(path, pathRuleEditId)
 
 /**
  *

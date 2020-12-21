@@ -8,7 +8,7 @@ import * as serviceWorker from './serviceWorker'
 
 import './bootstrap/bootstrap.css'
 
-const theme = {
+const _theme = {
   colors: {
     text: {
       danger: '#e74c3c',
@@ -35,7 +35,7 @@ const theme = {
 ReactDOM.render(
   <React.StrictMode>
     <Provider store={store}>
-      <ThemeProvider theme={theme}>
+      <ThemeProvider theme={_theme}>
         <App />
       </ThemeProvider>
     </Provider>

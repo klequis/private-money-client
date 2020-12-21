@@ -5,5 +5,4 @@ export const isNilOrEmpty = (value)  => {
     return true
   }
   return false
-
 }

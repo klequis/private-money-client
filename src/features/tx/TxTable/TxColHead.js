@@ -6,25 +6,15 @@ import { updateFilters } from 'features/txTbl'
 import { useDebouncedCallback } from 'use-debounce'
 import { SortAscTriangle } from 'components/SortAscTriangle'
 import { SortDescTriangle } from 'components/SortDescTriangle'
-import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import classNames from 'classnames'
 
 // eslint-disable-next-line
 import { green, purple, grpStart, grpEnd } from 'logger'
 
-// const TH = styled.th`
-//   width: 100%;
-// `
-
 const TextInput = styled.input`
   width: 100%;
   height: 24px;
 `
-/*
-  width: 90%;
-  display: flex;
-  flex-flow: column now;
-*/
 
 const SortIconDiv = styled.div`
   display: flex;
@@ -42,7 +32,7 @@ const FieldNameDiv = styled.div`
  margin-right: 15px;
 `
 
-const Spacer = styled.div`
+const SpacerDiv = styled.div`
   height: 1px;
 `
 const _activeColor = 'red'
@@ -65,23 +55,23 @@ const SortIcons = ({ fieldName }) => {
   return (
     <SortIconDiv onClick={() => _click(fieldName)}>
       <SortAscTriangle width={15} fillColor={ _currentOrder === 'asc' ? _activeColor : _inactiveColor } />
-      <Spacer></Spacer>
+      <SpacerDiv></SpacerDiv>
       <SortDescTriangle width={15} fillColor={ _currentOrder === 'desc' ? _activeColor : _inactiveColor } />
     </SortIconDiv>
   )
 }
 
 export const TxColHead = ({ fieldName }) => {
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
 
   const [_value, _setValue] = useState('')
 
-  const debounced = useDebouncedCallback(
+  const _debounced = useDebouncedCallback(
     // function
     (value) => {
       _setValue(value)
       purple('dispatch', value)
-      dispatch(updateFilters({ name: fieldName, value: value }))
+      _dispatch(updateFilters({ name: fieldName, value: value }))
     },
     // delay in ms
     1000
@@ -89,7 +79,7 @@ export const TxColHead = ({ fieldName }) => {
 
   const _onChange = (e) => {
     const value = e.target.value
-    debounced.callback(value)
+    _debounced.callback(value)
   }
 
 

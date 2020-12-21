@@ -63,7 +63,7 @@ export const selectRadioCategorizedDisabled = (state) => {
  * @param {*} state state
  * @returns {object} txTbl.filters
  */
-const selectTxFilters = (state) => {
+const _selectTxFilters = (state) => {
   return getStateValue(wdTxTbl, pathTxTblFilters, state)
 }
 
@@ -73,7 +73,7 @@ const selectTxFilters = (state) => {
  * @param {object} radioHasRuleValue wdAll | wdHasRule | wdDoesNotHaveRule
  * @returns {any} true false or null
  */
-const getHasRule = (filterByRule, radioHasRuleValue) => {
+const _getHasRule = (filterByRule, radioHasRuleValue) => {
   if (!filterByRule) {
     return null
   }
@@ -89,7 +89,7 @@ const getHasRule = (filterByRule, radioHasRuleValue) => {
  * @param {object} radioCategorizedValue wdAll | wdCategorized | wdUncategorized
  * @returns {any} true false or null
  */
-const getHasCategory = (filterByCategory, radioCategorizedValue) => {
+const _getHasCategory = (filterByCategory, radioCategorizedValue) => {
   if (!filterByCategory) {
     return null
   }
@@ -105,9 +105,9 @@ const getHasCategory = (filterByCategory, radioCategorizedValue) => {
  * @description returns a object with values where allConditions.prop is not null
  * @returns {unknown} don't know
  */
-const makeConditions = (state) => {
+const _makeConditions = (state) => {
   // const { options, filters } = transactionsUi
-  const filters = selectTxFilters(state)
+  const filters = _selectTxFilters(state)
   const {
     date,
     acctId,
@@ -129,17 +129,17 @@ const makeConditions = (state) => {
 
   // const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioOptionValue), state)
   // const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioValue), state)
-  const radioHasRuleValue = selectRadioHasRuleValue(state)
+  const _radioHasRuleValue = selectRadioHasRuleValue(state)
   // const categorizeRadioValue = R.path(getPath(state, uiPaths.categorizeRadioValue), state)
-  const radioCategorizedValue = selectRadioCategorizedValue(state)
+  const _radioCategorizedValue = selectRadioCategorizedValue(state)
 
-  const filterByRule = radioHasRuleValue === wdAll ? false : true
+  const _filterByRule = _radioHasRuleValue === wdAll ? false : true
   // const filterByCategory = ???  === wdBoth ? false : true
-  const filterByCategory = radioCategorizedValue === wdBoth ? false : true
+  const _filterByCategory = _radioCategorizedValue === wdBoth ? false : true
 
-  const allConditions = {
-    hasRule: getHasRule(filterByRule, radioHasRuleValue),
-    hasCategory: getHasCategory(filterByCategory, radioCategorizedValue),
+  const _allConditions = {
+    hasRule: _getHasRule(_filterByRule, _radioHasRuleValue),
+    hasCategory: _getHasCategory(_filterByCategory, _radioCategorizedValue),
     date,
     acctId,
     description,
@@ -150,7 +150,7 @@ const makeConditions = (state) => {
   }
 
   // get return conditions that are not null / empty
-  const conditionFilter = (val) => {
+  const _conditionFilter = (val) => {
     // let checkedVal
     // if (val === null) {
     //   checkedVal = val
@@ -162,7 +162,7 @@ const makeConditions = (state) => {
     // return !isNilOrEmpty(checkedVal)
     return !isNilOrEmpty(val)
   }
-  return R.filter(conditionFilter, allConditions)
+  return R.filter(_conditionFilter, _allConditions)
 }
 
 /**
@@ -170,8 +170,8 @@ const makeConditions = (state) => {
  * @param {object} state state
  * @returns {object} an object of all filter properties with test for each prop
  */
-const allTests = (state) => {
-  const filters = selectTxFilters(state)
+const _allTests = (state) => {
+  const filters = _selectTxFilters(state)
   const {
     date,
     acctId,
@@ -198,11 +198,11 @@ const allTests = (state) => {
   }
 }
 
-const selectTxTblSortFieldName = R.curry((state) => {
+export const selectTxTblSortFieldName = R.curry((state) => {
   return getStateValue(wdTxTbl, pathTxTblSortFieldName, state)
 })
 
-const selectTxTblSortOrder = R.curry((state) => {
+export const selectTxTblSortOrder = R.curry((state) => {
   return getStateValue(wdTxTbl, pathTxTblSortOrder, state)
 })
 
@@ -213,11 +213,11 @@ const selectTxTblSortOrder = R.curry((state) => {
   
 // }
 
-const compareDateDesc = function(a, b){
+const _compareDateDesc = function(a, b){
   return compareDesc(new Date(R.prop('dob')(a)), new Date(R.prop('dob')(b)))
 }
 
-const getCompareFn = (sortField, sortOrder) => {
+const _getCompareFn = (sortField, sortOrder) => {
   if (sortField === 'date') {
     if (sortOrder === 'asc') {
       return (a, b) => compareAsc(new Date(a), new Date(b))
@@ -231,15 +231,15 @@ const getCompareFn = (sortField, sortOrder) => {
   }
 }
 
-const sortTxItems = R.curry((sortField, sortOrder, items) => {
-  const compareFn = getCompareFn(sortField, sortOrder)
+const _sortTxItems = R.curry((sortField, sortOrder, items) => {
+  const compareFn = _getCompareFn(sortField, sortOrder)
   return R.sort(compareFn, items)
 })
 
-const filterAndSort = (spec, items, sort) => {
+const _filterAndSort = (spec, items, sort) => {
   const ret = R.pipe(
     R.filter(spec, items),
-    sortTxItems(sort.field, sort.order)
+    _sortTxItems(sort.field, sort.order)
   )(spec, items, sort)
   return ret
 }
@@ -251,13 +251,13 @@ const filterAndSort = (spec, items, sort) => {
  */
 export const selectFilteredTx = (state) => {
   const txItems = selectTxItems(state)
-  const currentConditions = makeConditions(state)
+  const currentConditions = _makeConditions(state)
   if (isNilOrEmpty(currentConditions)) {
     console.groupEnd()
     return txItems
   }
   const keys = R.keys(currentConditions)
-  const tests = allTests(state)
+  const tests = _allTests(state)
   const specObj = R.pick(keys, tests)
   // green('specObj', specObj)
   const spec1 = R.where(specObj)
@@ -266,7 +266,7 @@ export const selectFilteredTx = (state) => {
     field: selectTxTblSortFieldName(state),
     order: selectTxTblSortOrder(state) 
   }
-  const ret = filterAndSort(spec1, txItems, sort)
+  const ret = _filterAndSort(spec1, txItems, sort)
   return ret
 }
 

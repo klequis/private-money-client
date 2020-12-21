@@ -1,20 +1,8 @@
 import React from 'react'
-import * as R from 'ramda'
 import PropTypes from 'prop-types'
-import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green } from 'logger'
-
-const DescriptionTD = styled.td`
-  border: 1px solid white;
-  color: ${(props) => props.color};
-`
-
-const CategoryTD = styled.td`
-  border: 1px solid white;
-  color: ${(props) => props.color};
-`
 
 /*
     - isOriginalData: boolean 
@@ -22,10 +10,8 @@ const CategoryTD = styled.td`
       - false: the data that can be modified by changes in actions
 */
 
-export const TableRow = ({ data, isOriginalData, diffs }) => {
-  const { date, description, amount, category1, category2 } = data
-
-  const changeColor = isOriginalData ? 'red' : 'green'
+export const TableRow = ({ data }) => {
+  const { date, description, amount } = data
 
   return (
     <tr>
@@ -38,6 +24,4 @@ export const TableRow = ({ data, isOriginalData, diffs }) => {
 
 TableRow.propTypes = {
   data: PropTypes.object.isRequired,
-  isOriginalData: PropTypes.bool.isRequired,
-  diffs: PropTypes.object.isRequired
 }

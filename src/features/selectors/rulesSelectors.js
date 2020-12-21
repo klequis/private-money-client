@@ -24,9 +24,9 @@ import {
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { blue, yellow, grpStart, grpEnd } from 'logger'
-import { red } from 'logger'
+/* eslint-enable */
 
 /*
  *  Paths to parts of state

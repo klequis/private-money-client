@@ -25,19 +25,19 @@ const CategoryTD = styled.td`
 export const TableRow = ({ data, isOriginalData, diffs }) => {
   const { date, description, amount, category1, category2 } = data
 
-  const changeColor = isOriginalData ? 'red' : 'green'
+  const _changeColor = isOriginalData ? 'red' : 'green'
 
   return (
     <tr>
       <td>{date}</td>
-      <DescriptionTD color={diffs.description ? changeColor : 'inherit'}>
+      <DescriptionTD color={diffs.description ? _changeColor : 'inherit'}>
         {description}
       </DescriptionTD>
       <td>{amount}</td>
-      <CategoryTD color={diffs.category1 ? changeColor : 'inherit'}>
+      <CategoryTD color={diffs.category1 ? _changeColor : 'inherit'}>
         {diffs.category1 ? (R.isEmpty(category1) ? '(blank)' : category1) : ''}
       </CategoryTD>
-      <CategoryTD color={diffs.category2 ? changeColor : 'inherit'}>
+      <CategoryTD color={diffs.category2 ? _changeColor : 'inherit'}>
         {diffs.category2 ? (R.isEmpty(category2) ? '(blank)' : category2) : ''}
       </CategoryTD>
     </tr>

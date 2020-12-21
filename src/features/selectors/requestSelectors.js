@@ -31,7 +31,7 @@ import { grpStart, grpEnd, blue, yellow, red } from 'logger'
  * @param {*} state state
  * @returns {Array} of status state values
  */
-const statusStateValues = (statusNames, state) => {
+const _statusStateValues = (statusNames, state) => {
   const values = {
     [wdCriteriaResultsFetchStatus]: selectCriteriaResultsFetchStatus(state),
     [wdTxFetchStatus]: selectTxFetchStatus(state),
@@ -42,13 +42,13 @@ const statusStateValues = (statusNames, state) => {
   return R.map((name) => values[name], statusNames)
 }
 
-const all = (statusNames, matchStatusState, state) => {
-  const values = statusStateValues(statusNames, state)
+const _all = (statusNames, matchStatusState, state) => {
+  const values = _statusStateValues(statusNames, state)
   return R.all(R.equals(R.__, matchStatusState))(values)
 }
 
-const any = (statusNames, matchStatusState, state) => {
-  const values = statusStateValues(statusNames, state)
+const _any = (statusNames, matchStatusState, state) => {
+  const values = _statusStateValues(statusNames, state)
   return R.any(R.equals(R.__, matchStatusState))(values)
 }
 
@@ -59,16 +59,16 @@ const any = (statusNames, matchStatusState, state) => {
  * @returns {string} wdRequestStatusError | wdRequestStatusPending | wdRequestStatusFetch | wdRequestStatusFulfilled
  */
 export const selectRequestStatus = (statusNames, state) => {
-  if (any(statusNames, wdRequestStatusError, state)) {
+  if (_any(statusNames, wdRequestStatusError, state)) {
     return wdRequestStatusError
   }
-  if (any(statusNames, wdRequestStatusPending, state)) {
+  if (_any(statusNames, wdRequestStatusPending, state)) {
     return wdRequestStatusPending
   }
-  if (any(statusNames, wdRequestStatusFetch, state)) {
+  if (_any(statusNames, wdRequestStatusFetch, state)) {
     return wdRequestStatusFetch
   }
-  if (all(statusNames, wdRequestStatusFulfilled, state)) {
+  if (_all(statusNames, wdRequestStatusFulfilled, state)) {
     return wdRequestStatusFulfilled
   }
   return wdRequestStatusError

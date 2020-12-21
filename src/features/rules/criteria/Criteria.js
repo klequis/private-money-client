@@ -5,14 +5,14 @@ import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { selectRuleEditCriteria } from 'features/selectors'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { green, redf, yellow, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
-
+/* eslint-enable */
 let countTotal = 0
 let countReturn = 0
 
-const ButtonRow = styled.div`
+const ButtonRowDiv = styled.div`
   display: flex;
   padding-bottom: 16px;
   align-items: center;
@@ -30,13 +30,13 @@ const Btn = styled(Button)`
 export const Criteria = () => {
   countTotal = countTotal + 1
 
-  const criteria = useSelector(selectRuleEditCriteria)
+  const _criteria = useSelector(selectRuleEditCriteria)
 
   const _handleButtonClick = () => {
     // TODO: not implemented yet
   }
 
-  if (!criteria) {
+  if (!_criteria) {
     return null
   }
 
@@ -48,12 +48,12 @@ export const Criteria = () => {
         countTotal={{ actual: countTotal, min: 2, max: 2 }}
         countReturn={{ actual: countReturn, min: 2, max: 2 }}
       />
-      <ButtonRow id="Criteria.Row">
+      <ButtonRowDiv id="Criteria.Row">
         <H4>Criteria</H4>
         <Btn onClick={_handleButtonClick}>Add</Btn>
-      </ButtonRow>
+      </ButtonRowDiv>
 
-      {criteria.map((c) => (
+      {_criteria.map((c) => (
         <CriterionEdit key={c._id} criterion={c} />
       ))}
     </div>

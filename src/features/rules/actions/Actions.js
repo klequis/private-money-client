@@ -9,14 +9,13 @@ import styled from 'styled-components'
 import { selectRuleEditActions, selectRuleEdit, selectActiveTxOrigDescription } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { makeTmpId } from 'lib/makeTmpId'
-import * as R from 'ramda'
 
 /* eslint-disable */
 import { green, redf, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
 /* eslint-enable */
 
-const Wrapper = styled.div`
+const ActionsDiv = styled.div`
   display: flex;
 `
 const OmitCheck = styled.input`
@@ -59,7 +58,6 @@ export const Actions = () => {
 
   const _handleOmitChange = (e) => {
     const checked = e.target.checked
-    green('checked', checked)
     _setOmitChecked(checked)
     _setPrevActions(_actions)
     if (checked) {
@@ -92,7 +90,7 @@ export const Actions = () => {
       />{' '}
       Omit transaction(s)
       {_omitChecked ? null : (
-        <Wrapper>
+        <ActionsDiv>
           {_actions.map((a) => {
             const { _id, field, actionType } = a
             if (field === txFields.description.name) {
@@ -110,7 +108,7 @@ export const Actions = () => {
               return <ActionEdit key={_id} action={a} />
             }
           })}
-        </Wrapper>
+        </ActionsDiv>
       )}
     </div>
   )

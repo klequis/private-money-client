@@ -6,7 +6,7 @@ import { useDispatch } from 'react-redux'
 import { green } from 'logger'
 
 export const Switch = ({ label, checkedSelector, checkedAction, id }) => {
-  const dispatch = useDispatch()
+  const _dispatch = useDispatch()
   // const [_checked, _setChecked] = useState(false)
 
 
