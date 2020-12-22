@@ -18,7 +18,7 @@ import {
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
-import { compareAsc, compareDesc } from 'date-fns'
+import { compareAsc, compareDesc, isDate } from 'date-fns'
 import { txFields } from 'features/tx'
 
 /* eslint-disable */
@@ -285,12 +285,39 @@ const _getSort = (state) => {
   return {}
 }
 
+const _makeDate = R.curry(value => new Date(value))
+
 const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
   if (sortFieldDataType === dataTypes.String) {
     const valueFn = R.compose(R.toLower, R.prop(sortField))
-    // const compareFn = sortOrder === 'asc' ? R.ascend(valueFn) : R.descend(valueFn)
-
-    return sortOrder === 'asc' ? R.sort(R.ascend(valueFn))(data) : R.sort(R.descend(valueFn))(data)
+    return sortOrder === 'asc' 
+      ? R.sort(R.ascend(valueFn))(data) 
+      : R.sort(R.descend(valueFn))(data)
+  } else if (sortFieldDataType === dataTypes.Number) {
+    const scoreToNum = R.compose(Number, R.prop(sortField));
+    return sortOrder === 'asc' 
+      ? R.sortWith([R.ascend(scoreToNum)])(data)
+      : R.sortWith([R.descend(scoreToNum)])(data)
+  } else if (sortFieldDataType === dataTypes.Date) {
+    const stringToDate = R.compose(_makeDate, R.prop(sortField))
+    return sortOrder === 'asc' 
+      ? R.sortWith([R.ascend(stringToDate)])(data)
+      : R.sortWith([R.descend(stringToDate)])(data)
+    // return sortOrder === 'asc'
+    //   ? R.sort((a, b) => compareAsc(
+    //         R.prop(sortField)(a),
+    //         R.prop(sortField)(b)
+    //       ),
+    //       data
+    //     )
+    //   : R.sort((a, b) => compareDesc(
+    //         new Date(R.prop(sortField)(a)),
+    //         new Date(R.prop(sortField)(b))
+    //       ),
+    //       data
+    //     )
+  } else {
+    throw new Error('txTblSelectors.sortTx - unknown dataType')
   }
 }
 
