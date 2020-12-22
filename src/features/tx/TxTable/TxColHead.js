@@ -2,7 +2,7 @@ import React, { useState } from 'react'
 import { useDispatch } from 'react-redux'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
-import { updateFilters } from 'features/txTbl'
+import { updateFilters, updateSort } from 'features/txTbl'
 import { useDebouncedCallback } from 'use-debounce'
 import { SortAscTriangle } from 'components/SortAscTriangle'
 import { SortDescTriangle } from 'components/SortDescTriangle'
@@ -38,18 +38,22 @@ const SpacerDiv = styled.div`
 const _activeColor = 'red'
 const _inactiveColor = 'gray'
 
-const SortIcons = ({ fieldName }) => {
+const SortIcons = ({ fieldName, onChange }) => {
   const [_currentOrder, _setCurrentOrder] = useState('none')
+  const _dispatch = useDispatch()
 
   const _click = (fieldName) => {
     green('fieldName', fieldName)
     
     if (_currentOrder === 'none') {
       _setCurrentOrder('asc')
+      onChange({ fieldName, sortOrder: 'asc' })
     } else if (_currentOrder === 'asc') {
       _setCurrentOrder('desc')
+      onChange({ fieldName, sortOrder: 'desc' })
     } else {
       _setCurrentOrder('none')
+      onChange({ fieldName: '', sortOrder: 'none' })
     }
   }
   return (
@@ -64,12 +68,12 @@ const SortIcons = ({ fieldName }) => {
 export const TxColHead = ({ fieldName }) => {
   const _dispatch = useDispatch()
 
-  const [_value, _setValue] = useState('')
+  // const [_value, _setValue] = useState('')
 
   const _debounced = useDebouncedCallback(
     // function
     (value) => {
-      _setValue(value)
+      // _setValue(value)
       purple('dispatch', value)
       _dispatch(updateFilters({ name: fieldName, value: value }))
     },
@@ -77,9 +81,13 @@ export const TxColHead = ({ fieldName }) => {
     1000
   )
 
-  const _onChange = (e) => {
+  const _onTextInputChange = (e) => {
     const value = e.target.value
     _debounced.callback(value)
+  }
+
+  const _onSortIconsChange = (sortObj) => {
+    _dispatch(updateSort(sortObj))
   }
 
 
@@ -88,7 +96,10 @@ export const TxColHead = ({ fieldName }) => {
       <div>
         <ColNameDiv>
           <FieldNameDiv>{fieldName}</FieldNameDiv>
-          <SortIcons fieldName={fieldName}/>
+          <SortIcons 
+            fieldName={fieldName}
+            onChange={_onSortIconsChange}
+          />
         </ColNameDiv>
         {fieldName === txFields.omit.name ? (
           ''
@@ -97,7 +108,7 @@ export const TxColHead = ({ fieldName }) => {
             <TextInput
               className={classNames(['form-control', 'form-control-sm'])}
               type="text"
-              onChange={_onChange}
+              onChange={_onTextInputChange}
             />
           </>
         )}

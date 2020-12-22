@@ -1,4 +1,6 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { notNilOrEmpty } from 'lib/notNilOrEmpty'
+import { dataTypes } from 'lib/dataTypes'
 import * as R from 'ramda'
 import {
   pathTxTblCheckBoxShowOmitted,
@@ -17,9 +19,12 @@ import {
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
 import { compareAsc, compareDesc } from 'date-fns'
+import { txFields } from 'features/tx'
 
 /* eslint-disable */
-import { green, blue, red } from 'logger'
+import { green, blue, red, purple } from 'logger'
+import { grpStart } from 'logger'
+import { grpEnd } from 'logger'
 /* eslint-enable */
 
 /**
@@ -213,11 +218,8 @@ export const selectTxTblSortOrder = R.curry((state) => {
   
 // }
 
-const _compareDateDesc = function(a, b){
-  return compareDesc(new Date(R.prop('dob')(a)), new Date(R.prop('dob')(b)))
-}
-
 const _getCompareFn = (sortField, sortOrder) => {
+  
   if (sortField === 'date') {
     if (sortOrder === 'asc') {
       return (a, b) => compareAsc(new Date(a), new Date(b))
@@ -225,23 +227,72 @@ const _getCompareFn = (sortField, sortOrder) => {
       return (a, b) => compareDesc(new Date(a), new Date(b))
     }
   } else if (sortField === 'amount') {
-    // TODO: return number compare fn
+    return (a, b) => {
+      grpStart('amount compare')
+      const aAmount = a[sortField]
+      red('aAmount', aAmount)
+      const bAmount = b[sortField]
+      red('bAmount', bAmount)
+      const ret = aAmount > bAmount
+      red('ret', ret)
+      grpEnd()
+      return ret
+    }
   } else {
-    // TODO: return text compare fn
+    return (a, b) => a > b ? 1 : -1
   }
 }
 
 const _sortTxItems = R.curry((sortField, sortOrder, items) => {
+  grpStart('_sortTxItems')
+  blue('sortField', sortField)
+  blue('sortOrder', sortOrder)
+  blue('items.length', items.length)
   const compareFn = _getCompareFn(sortField, sortOrder)
+  blue('compareFn', compareFn)
+  grpEnd()
   return R.sort(compareFn, items)
 })
 
+const _log = (message) => (value) => console.log(message, value)
+
 const _filterAndSort = (spec, items, sort) => {
+  grpStart('_filterAndSort')
+  blue('spec', spec)
+  blue('items', items)
+  blue('sort', sort)
   const ret = R.pipe(
+    R.tap(_log('1. items', items)),
     R.filter(R.__, items),
-    _sortTxItems(sort.field, sort.order)
-  )(spec, items, sort)
+    R.tap(_log('2. items', items)),
+    _sortTxItems(sort.field, sort.order),
+    R.tap(_log('3. items', items)),
+    )(spec, items, sort)
+  grpEnd()
   return ret
+}
+
+const _getSort = (state) => {
+
+  const sort = {
+    field: selectTxTblSortFieldName(state),
+    order: selectTxTblSortOrder(state) 
+  }
+
+  if (notNilOrEmpty(sort.field) && notNilOrEmpty(sort.order)) {
+    return sort
+  }
+  return {}
+}
+
+const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
+  if (sortFieldDataType === dataTypes.String) {
+    const compareFn = R.ascend(R.compose(R.toLower, R.prop(sortField)))
+
+    const r = R.sort(compareFn)(data)
+    blue('r', r)
+    return r
+  }
 }
 
 /**
@@ -250,39 +301,49 @@ const _filterAndSort = (spec, items, sort) => {
  * @returns {Array} of filtered transaction objects
  */
 export const selectFilteredTx = (state) => {
+  purple('selectFilteredTx', 'called')
   const txItems = selectTxItems(state)
-  const currentConditions = _makeConditions(state)
-  if (isNilOrEmpty(currentConditions)) {
-    console.groupEnd()
+  const sort = _getSort(state)
+  if (isNilOrEmpty(sort)) {
     return txItems
   }
+  // const ret = _sortTxItems(sort.field, sort.order)(txItems)
+  blue('sort', sort)
+  blue('sort.field', sort.field)
+  const dataType = txFields[sort.field].dataType
+  blue('dataType', dataType)
+
+  const ret = sortTx(sort.field, dataType, sort.order, txItems)
+  
+  return ret 
+}
+
+/*
+
+export const selectFilteredTx = (state) => {
+  purple('selectFilteredTx', 'called')
+  const txItems = selectTxItems(state)
+  const currentConditions = _makeConditions(state)
+  const sort = _getSort(state)
+  
+
+
+  // if (isNilOrEmpty(currentConditions)) {
+  //   red('early exit', 'exit')
+  //   console.groupEnd()
+  //   return txItems
+  // }
   const keys = R.keys(currentConditions)
   const tests = _allTests(state)
   const specObj = R.pick(keys, tests)
   // green('specObj', specObj)
   const spec1 = R.where(specObj)
   // green('spec1', spec1)
-  const sort = {
-    field: selectTxTblSortFieldName(state),
-    order: selectTxTblSortOrder(state) 
-  }
+  
   const ret = _filterAndSort(spec1, txItems, sort)
   return ret
 }
 
+*/
 
-// export const selectFilteredTx = (state) => {
-//   const txItems = selectTxItems(state)
-//   const currentConditions = makeConditions(state)
-//   if (isNilOrEmpty(currentConditions)) {
-//     console.groupEnd()
-//     return txItems
-//   }
-//   const keys = R.keys(currentConditions)
-//   const tests = allTests(state)
-//   const specObj = R.pick(keys, tests)
-//   // green('specObj', specObj)
-//   const spec1 = R.where(specObj)
-//   // green('spec1', spec1)
-//   return R.filter(spec1, txItems)
-// }
+

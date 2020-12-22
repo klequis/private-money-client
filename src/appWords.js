@@ -122,6 +122,8 @@ export const pathTxTblRadioCategorizedDisabled = [wdTxTbl, wdRadioCategorized, w
 export const pathTxTblRadioCategorizedValue = [wdTxTbl, wdRadioCategorized, wdValue]
 export const pathTxTblRadioHasRuleValue = [wdTxTbl, wdRadioHasRule, wdValue]
 export const pathTxTblCheckBoxShowOmitted = [wdTxTbl, wdCheckboxShowOmitted, wdChecked]
+export const pathTxTblSort = [wdTxTbl, wdSort]
 export const pathTxTblSortFieldName = [wdTxTbl, wdSort, wdFieldName]
 export const pathTxTblSortOrder = [wdTxTbl, wdSort, wdSortOrder]
+
 

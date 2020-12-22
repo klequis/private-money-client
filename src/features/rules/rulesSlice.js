@@ -184,8 +184,6 @@ const _isTmpRuleSet = R.curry((state) => {
   )
 })
 
-const _log = (message) => (value) => console.log(message, value)
-
 const rulesSlice = createSlice({
   name: wdRules,
   initialState,
