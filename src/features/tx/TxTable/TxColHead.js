@@ -93,26 +93,26 @@ export const TxColHead = ({ fieldName }) => {
 
   return (
     <th>
-      <div>
-        <ColNameDiv>
-          <FieldNameDiv>{fieldName}</FieldNameDiv>
-          <SortIcons 
-            fieldName={fieldName}
-            onChange={_onSortIconsChange}
-          />
-        </ColNameDiv>
-        {fieldName === txFields.omit.name ? (
-          ''
-        ) : (
-          <>
+      {
+        fieldName !== txFields.omit.name ? (
+          <div>
+            <ColNameDiv>
+              <FieldNameDiv>{fieldName}</FieldNameDiv>
+              <SortIcons 
+                fieldName={fieldName}
+                onChange={_onSortIconsChange}
+              />
+            </ColNameDiv>
             <TextInput
               className={classNames(['form-control', 'form-control-sm'])}
               type="text"
               onChange={_onTextInputChange}
             />
-          </>
-        )}
-      </div>
+          </div>
+        ) : (
+          <FieldNameDiv>{fieldName}</FieldNameDiv>
+        )
+      }
     </th>
   )
 }
