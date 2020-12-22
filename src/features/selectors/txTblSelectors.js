@@ -287,11 +287,10 @@ const _getSort = (state) => {
 
 const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
   if (sortFieldDataType === dataTypes.String) {
-    const compareFn = R.ascend(R.compose(R.toLower, R.prop(sortField)))
+    const valueFn = R.compose(R.toLower, R.prop(sortField))
+    // const compareFn = sortOrder === 'asc' ? R.ascend(valueFn) : R.descend(valueFn)
 
-    const r = R.sort(compareFn)(data)
-    blue('r', r)
-    return r
+    return sortOrder === 'asc' ? R.sort(R.ascend(valueFn))(data) : R.sort(R.descend(valueFn))(data)
   }
 }
 
