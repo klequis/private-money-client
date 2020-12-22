@@ -288,6 +288,12 @@ const _getSort = (state) => {
 const _makeDate = R.curry(value => new Date(value))
 
 const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
+  grpStart('sortTx')
+  blue('sortField', sortField)
+  blue('sortFieldDataType', sortFieldDataType)
+  blue('sortOrder', sortOrder)
+  blue('data', data)
+  grpEnd()
   if (sortFieldDataType === dataTypes.String) {
     const valueFn = R.compose(R.toLower, R.prop(sortField))
     return sortOrder === 'asc' 
@@ -316,6 +322,16 @@ const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
     //       ),
     //       data
     //     )
+  } else if (sortFieldDataType === dataTypes.Boolean) {
+      purple('boolean sort')
+
+      const ret = sortOrder === 'asc' 
+        ? R.sort(R.ascend(R.prop(sortField)))(data)
+        : R.sort(R.ascend(R.prop(sortField)))(data)
+    
+      ret.forEach(doc => console.log(doc.omit))
+      return ret
+
   } else {
     throw new Error('txTblSelectors.sortTx - unknown dataType')
   }
@@ -327,17 +343,17 @@ const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
  * @returns {Array} of filtered transaction objects
  */
 export const selectFilteredTx = (state) => {
-  purple('selectFilteredTx', 'called')
+  // purple('selectFilteredTx', 'called')
   const txItems = selectTxItems(state)
   const sort = _getSort(state)
   if (isNilOrEmpty(sort)) {
     return txItems
   }
   // const ret = _sortTxItems(sort.field, sort.order)(txItems)
-  blue('sort', sort)
-  blue('sort.field', sort.field)
+  // blue('sort', sort)
+  // blue('sort.field', sort.field)
   const dataType = txFields[sort.field].dataType
-  blue('dataType', dataType)
+  // blue('dataType', dataType)
 
   const ret = sortTx(sort.field, dataType, sort.order, txItems)
   
