@@ -14,7 +14,7 @@ let countReturn = 0
 
 const ButtonRowDiv = styled.div`
   display: flex;
-  padding-bottom: 16px;
+  margin-bottom: 1rem;
   align-items: center;
 `
 

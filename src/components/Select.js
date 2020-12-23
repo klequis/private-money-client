@@ -7,6 +7,11 @@ import { errorLevels } from 'globalConstants'
 // eslint-disable-next-line
 import { green, redf, yellow, purple } from 'logger'
 
+const SelectDiv = styled.div`
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+`
+
 const SelectControl = styled.select`
   width: 100%;
   max-width: ${(props) => props.maxWidth}px;
@@ -47,7 +52,7 @@ export const Select = ({
 }) => {
   const { errorLevelNone } = errorLevels
   return (
-    <div>
+    <SelectDiv>
       <SelectControl
         className={classNames('custom-select', 'custom-select-sm')}
         disabled={disabled}
@@ -60,6 +65,6 @@ export const Select = ({
         {children}
       </SelectControl>
       <ErrorLabel errorLevel={errorLevelNone} />
-    </div>
+    </SelectDiv>
   )
 }
