@@ -14,8 +14,7 @@ let countTotal = 0
 let countReturn = 0
 
 const TextInput = styled.input`
-  max-width: ${(props) =>
-    props.maxWidth === 'none' ? 'none' : props.maxWidth + 'px'};
+  width: ${(props) => props.width + 'px'};
   background-color: ${({ errorLevel }) => errorLevel.color};
   max-width: ${(props) =>
     props.minWidth === 'none' ? 'none' : props.minWidth + 'px'};
@@ -25,6 +24,7 @@ export const TextEditInput = ({
   disabled,
   errorLevel,
   value,
+  width,
   maxWidth = 'none',
   minWidth,
   name,
@@ -49,6 +49,7 @@ export const TextEditInput = ({
         className={classNames(['form-control', 'form-control-sm'])}
         disabled={disabled}
         errorLevel={errorLevel}
+        width={width}
         maxWidth={maxWidth}
         minWidth={minWidth}
         name={name}
@@ -70,6 +71,7 @@ TextEditInput.propTypes = {
     message: PropTypes.string.isRequired
   }),
   value: PropTypes.any,
+  width: PropTypes.number,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   onBlur: PropTypes.func.isRequired,

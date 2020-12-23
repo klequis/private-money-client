@@ -36,6 +36,7 @@ export const TextEdit = React.memo(
     disabled,
     errorLevel = errorLevelNone,
     labelText = '',
+    width,
     maxWidth,
     minChars = 0,
     minWidth,
@@ -60,6 +61,7 @@ export const TextEdit = React.memo(
           <TextEditInput
             disabled={disabled}
             errorLevel={errorLevel}
+            width={width}
             maxWidth={maxWidth}
             minWidth={minWidth}
             name={name}
@@ -92,6 +94,7 @@ TextEdit.propTypes = {
     message: PropTypes.string.isRequired
   }),
   value: isValidInitialValue,
+  width: PropTypes.number,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   name: PropTypes.string.isRequired,

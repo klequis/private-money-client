@@ -10,6 +10,7 @@ import { wdReplaceWithValue } from 'appWords'
 import { purple, green, redf } from 'logger'
 
 const RenameDescriptionInput = styled.input`
+  width: 450px;
   margin-right: 0.25rem;
 `
 
