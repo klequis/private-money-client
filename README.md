@@ -1,93 +1,16 @@
-```js
-state = {
-  criteriaResults: {
-    fetch: {
-      error: '?',
-      status: string,
-    },
-    items: array,
-  },
-  rules: {
-    create: {
-      error: '?',
-      status: string,
-    },
-    fetch: {
-      error: '?',
-      status: string,
-    },
-    items: array,
-    ruleEdit: {
-      _id: string,
-      actions: array,
-      criteria: array,
-      hasActionTypeOmit: boolean,
-      isDirty: boolean,
-      isTmpRule: boolean,
-    },
-    update: {
-      error: '?',
-      status: string,
-    }
-  },
-  tx: {
-    activeId: string,
-    fetch: {
-      error: '?',
-      status: string,
-    },
-    items: array
-  },
-  txTbl: {
-    filters: {
-      acctId: string,
-      category1: string,
-      category2: string,
-      date: string,
-      description: string,
-      type: string
-    },
-    radioCategorized: {
-      disabled: boolean,
-      value: any,
-    },
-    radioHasRule: {
-      value: any
-    },
-  }
-}
+# Private Money
 
-```
+## About
 
+Private Money is a browser based app that allows you to import, categorize & export you financial transaction data without involving a 3rd party. Only you and your financial institution have your data.
 
-```js
-TxColHead {
-  _valueChanged = () => {
-    _setValue(value)
-  }
+> Currently, due to setup requirements, Private Money is only useable by folks with developer skills
 
-  useEffect(
-    if (debouncedValue) {
-      updateFilters(name; fieldName, value: debouncedValue)
-    }
-  ), [debouncedValue, dispatch, fieldName]
-}
+## Setup
 
-```
+Setup instructions are in [the project's wiki](https://github.com/klequis/private-money-client/wiki) on the pages numbered 1 - 6.
 
-## Rules
-- _value === debouncedValue
-- updateFilters on debouncedValueChange
+## Contributing
 
+I am actively looking for contributors and currently have time to offer support to contributors. If you would like to contribute, please open an issue labeled 'question' and let me know what you would like to do.
 
-
-```js
-TxColHead {
-  txTblSlice.updateFilters({ name: fieldName, value }) {
-    return filterUpdate(finalVal, path, currState) {
-      return setStateValue(wdTxTbl, path, value, state)
-    }
-  }
-
-}
-```
