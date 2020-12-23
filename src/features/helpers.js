@@ -1,6 +1,10 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import {
+  wdId
+} from 'appWords'
+import { dataTypes } from 'lib/dataTypes'
 
 // eslint-disable-next-line
 import { grpStart, grpEnd, purple, blue, yellow, red } from 'logger'
@@ -27,7 +31,7 @@ export const removeInactiveCriteria = (rule) => {
 }
 
 export const removeTmpIdField = (rule) => {
-  return R.has('_id') ? R.dissoc('_id', rule) : rule
+  return R.has(wdId) ? R.dissoc(wdId, rule) : rule
 }
 
 /**
@@ -99,7 +103,7 @@ export const setStateValue = R.curry((root, path, newValue, state) => {
   const ret = R.assocPath(actualPath, newValue, state)
   // red('ret', ret)
   // if (isPath) console.assert(ret.ruleEdit.actions.length === 1, 'should be 1 action')
-  if (R.type(ret) !== 'Object') {
+  if (R.type(ret) !== dataTypes.Object) {
     red('hey this return value is not an object', ret)
   }
   // if (isPath) blue('setStateValue: ret', ret)

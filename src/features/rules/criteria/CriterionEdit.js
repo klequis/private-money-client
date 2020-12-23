@@ -15,6 +15,7 @@ import { errorLevels } from 'globalConstants'
 /* eslint-disable */
 import { green, redf, purple, grpStart, grpEnd } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+import { wdActive, wdCheckbox, wdDate, wdField, wdOperation, wdValue } from 'appWords'
 /* eslint-enable */
 
 let countTotal = 0
@@ -75,7 +76,7 @@ export const CriterionEdit = ({ criterion }) => {
 
   const _onChange = (event) => {
     const { name, value, checked, type } = event.target
-    const newProp = { [name]: type === 'checkbox' ? checked : value }
+    const newProp = { [name]: type === wdCheckbox ? checked : value }
     const newCriterion = _mergeCriterionProp(newProp, _criterion)
     _setCriterion(newCriterion)
     _dispatch(ruleEditCriterionUpdate(newCriterion))
@@ -86,7 +87,7 @@ export const CriterionEdit = ({ criterion }) => {
 
     // validation
     const validation =
-      field === 'date' ? _validateDate(value) : _validateString(value)
+      field === wdDate ? _validateDate(value) : _validateString(value)
     _setValueErrorLevel(validation)
 
     // update criterion
@@ -107,11 +108,11 @@ export const CriterionEdit = ({ criterion }) => {
         countReturn={{ actual: countReturn, min: 4, max: 4 }}
       />
       <RowDiv>
-        <CheckBox name="active" checked={active} onChange={_onChange} />
+        <CheckBox name={wdActive} checked={active} onChange={_onChange} />
         <Select
           disabled={!active}
           maxWidth={125}
-          name="field"
+          name={wdField}
           onBlur={_onBlur}
           onChange={_onChange}
           value={field}
@@ -125,7 +126,7 @@ export const CriterionEdit = ({ criterion }) => {
         <Select
           disabled={!active}
           maxWidth={125}
-          name="operation"
+          name={wdOperation}
           onBlur={_onBlur}
           onChange={_onChange}
           value={operation}
@@ -142,7 +143,7 @@ export const CriterionEdit = ({ criterion }) => {
           value={value}
           maxWidth={900}
           minWidth={500}
-          name="value"
+          name={wdValue}
           onChange={_onChange}
           onBlur={_onBlur}
           errorLevel={_valueErrorLevel}

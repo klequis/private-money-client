@@ -2,23 +2,24 @@ import * as R from 'ramda'
 import { criteriaFields } from './criteriaFields'
 import { operatorFields } from './operatorFields'
 import { isString } from 'lib/dataTypes'
+import { wdField, wdOperator, wdValue } from 'appWords'
 
-const hasField = R.has('field')
-const hasOperator = R.has('operator')
-const hasValue = R.has('value')
+const hasField = R.has(wdField)
+const hasOperator = R.has(wdOperator)
+const hasValue = R.has(wdValue)
 
 export const validateCriterion = (criterion) => {
-  const newCriterion = R.pick('field', 'operator', 'value')
+  const newCriterion = R.pick(wdField, wdOperator, wdValue)
   if (!R.allPass([hasField, hasOperator, hasValue])(newCriterion)) {
     throw new Error('Criterion is missing a field. Each criterion must have the fields "field", "operator" and "value"')
   }
-  if (!R.includes(R.prop('field')(newCriterion), criteriaFields)) {
+  if (!R.includes(R.prop(wdField)(newCriterion), criteriaFields)) {
     return false
   }
-  if (!R.includes(R.prop('operator')(newCriterion), operatorFields)) {
+  if (!R.includes(R.prop(wdOperator)(newCriterion), operatorFields)) {
     return false
   }
-  const value = R.prop('value')
+  const value = R.prop(wdValue)
   if (!isString(value)) {
     return false
   }

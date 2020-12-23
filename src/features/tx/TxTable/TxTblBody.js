@@ -13,7 +13,6 @@ export const TxTblBody = ({ txId }) => {
   const _dispatch = useDispatch()
   const _transaction = useSelector((state) => selectOneTx(txId, state))
   const {
-    _id,
     acctId,
     amount,
     category1,
@@ -41,7 +40,6 @@ export const TxTblBody = ({ txId }) => {
           <TxTblData align='left'>{acctId}</TxTblData>
           <TxTblData align="left">
             <div>{description}</div>
-            {/* <div>{_id}</div> */}
           </TxTblData>
           <TxTblData
             color={amount > 0 ? '#00bc8c' : '#e74c3c'}

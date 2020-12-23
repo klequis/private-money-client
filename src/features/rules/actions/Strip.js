@@ -5,12 +5,13 @@ import { txFields } from 'features/tx'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
+import { wdField, wdFindValue, wdNumAdditionalChars } from 'appWords'
 
 export const Strip = ({ action, onChange }) => {
   return (
     <>
       <Select
-        name="field"
+        name={wdField}
         value={action.field}
         onChange={onChange}
         maxWidth={100}
@@ -19,16 +20,16 @@ export const Strip = ({ action, onChange }) => {
         <option value={txFields.type.name}>Type</option>
       </Select>
       <TextEdit
-        name="findValue"
-        labelText="findValue"
+        name={wdFindValue}
+        labelText={wdFindValue}
         onChange={onChange}
         placeholder="find value"
         value={action.findValue}
       />
       <TextEdit
-        name="numAdditionalChars"
-        labelText="numAdditionalChars"
-        placeholder="numAdditionalChars"
+        name={wdNumAdditionalChars}
+        labelText={wdNumAdditionalChars}
+        placeholder={wdNumAdditionalChars}
         value={action.numAdditionalChars}
         onChange={onChange}
       />

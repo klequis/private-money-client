@@ -6,12 +6,16 @@ import * as R from 'ramda'
 import {
   selectOneTx,
 } from 'features/selectors'
+import {
+  wdHasRule,
+  wdRuleIds
+} from 'appWords'
 
 // eslint-disable-next-line
 import { blue, green, yellow, grpStart, grpEnd } from 'logger'
 
-const _hasRule = (transaction) => R.prop('hasRule')(transaction)
-const _getRuleId = (transaction) => R.prop('ruleIds')(transaction)
+const _hasRule = (transaction) => R.prop(wdHasRule)(transaction)
+const _getRuleId = (transaction) => R.prop(wdRuleIds)(transaction)
 
 /*
     - if transactionId === '' 

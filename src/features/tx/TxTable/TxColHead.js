@@ -1,12 +1,15 @@
-import React, { useState } from 'react'
-import { useDispatch } from 'react-redux'
+import React from 'react'
+import { useDispatch, useSelector } from 'react-redux'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
 import { updateFilters, updateSort } from 'features/txTbl'
 import { useDebouncedCallback } from 'use-debounce'
-import { SortAscTriangle } from 'components/SortAscTriangle'
-import { SortDescTriangle } from 'components/SortDescTriangle'
 import classNames from 'classnames'
+import { SortIcons } from './SortIcons'
+
+import {
+  selectTxTblFilterValue
+} from 'features/selectors'
 
 // eslint-disable-next-line
 import { green, purple, grpStart, grpEnd } from 'logger'
@@ -16,10 +19,7 @@ const TextInput = styled.input`
   height: 24px;
 `
 
-const SortIconDiv = styled.div`
-  display: flex;
-  flex-direction: column;
-`
+
 
 const ColNameDiv = styled.div`
   display: flex;
@@ -31,39 +31,6 @@ const FieldNameDiv = styled.div`
  self-align: flex-start;
  margin-right: 15px;
 `
-
-const SpacerDiv = styled.div`
-  height: 1px;
-`
-const _activeColor = 'red'
-const _inactiveColor = 'gray'
-
-const SortIcons = ({ fieldName, onChange }) => {
-  const [_currentOrder, _setCurrentOrder] = useState('none')
-  const _dispatch = useDispatch()
-
-  const _click = (fieldName) => {
-    green('fieldName', fieldName)
-    
-    if (_currentOrder === 'none') {
-      _setCurrentOrder('asc')
-      onChange({ fieldName, sortOrder: 'asc' })
-    } else if (_currentOrder === 'asc') {
-      _setCurrentOrder('desc')
-      onChange({ fieldName, sortOrder: 'desc' })
-    } else {
-      _setCurrentOrder('none')
-      onChange({ fieldName: '', sortOrder: 'none' })
-    }
-  }
-  return (
-    <SortIconDiv onClick={() => _click(fieldName)}>
-      <SortAscTriangle width={15} fillColor={ _currentOrder === 'asc' ? _activeColor : _inactiveColor } />
-      <SpacerDiv></SpacerDiv>
-      <SortDescTriangle width={15} fillColor={ _currentOrder === 'desc' ? _activeColor : _inactiveColor } />
-    </SortIconDiv>
-  )
-}
 
 export const TxColHead = ({ fieldName }) => {
   const _dispatch = useDispatch()
@@ -80,6 +47,8 @@ export const TxColHead = ({ fieldName }) => {
     // delay in ms
     1000
   )
+
+  const filterValue = useSelector(state => selectTxTblFilterValue(fieldName, state))
 
   const _onTextInputChange = (e) => {
     const value = e.target.value
@@ -106,6 +75,7 @@ export const TxColHead = ({ fieldName }) => {
             <TextInput
               className={classNames(['form-control', 'form-control-sm'])}
               type="text"
+              value={filterValue}
               onChange={_onTextInputChange}
             />
           </div>

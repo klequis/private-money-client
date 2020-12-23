@@ -30,7 +30,7 @@ import {
 
 const allId = 'allId'
 const hasRuleId = 'hasRuleId'
-const doesNotHaveRuleId = 'doesNotaveRuleId'
+const doesNotHaveRuleId = 'doesNotHaveRuleId'
 
 
 // eslint-disable-next-line
