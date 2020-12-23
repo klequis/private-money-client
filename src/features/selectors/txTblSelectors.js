@@ -1,5 +1,4 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { notNilOrEmpty } from 'lib/notNilOrEmpty'
 import { dataTypes } from 'lib/dataTypes'
 import * as R from 'ramda'
 import {
@@ -18,7 +17,6 @@ import {
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
-import { compareAsc, compareDesc, isDate } from 'date-fns'
 import { txFields } from 'features/tx'
 
 /* eslint-disable */
@@ -111,7 +109,6 @@ const _getHasCategory = (filterByCategory, radioCategorizedValue) => {
  * @returns {unknown} don't know
  */
 const _makeConditions = (state) => {
-  // const { options, filters } = transactionsUi
   const filters = _selectTxFilters(state)
   const {
     date,
@@ -123,25 +120,10 @@ const _makeConditions = (state) => {
     type
   } = filters
 
-  // const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
-  // const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
-  // const ruleRadioOption = R.path(selectorPaths.ruleRadioValue, options)
-  // const categorizeRadioOption = R.path(
-  //   selectorPaths.categorizeRadioValue,
-  //   options
-  // )
-  // const filterByRule =  ruleRadioOption === wdAll ? false : true
-
-  // const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioOptionValue), state)
-  // const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioValue), state)
   const _radioHasRuleValue = selectRadioHasRuleValue(state)
-  // const categorizeRadioValue = R.path(getPath(state, uiPaths.categorizeRadioValue), state)
   const _radioCategorizedValue = selectRadioCategorizedValue(state)
-
   const _filterByRule = _radioHasRuleValue === wdAll ? false : true
-  // const filterByCategory = ???  === wdBoth ? false : true
   const _filterByCategory = _radioCategorizedValue === wdBoth ? false : true
-
   const _allConditions = {
     hasRule: _getHasRule(_filterByRule, _radioHasRuleValue),
     hasCategory: _getHasCategory(_filterByCategory, _radioCategorizedValue),
@@ -153,18 +135,8 @@ const _makeConditions = (state) => {
     category2,
     type
   }
-
-  // get return conditions that are not null / empty
+  // TODO: looks like _conditionFilter could be inline with R.filter
   const _conditionFilter = (val) => {
-    // let checkedVal
-    // if (val === null) {
-    //   checkedVal = val
-    // } else if (isNilOrEmpty(val.trim())) {
-    //   checkedVal = null
-    // } else {
-    //   checkedVal = val.trimLeft()
-    // }
-    // return !isNilOrEmpty(checkedVal)
     return !isNilOrEmpty(val)
   }
   return R.filter(_conditionFilter, _allConditions)
@@ -211,131 +183,50 @@ export const selectTxTblSortOrder = R.curry((state) => {
   return getStateValue(wdTxTbl, pathTxTblSortOrder, state)
 })
 
-// const compareDateFn = function(sortOrder, a, b){
-//   if (sortOrder === 'asc') {
-//     return compareAsc(new Date(a), new Date(b))
-//   }
-  
-// }
-
-const _getCompareFn = (sortField, sortOrder) => {
-  
-  if (sortField === 'date') {
-    if (sortOrder === 'asc') {
-      return (a, b) => compareAsc(new Date(a), new Date(b))
-    } else {
-      return (a, b) => compareDesc(new Date(a), new Date(b))
-    }
-  } else if (sortField === 'amount') {
-    return (a, b) => {
-      grpStart('amount compare')
-      const aAmount = a[sortField]
-      red('aAmount', aAmount)
-      const bAmount = b[sortField]
-      red('bAmount', bAmount)
-      const ret = aAmount > bAmount
-      red('ret', ret)
-      grpEnd()
-      return ret
-    }
-  } else {
-    return (a, b) => a > b ? 1 : -1
-  }
-}
-
-const _sortTxItems = R.curry((sortField, sortOrder, items) => {
-  grpStart('_sortTxItems')
-  blue('sortField', sortField)
-  blue('sortOrder', sortOrder)
-  blue('items.length', items.length)
-  const compareFn = _getCompareFn(sortField, sortOrder)
-  blue('compareFn', compareFn)
-  grpEnd()
-  return R.sort(compareFn, items)
-})
-
-const _log = (message) => (value) => console.log(message, value)
-
-const _filterAndSort = (spec, items, sort) => {
-  grpStart('_filterAndSort')
-  blue('spec', spec)
-  blue('items', items)
-  blue('sort', sort)
-  const ret = R.pipe(
-    R.tap(_log('1. items', items)),
-    R.filter(R.__, items),
-    R.tap(_log('2. items', items)),
-    _sortTxItems(sort.field, sort.order),
-    R.tap(_log('3. items', items)),
-    )(spec, items, sort)
-  grpEnd()
-  return ret
-}
-
-const _getSort = (state) => {
-
-  const sort = {
-    field: selectTxTblSortFieldName(state),
-    order: selectTxTblSortOrder(state) 
-  }
-
-  if (notNilOrEmpty(sort.field) && notNilOrEmpty(sort.order)) {
-    return sort
-  }
-  return {}
-}
-
 const _makeDate = R.curry(value => new Date(value))
 
-const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
-  grpStart('sortTx')
-  blue('sortField', sortField)
-  blue('sortFieldDataType', sortFieldDataType)
-  blue('sortOrder', sortOrder)
-  blue('data', data)
-  grpEnd()
+const _sortTx = R.curry((state, txItems) => {
+  const sortField = selectTxTblSortFieldName(state)
+  const sortOrder = selectTxTblSortOrder(state) 
+  if (isNilOrEmpty(sortField) || isNilOrEmpty(sortOrder)) {
+    return txItems
+  }
+  const sortFieldDataType = txFields[sortField].dataType
   if (sortFieldDataType === dataTypes.String) {
     const valueFn = R.compose(R.toLower, R.prop(sortField))
     return sortOrder === 'asc' 
-      ? R.sort(R.ascend(valueFn))(data) 
-      : R.sort(R.descend(valueFn))(data)
+      ? R.sort(R.ascend(valueFn))(txItems) 
+      : R.sort(R.descend(valueFn))(txItems)
   } else if (sortFieldDataType === dataTypes.Number) {
     const scoreToNum = R.compose(Number, R.prop(sortField));
     return sortOrder === 'asc' 
-      ? R.sortWith([R.ascend(scoreToNum)])(data)
-      : R.sortWith([R.descend(scoreToNum)])(data)
+      ? R.sortWith([R.ascend(scoreToNum)])(txItems)
+      : R.sortWith([R.descend(scoreToNum)])(txItems)
   } else if (sortFieldDataType === dataTypes.Date) {
     const stringToDate = R.compose(_makeDate, R.prop(sortField))
     return sortOrder === 'asc' 
-      ? R.sortWith([R.ascend(stringToDate)])(data)
-      : R.sortWith([R.descend(stringToDate)])(data)
-    // return sortOrder === 'asc'
-    //   ? R.sort((a, b) => compareAsc(
-    //         R.prop(sortField)(a),
-    //         R.prop(sortField)(b)
-    //       ),
-    //       data
-    //     )
-    //   : R.sort((a, b) => compareDesc(
-    //         new Date(R.prop(sortField)(a)),
-    //         new Date(R.prop(sortField)(b))
-    //       ),
-    //       data
-    //     )
+      ? R.sortWith([R.ascend(stringToDate)])(txItems)
+      : R.sortWith([R.descend(stringToDate)])(txItems)
   } else if (sortFieldDataType === dataTypes.Boolean) {
-      purple('boolean sort')
-
-      const ret = sortOrder === 'asc' 
-        ? R.sort(R.ascend(R.prop(sortField)))(data)
-        : R.sort(R.ascend(R.prop(sortField)))(data)
-    
-      ret.forEach(doc => console.log(doc.omit))
-      return ret
-
+      return sortOrder === 'asc' 
+        ? R.sort(R.ascend(R.prop(sortField)))(txItems)
+        : R.sort(R.ascend(R.prop(sortField)))(txItems)
   } else {
     throw new Error('txTblSelectors.sortTx - unknown dataType')
   }
-}
+})
+
+const _filterTx = R.curry((state, txItems) => {
+  const currentConditions = _makeConditions(state)
+  if (isNilOrEmpty(currentConditions)) {
+    return txItems
+  } 
+  const keys = R.keys(currentConditions)
+  const tests = _allTests(state)
+  const specObj = R.pick(keys, tests)
+  const filterSpec = R.where(specObj)
+  return R.filter(filterSpec, txItems)
+})
 
 /**
  *
@@ -343,49 +234,7 @@ const sortTx = (sortField, sortFieldDataType, sortOrder, data) => {
  * @returns {Array} of filtered transaction objects
  */
 export const selectFilteredTx = (state) => {
-  // purple('selectFilteredTx', 'called')
   const txItems = selectTxItems(state)
-  const sort = _getSort(state)
-  if (isNilOrEmpty(sort)) {
-    return txItems
-  }
-  // const ret = _sortTxItems(sort.field, sort.order)(txItems)
-  // blue('sort', sort)
-  // blue('sort.field', sort.field)
-  const dataType = txFields[sort.field].dataType
-  // blue('dataType', dataType)
-
-  const ret = sortTx(sort.field, dataType, sort.order, txItems)
-  
-  return ret 
+  const filteredItems = _filterTx(state, txItems)
+  return _sortTx(state, filteredItems)
 }
-
-/*
-
-export const selectFilteredTx = (state) => {
-  purple('selectFilteredTx', 'called')
-  const txItems = selectTxItems(state)
-  const currentConditions = _makeConditions(state)
-  const sort = _getSort(state)
-  
-
-
-  // if (isNilOrEmpty(currentConditions)) {
-  //   red('early exit', 'exit')
-  //   console.groupEnd()
-  //   return txItems
-  // }
-  const keys = R.keys(currentConditions)
-  const tests = _allTests(state)
-  const specObj = R.pick(keys, tests)
-  // green('specObj', specObj)
-  const spec1 = R.where(specObj)
-  // green('spec1', spec1)
-  
-  const ret = _filterAndSort(spec1, txItems, sort)
-  return ret
-}
-
-*/
-
-
