@@ -25,6 +25,8 @@ const { errorLevelNone, errorLevelError } = errorLevels
 
 const RowDiv = styled.div`
   display: flex;
+  margin-top: 0.5rem;
+  margin-bottom: 0.5rem;
 `
 
 /**

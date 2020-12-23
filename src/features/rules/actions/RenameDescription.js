@@ -1,5 +1,5 @@
 
-import React, {useState } from 'react'
+import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ruleEditActionUpdate } from 'features/rules'
 import * as R from 'ramda'
@@ -8,6 +8,10 @@ import { wdReplaceWithValue } from 'appWords'
 
 // eslint-disable-next-line
 import { purple, green, redf } from 'logger'
+
+const RenameDescriptionInput = styled.input`
+  margin-right: 0.25rem;
+`
 
 export const RenameDescription = () => {
   const [_action, _setAction] = useState(useSelector(selectRuleEditRenameAction))
@@ -23,7 +27,7 @@ export const RenameDescription = () => {
   }
 
   return (
-    <input
+    <RenameDescriptionInput
       key={actionId}
       type="text"
       value={replaceWithValue}

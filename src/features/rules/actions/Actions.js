@@ -15,12 +15,18 @@ import { green, redf, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
 /* eslint-enable */
 
+const ActionsH4 = styled.h4`
+  margin-bottom: 16px;
+`
+
 const ActionsDiv = styled.div`
   display: flex;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 `
 const OmitCheck = styled.input`
-  margin-top: 16px;
-  margin-bottom: 20px;
+  margin-top: 0.25rem;
+  margin-bottom: 0.25rem;
 `
 
 let countTotal = 0
@@ -49,7 +55,7 @@ export const Actions = () => {
       // green('set it ***************')
       _setOmitChecked(hasActionTypeOmit)
     }
-    
+
   }, [_rule])
 
   if (isNilOrEmpty(_actions)) {

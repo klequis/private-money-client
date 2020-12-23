@@ -15,7 +15,10 @@ import { RenderCount } from 'components/RenderCount'
 let countTotal = 0
 let countReturn = 0
 
-const TextEditDiv = styled.div``
+const TextEditDiv = styled.div`
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+  `
 
 // width: 100%;
 // max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}px
