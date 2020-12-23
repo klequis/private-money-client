@@ -9,6 +9,9 @@ const CheckBoxDiv = styled.div`
   background-color: blue;
   margin-right: .25rem;
 `
+const CheckBoxInput = styled.input`
+  vertical-align: middle;
+`
 
 export const CheckBox = ({
   checked,
@@ -30,7 +33,7 @@ export const CheckBox = ({
     {
       isNilOrEmpty(labelText)
         ? (
-          <input
+          <CheckBoxInput
             className="form-check-input"
             checked={_checked}
             disabled={disabled}
@@ -44,7 +47,7 @@ export const CheckBox = ({
           <label
             className="form-check-label"
           >
-            <input
+            <CheckBoxInput
               className="form-check-input"
               checked={_checked}
               disabled={disabled}
