@@ -6,7 +6,10 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { green, redf } from 'logger'
 
 const CheckBoxDiv = styled.div`
-  background-color: blue;
+  margin-right: .25rem;
+`
+const CheckBoxInput = styled.input`
+  vertical-align: middle;
 `
 
 export const CheckBox = ({
@@ -29,33 +32,33 @@ export const CheckBox = ({
     {
       isNilOrEmpty(labelText)
         ? (
-            <input 
+          <CheckBoxInput
+            className="form-check-input"
+            checked={_checked}
+            disabled={disabled}
+            id={id}
+            name={name}
+            onChange={_onChange}
+            type="checkbox"
+          />
+        )
+        : (
+          <label
+            className="form-check-label"
+          >
+            <CheckBoxInput
               className="form-check-input"
               checked={_checked}
               disabled={disabled}
               id={id}
               name={name}
               onChange={_onChange}
-              type="checkbox" 
-            />  
+              type="checkbox"
+            />
+
+            {labelText}
+          </label>
         )
-        : (
-            <label
-              className="form-check-label"
-            >
-              <input 
-                className="form-check-input"
-                checked={_checked}
-                disabled={disabled}
-                id={id}
-                name={name}
-                onChange={_onChange}
-                type="checkbox" 
-              />
-  
-              {labelText}
-            </label>
-          )
     }
   </CheckBoxDiv>
 }

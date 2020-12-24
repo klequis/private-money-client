@@ -15,7 +15,10 @@ import { RenderCount } from 'components/RenderCount'
 let countTotal = 0
 let countReturn = 0
 
-const TextEditDiv = styled.div``
+const TextEditDiv = styled.div`
+    margin-right: 0.25rem;
+    margin-left: 0.25rem;
+  `
 
 // width: 100%;
 // max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}px
@@ -33,6 +36,7 @@ export const TextEdit = React.memo(
     disabled,
     errorLevel = errorLevelNone,
     labelText = '',
+    width,
     maxWidth,
     minChars = 0,
     minWidth,
@@ -43,7 +47,7 @@ export const TextEdit = React.memo(
     value = ''
   }) => {
     countTotal = countTotal + 1
-    
+
     countReturn = countReturn + 1
     return (
       <>
@@ -57,6 +61,7 @@ export const TextEdit = React.memo(
           <TextEditInput
             disabled={disabled}
             errorLevel={errorLevel}
+            width={width}
             maxWidth={maxWidth}
             minWidth={minWidth}
             name={name}
@@ -89,6 +94,7 @@ TextEdit.propTypes = {
     message: PropTypes.string.isRequired
   }),
   value: isValidInitialValue,
+  width: PropTypes.number,
   maxWidth: PropTypes.number,
   minChars: PropTypes.number,
   name: PropTypes.string.isRequired,

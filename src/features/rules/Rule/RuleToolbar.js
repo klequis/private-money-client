@@ -5,8 +5,14 @@ import { Button } from 'components/Button'
 import { selectRuleEditIsDirty } from 'features/selectors'
 
 const RuleToolbarDiv = styled.div`
-  padding-top: 16px;
-  padding-bottom: 16px;
+  display: flex;
+  align-items: center;
+  margin-left: 0.25rem;
+`
+
+const RuleToolbarH4 = styled.h4`
+  margin-right: 12px;
+  margin-bottom: 0;
 `
 
 const Btn = styled(Button)`

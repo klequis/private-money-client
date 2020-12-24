@@ -24,7 +24,10 @@ const formatDate = (date, format, locale) => {
   return dateFnsFormat(date, format, { locale })
 }
 
-const DatePickerDiv = styled.div``
+const DatePickerDiv = styled.div`
+  margin-right: 0.25rem;
+  margin-left: 0.25rem;
+`
 
 export const DatePicker = React.memo(({ disabled, maxWidth, name, value }) => {
   // TODO: TMP
