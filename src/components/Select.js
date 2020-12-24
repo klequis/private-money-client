@@ -15,6 +15,7 @@ const SelectDiv = styled.div`
 const SelectControl = styled.select`
   width: 100%;
   max-width: ${(props) => props.maxWidth}px;
+  min-width: ${(props) => props.minWidth}px;
 `
 
 /*
@@ -31,6 +32,7 @@ export const Select = ({
   // marginTop,
   name,
   maxWidth,
+  minWidth,
   // minWidth,
   onChange,
   // paddingBottom,
@@ -47,6 +49,7 @@ export const Select = ({
         disabled={disabled}
         margin={margin}
         maxWidth={maxWidth}
+        minWidth={minWidth}
         name={name}
         onChange={onChange}
         value={value}

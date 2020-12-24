@@ -4,7 +4,9 @@ import { Table as BaseTable } from 'components/Table'
 import { TxTblBody } from './TxTblBody'
 import { TxTblHead } from './TxTblHead'
 import { TxTblOptions } from './TxTblOptions'
-import { selectFilteredTx } from 'features/selectors'
+import {
+  selectFilteredTx
+} from 'features/selectors'
 import styled from 'styled-components'
 import { ContainerFluid } from 'components/ContainerFluid'
 

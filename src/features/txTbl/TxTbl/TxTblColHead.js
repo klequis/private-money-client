@@ -7,9 +7,7 @@ import { useDebouncedCallback } from 'use-debounce'
 import classNames from 'classnames'
 import { SortIcons } from './SortIcons'
 
-import {
-  selectTxTblFilterValue
-} from 'features/selectors'
+import { selectTxTblFilterValue } from 'features/selectors'
 
 // eslint-disable-next-line
 import { green, purple, grpStart, grpEnd } from 'logger'
@@ -19,20 +17,20 @@ const TextInput = styled.input`
   height: 24px;
 `
 
-
-
 const ColNameDiv = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: ${(props) =>
+    props.align === 'right' ? 'flex-end' : 'flex-start'};
   align-items: center;
 `
 
-const FieldNameDiv = styled.div`
- self-align: flex-start;
- margin-right: 15px;
+const FieldDescriptionDiv = styled.div`
+  self-align: flex-start;
+  margin-right: 15px;
+  font-size: 20px;
 `
 
-export const TxColHead = ({ fieldName }) => {
+export const TxTblColHead = ({ fieldName, align, fieldDescription }) => {
   const _dispatch = useDispatch()
 
   // const [_value, _setValue] = useState('')
@@ -48,7 +46,9 @@ export const TxColHead = ({ fieldName }) => {
     1000
   )
 
-  const filterValue = useSelector(state => selectTxTblFilterValue(fieldName, state))
+  const filterValue = useSelector((state) =>
+    selectTxTblFilterValue(fieldName, state)
+  )
 
   const _onTextInputChange = (e) => {
     const value = e.target.value
@@ -59,30 +59,26 @@ export const TxColHead = ({ fieldName }) => {
     _dispatch(updateSort(sortObj))
   }
 
-
   return (
     <th>
-      {
-        fieldName !== txFields.omit.name ? (
-          <div>
-            <ColNameDiv>
-              <FieldNameDiv>{fieldName}</FieldNameDiv>
-              <SortIcons 
-                fieldName={fieldName}
-                onChange={_onSortIconsChange}
-              />
-            </ColNameDiv>
-            <TextInput
-              className={classNames(['form-control', 'form-control-sm'])}
-              type="text"
-              value={filterValue}
-              onChange={_onTextInputChange}
-            />
-          </div>
-        ) : (
-          <FieldNameDiv>{fieldName}</FieldNameDiv>
-        )
-      }
+      {fieldName !== txFields.omit.name ? (
+        <div>
+          <ColNameDiv align={align}>
+            <FieldDescriptionDiv>{fieldDescription}</FieldDescriptionDiv>
+            <SortIcons fieldName={fieldName} onChange={_onSortIconsChange} />
+          </ColNameDiv>
+          <TextInput
+            className={classNames(['form-control', 'form-control-sm'])}
+            type="text"
+            value={filterValue}
+            onChange={_onTextInputChange}
+          />
+        </div>
+      ) : (
+        <ColNameDiv align={align}>
+          <FieldDescriptionDiv>{fieldDescription}</FieldDescriptionDiv>
+        </ColNameDiv>
+      )}
     </th>
   )
 }

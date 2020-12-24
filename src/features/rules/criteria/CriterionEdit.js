@@ -25,6 +25,7 @@ const { errorLevelNone, errorLevelError } = errorLevels
 
 const RowDiv = styled.div`
   display: flex;
+  align-items: center;
   margin-top: 0.5rem;
   margin-bottom: 0.5rem;
 `
@@ -111,10 +112,11 @@ export const CriterionEdit = ({ criterion }) => {
         countReturn={{ actual: countReturn, min: 4, max: 4 }}
       />
       <RowDiv>
-        <CheckBox name={wdActive} checked={active} onChange={_onChange} />
+        <input type="checkbox" name={wdActive} checked={active} onChange={_onChange} />
         <Select
           disabled={!active}
           maxWidth={125}
+          minWidth={125}
           name={wdField}
           onBlur={_onBlur}
           onChange={_onChange}
@@ -129,6 +131,8 @@ export const CriterionEdit = ({ criterion }) => {
         <Select
           disabled={!active}
           maxWidth={135}
+          minWidth={135}
+          name={wdOperation}
           onBlur={_onBlur}
           onChange={_onChange}
           value={operation}
