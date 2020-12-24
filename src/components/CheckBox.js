@@ -6,7 +6,6 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { green, redf } from 'logger'
 
 const CheckBoxDiv = styled.div`
-  background-color: blue;
   margin-right: .25rem;
 `
 const CheckBoxInput = styled.input`
