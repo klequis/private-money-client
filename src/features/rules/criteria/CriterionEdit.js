@@ -115,6 +115,7 @@ export const CriterionEdit = ({ criterion }) => {
         <Select
           disabled={!active}
           maxWidth={125}
+          minWidth={125}
           name={wdField}
           onBlur={_onBlur}
           onChange={_onChange}
@@ -128,7 +129,8 @@ export const CriterionEdit = ({ criterion }) => {
         </Select>
         <Select
           disabled={!active}
-          maxWidth={125}
+          maxWidth={135}
+          minWidth={135}
           name={wdOperation}
           onBlur={_onBlur}
           onChange={_onChange}
