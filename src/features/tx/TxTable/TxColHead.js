@@ -30,6 +30,7 @@ const ColNameDiv = styled.div`
 const FieldNameDiv = styled.div`
  self-align: flex-start;
  margin-right: 15px;
+ font-size: 20px;
 `
 
 export const TxColHead = ({ fieldName }) => {
@@ -67,7 +68,7 @@ export const TxColHead = ({ fieldName }) => {
           <div>
             <ColNameDiv>
               <FieldNameDiv>{fieldName}</FieldNameDiv>
-              <SortIcons 
+              <SortIcons
                 fieldName={fieldName}
                 onChange={_onSortIconsChange}
               />
@@ -80,8 +81,8 @@ export const TxColHead = ({ fieldName }) => {
             />
           </div>
         ) : (
-          <FieldNameDiv>{fieldName}</FieldNameDiv>
-        )
+            <FieldNameDiv>{fieldName}</FieldNameDiv>
+          )
       }
     </th>
   )
