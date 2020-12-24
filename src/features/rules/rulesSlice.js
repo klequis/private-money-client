@@ -36,7 +36,13 @@ import {
   wdRequestStatusError,
   wdRequestStatusFetch,
   wdRequestStatusFulfilled,
-  wdRequestStatusPending
+  wdRequestStatusPending,
+  wdId,
+  wdPayload,
+  wdRuleId,
+  wdData,
+  wdError,
+  wdMessage
 } from 'appWords'
 import { setStateValue } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
@@ -184,8 +190,6 @@ const _isTmpRuleSet = R.curry((state) => {
   )
 })
 
-const _log = (message) => (value) => console.log(message, value)
-
 const rulesSlice = createSlice({
   name: wdRules,
   initialState,
@@ -198,7 +202,7 @@ const rulesSlice = createSlice({
      * @description deletes all existing Actions and sets ruleEdit.actions = action.payload
      */
     ruleEditActionsReplace(state, action) {
-      const payload = R.path(['payload'], action)
+      const payload = R.path([wdPayload], action)
       const newActions =
         R.type(payload) === dataTypes.Array ? payload : [payload]
       const ret = R.pipe(
@@ -225,8 +229,8 @@ const rulesSlice = createSlice({
      */
     ruleEditActionUpdate(state, action) {
       const currState = current(state)
-      const newAction = R.path(['payload'], action)
-      const newActionId = R.prop('_id', newAction)
+      const newAction = R.path([wdPayload], action)
+      const newActionId = R.prop(wdId, newAction)
       const currActions = selectRuleEditActions(currState)
       const idxOfActionToReplace = R.findIndex(R.propEq('_id', newActionId))()(
         currActions
@@ -250,11 +254,11 @@ const rulesSlice = createSlice({
      */
     ruleEditCriterionUpdate(state, action) {
       const currState = current(state)
-      const newCriterion = R.path(['payload'], action)
-      const newCriterionId = R.prop('_id', newCriterion)
+      const newCriterion = R.path([wdPayload], action)
+      const newCriterionId = R.prop(wdId, newCriterion)
       const currCriteria = selectRuleEditCriteria(currState)
       const idxOfCriteriaToReplace = R.findIndex(
-        R.propEq('_id', newCriterionId)
+        R.propEq(wdId, newCriterionId)
       )(currCriteria)
 
       const newCriteria = R.update(
@@ -272,7 +276,7 @@ const rulesSlice = createSlice({
      */
     ruleEditSetExistingRule(state, action) {
       const currState = current(state)
-      const ruleId = R.path(['payload', 'ruleId'], action)
+      const ruleId = R.path([wdPayload, wdRuleId], action)
       const rule = getRule(ruleId, currState)
       return R.pipe(
         _ruleEditSet(rule),
@@ -319,14 +323,14 @@ const rulesSlice = createSlice({
       )(current(state))
     },
     [rulesFetch.fulfilled]: (state, action) => {
-      const newItems = R.path(['payload', 'data'], action)
+      const newItems = R.path([wdPayload, wdData], action)
       return R.pipe(
         _fetchStatusSet(wdRequestStatusFulfilled),
         _itemsSet(newItems)
       )(current(state))
     },
     [rulesFetch.rejected]: (state, action) => {
-      const error = R.path(['error', 'message'], action)
+      const error = R.path([wdError, wdMessage], action)
       return R.pipe(
         _fetchStatusSet(wdRequestStatusError),
         _fetchErrorSet(error),
@@ -343,7 +347,7 @@ const rulesSlice = createSlice({
       return _createStatusFetchSet(wdRequestStatusFulfilled, currState)
     },
     [ruleCreate.rejected]: (state, action) => {
-      const error = R.path(['error', 'message'], action)
+      const error = R.path([wdError, wdMessage], action)
       return R.pipe(
         _createStatusFetchSet(wdRequestStatusError),
         _createStatusErrorSet(error)
@@ -357,7 +361,7 @@ const rulesSlice = createSlice({
       return _updateStatusSet(wdRequestStatusFulfilled, state)
     },
     [ruleUpdate.rejected]: (state, action) => {
-      const error = R.path(['error', 'message'], action)
+      const error = R.path([wdError, wdMessage], action)
       return R.pipe(
         _updateStatusSet(wdRequestStatusError),
         _updateErrorSet(error)

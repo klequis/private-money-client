@@ -9,12 +9,15 @@ import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
 import { selectRuleEdit } from 'features/selectors'
+<<<<<<< HEAD
 import { ContainerFluid } from 'components/ContainerFluid'
+=======
+import * as R from 'ramda'
+>>>>>>> 24a0dcd34ec138f919de07aec8706ec010537fe9
 
 /* eslint-disable */
 import { green, purple, red } from 'logger'
 import { RenderCount } from 'components/RenderCount'
-import * as R from 'ramda'
 /* eslint-enable */
 
 let countTotal = 0

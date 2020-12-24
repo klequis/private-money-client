@@ -20,6 +20,10 @@ import {
   pathRulesUpdateStatus,
   wdRules,
   pathRuleEditId,
+  wdField,
+  wdDescription,
+  wdActionType,
+  wdCategorize,
 
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
@@ -200,25 +204,11 @@ export const selectRuleEditRenameAction = (state) => {
   if (isNilOrEmpty(actions)) {
     return null
   }
-  return R.find(R.propEq('field', 'description'), actions)
+  return R.find(R.propEq(wdField, wdDescription), actions)
 }
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 const getCategorizeAction = (actions) => {
-  return R.find(R.propEq('actionType', 'categorize'), actions)
+  return R.find(R.propEq(wdActionType, wdCategorize), actions)
 }
 
 

@@ -25,7 +25,7 @@ const CategoryTD = styled.td`
 export const TableRow = ({ data, isOriginalData, diffs }) => {
   const { date, description, amount, category1, category2 } = data
 
-  const _changeColor = isOriginalData ? 'red' : 'green'
+  const _changeColor = isOriginalData ? '#e74c3c' : '#00bc8c'
 
   return (
     <tr>

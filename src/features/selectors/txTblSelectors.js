@@ -1,25 +1,31 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { dataTypes } from 'lib/dataTypes'
 import * as R from 'ramda'
 import {
   pathTxTblCheckBoxShowOmitted,
-  pathTxTblFilters,
+  pathTxTblFilterProps,
   pathTxTblRadioCategorizedDisabled,
   pathTxTblRadioCategorizedValue,
   pathTxTblRadioHasRuleValue,
   wdHasRule,
   wdCategorized,
   wdAll,
+  wdAsc,
   wdBoth,
+  wdOmit,
   wdTxTbl,
+  pathTxTblFilters,
   pathTxTblSortFieldName,
-  pathTxTblSortOrder
+  pathTxTblSortOrder,
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
-import { compareAsc, compareDesc } from 'date-fns'
+import { txFields } from 'features/tx'
 
 /* eslint-disable */
-import { green, blue, red } from 'logger'
+import { green, blue, red, purple } from 'logger'
+import { grpStart } from 'logger'
+import { grpEnd } from 'logger'
 /* eslint-enable */
 
 /**
@@ -106,7 +112,6 @@ const _getHasCategory = (filterByCategory, radioCategorizedValue) => {
  * @returns {unknown} don't know
  */
 const _makeConditions = (state) => {
-  // const { options, filters } = transactionsUi
   const filters = _selectTxFilters(state)
   const {
     date,
@@ -118,25 +123,10 @@ const _makeConditions = (state) => {
     type
   } = filters
 
-  // const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
-  // const categoryOptValue = R.path(selectorPaths.categorizeRadioValue, options)
-  // const ruleRadioOption = R.path(selectorPaths.ruleRadioValue, options)
-  // const categorizeRadioOption = R.path(
-  //   selectorPaths.categorizeRadioValue,
-  //   options
-  // )
-  // const filterByRule =  ruleRadioOption === wdAll ? false : true
-
-  // const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioOptionValue), state)
-  // const ruleRadioValue = R.path(getPath(state, uiPaths.ruleRadioValue), state)
   const _radioHasRuleValue = selectRadioHasRuleValue(state)
-  // const categorizeRadioValue = R.path(getPath(state, uiPaths.categorizeRadioValue), state)
   const _radioCategorizedValue = selectRadioCategorizedValue(state)
-
   const _filterByRule = _radioHasRuleValue === wdAll ? false : true
-  // const filterByCategory = ???  === wdBoth ? false : true
   const _filterByCategory = _radioCategorizedValue === wdBoth ? false : true
-
   const _allConditions = {
     hasRule: _getHasRule(_filterByRule, _radioHasRuleValue),
     hasCategory: _getHasCategory(_filterByCategory, _radioCategorizedValue),
@@ -148,18 +138,8 @@ const _makeConditions = (state) => {
     category2,
     type
   }
-
-  // get return conditions that are not null / empty
+  // TODO: looks like _conditionFilter could be inline with R.filter
   const _conditionFilter = (val) => {
-    // let checkedVal
-    // if (val === null) {
-    //   checkedVal = val
-    // } else if (isNilOrEmpty(val.trim())) {
-    //   checkedVal = null
-    // } else {
-    //   checkedVal = val.trimLeft()
-    // }
-    // return !isNilOrEmpty(checkedVal)
     return !isNilOrEmpty(val)
   }
   return R.filter(_conditionFilter, _allConditions)
@@ -183,10 +163,10 @@ const _allTests = (state) => {
   } = filters
 
   return {
-    hasRule: R.equals(R.__, selectRadioHasRuleValue(state) === 'hasRule'),
+    hasRule: R.equals(R.__, selectRadioHasRuleValue(state) === wdHasRule),
     hasCategory: R.equals(
       R.__,
-      selectRadioCategorizedValue(state) === 'categorized'
+      selectRadioCategorizedValue(state) === wdCategorized
     ),
     date: R.test(new RegExp(date, 'i')),
     acctId: R.test(new RegExp(acctId, 'i')),
@@ -206,43 +186,50 @@ export const selectTxTblSortOrder = R.curry((state) => {
   return getStateValue(wdTxTbl, pathTxTblSortOrder, state)
 })
 
-// const compareDateFn = function(sortOrder, a, b){
-//   if (sortOrder === 'asc') {
-//     return compareAsc(new Date(a), new Date(b))
-//   }
-  
-// }
+const _makeDate = R.curry(value => new Date(value))
 
-const _compareDateDesc = function(a, b){
-  return compareDesc(new Date(R.prop('dob')(a)), new Date(R.prop('dob')(b)))
-}
-
-const _getCompareFn = (sortField, sortOrder) => {
-  if (sortField === 'date') {
-    if (sortOrder === 'asc') {
-      return (a, b) => compareAsc(new Date(a), new Date(b))
-    } else {
-      return (a, b) => compareDesc(new Date(a), new Date(b))
-    }
-  } else if (sortField === 'amount') {
-    // TODO: return number compare fn
-  } else {
-    // TODO: return text compare fn
+const _sortTx = R.curry((state, txItems) => {
+  const sortField = selectTxTblSortFieldName(state)
+  const sortOrder = selectTxTblSortOrder(state) 
+  if (isNilOrEmpty(sortField) || isNilOrEmpty(sortOrder)) {
+    return txItems
   }
-}
-
-const _sortTxItems = R.curry((sortField, sortOrder, items) => {
-  const compareFn = _getCompareFn(sortField, sortOrder)
-  return R.sort(compareFn, items)
+  const sortFieldDataType = txFields[sortField].dataType
+  if (sortFieldDataType === dataTypes.String) {
+    const valueFn = R.compose(R.toLower, R.prop(sortField))
+    return sortOrder === wdAsc 
+      ? R.sort(R.ascend(valueFn))(txItems) 
+      : R.sort(R.descend(valueFn))(txItems)
+  } else if (sortFieldDataType === dataTypes.Number) {
+    const scoreToNum = R.compose(Number, R.prop(sortField));
+    return sortOrder === wdAsc 
+      ? R.sortWith([R.ascend(scoreToNum)])(txItems)
+      : R.sortWith([R.descend(scoreToNum)])(txItems)
+  } else if (sortFieldDataType === dataTypes.Date) {
+    const stringToDate = R.compose(_makeDate, R.prop(sortField))
+    return sortOrder === wdAsc 
+      ? R.sortWith([R.ascend(stringToDate)])(txItems)
+      : R.sortWith([R.descend(stringToDate)])(txItems)
+  } else if (sortFieldDataType === dataTypes.Boolean) {
+      return sortOrder === wdAsc 
+        ? R.sort(R.ascend(R.prop(sortField)))(txItems)
+        : R.sort(R.ascend(R.prop(sortField)))(txItems)
+  } else {
+    throw new Error('txTblSelectors.sortTx - unknown dataType')
+  }
 })
 
-const _filterAndSort = (spec, items, sort) => {
-  const ret = R.pipe(
-    R.filter(R.__, items),
-    _sortTxItems(sort.field, sort.order)
-  )(spec, items, sort)
-  return ret
-}
+const _filterTx = R.curry((state, txItems) => {
+  const currentConditions = _makeConditions(state)
+  if (isNilOrEmpty(currentConditions)) {
+    return txItems
+  } 
+  const keys = R.keys(currentConditions)
+  const tests = _allTests(state)
+  const specObj = R.pick(keys, tests)
+  const filterSpec = R.where(specObj)
+  return R.filter(filterSpec, txItems)
+})
 
 /**
  *
@@ -251,38 +238,11 @@ const _filterAndSort = (spec, items, sort) => {
  */
 export const selectFilteredTx = (state) => {
   const txItems = selectTxItems(state)
-  const currentConditions = _makeConditions(state)
-  if (isNilOrEmpty(currentConditions)) {
-    console.groupEnd()
-    return txItems
-  }
-  const keys = R.keys(currentConditions)
-  const tests = _allTests(state)
-  const specObj = R.pick(keys, tests)
-  // green('specObj', specObj)
-  const spec1 = R.where(specObj)
-  // green('spec1', spec1)
-  const sort = {
-    field: selectTxTblSortFieldName(state),
-    order: selectTxTblSortOrder(state) 
-  }
-  const ret = _filterAndSort(spec1, txItems, sort)
-  return ret
+  const filteredItems = _filterTx(state, txItems)
+  return _sortTx(state, filteredItems)
 }
 
-
-// export const selectFilteredTx = (state) => {
-//   const txItems = selectTxItems(state)
-//   const currentConditions = makeConditions(state)
-//   if (isNilOrEmpty(currentConditions)) {
-//     console.groupEnd()
-//     return txItems
-//   }
-//   const keys = R.keys(currentConditions)
-//   const tests = allTests(state)
-//   const specObj = R.pick(keys, tests)
-//   // green('specObj', specObj)
-//   const spec1 = R.where(specObj)
-//   // green('spec1', spec1)
-//   return R.filter(spec1, txItems)
-// }
+export const selectTxTblFilterValue = (filterName, state) => {
+  // The omit field does not have a filter
+  return filterName === wdOmit ? '' : getStateValue(wdTxTbl, pathTxTblFilterProps[filterName], state)
+}

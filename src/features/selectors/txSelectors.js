@@ -1,7 +1,8 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { pathTxActiveId, wdTx, pathTxItems, pathTxFetchStatus } from 'appWords'
+import { pathTxActiveId, wdTx, pathTxItems, pathTxFetchStatus, wdId } from 'appWords'
 import * as R from 'ramda'
 import { getStateValue } from 'features/helpers'
+import { dataTypes } from 'lib/dataTypes'
 
 /* eslint-disable */
 import { blue, grpStart, grpEnd } from 'logger'
@@ -22,8 +23,8 @@ const _getTx = (txId, state) => {
   if (isNilOrEmpty(tItems)) {
     return tItems
   }
-  const ret = R.find(R.propEq('_id', txId))(tItems)
-  return R.equals(R.type(ret), 'Undefined') ? null : ret
+  const ret = R.find(R.propEq(wdId, txId))(tItems)
+  return R.equals(R.type(ret), dataTypes.Undefined) ? null : ret
 }
 
 /**

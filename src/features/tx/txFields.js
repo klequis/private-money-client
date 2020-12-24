@@ -4,88 +4,120 @@ import {
   isBoolean,
   isDate,
   isNumber,
-  isString
+  isString,
+  dataTypes
 } from 'lib/dataTypes'
 import * as R from 'ramda'
+import {
+  wdAcctId,
+  wdAmount,
+  wdCategory1,
+  wdCategory2,
+  wdCheckNumber,
+  wdDate,
+  wdDescription,
+  wdDuplicate,
+  wdDuplicateStatus,
+  wdId,
+  wdOmit,
+  wdOrigDescription,
+  wdRuleIds,
+  wdTaxDeduct,
+  wdType
+} from 'appWords'
 
 export const txFields = {
   _id: {
-    name: '_id',
+    name: wdId,
     description: 'Id',
-    validate: isString
+    validate: isString,
+    dataType: dataTypes.String
   },
   acctId: {
-    name: 'acctId',
+    name: wdAcctId,
     description: 'AccountId',
     isCriteriaField: true,
-    validate: isString
+    validate: isString,
+    dataType: dataTypes.String
   },
   amount: {
-    name: 'amount',
+    name: wdAmount,
     description: 'Amount',
     isCriteriaField: true,
-    validate: isNumber
+    validate: isNumber,
+    dataType: dataTypes.Number
   },
   category1: {
-    name: 'category1',
-    description: 'Category1'
+    name: wdCategory1,
+    description: 'Category1',
+    validate: isString,
+    dataType: dataTypes.String
   },
   category2: {
-    name: 'category2',
+    name: wdCategory2,
     description: 'Category2',
-    validate: isString
+    validate: isString,
+    dataType: dataTypes.String
   },
   checkNumber: {
-    name: 'checkNumber',
+    name: wdCheckNumber,
     description: 'Check#',
-    validate: isString
+    validate: isString,
+    dataType: dataTypes.String
   },
   date: {
-    name: 'date',
+    name: wdDate,
     description: 'Date',
     formatFn: (d) => format(new Date(d), 'MM/dd/yyyy'),
     isCriteriaField: true,
     validate: isDate,
+    dataType: dataTypes.Date
   },
   description: {
-    name: 'description',
+    name: wdDescription,
     description: 'Description',
     isCriteriaField: true,
-    validate: isString
+    validate: isString,
+    dataType: dataTypes.String
   },
   duplicate: {
-    name: 'duplicate',
+    name: wdDuplicate,
     description: 'Duplicate'
   },
   duplicateStatus: {
-    name: 'duplicateStatus',
+    name: wdDuplicateStatus,
     description: 'DuplicateStatus'
   },
   omit: {
-    name: 'omit',
+    name: wdOmit,
     description: 'Omit',
-    formatFn: (d) => (d ? 'yes' : 'no')
+    formatFn: (d) => (d ? 'yes' : 'no'),
+    dataType: dataTypes.Boolean
   },
   origDescription: {
-    name: 'origDescription',
+    name: wdOrigDescription,
     description: 'OrigDescription',
-    validate: isString
+    validate: isString,
+    dataType: dataTypes.String
   },
   ruleIds: {
-    name: 'ruleIds',
+    name: wdRuleIds,
     description: 'RuleIds',
-    validate: isArray
+    validate: isArray,
+    dataType: dataTypes.Array
   },
   taxDeduct: {
-    name: 'taxDeduct',
+    name: wdTaxDeduct,
     description: 'taxDeduct',
-    validate: isBoolean
+    validate: isBoolean,
+    dataType: dataTypes.Boolean
   },
   type: {
-    name: 'type',
+    name: wdType,
     description: 'Type',
     isCriteriaField: true,
-    validate: isString
+    validate: isString,
+    dataType: dataTypes.String
   }
 }
 

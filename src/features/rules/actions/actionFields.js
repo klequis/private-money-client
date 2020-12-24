@@ -1,20 +1,33 @@
 import * as R from 'ramda'
+import {
+  wdOmit, 
+  wdReplaceAll,
+  wdCategorize,
+  wdStrip,
+  wdActionType,
+  wdFindValue,
+  wdNumAdditionalChars,
+  wdReplaceWithValue,
+  wdCategory1,
+  wdCategory2,
+  wdField
+} from 'appWords'
 
 export const actionTypes = {
   replaceAll: {
-    name: 'replaceAll',
+    name: wdReplaceAll,
     description: 'Rename'
   },
   categorize: {
-    name: 'categorize',
+    name: wdCategorize,
     description: 'Categorize'
   },
   strip: {
-    name: 'strip',
+    name: wdStrip,
     descrption: 'Strip'
   },
   omit: {
-    name: 'omit',
+    name: wdOmit,
     description: 'Omit'
   }
 }
@@ -23,31 +36,31 @@ export const actionTypeSelectFields = R.values(actionTypes)
 
 export const actionFields = {
   actionType: {
-    name: 'actionType',
+    name: wdActionType,
     description: 'Action Type'
   },
   field: {
-    name: 'field',
+    name: wdField,
     description: 'Field'
   },
   findValue: {
-    name: 'findValue',
+    name: wdFindValue,
     description: 'Find value'
   },
   numAdditionalChars: {
-    name: 'numAdditionalChars',
+    name: wdNumAdditionalChars,
     description: 'Number additional characters'
   },
   replaceWithValue: {
-    name: 'replaceWithValue',
+    name: wdReplaceWithValue,
     description: 'Replace with value'
   },
   category1: {
-    name: 'category1',
-    description: 'Category 2'
+    name: wdCategory1,
+    description: 'Category 1'
   },
   category2: {
-    name: 'category2',
+    name: wdCategory2,
     description: 'Category 2'
   }
 }

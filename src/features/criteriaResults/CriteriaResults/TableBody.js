@@ -2,6 +2,9 @@ import React from 'react'
 import { TableRow } from './TableRow'
 import styled from 'styled-components'
 import * as R from 'ramda'
+import {
+  wdOmit
+} from 'appWords'
 
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -70,7 +73,7 @@ const createDiffs = (oldFields, newFields) => {
 
 */
 export const TableBody = ({ actions, transaction }) => {
-  if (actions.length === 1 && actions[0].actionType === 'omit') {
+  if (actions.length === 1 && actions[0].actionType === wdOmit) {
     const { date, description, amount } = transaction
     return (
       <tbody>

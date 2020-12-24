@@ -5,6 +5,7 @@ import {
   pathTxTblRadioCategorizedDisabled,
   pathTxTblRadioCategorizedValue,
   pathTxTblRadioHasRuleValue,
+  pathTxTblSort,
   wdAcctId,
   wdAll,
   wdBoth,
@@ -93,6 +94,10 @@ const _checkboxShowOmittedSet = R.curry((value, state) => {
   return setStateValue(wdTxTbl, pathTxTblCheckBoxShowOmitted, value, state)
 })
 
+const _sortSet = R.curry((fieldName, sortOrder, state) => {
+  return setStateValue(wdTxTbl, pathTxTblSort, {fieldName, sortOrder}, state)
+})
+
 const txTblSlice = createSlice({
   name: wdTxTbl,
   initialState,
@@ -138,10 +143,21 @@ const txTblSlice = createSlice({
       blue('action', action)
       const { checked } = action.payload
       return _checkboxShowOmittedSet(checked, current(state))
+    },
+    updateSort(state, action) {
+      const { fieldName, sortOrder } = action.payload
+      blue('updateSort: fieldName', fieldName)
+      blue('updateSort: sortOrder', sortOrder)
+      return _sortSet(fieldName, sortOrder, current(state))
     }
   }
 })
 
 export const txTblReducer = txTblSlice.reducer
 
-export const { updateCheckboxShowOmitted, updateRadioState, updateFilters } = txTblSlice.actions
+export const {
+  updateCheckboxShowOmitted,
+  updateFilters,
+  updateSort,
+  updateRadioState
+} = txTblSlice.actions

@@ -15,7 +15,13 @@ import {
   pathTxFetchStatus,
   pathTxFetchError,
   pathTxItems,
-  pathTxActiveId
+  pathTxActiveId,
+  wdRuleIds,
+  wdCategory1,
+  wdPayload,
+  wdData,
+  wdMessage,
+  wdError
 } from 'appWords'
 import { setStateValue } from 'features/helpers'
 import { 
@@ -42,8 +48,8 @@ const _viewName = 'all-data-by-description'
 const _addFields = (data) => {
   return R.map((t) => {
     return R.mergeRight(t, {
-      hasRule: !isNilOrEmpty(R.prop('ruleIds')(t)),
-      hasCategory: !isNilOrEmpty(R.prop('category1')(t))
+      hasRule: !isNilOrEmpty(R.prop(wdRuleIds)(t)),
+      hasCategory: !isNilOrEmpty(R.prop(wdCategory1)(t))
     })
   }, data)
 }
@@ -106,14 +112,14 @@ const txSlice = createSlice({
       )(current(state))
     },
     [txFetch.fulfilled]: (state, action) => {
-      const items = R.path(['payload', 'data'], action)
+      const items = R.path([wdPayload, wdData], action)
       return R.pipe(
         _txFetchStatusSet(wdRequestStatusFulfilled),
         _itemsSet(items)
       )(current(state))
     },
     [txFetch.rejected]: (state, action) => {
-      const error = R.path(['error', 'message'], action)
+      const error = R.path([wdError, wdMessage], action)
       return R.pipe(
         selectTxFetchStatus(wdRequestStatusError),
         _itemsSet([]),

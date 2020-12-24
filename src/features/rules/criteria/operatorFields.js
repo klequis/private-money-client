@@ -1,23 +1,28 @@
 import * as R from 'ramda'
-
+import {
+  wdBeginsWith,
+  wdContains,
+  wdDoesNotContain,
+  wdEquals
+} from 'appWords'
 //eslint-disable-next-line
 import { blue } from 'logger'
 
 export const operatorFields = {
   beginsWith: {
-    name: 'beginsWith',
+    name: wdBeginsWith,
     description: 'Begins with'
   },
   contains: {
-    name: 'contains',
+    name: wdContains,
     description: 'Contains'
   },
   doesNotContain: {
-    name: 'doesNotContain',
+    name: wdDoesNotContain,
     description: 'Does not contain'
   },
   equals: {
-    name: 'equals',
+    name: wdEquals,
     description: 'Equals'
   }
 }

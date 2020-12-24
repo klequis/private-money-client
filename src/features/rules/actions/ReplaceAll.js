@@ -2,6 +2,7 @@ import React from 'react'
 import { Select } from 'components/Select'
 import { TextEdit } from 'components/TextEdit'
 import { txFields } from 'features/tx'
+import { wdFindValue, wdNumAdditionalChars } from 'appWords'
 
 export const ReplaceAll = ({ action, onChange }) => {
   const _handleBlur = () => {}
@@ -17,16 +18,16 @@ export const ReplaceAll = ({ action, onChange }) => {
         <option value={txFields.type.name}>Type</option>
       </Select>
       <TextEdit
-        name="findValue"
-        labelText="findValue"
+        name={wdFindValue}
+        labelText={wdFindValue}
         placeholder="find value"
         value={action.findValue}
         onBlur={_handleBlur}
       />
       <TextEdit
-        name="numAdditionalChars"
-        labelText="numAdditionalChars"
-        placeholder="numAdditionalChars"
+        name={wdNumAdditionalChars}
+        labelText={wdNumAdditionalChars}
+        placeholder={wdNumAdditionalChars}
         value={action.numAdditionalChars}
         onChange={onChange}
         onBlur={_handleBlur}

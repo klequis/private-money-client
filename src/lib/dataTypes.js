@@ -5,6 +5,7 @@ export const dataTypes = {
   Array: 'Array',
   Boolean: 'Boolean',
   Date: 'Date',
+  Object: 'Object',
   Null: 'Null',
   Number: 'Number',
   String: 'String',

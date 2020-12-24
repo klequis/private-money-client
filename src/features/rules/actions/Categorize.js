@@ -27,7 +27,7 @@ export const Categorize = ({ action, minChars }) => {
       <TextEdit
         disabled={false}
         name={txFields.category1.name}
-        labelText='Category 1'
+        labelText={txFields.category1.description}
         value={category1}
         minChars={minChars}
         onBlur={_handleEvent}
@@ -36,7 +36,7 @@ export const Categorize = ({ action, minChars }) => {
       <TextEdit
         disabled={false}
         name={txFields.category2.name}
-        labelText='Category 2'
+        labelText={txFields.category2.description}
         value={category2}
         minChars={minChars}
         onBlur={_handleEvent}
