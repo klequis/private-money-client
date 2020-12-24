@@ -4,11 +4,8 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ruleEditActionUpdate } from 'features/rules'
 import * as R from 'ramda'
 import { selectRuleEditRenameAction } from 'features/selectors'
-<<<<<<< HEAD
 import styled from 'styled-components'
-=======
 import { wdReplaceWithValue } from 'appWords'
->>>>>>> 24a0dcd34ec138f919de07aec8706ec010537fe9
 
 // eslint-disable-next-line
 import { purple, green, redf } from 'logger'

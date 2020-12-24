@@ -7,8 +7,7 @@ import { selectRuleEditIsDirty } from 'features/selectors'
 const RuleToolbarDiv = styled.div`
   display: flex;
   align-items: center;
-  padding-top: 16px;
-  padding-bottom: 16px;
+  margin-left: 0.25rem;
 `
 
 const RuleToolbarH4 = styled.h4`
@@ -24,7 +23,6 @@ export const RuleToolbar = ({ save, cancel, deleteRule }) => {
   const _dirty = useSelector(selectRuleEditIsDirty)
   return (
     <RuleToolbarDiv>
-      <RuleToolbarH4>Rule Edit</RuleToolbarH4>
       <Btn onClick={save} disabled={!_dirty}>
         Save
       </Btn>
