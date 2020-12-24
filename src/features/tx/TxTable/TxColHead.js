@@ -23,7 +23,7 @@ const TextInput = styled.input`
 
 const ColNameDiv = styled.div`
   display: flex;
-  justify-content: flex-start;
+  justify-content: ${props => props.align === "right" ? "flex-end" : "flex-start"};
   align-items: center;
 `
 
@@ -33,7 +33,7 @@ const FieldNameDiv = styled.div`
  font-size: 20px;
 `
 
-export const TxColHead = ({ fieldName }) => {
+export const TxColHead = ({ fieldName, align }) => {
   const _dispatch = useDispatch()
 
   // const [_value, _setValue] = useState('')
@@ -66,7 +66,7 @@ export const TxColHead = ({ fieldName }) => {
       {
         fieldName !== txFields.omit.name ? (
           <div>
-            <ColNameDiv>
+            <ColNameDiv align={align}>
               <FieldNameDiv>{fieldName}</FieldNameDiv>
               <SortIcons
                 fieldName={fieldName}
