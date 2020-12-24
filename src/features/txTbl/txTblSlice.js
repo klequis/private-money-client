@@ -31,6 +31,9 @@ import {
   wdTxTbl,
   wdType,
   wdUncategorized,
+  wdShowExpenseOnly,
+  wdShowIncomeOnly,
+  wdRadioShowIncomeExpense,
   
 } from 'appWords'
 import { setStateValue, valueOrEmptyString } from 'features/helpers'
@@ -50,6 +53,9 @@ const initialState = {
   [wdRadioCategorized]: {
     [wdValue]: wdBoth,
     [wdDisabled]: false
+  },
+  [wdRadioShowIncomeExpense]: {
+    [wdValue]: wdBoth
   },
   [wdFilters]: {
     [wdAcctId]: null,
@@ -102,7 +108,7 @@ const txTblSlice = createSlice({
   name: wdTxTbl,
   initialState,
   reducers: {
-    updateRadioState(state, action) {
+    updateRadioHasRule(state, action) {
       const { value } = action.payload
       const currState = current(state)
       switch (value) {
@@ -121,12 +127,35 @@ const txTblSlice = createSlice({
             _radioHasRuleValueSet(wdDoesNotHaveRule),
             _radioCategorizedDisabledSet(true)
           )(currState)
+        default:
+          throw new Error(`unknown radioHasRule value ${value}`)
+      }
+      
+    },
+    updateRadioCategorized(state, action) {
+      const { value } = action.payload
+      const currState = current(state)
+      switch (value) {
         case wdBoth:
           return _radioCategorizedValueSet(wdBoth, currState)
         case wdCategorized:
           return _radioCategorizedValueSet(wdCategorized, currState)
         case wdUncategorized:
           return _radioCategorizedValueSet(wdUncategorized, currState)
+        default:
+          throw new Error(`unknown radioCategorized value ${value}`)
+      }
+    },
+    updateRadioShowIncomeExpense(state, action) {
+      const { value } = action.payload
+      const currState = current(state)
+      switch (value) {
+        case wdShowExpenseOnly:
+          red('TODO:', wdShowExpenseOnly)
+          break
+        case wdShowIncomeOnly:
+          red('TODO', wdShowIncomeOnly)
+          break
         default:
           throw new Error(`unknown radio value ${value}`)
       }

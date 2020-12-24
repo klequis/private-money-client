@@ -11,7 +11,8 @@ import {
   selectCheckboxShowOmittedValue,
   selectRadioHasRuleValue,
   selectRadioCategorizedValue,
-  selectRadioCategorizedDisabled
+  selectRadioCategorizedDisabled,
+  selectRadioShowIncomeExpenseValue
 } from 'features/selectors'
 import {
   wdRadioHasRule,
@@ -22,7 +23,10 @@ import {
   wdCategorized,
   wdUncategorized,
   wdBoth,
-  wdCheckboxShowOmitted
+  wdCheckboxShowOmitted,
+  wdRadioShowIncomeExpense,
+  wdShowExpenseOnly,
+  wdShowIncomeOnly
 } from 'appWords'
 import {
   txFetchStatusSetRefresh
@@ -64,6 +68,18 @@ export const TxTblNav = () => {
     _dispatch(updateRadioState({ name, value }))
   }
 
+  const _radioHasRuleChange = (event) => {
+
+  }
+
+  const _radioCategorizedChange = (event) => {
+    
+  }
+
+  const _radioShowIncomeExpenseChange = (event) => {
+    
+  }
+
   const _checkboxChange = (event) => {
     const { checked } = event.target
     _dispatch(updateCheckboxShowOmitted({ checked }))
@@ -71,12 +87,10 @@ export const TxTblNav = () => {
   }
 
   const _radioHasRuleValue = useSelector(selectRadioHasRuleValue)
-  // green('radioHasRuleValue', radioHasRuleValue)
   const _radioCategorizedValue = useSelector(selectRadioCategorizedValue)
-  // green('radioCategorizedValue', radioCategorizedValue)
   const _radioCategorizedDisabled = useSelector(selectRadioCategorizedDisabled)
-  // green('radioCategorizedDisabled', radioCategorizedDisabled)
   const _checkboxShowOmitedValue = useSelector(selectCheckboxShowOmittedValue)
+  const _radioShowIncomeExpenseValue = useSelector(selectRadioShowIncomeExpenseValue)
 
   return (
     <OptionsDiv>
@@ -88,7 +102,7 @@ export const TxTblNav = () => {
             id={allId}
             labelText="All"
             name={wdRadioHasRule}
-            onChange={_radioChange}
+            onChange={_radioHasRuleChange}
             width={70}
             value={wdAll}
           />
@@ -97,7 +111,7 @@ export const TxTblNav = () => {
             id={hasRuleId}
             labelText="Has rule"
             name={wdRadioHasRule}
-            onChange={_radioChange}
+            onChange={_radioHasRuleChange}
             width={120}
             value={wdHasRule}
           />
@@ -106,7 +120,7 @@ export const TxTblNav = () => {
             id={doesNotHaveRuleId}
             labelText="Does not have rule"
             name={wdRadioHasRule}
-            onChange={_radioChange}
+            onChange={_radioHasRuleChange}
             value={wdDoesNotHaveRule}
           />
 
@@ -119,7 +133,7 @@ export const TxTblNav = () => {
             id="bothId"
             labelText="Both"
             name={wdRadioCategorized}
-            onChange={_radioChange}
+            onChange={_radioCategorizedChange}
             value={wdBoth}
             width={70}
           />
@@ -129,7 +143,7 @@ export const TxTblNav = () => {
             id="categorizedId"
             labelText="Categorized"
             name={wdRadioCategorized}
-            onChange={_radioChange}
+            onChange={_radioCategorizedChange}
             width={120}
             value={wdCategorized}
           />
@@ -139,7 +153,7 @@ export const TxTblNav = () => {
             id="uncategorizedId"
             labelText="Uncategorized"
             name={wdRadioCategorized}
-            onChange={_radioChange}
+            onChange={_radioCategorizedChange}
             value={wdUncategorized}
           />
         </RowDiv>
@@ -153,6 +167,33 @@ export const TxTblNav = () => {
           name={wdCheckboxShowOmitted}
           onChange={_checkboxChange}
         />
+      </ColumnDiv>
+      <ColumnDiv>
+        <RowDiv>
+          <Radio
+            // disabled={_radioCategorizedDisabled}
+            currentGroupValue={_radioShowIncomeExpenseValue}
+            id="showIncomeExpenseId"
+            labelText="Show expenses only"
+            // name={wdRadioCategorized}
+            name={wdRadioShowIncomeExpense}
+            onChange={_radioShowIncomeExpenseChange}
+            width={120}
+            value={wdShowExpenseOnly}
+          />         
+        </RowDiv>
+        <RowDiv>
+          <Radio
+            // disabled={_radioCategorizedDisabled}
+            currentGroupValue={_radioShowIncomeExpenseValue}
+            id="showIncomeExpenseId"
+            labelText="Show income only"
+            name={wdRadioShowIncomeExpense}
+            onChange={_radioShowIncomeExpenseChange}
+            width={120}
+            value={wdShowIncomeOnly}
+          />
+        </RowDiv>
       </ColumnDiv>
     </OptionsDiv>
   )

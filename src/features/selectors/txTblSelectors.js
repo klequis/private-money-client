@@ -17,6 +17,7 @@ import {
   pathTxTblFilters,
   pathTxTblSortFieldName,
   pathTxTblSortOrder,
+  pathRadioShowIncomeExpenseValue,
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { selectTxItems } from 'features/selectors'
@@ -26,6 +27,7 @@ import { txFields } from 'features/tx'
 import { green, blue, red, purple } from 'logger'
 import { grpStart } from 'logger'
 import { grpEnd } from 'logger'
+import { txTblReducer } from 'features/txTbl'
 /* eslint-enable */
 
 /**
@@ -245,4 +247,8 @@ export const selectFilteredTx = (state) => {
 export const selectTxTblFilterValue = (filterName, state) => {
   // The omit field does not have a filter
   return filterName === wdOmit ? '' : getStateValue(wdTxTbl, pathTxTblFilterProps[filterName], state)
+}
+
+export const selectRadioShowIncomeExpenseValue = (state) => {
+  return getStateValue(wdTxTbl, pathRadioShowIncomeExpenseValue, state)
 }
