@@ -1,1 +1,1 @@
-export { TxTbl } from './TxTbl'
+export { TxTable } from './TxTable'
