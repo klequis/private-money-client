@@ -25,6 +25,7 @@ const ColNameDiv = styled.div`
   display: flex;
   justify-content: ${props => props.align === "right" ? "flex-end" : "flex-start"};
   align-items: center;
+  margin-bottom: ${props => props.omit ? "22px" : "0"};
 `
 
 const FieldDescriptionDiv = styled.div`
@@ -66,7 +67,7 @@ export const TxColHead = ({ fieldName, align, fieldDescription }) => {
       {
         fieldName !== txFields.omit.name ? (
           <div>
-            <ColNameDiv align={align}>
+            <ColNameDiv align={align} omit={false}>
               <FieldDescriptionDiv>{fieldDescription}</FieldDescriptionDiv>
               <SortIcons
                 fieldName={fieldName}
@@ -81,7 +82,7 @@ export const TxColHead = ({ fieldName, align, fieldDescription }) => {
             />
           </div>
         ) : (
-            <ColNameDiv align={align}>
+            <ColNameDiv align={align} omit={true}>
               <FieldDescriptionDiv>{fieldDescription}</FieldDescriptionDiv>
             </ColNameDiv>
           )
