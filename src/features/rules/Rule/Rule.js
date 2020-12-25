@@ -9,7 +9,6 @@ import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
 import { selectRuleEdit } from 'features/selectors'
-import * as R from 'ramda'
 
 /* eslint-disable */
 import { green, purple, red } from 'logger'

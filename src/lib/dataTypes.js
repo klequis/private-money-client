@@ -13,51 +13,51 @@ export const dataTypes = {
 }
 
 /**
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value any value or type
+ * @returns {boolean} ''
  */
 export const isArray = value => R.type(value) === dataTypes.Array
 
 /**
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value any value or type 
+ * @returns {boolean} ''
  */
 export const isBoolean = value => R.type(value) === dataTypes.Boolean
 
 /**
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value  any value or type
+ * @returns {boolean} ''
  */
 export const isDate = value => R.type(value) === dataTypes.Date
 
 /**
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value any value or type
+ * @returns {boolean} ''
  */
 export const isNumber = value => R.type(value) === dataTypes.Number
 
 /**
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value any value or type
+ * @returns {boolean} ''
  */
 export const isString = value => R.type(value) === dataTypes.String
 
 /**
  * 
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value any value or type
+ * @returns {boolean} ''
  */
 export const isStringDate = value => dfnsIsDate(new Date(value))
 
 /**
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value any value or type
+ * @returns {boolean} ''
  */
 export const isNull = value => R.type(value) === dataTypes.Null
 
 /**
- * @param {any} value 
- * @returns {boolean}
+ * @param {any} value any value or type
+ * @returns {boolean} ''
  */
 export const isUndefined = value => R.type(value) === dataTypes.Undefined
 

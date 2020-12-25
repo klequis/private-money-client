@@ -12,17 +12,6 @@ const SelectControl = styled.select`
   max-width: ${(props) => props.maxWidth}px;
 `
 
-// max-width: ${props => props.maxWidth === 'none' ? 'none' : props.maxWidth}
-// padding-bottom: 30.4px;
-
-/**
- *
- * @param {array} margin // [num, num, num, num]
- */
-// const computeMargin = (margin) => {
-//   // if ()
-// }
-
 /*
     <ErrorLabel /> is not used but there to preserve spacing when Select
     is used in row with TextEdit which will display error messages.

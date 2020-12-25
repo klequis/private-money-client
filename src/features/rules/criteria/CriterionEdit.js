@@ -29,8 +29,9 @@ const RowDiv = styled.div`
 
 /**
  *
- * @param {object} newProp
- * @param {object} criterion
+ * @param {object} newProp the new prop to be merged into criterion
+ * @param {object} criterion the criterion to be updated
+ * @returns {object} updated criterion object
  */
 const _mergeCriterionProp = (newProp, criterion) => {
   return R.mergeRight(criterion, newProp)
@@ -38,8 +39,8 @@ const _mergeCriterionProp = (newProp, criterion) => {
 
 /**
  *
- * @param {string} value
- * @returns {object}
+ * @param {string} value any string
+ * @returns {object} error message
  */
 const _validateString = (value) => {
   if (value === '' || value.length < 3) {
@@ -52,8 +53,8 @@ const _validateString = (value) => {
 
 /**
  *
- * @param {string} dateString
- * @returns {object}
+ * @param {string} dateString a date as a string
+ * @returns {object} error message
  */
 const _validateDate = (dateString) => {
   if (!isStringDate(dateString)) {

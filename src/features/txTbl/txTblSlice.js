@@ -27,14 +27,12 @@ import {
   wdSort,
   wdSortOrder,
   wdValue,
-  
   wdTxTbl,
   wdType,
   wdUncategorized,
   wdShowExpenseOnly,
   wdShowIncomeOnly,
-  wdRadioShowIncomeExpense,
-  
+  wdRadioShowIncomeExpense
 } from 'appWords'
 import { setStateValue, valueOrEmptyString } from 'features/helpers'
 import * as R from 'ramda'
@@ -73,7 +71,6 @@ const initialState = {
     [wdFieldName]: '',
     [wdSortOrder]: ''
   }
-
 }
 
 const _radioHasRuleValueSet = R.curry((value, state) => {
@@ -101,7 +98,7 @@ const _checkboxShowOmittedSet = R.curry((value, state) => {
 })
 
 const _sortSet = R.curry((fieldName, sortOrder, state) => {
-  return setStateValue(wdTxTbl, pathTxTblSort, {fieldName, sortOrder}, state)
+  return setStateValue(wdTxTbl, pathTxTblSort, { fieldName, sortOrder }, state)
 })
 
 const txTblSlice = createSlice({
@@ -130,7 +127,6 @@ const txTblSlice = createSlice({
         default:
           throw new Error(`unknown radioHasRule value ${value}`)
       }
-      
     },
     updateRadioCategorized(state, action) {
       const { value } = action.payload
@@ -148,7 +144,7 @@ const txTblSlice = createSlice({
     },
     updateRadioShowIncomeExpense(state, action) {
       const { value } = action.payload
-      const currState = current(state)
+      // const currState = current(state)
       switch (value) {
         case wdShowExpenseOnly:
           red('TODO:', wdShowExpenseOnly)
@@ -188,5 +184,8 @@ export const {
   updateCheckboxShowOmitted,
   updateFilters,
   updateSort,
-  updateRadioState
+  updateRadioShowIncomeExpense,
+  updateRadioState,
+  updateRadioHasRule,
+  updateRadioCategorized
 } = txTblSlice.actions
