@@ -27,13 +27,13 @@ const ColNameDiv = styled.div`
   align-items: center;
 `
 
-const FieldNameDiv = styled.div`
+const FieldDescriptionDiv = styled.div`
  self-align: flex-start;
  margin-right: 15px;
  font-size: 20px;
 `
 
-export const TxColHead = ({ fieldName, align }) => {
+export const TxColHead = ({ fieldName, align, fieldDescription }) => {
   const _dispatch = useDispatch()
 
   // const [_value, _setValue] = useState('')
@@ -67,7 +67,7 @@ export const TxColHead = ({ fieldName, align }) => {
         fieldName !== txFields.omit.name ? (
           <div>
             <ColNameDiv align={align}>
-              <FieldNameDiv>{fieldName}</FieldNameDiv>
+              <FieldDescriptionDiv>{fieldDescription}</FieldDescriptionDiv>
               <SortIcons
                 fieldName={fieldName}
                 onChange={_onSortIconsChange}
@@ -81,7 +81,9 @@ export const TxColHead = ({ fieldName, align }) => {
             />
           </div>
         ) : (
-            <FieldNameDiv>{fieldName}</FieldNameDiv>
+            <ColNameDiv align={align}>
+              <FieldDescriptionDiv>{fieldDescription}</FieldDescriptionDiv>
+            </ColNameDiv>
           )
       }
     </th>
