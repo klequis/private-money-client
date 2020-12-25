@@ -25,7 +25,7 @@ export const HasRuleOptions = () => {
 
   const _radioHasRuleChange = (event) => {
     const { name, value } = event.target
-    _dispatch(updateRadioHasRule(value)) // TODO: what is the actual value to pass
+    _dispatch(updateRadioHasRule({ value })) // TODO: what is the actual value to pass
   }
 
   return (
