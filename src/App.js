@@ -6,7 +6,7 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { useRuleEditSet } from 'features/rules/useRuleEditSet'
 import { RuleCreate, rulesFetch } from 'features/rules'
 import { txFetch } from 'features/tx'
-import { TxTable } from 'features/txTbl'
+import { TxTbl } from 'features/txTbl'
 
 import {
   selectActiveTxId,
@@ -59,7 +59,7 @@ export const App = () => {
           countTotal={{ actual: countTotal, min: 8, max: 14 }}
           countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />
-        {isNilOrEmpty(_activeTransactionId) ? <TxTable /> : <RuleCreate />}
+        {isNilOrEmpty(_activeTransactionId) ? <TxTbl /> : <RuleCreate />}
       </>
     </RenderWhenReady>
   )

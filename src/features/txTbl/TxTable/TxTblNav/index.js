@@ -1,1 +1,0 @@
-export { TxTblNav } from './TxTblNav'

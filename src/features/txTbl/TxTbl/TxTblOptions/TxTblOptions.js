@@ -18,7 +18,7 @@ const ColumnDiv = styled.div`
   flex-direction: column;
 `
 
-export const TxTblNav = () => {
+export const TxTblOptions = () => {
   return (
     <OptionsDiv>
       <ColumnDiv style={{ backgroundColor: 'red' }}>
