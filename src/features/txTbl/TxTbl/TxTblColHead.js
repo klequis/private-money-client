@@ -24,17 +24,10 @@ const ColNameDiv = styled.div`
   align-items: center;
 `
 
-<<<<<<< add-income-expense-options-issue-25:src/features/txTbl/TxTbl/TxTblColHead.js
 const FieldDescriptionDiv = styled.div`
   self-align: flex-start;
   margin-right: 15px;
   font-size: 20px;
-=======
-const FieldNameDiv = styled.div`
- self-align: flex-start;
- margin-right: 15px;
- font-size: 20px;
->>>>>>> Increase TxTblHead font-size:src/features/tx/TxTable/TxColHead.js
 `
 
 export const TxTblColHead = ({ fieldName, align, fieldDescription }) => {
@@ -68,7 +61,6 @@ export const TxTblColHead = ({ fieldName, align, fieldDescription }) => {
 
   return (
     <th>
-<<<<<<< add-income-expense-options-issue-25:src/features/txTbl/TxTbl/TxTblColHead.js
       {fieldName !== txFields.omit.name ? (
         <div>
           <ColNameDiv align={align}>
@@ -87,29 +79,6 @@ export const TxTblColHead = ({ fieldName, align, fieldDescription }) => {
           <FieldDescriptionDiv>{fieldDescription}</FieldDescriptionDiv>
         </ColNameDiv>
       )}
-=======
-      {
-        fieldName !== txFields.omit.name ? (
-          <div>
-            <ColNameDiv>
-              <FieldNameDiv>{fieldName}</FieldNameDiv>
-              <SortIcons
-                fieldName={fieldName}
-                onChange={_onSortIconsChange}
-              />
-            </ColNameDiv>
-            <TextInput
-              className={classNames(['form-control', 'form-control-sm'])}
-              type="text"
-              value={filterValue}
-              onChange={_onTextInputChange}
-            />
-          </div>
-        ) : (
-            <FieldNameDiv>{fieldName}</FieldNameDiv>
-          )
-      }
->>>>>>> Increase TxTblHead font-size:src/features/tx/TxTable/TxColHead.js
     </th>
   )
 }
