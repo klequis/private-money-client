@@ -18,12 +18,12 @@ export const criteriaFields = {
 }
 
 /**
- * @returns {array} criteria.fields as an array
+ * @returns {Array} criteria.fields as an array
  */
 export const criteriaFieldList = R.values(criteriaFields)
 
 /**
- * @returns {array} A list containing the 'name' props from criteria.fields
+ * @returns {Array} A list containing the 'name' props from criteria.fields
  */
 export const criteriaFieldNames = R.map(
   (f) => f.name,

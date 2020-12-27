@@ -77,7 +77,7 @@ export const TextEdit = React.memo(
   }
 )
 
-function isValidInitialValue(props, propName, componentName) {
+const isValidInitialValue = (props, propName, componentName) => {
   const a = ['String', 'Number', 'Undefined'].includes(R.type(props[propName]))
   if (!a) {
     return new Error(

@@ -5,10 +5,9 @@ import styled from 'styled-components'
 // eslint-disable-next-line
 import { green } from 'logger'
 
-const RadioWrapper = styled.div`
-  width: ${({ width }) => isNilOrEmpty(width) ? 'auto' : `${width}px`};
+const RadioDev = styled.div`
+  width: ${({ width }) => (isNilOrEmpty(width) ? 'auto' : `${width}px`)};
 `
-
 
 export const Radio = ({
   disabled,
@@ -17,31 +16,28 @@ export const Radio = ({
   name,
   value,
   onChange,
-  currentGroupValue,
+  groupValue,
   width = null
 }) => {
-
   const _change = (event) => {
     onChange(event)
   }
 
   return (
-    <RadioWrapper className="form-check" width={width}>
-      <label
-        className="form-check-label"
-      >
+    <RadioDev className="form-check" width={width}>
+      <label className="form-check-label" htmlFor={id}>
         <input
-        className="form-check-input"
-        checked={value === currentGroupValue}
-        disabled={disabled}
-        id={id}
-        name={name}
-        onChange={_change}
-        type="radio"
-        value={value}
-      />
+          className="form-check-input"
+          checked={value === groupValue}
+          disabled={disabled}
+          id={id}
+          name={name}
+          onChange={_change}
+          type="radio"
+          value={value}
+        />
         {labelText}
       </label>
-    </RadioWrapper>
+    </RadioDev>
   )
 }

@@ -5,7 +5,9 @@ import { RenderWhenReady } from 'components/RenderWhenReady'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { useRuleEditSet } from 'features/rules/useRuleEditSet'
 import { RuleCreate, rulesFetch } from 'features/rules'
-import { txFetch, TxTbl } from 'features/tx'
+import { txFetch } from 'features/tx'
+import { TxTbl } from 'features/txTbl'
+
 import {
   selectActiveTxId,
   selectTxFetchStatus,
@@ -48,7 +50,7 @@ export const App = () => {
 
   useRuleEditSet(_activeTransactionId)
   countReturn = countReturn + 1
-  
+
   return (
     <RenderWhenReady status={_status} className="container-fluid">
       <>

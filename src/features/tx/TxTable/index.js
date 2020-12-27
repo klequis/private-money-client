@@ -1,1 +1,0 @@
-export { TxTbl } from './TxTbl'

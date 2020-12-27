@@ -3,13 +3,10 @@ import { useSelector } from 'react-redux'
 import { Table as BaseTable } from 'components/Table'
 import { TxTblBody } from './TxTblBody'
 import { TxTblHead } from './TxTblHead'
-import { TxTblNav } from './TxTblNav'
-import {
-  selectFilteredTx
-} from 'features/selectors'
+import { selectFilteredTxs } from 'features/selectors'
 import styled from 'styled-components'
 import { ContainerFluid } from 'components/ContainerFluid'
-
+import { TxTblOptions } from './TxTblOptions'
 /* eslint-disable */
 import { purple, green, red } from 'logger'
 import { RenderCount } from 'components/RenderCount'
@@ -21,13 +18,12 @@ const NumRowsDiv = styled.div`
 `
 
 export const TxTbl = () => {
-  
-  const _filteredTx = useSelector(selectFilteredTx)
-  
+  const _filteredTx = useSelector(selectFilteredTxs)
+
   return (
     <ContainerFluid>
       <h1>Transactions Table</h1>
-      <TxTblNav />
+      <TxTblOptions />
       <NumRowsDiv>Number of rows: {_filteredTx.length}</NumRowsDiv>
       <BaseTable>
         <TxTblHead />
