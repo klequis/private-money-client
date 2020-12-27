@@ -4,9 +4,14 @@ import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { txActiveIdSet } from 'features/tx'
 import { selectOneTx } from 'features/selectors'
 import { TxTblData } from './TxTblData'
+import styled from 'styled-components'
 
 // eslint-disable-next-line
 import { green, red } from 'logger'
+
+const TxTblTr = styled.tr`
+  cursor: pointer;
+`
 
 export const TxTblBody = ({ txId }) => {
 
@@ -29,13 +34,13 @@ export const TxTblBody = ({ txId }) => {
   }
 
   const formatAmount = amount => {
-    return amount.toLocaleString(undefined, {minimumFractionDigits: 2, maximumFractionDigits: 2})
+    return amount.toLocaleString(undefined, { minimumFractionDigits: 2, maximumFractionDigits: 2 })
   }
 
   return (
     <>
       <tbody onClick={_rowClick}>
-        <tr>
+        <TxTblTr>
           <TxTblData align='left'>{date}</TxTblData>
           <TxTblData align='left'>{acctId}</TxTblData>
           <TxTblData align="left">
@@ -56,7 +61,7 @@ export const TxTblBody = ({ txId }) => {
               ? null
               : ruleIds.map((id) => <div key={id}>{id}</div>)}
           </TxTblData>
-        </tr>
+        </TxTblTr>
       </tbody>
     </>
   )
