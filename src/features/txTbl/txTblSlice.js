@@ -2,15 +2,13 @@ import { createSlice, current } from '@reduxjs/toolkit'
 import {
   pathTxTblCheckBoxShowOmitted,
   pathTxTblFilterProps,
-  pathTxTblRadioCategorizedDisabled,
-  pathTxTblRadioCategorizedValue,
+  pathTxTblRadioHasCategoryDisabled,
+  pathTxTblRadioHasCategoryValue,
   pathTxTblRadioHasRuleValue,
   pathTxTblSort,
   wdAcctId,
-  wdAll,
   wdBoth,
   wdAmount,
-  wdCategorized,
   wdCategory1,
   wdCategory2,
   wdCheckboxShowOmitted,
@@ -18,37 +16,37 @@ import {
   wdDate,
   wdDescription,
   wdDisabled,
-  wdDoesNotHaveRule,
   wdFieldName,
   wdFilters,
   wdHasRule,
   wdRadioHasRule,
-  wdRadioCategorized,
   wdSort,
   wdSortOrder,
   wdValue,
   wdTxTbl,
   wdType,
-  wdUncategorized,
   wdShowExpenseOnly,
   wdShowIncomeOnly,
-  wdRadioShowIncomeExpense
+  wdRadioShowIncomeExpense,
+  pathRadioShowIncomeExpenseValue,
+  wdHasCategory,
+  wdRadioHasCategory,
+  wdNoRule,
+  wdNoCategory
 } from 'appWords'
 import { setStateValue, valueOrEmptyString } from 'features/helpers'
 import * as R from 'ramda'
 
 /* eslint-disable */
-import { blue, red } from 'logger'
-import { grpStart } from 'logger'
-import { grpEnd } from 'logger'
+import { blue, red, grpStart, grpEnd } from 'logger'
 /* eslint-enable */
 
 const initialState = {
   [wdRadioHasRule]: {
-    [wdValue]: wdAll
+    [wdValue]: wdBoth
   },
 
-  [wdRadioCategorized]: {
+  [wdRadioHasCategory]: {
     [wdValue]: wdBoth,
     [wdDisabled]: false
   },
@@ -56,13 +54,13 @@ const initialState = {
     [wdValue]: wdBoth
   },
   [wdFilters]: {
-    [wdAcctId]: null,
-    [wdAmount]: null,
-    [wdCategory1]: null,
-    [wdCategory2]: null,
-    [wdDate]: null,
-    [wdDescription]: null,
-    [wdType]: null
+    [wdAcctId]: '',
+    [wdAmount]: '',
+    [wdCategory1]: '',
+    [wdCategory2]: '',
+    [wdDate]: '',
+    [wdDescription]: '',
+    [wdType]: ''
   },
   [wdCheckboxShowOmitted]: {
     [wdChecked]: false
@@ -78,18 +76,18 @@ const _radioHasRuleValueSet = R.curry((value, state) => {
 })
 
 const _radioCategorizedDisabledSet = R.curry((value, state) => {
-  return setStateValue(wdTxTbl, pathTxTblRadioCategorizedDisabled, value, state)
+  return setStateValue(wdTxTbl, pathTxTblRadioHasCategoryDisabled, value, state)
 })
 
 const _radioCategorizedValueSet = R.curry((value, state) => {
-  return setStateValue(wdTxTbl, pathTxTblRadioCategorizedValue, value, state)
+  return setStateValue(wdTxTbl, pathTxTblRadioHasCategoryValue, value, state)
+})
+
+const _radioShowIncomeOrExpenseSet = R.curry((value, state) => {
+  return setStateValue(wdTxTbl, pathRadioShowIncomeExpenseValue, value, state)
 })
 
 const _filterUpdate = R.curry((value, path, state) => {
-  // grpStart('filterUpdate')
-  // blue('value', value)
-  // blue('state', state)
-  // grpEnd()
   return setStateValue(wdTxTbl, path, value, state)
 })
 
@@ -109,9 +107,9 @@ const txTblSlice = createSlice({
       const { value } = action.payload
       const currState = current(state)
       switch (value) {
-        case wdAll:
+        case wdBoth:
           return R.pipe(
-            _radioHasRuleValueSet(wdAll),
+            _radioHasRuleValueSet(wdBoth),
             _radioCategorizedDisabledSet(false)
           )(currState)
         case wdHasRule:
@@ -119,39 +117,41 @@ const txTblSlice = createSlice({
             _radioHasRuleValueSet(wdHasRule),
             _radioCategorizedDisabledSet(false)
           )(currState)
-        case wdDoesNotHaveRule:
+        case wdNoRule:
           return R.pipe(
-            _radioHasRuleValueSet(wdDoesNotHaveRule),
+            _radioHasRuleValueSet(wdNoRule),
+            // must set category to both or will get empty table
+            _radioCategorizedValueSet(wdBoth),
             _radioCategorizedDisabledSet(true)
           )(currState)
         default:
           throw new Error(`unknown radioHasRule value ${value}`)
       }
     },
-    updateRadioCategorized(state, action) {
+    updateRadioHasCategory(state, action) {
       const { value } = action.payload
       const currState = current(state)
       switch (value) {
         case wdBoth:
           return _radioCategorizedValueSet(wdBoth, currState)
-        case wdCategorized:
-          return _radioCategorizedValueSet(wdCategorized, currState)
-        case wdUncategorized:
-          return _radioCategorizedValueSet(wdUncategorized, currState)
+        case wdHasCategory:
+          return _radioCategorizedValueSet(wdHasCategory, currState)
+        case wdNoCategory:
+          return _radioCategorizedValueSet(wdNoCategory, currState)
         default:
           throw new Error(`unknown radioCategorized value ${value}`)
       }
     },
-    updateRadioShowIncomeExpense(state, action) {
+    updateRadioShowIncomeOrExpense(state, action) {
       const { value } = action.payload
-      // const currState = current(state)
+      const currState = current(state)
       switch (value) {
+        case wdBoth:
+          return _radioShowIncomeOrExpenseSet(wdBoth, currState)
         case wdShowExpenseOnly:
-          red('TODO:', wdShowExpenseOnly)
-          break
+          return _radioShowIncomeOrExpenseSet(wdShowExpenseOnly, currState)
         case wdShowIncomeOnly:
-          red('TODO', wdShowIncomeOnly)
-          break
+          return _radioShowIncomeOrExpenseSet(wdShowIncomeOnly, currState)
         default:
           throw new Error(`unknown radio value ${value}`)
       }
@@ -165,14 +165,11 @@ const txTblSlice = createSlice({
       return _filterUpdate(finalVal, path, currState)
     },
     updateCheckboxShowOmitted(state, action) {
-      blue('action', action)
       const { checked } = action.payload
       return _checkboxShowOmittedSet(checked, current(state))
     },
     updateSort(state, action) {
       const { fieldName, sortOrder } = action.payload
-      blue('updateSort: fieldName', fieldName)
-      blue('updateSort: sortOrder', sortOrder)
       return _sortSet(fieldName, sortOrder, current(state))
     }
   }
@@ -184,8 +181,8 @@ export const {
   updateCheckboxShowOmitted,
   updateFilters,
   updateSort,
-  updateRadioShowIncomeExpense,
+  updateRadioShowIncomeOrExpense,
   updateRadioState,
   updateRadioHasRule,
-  updateRadioCategorized
+  updateRadioHasCategory
 } = txTblSlice.actions

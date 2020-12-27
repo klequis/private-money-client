@@ -1,8 +1,4 @@
-import {
-  createSlice,
-  createAsyncThunk,
-  current
-} from '@reduxjs/toolkit'
+import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
@@ -24,8 +20,8 @@ import {
   wdError
 } from 'appWords'
 import { setStateValue } from 'features/helpers'
-import { 
-  selectTxFetchStatus, 
+import {
+  selectTxFetchStatus,
   selectCheckboxShowOmittedValue
 } from 'features/selectors'
 
@@ -49,24 +45,24 @@ const _addFields = (data) => {
   return R.map((t) => {
     return R.mergeRight(t, {
       hasRule: !isNilOrEmpty(R.prop(wdRuleIds)(t)),
-      hasCategory: !isNilOrEmpty(R.prop(wdCategory1)(t))
+      hasCategory: !isNilOrEmpty(R.prop(wdCategory1)(t)),
+      isExpense: R.prop('amount')(t) < 0,
+      isIncome: R.prop('amount')(t) > 0
     })
   }, data)
 }
 
 export const txFetch = createAsyncThunk(
-  'transactions/get', 
+  'transactions/get',
   async (noValuePassed, thunkApi) => {
-    
     const { getState } = thunkApi
     const state = getState()
     const showOmitted = selectCheckboxShowOmittedValue(state)
-    blue('txFetch: showOmitted', showOmitted)
     const r = await api.views.read(_viewName, showOmitted)
     const { data } = r
     return R.mergeRight(r, { data: _addFields(data) })
   }
-)  
+)
 
 const _itemsSet = R.curry((items, state) => {
   return setStateValue(wdTx, pathTxItems, items, state)
@@ -83,7 +79,6 @@ const _txFetchErrorSet = R.curry((errorMessage, state) => {
 const _activeIdSet = R.curry((id, state) => {
   return setStateValue(wdTx, pathTxActiveId, id, state)
 })
-
 
 const txSlice = createSlice({
   name: wdTx,

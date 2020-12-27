@@ -3,14 +3,14 @@ import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
 import {
-  selectRadioCategorizedValue,
-  selectRadioCategorizedDisabled
+  selectRadioHasCategoryValue,
+  selectRadioHasCategoryDisabled
 } from 'features/selectors'
 import {
   wdRadioCategorized,
-  wdCategorized,
-  wdUncategorized,
-  wdBoth
+  wdBoth,
+  wdNoCategory,
+  wdHasCategory
 } from 'appWords'
 import { updateRadioCategorized } from 'features/txTbl'
 
@@ -28,11 +28,11 @@ export const IsCategorizedOptions = () => {
 
   const _radioCategorizedChange = (event) => {
     const { name, value } = event.target
-    _dispatch(updateRadioCategorized(value)) //TODO: what is the action value that must be passed?
+    _dispatch(updateRadioCategorized({ value })) //TODO: what is the action value that must be passed?
   }
 
-  const _radioCategorizedValue = useSelector(selectRadioCategorizedValue)
-  const _radioCategorizedDisabled = useSelector(selectRadioCategorizedDisabled)
+  const _radioCategorizedValue = useSelector(selectRadioHasCategoryValue)
+  const _radioCategorizedDisabled = useSelector(selectRadioHasCategoryDisabled)
   return (
     <RowDiv>
       <RowTitleDiv>Category: </RowTitleDiv>
@@ -54,7 +54,7 @@ export const IsCategorizedOptions = () => {
         name={wdRadioCategorized}
         onChange={_radioCategorizedChange}
         width={120}
-        value={wdCategorized}
+        value={wdHasCategory}
       />
       <Radio
         disabled={_radioCategorizedDisabled}
@@ -63,7 +63,7 @@ export const IsCategorizedOptions = () => {
         labelText="Uncategorized"
         name={wdRadioCategorized}
         onChange={_radioCategorizedChange}
-        value={wdUncategorized}
+        value={wdNoCategory}
       />
     </RowDiv>
   )

@@ -1,1 +1,0 @@
-export { TxTblOptions } from './TxTblOptions'
