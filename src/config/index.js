@@ -13,17 +13,19 @@ export const config = {
     audience: 'https://klequis-todo.tk',
     redirectUri: 'http://localhost:3000/',
     responseType: 'id_token',
-    scope: 'openid profile email',
+    scope: 'openid profile email'
 
     // cb: Does not appear to be used
     // testUserId: testUserId,
   },
   dev: {
     logRequest: false,
-    logResponse: false,
+    logResponse: false
   },
   api: {
     apiRootUriDev: 'http://localhost:3030/',
-    apiRootUrlProd: 'https://api.klequis-todo.tk/'
+    // TODO: tmp
+    // apiRootUrlProd: 'https://api.klequis-todo.tk/'
+    apiRootUrlProd: 'http://localhost:3030/'
   }
 }
