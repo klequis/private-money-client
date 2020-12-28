@@ -29,13 +29,16 @@ export const RenameDescription = () => {
   }
 
   return (
-    <RenameDescriptionInput
-      key={actionId}
-      type="text"
-      value={replaceWithValue}
-      name={wdReplaceWithValue}
-      onChange={_onChange}
-      placeholder='new description'
-    />
+    <div>
+      <div>New Name:</div>
+      <RenameDescriptionInput
+        key={actionId}
+        type="text"
+        value={replaceWithValue}
+        name={wdReplaceWithValue}
+        onChange={_onChange}
+        placeholder='new description'
+      />
+    </div>
   )
 }
