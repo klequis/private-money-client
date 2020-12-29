@@ -1,5 +1,11 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { pathTxActiveId, wdTx, pathTxItems, pathTxFetchStatus, wdId } from 'appWords'
+import {
+  pathTxActiveId,
+  wdTx,
+  pathTxItems,
+  pathTxFetchStatus,
+  wdId
+} from 'appWords'
 import * as R from 'ramda'
 import { getStateValue } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
@@ -61,7 +67,6 @@ export const selectTxFetchStatus = (state) =>
  */
 export const selectActiveTxOrigDescription = (state) => {
   const txId = selectActiveTxId(state)
-  blue('txId', txId)
   const tx = _getTx(txId, state)
   if (isNilOrEmpty(tx)) {
     return null

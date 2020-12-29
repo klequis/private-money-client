@@ -1,7 +1,6 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
-import { CheckBox } from 'components/CheckBox'
 import { ruleEditCriterionUpdate } from 'features/rules'
 import * as R from 'ramda'
 import styled from 'styled-components'
@@ -14,15 +13,12 @@ import { errorLevels } from 'globalConstants'
 import {
   wdActive,
   wdBeginsWith,
-  wdCheckbox,
   wdContains,
   wdDate,
-  wdDescription,
   wdField,
   wdOperation,
   wdValue
 } from 'appWords'
-import { notNilOrEmpty } from 'lib/notNilOrEmpty'
 
 /* eslint-disable */
 import { green, redf, purple, grpStart, grpEnd } from 'logger'
@@ -79,18 +75,18 @@ const _validateDate = (dateString) => {
   return errorLevelNone
 }
 
-const guessOperator = (a, b) => {
+const _guessOperation = (a, b) => {
   if (a === b || a.length === b.length) {
     return ''
   }
   if (a.startsWith(b)) {
-    return { [wdOperation]: wdBeginsWith }
+    return wdBeginsWith
   }
   if (a.endsWith(b)) {
-    return { [wdOperation]: wdContains }
+    return wdContains
   }
   if (a.includes(b)) {
-    return { [wdOperation]: wdContains }
+    return wdContains
   }
   return ''
 }
@@ -100,25 +96,65 @@ export const CriterionEdit = ({ criterion }) => {
 
   const [_criterion, _setCriterion] = useState(criterion)
   const [_valueErrorLevel, _setValueErrorLevel] = useState(errorLevelNone)
+  const [_shouldGuessOperation, _setShouldGuessOperation] = useState(true)
+  const [_origValue, _setOrigValue] = useState('')
+  // const { operation, field, value, active } = _criterion
+  const { operation, field, value, active } = criterion
 
-  const { operation, field, value, active } = _criterion
+  green('_criterion', criterion)
+
+  useEffect(() => {
+    _setOrigValue(value)
+    // eslint-disable-next-line
+  }, [])
 
   const _dispatch = useDispatch()
 
-  const _onChange = (event) => {
-    const { name, value, checked, type } = event.target
-    const { value: currValue } = _criterion
-    const newValueProp = { [name]: type === wdCheckbox ? checked : value }
-    const newOperatorProp = guessOperator(currValue, value)
-    const newCriterion = notNilOrEmpty(newOperatorProp)
-      ? R.mergeAll([_criterion, newOperatorProp, newValueProp])
-      : R.mergeRight(_criterion, newValueProp)
+  const _onActiveChange = (event) => {
+    purple('_onActiveChange')
+    const { checked } = event.target
+    const newCriterion = R.mergeRight(_criterion, { [wdActive]: checked })
     _setCriterion(newCriterion)
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
+  const _onFieldChange = (event) => {
+    purple('_onFieldChange')
+    const { value } = event.target
+    const newCriterion = R.mergeRight(_criterion, { [wdField]: value })
+    _setCriterion(newCriterion)
+    _dispatch(ruleEditCriterionUpdate(newCriterion))
+  }
+
+  const _onOperationChange = (event) => {
+    purple('_onOperationChange')
+    const { value } = event.target
+    _setShouldGuessOperation(false)
+    const newCriterion = R.mergeRight(_criterion, { [wdOperation]: value })
+    _dispatch(ruleEditCriterionUpdate(newCriterion))
+  }
+
+  const _onValueChange = (event) => {
+    purple('_onValueChange')
+    const { value } = event.target
+    green('value', value)
+    const newCriterion = _shouldGuessOperation
+      ? R.mergeRight(_criterion, {
+          [wdValue]: value,
+          [wdOperation]: _guessOperation(_origValue, value)
+        })
+      : R.mergeRight(_criterion, { [wdValue]: value })
+    green('newCriterion', newCriterion)
+    _dispatch(ruleEditCriterionUpdate(newCriterion))
+  }
+
   const _onBlur = (event) => {
+    purple('_onBlue')
     const { name, value } = event.target
+    grpStart('_onBlue')
+    green('name', name)
+    green('value', value)
+    grpEnd()
 
     // validation
     const validation =
@@ -147,7 +183,7 @@ export const CriterionEdit = ({ criterion }) => {
           type="checkbox"
           name={wdActive}
           checked={active}
-          onChange={_onChange}
+          onChange={_onActiveChange}
         />
         <Select
           disabled={!active}
@@ -155,7 +191,7 @@ export const CriterionEdit = ({ criterion }) => {
           minWidth={125}
           name={wdField}
           onBlur={_onBlur}
-          onChange={_onChange}
+          onChange={_onFieldChange}
           value={field}
         >
           {criteriaFieldList.map((f) => (
@@ -170,7 +206,7 @@ export const CriterionEdit = ({ criterion }) => {
           minWidth={135}
           name={wdOperation}
           onBlur={_onBlur}
-          onChange={_onChange}
+          onChange={_onOperationChange}
           value={operation}
         >
           {operatorList.map((o) => (
@@ -187,7 +223,7 @@ export const CriterionEdit = ({ criterion }) => {
           maxWidth={900}
           minWidth={500}
           name={wdValue}
-          onChange={_onChange}
+          onChange={_onValueChange}
           onBlur={_onBlur}
           errorLevel={_valueErrorLevel}
         />
