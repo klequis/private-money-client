@@ -15,7 +15,16 @@ import { errorLevels } from 'globalConstants'
 /* eslint-disable */
 import { green, redf, purple, grpStart, grpEnd } from 'logger'
 import { RenderCount } from 'components/RenderCount'
-import { wdActive, wdCheckbox, wdDate, wdField, wdOperation, wdValue } from 'appWords'
+import {
+  wdActive,
+  wdCheckbox,
+  wdDate,
+  wdDescription,
+  wdField,
+  wdOperation,
+  wdValue
+} from 'appWords'
+import { notNilOrEmpty } from 'lib/notNilOrEmpty'
 /* eslint-enable */
 
 let countTotal = 0
@@ -68,6 +77,22 @@ const _validateDate = (dateString) => {
   return errorLevelNone
 }
 
+const guessOperator = (a, b) => {
+  if (a === b || a.length === b.length) {
+    return ''
+  }
+  if (a.startsWith(b)) {
+    return 'startsWith'
+  }
+  if (a.endsWith(b)) {
+    return 'endsWith'
+  }
+  if (a.includes(b)) {
+    return 'contains'
+  }
+  return ''
+}
+
 export const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
 
@@ -80,8 +105,13 @@ export const CriterionEdit = ({ criterion }) => {
 
   const _onChange = (event) => {
     const { name, value, checked, type } = event.target
+    const { value: currValue } = _criterion
     const newProp = { [name]: type === wdCheckbox ? checked : value }
-    const newCriterion = _mergeCriterionProp(newProp, _criterion)
+    const newOperator = guessOperator(currValue, value)
+    const newCriterion = notNilOrEmpty(newOperator)
+      ? // TODO:
+      : _mergeCriterionProp(newProp, _criterion)
+
     _setCriterion(newCriterion)
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
@@ -112,7 +142,12 @@ export const CriterionEdit = ({ criterion }) => {
         countReturn={{ actual: countReturn, min: 4, max: 4 }}
       />
       <RowDiv>
-        <input type="checkbox" name={wdActive} checked={active} onChange={_onChange} />
+        <input
+          type="checkbox"
+          name={wdActive}
+          checked={active}
+          onChange={_onChange}
+        />
         <Select
           disabled={!active}
           maxWidth={125}
