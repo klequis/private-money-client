@@ -11,13 +11,11 @@ import { operatorList } from 'features/rules'
 import { isStringDate } from 'lib/dataTypes'
 import { TextEditOrDatePicker } from 'components/TextEditOrDatePicker'
 import { errorLevels } from 'globalConstants'
-
-/* eslint-disable */
-import { green, redf, purple, grpStart, grpEnd } from 'logger'
-import { RenderCount } from 'components/RenderCount'
 import {
   wdActive,
+  wdBeginsWith,
   wdCheckbox,
+  wdContains,
   wdDate,
   wdDescription,
   wdField,
@@ -25,6 +23,10 @@ import {
   wdValue
 } from 'appWords'
 import { notNilOrEmpty } from 'lib/notNilOrEmpty'
+
+/* eslint-disable */
+import { green, redf, purple, grpStart, grpEnd } from 'logger'
+import { RenderCount } from 'components/RenderCount'
 /* eslint-enable */
 
 let countTotal = 0
@@ -82,13 +84,13 @@ const guessOperator = (a, b) => {
     return ''
   }
   if (a.startsWith(b)) {
-    return 'startsWith'
+    return { [wdOperation]: wdBeginsWith }
   }
   if (a.endsWith(b)) {
-    return 'endsWith'
+    return { [wdOperation]: wdContains }
   }
   if (a.includes(b)) {
-    return 'contains'
+    return { [wdOperation]: wdContains }
   }
   return ''
 }
@@ -106,12 +108,11 @@ export const CriterionEdit = ({ criterion }) => {
   const _onChange = (event) => {
     const { name, value, checked, type } = event.target
     const { value: currValue } = _criterion
-    const newProp = { [name]: type === wdCheckbox ? checked : value }
-    const newOperator = guessOperator(currValue, value)
-    const newCriterion = notNilOrEmpty(newOperator)
-      ? // TODO:
-      : _mergeCriterionProp(newProp, _criterion)
-
+    const newValueProp = { [name]: type === wdCheckbox ? checked : value }
+    const newOperatorProp = guessOperator(currValue, value)
+    const newCriterion = notNilOrEmpty(newOperatorProp)
+      ? R.mergeAll([_criterion, newOperatorProp, newValueProp])
+      : R.mergeRight(_criterion, newValueProp)
     _setCriterion(newCriterion)
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
