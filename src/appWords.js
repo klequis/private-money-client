@@ -68,7 +68,6 @@ export const wdNumAdditionalChars = 'numAdditionalChars'
 export const wdOmit = 'omit'
 // export const wdOn = 'on'
 export const wdOperator = 'operator'
-export const wdOperation = 'operation'
 export const wdOrigDescription = 'origDescription'
 // P
 export const wdPayload = 'payload'

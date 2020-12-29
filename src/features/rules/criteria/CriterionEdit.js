@@ -15,13 +15,14 @@ import {
   wdBeginsWith,
   wdContains,
   wdDate,
+  wdEquals,
   wdField,
-  wdOperation,
+  wdOperator,
   wdValue
 } from 'appWords'
 
 /* eslint-disable */
-import { green, redf, purple, grpStart, grpEnd } from 'logger'
+import { yellow, green, redf, purple, grpStart, grpEnd } from 'logger'
 import { RenderCount } from 'components/RenderCount'
 /* eslint-enable */
 
@@ -75,33 +76,64 @@ const _validateDate = (dateString) => {
   return errorLevelNone
 }
 
-const _guessOperation = (a, b) => {
-  if (a === b || a.length === b.length) {
-    return ''
+const _guessOperator = (a, b, currentOperator) => {
+  grpStart('_guessOperator')
+  yellow('a', a)
+  yellow('b', b)
+  yellow('currentOperator', currentOperator)
+  if (a === b) {
+    yellow('a===b', wdEquals)
+    grpEnd()
+    return wdEquals
+  }
+  if (a.length === b.length) {
+    // TODO: not sure this is correct
+    yellow('a.length===b.length', currentOperator)
+    grpEnd()
+    return currentOperator
   }
   if (a.startsWith(b)) {
+    yellow('a startsWith b', wdBeginsWith)
+    grpEnd()
     return wdBeginsWith
   }
   if (a.endsWith(b)) {
+    yellow('a endsWith b', wdContains)
+    grpEnd()
     return wdContains
   }
   if (a.includes(b)) {
+    yellow('a contains b', wdContains)
+    grpEnd()
     return wdContains
   }
-  return ''
+  grpEnd()
+  throw new Error('_guessOperator - unknown condition')
 }
 
 export const CriterionEdit = ({ criterion }) => {
   countTotal = countTotal + 1
 
-  const [_criterion, _setCriterion] = useState(criterion)
   const [_valueErrorLevel, _setValueErrorLevel] = useState(errorLevelNone)
-  const [_shouldGuessOperation, _setShouldGuessOperation] = useState(true)
+  const [_shouldGuessOperator, _setShouldGuessOperator] = useState(true)
   const [_origValue, _setOrigValue] = useState('')
-  // const { operation, field, value, active } = _criterion
-  const { operation, field, value, active } = criterion
 
-  green('_criterion', criterion)
+  const { operator, field, value, active } = criterion
+  if (field === 'description') {
+    grpStart('criterion')
+    green('criterion', criterion)
+    green('operator', operator)
+    green('field', field)
+    green('value', value)
+    green('_shouldGuessOperator', _shouldGuessOperator)
+    grpEnd()
+  }
+  const [_operator, _setOperator] = useState()
+  const [_field, _setField] = useState('')
+  const [_value, _setValue] = useState('')
+  const [_active, _setActive] = useState('')
+
+  // green('operator', operator)
 
   useEffect(() => {
     _setOrigValue(value)
@@ -110,51 +142,51 @@ export const CriterionEdit = ({ criterion }) => {
 
   const _dispatch = useDispatch()
 
-  const _onActiveChange = (event) => {
-    purple('_onActiveChange')
-    const { checked } = event.target
-    const newCriterion = R.mergeRight(_criterion, { [wdActive]: checked })
-    _setCriterion(newCriterion)
-    _dispatch(ruleEditCriterionUpdate(newCriterion))
-  }
-
-  const _onFieldChange = (event) => {
-    purple('_onFieldChange')
-    const { value } = event.target
-    const newCriterion = R.mergeRight(_criterion, { [wdField]: value })
-    _setCriterion(newCriterion)
-    _dispatch(ruleEditCriterionUpdate(newCriterion))
-  }
-
-  const _onOperationChange = (event) => {
-    purple('_onOperationChange')
-    const { value } = event.target
-    _setShouldGuessOperation(false)
-    const newCriterion = R.mergeRight(_criterion, { [wdOperation]: value })
-    _dispatch(ruleEditCriterionUpdate(newCriterion))
-  }
-
   const _onValueChange = (event) => {
-    purple('_onValueChange')
     const { value } = event.target
-    green('value', value)
-    const newCriterion = _shouldGuessOperation
-      ? R.mergeRight(_criterion, {
+    _setValue(value)
+
+    // green('value', value)
+    const newCriterion = _shouldGuessOperator
+      ? R.mergeRight(criterion, {
           [wdValue]: value,
-          [wdOperation]: _guessOperation(_origValue, value)
+          [wdOperator]: _guessOperator(_origValue, value, operator)
         })
-      : R.mergeRight(_criterion, { [wdValue]: value })
+      : R.mergeRight(criterion, { [wdValue]: value })
     green('newCriterion', newCriterion)
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
+  const _onActiveChange = (event) => {
+    const { checked } = event.target
+    _setActive(checked)
+
+    const newCriterion = R.mergeRight(criterion, { [wdActive]: checked })
+    _dispatch(ruleEditCriterionUpdate(newCriterion))
+  }
+
+  const _onFieldChange = (event) => {
+    const { value } = event.target
+    _setField(value)
+
+    const newCriterion = R.mergeRight(criterion, { [wdField]: value })
+    _dispatch(ruleEditCriterionUpdate(newCriterion))
+  }
+
+  const _onOperatorChange = (event) => {
+    const { value } = event.target
+    _setShouldGuessOperator(false)
+    const newCriterion = R.mergeRight(criterion, { [wdOperator]: value })
+    _dispatch(ruleEditCriterionUpdate(newCriterion))
+  }
+
   const _onBlur = (event) => {
-    purple('_onBlue')
+    // purple('_onBlue')
     const { name, value } = event.target
-    grpStart('_onBlue')
-    green('name', name)
-    green('value', value)
-    grpEnd()
+    // grpStart('_onBlue')
+    // green('name', name)
+    // green('value', value)
+    // grpEnd()
 
     // validation
     const validation =
@@ -163,8 +195,7 @@ export const CriterionEdit = ({ criterion }) => {
 
     // update criterion
     const newProp = { [name]: value }
-    const newCriterion = _mergeCriterionProp(newProp, _criterion)
-    _setCriterion(newCriterion)
+    const newCriterion = _mergeCriterionProp(newProp, criterion)
     if (newCriterion.active && validation.name === errorLevelNone.name) {
       _dispatch(ruleEditCriterionUpdate(newCriterion))
     }
@@ -204,10 +235,10 @@ export const CriterionEdit = ({ criterion }) => {
           disabled={!active}
           maxWidth={135}
           minWidth={135}
-          name={wdOperation}
+          name={wdOperator}
           onBlur={_onBlur}
-          onChange={_onOperationChange}
-          value={operation}
+          onChange={_onOperatorChange}
+          value={operator}
         >
           {operatorList.map((o) => (
             <option key={o.name} value={o.name}>

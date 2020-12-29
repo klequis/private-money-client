@@ -2,20 +2,31 @@ import { operatorFields } from 'features/rules'
 import { txFields } from 'features/tx'
 import { actionTypes } from 'features/rules'
 import { makeTmpId } from 'lib/makeTmpId'
+import {
+  wdActionType,
+  wdActive,
+  wdCategory1,
+  wdCategory2,
+  wdField,
+  wdId,
+  wdOperator,
+  wdReplaceWithValue,
+  wdValue
+} from 'appWords'
 
 export const defaultActions = (origDescription) => {
   return [
     {
-      _id: makeTmpId(),
-      actionType: actionTypes.replaceAll.name,
-      field: txFields.description.name,
-      replaceWithValue: origDescription
+      [wdId]: makeTmpId(),
+      [wdActionType]: actionTypes.replaceAll.name,
+      [wdField]: txFields.description.name,
+      [wdReplaceWithValue]: origDescription
     },
     {
-      _id: makeTmpId(),
-      actionType: actionTypes.categorize.name,
-      category1: '',
-      category2: ''
+      [wdId]: makeTmpId(),
+      [wdActionType]: actionTypes.categorize.name,
+      [wdCategory1]: '',
+      [wdCategory2]: ''
     }
   ]
 }
@@ -28,21 +39,21 @@ export const defaultActions = (origDescription) => {
 export const ruleTmpMake = (origDescription, date) => {
   const id = makeTmpId()
   return {
-    _id: id,
+    [wdId]: id,
     criteria: [
       {
-        _id: makeTmpId(),
-        field: txFields.description.name,
-        operation: operatorFields.equals.name,
-        value: origDescription,
-        active: true
+        [wdId]: makeTmpId(),
+        [wdField]: txFields.description.name,
+        [wdOperator]: operatorFields.equals.name,
+        [wdValue]: origDescription,
+        [wdActive]: true
       },
       {
-        _id: makeTmpId(),
-        field: txFields.date.name,
-        operation: operatorFields.equals.name,
-        value: date,
-        active: false
+        [wdId]: makeTmpId(),
+        [wdField]: txFields.date.name,
+        [wdOperator]: operatorFields.equals.name,
+        [wdValue]: date,
+        [wdActive]: false
       }
     ],
     actions: defaultActions(origDescription)
