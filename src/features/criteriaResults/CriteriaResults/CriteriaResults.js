@@ -58,7 +58,6 @@ export const CriteriaResults = () => {
   const _criteria = useSelector(selectRuleEditCriteria)
   const _actions = useSelector(selectRuleEditActions)
   const _activeCriteria = useSelector(selectRuleEditActiveCriteria)
-
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria
@@ -91,7 +90,9 @@ export const CriteriaResults = () => {
           <Table size="sm" variant="dark">
             <TableHead />
             {_transactions.map((t) => {
-              return <TableBody key={t._id} actions={_actions} transaction={t} />
+              return (
+                <TableBody key={t._id} actions={_actions} transaction={t} />
+              )
             })}
           </Table>
         </div>

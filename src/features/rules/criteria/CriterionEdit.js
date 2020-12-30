@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react'
+import React, { useState } from 'react'
 import PropTypes from 'prop-types'
 import { useDispatch } from 'react-redux'
 import { ruleEditCriterionUpdate } from 'features/rules'
@@ -77,38 +77,24 @@ const _validateDate = (dateString) => {
 }
 
 const _guessOperator = (a, b, currentOperator) => {
-  grpStart('_guessOperator')
-  yellow('a', a)
-  yellow('b', b)
-  yellow('currentOperator', currentOperator)
   if (a === b) {
     yellow('a===b', wdEquals)
     grpEnd()
     return wdEquals
   }
   if (a.length === b.length) {
-    // TODO: not sure this is correct
-    yellow('a.length===b.length', currentOperator)
-    grpEnd()
     return currentOperator
   }
   if (a.startsWith(b)) {
-    yellow('a startsWith b', wdBeginsWith)
-    grpEnd()
     return wdBeginsWith
   }
   if (a.endsWith(b)) {
-    yellow('a endsWith b', wdContains)
-    grpEnd()
     return wdContains
   }
   if (a.includes(b)) {
-    yellow('a contains b', wdContains)
-    grpEnd()
     return wdContains
   }
-  grpEnd()
-  throw new Error('_guessOperator - unknown condition')
+  return currentOperator
 }
 
 export const CriterionEdit = ({ criterion }) => {
@@ -116,44 +102,30 @@ export const CriterionEdit = ({ criterion }) => {
 
   const [_valueErrorLevel, _setValueErrorLevel] = useState(errorLevelNone)
   const [_shouldGuessOperator, _setShouldGuessOperator] = useState(true)
-  const [_origValue, _setOrigValue] = useState('')
 
   const { operator, field, value, active } = criterion
-  if (field === 'description') {
-    grpStart('criterion')
-    green('criterion', criterion)
-    green('operator', operator)
-    green('field', field)
-    green('value', value)
-    green('_shouldGuessOperator', _shouldGuessOperator)
-    grpEnd()
-  }
-  const [_operator, _setOperator] = useState()
-  const [_field, _setField] = useState('')
-  const [_value, _setValue] = useState('')
-  const [_active, _setActive] = useState('')
-
-  // green('operator', operator)
-
-  useEffect(() => {
-    _setOrigValue(value)
-    // eslint-disable-next-line
-  }, [])
+  // eslint-disable-next-line
+  const [_origValue, _setOrigValue] = useState(value)
+  const [_operator, _setOperator] = useState(operator)
+  const [_field, _setField] = useState(field)
+  const [_value, _setValue] = useState(value)
+  const [_active, _setActive] = useState(active)
 
   const _dispatch = useDispatch()
 
   const _onValueChange = (event) => {
     const { value } = event.target
     _setValue(value)
-
-    // green('value', value)
+    const guessedOperator = _guessOperator(_origValue, value, _operator)
+    if (_shouldGuessOperator) {
+      _setOperator(guessedOperator)
+    }
     const newCriterion = _shouldGuessOperator
       ? R.mergeRight(criterion, {
           [wdValue]: value,
-          [wdOperator]: _guessOperator(_origValue, value, operator)
+          [wdOperator]: guessedOperator
         })
       : R.mergeRight(criterion, { [wdValue]: value })
-    green('newCriterion', newCriterion)
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
@@ -175,24 +147,18 @@ export const CriterionEdit = ({ criterion }) => {
 
   const _onOperatorChange = (event) => {
     const { value } = event.target
+    _setOperator(value)
     _setShouldGuessOperator(false)
     const newCriterion = R.mergeRight(criterion, { [wdOperator]: value })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
   const _onBlur = (event) => {
-    // purple('_onBlue')
     const { name, value } = event.target
-    // grpStart('_onBlue')
-    // green('name', name)
-    // green('value', value)
-    // grpEnd()
-
     // validation
     const validation =
-      field === wdDate ? _validateDate(value) : _validateString(value)
+      _field === wdDate ? _validateDate(value) : _validateString(value)
     _setValueErrorLevel(validation)
-
     // update criterion
     const newProp = { [name]: value }
     const newCriterion = _mergeCriterionProp(newProp, criterion)
@@ -213,17 +179,17 @@ export const CriterionEdit = ({ criterion }) => {
         <input
           type="checkbox"
           name={wdActive}
-          checked={active}
+          checked={_active}
           onChange={_onActiveChange}
         />
         <Select
-          disabled={!active}
+          disabled={!_active}
           maxWidth={125}
           minWidth={125}
           name={wdField}
           onBlur={_onBlur}
           onChange={_onFieldChange}
-          value={field}
+          value={_field}
         >
           {criteriaFieldList.map((f) => (
             <option key={f.name} value={f.name}>
@@ -232,13 +198,13 @@ export const CriterionEdit = ({ criterion }) => {
           ))}
         </Select>
         <Select
-          disabled={!active}
+          disabled={!_active}
           maxWidth={135}
           minWidth={135}
           name={wdOperator}
           onBlur={_onBlur}
           onChange={_onOperatorChange}
-          value={operator}
+          value={_operator}
         >
           {operatorList.map((o) => (
             <option key={o.name} value={o.name}>
@@ -247,16 +213,16 @@ export const CriterionEdit = ({ criterion }) => {
           ))}
         </Select>
         <TextEditOrDatePicker
-          disabled={!active}
-          field={field}
-          value={value}
-          width={450}
+          disabled={!_active}
+          errorLevel={_valueErrorLevel}
+          field={_field}
           maxWidth={900}
           minWidth={500}
           name={wdValue}
-          onChange={_onValueChange}
           onBlur={_onBlur}
-          errorLevel={_valueErrorLevel}
+          onChange={_onValueChange}
+          value={_value}
+          width={450}
         />
       </RowDiv>
     </>

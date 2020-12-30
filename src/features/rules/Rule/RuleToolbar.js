@@ -10,11 +10,6 @@ const RuleToolbarDiv = styled.div`
   margin-left: 0.25rem;
 `
 
-const RuleToolbarH4 = styled.h4`
-  margin-right: 12px;
-  margin-bottom: 0;
-`
-
 const Btn = styled(Button)`
   margin-right: 12px;
 `

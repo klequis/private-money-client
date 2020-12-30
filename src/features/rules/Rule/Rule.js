@@ -1,16 +1,12 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import {
-  ruleEditSave,
-  ruleEditClear,
-} from 'features/rules'
+import { ruleEditSave, ruleEditClear } from 'features/rules'
 import { txActiveIdClear } from 'features/tx'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
 import { Criteria, Actions } from 'features/rules'
 import { selectRuleEdit } from 'features/selectors'
 import { ContainerFluid } from 'components/ContainerFluid'
-import * as R from 'ramda'
 import { selectRuleEditIsTmpRule } from 'features/selectors'
 import styled from 'styled-components'
 

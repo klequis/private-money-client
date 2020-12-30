@@ -3,10 +3,18 @@ import { useDispatch, useSelector } from 'react-redux'
 import { ActionEdit } from './ActionEdit'
 import { RenameDescription } from './RenameDescription'
 import { Categorize } from './Categorize'
-import { actionTypes, ruleEditActionsReplace, ruleEditSetDefaultActions } from 'features/rules'
+import {
+  actionTypes,
+  ruleEditActionsReplace,
+  ruleEditSetDefaultActions
+} from 'features/rules'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'
-import { selectRuleEditActions, selectRuleEdit, selectActiveTxOrigDescription } from 'features/selectors'
+import {
+  selectRuleEditActions,
+  selectRuleEdit,
+  selectActiveTxOrigDescription
+} from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import { makeTmpId } from 'lib/makeTmpId'
 
@@ -14,10 +22,6 @@ import { makeTmpId } from 'lib/makeTmpId'
 import { green, redf, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
 /* eslint-enable */
-
-const ActionsH4 = styled.h4`
-  margin-bottom: 16px;
-`
 
 const ActionsDiv = styled.div`
   display: flex;
@@ -55,7 +59,6 @@ export const Actions = () => {
       // green('set it ***************')
       _setOmitChecked(hasActionTypeOmit)
     }
-
   }, [_rule])
 
   if (isNilOrEmpty(_actions)) {
@@ -67,10 +70,12 @@ export const Actions = () => {
     _setOmitChecked(checked)
     _setPrevActions(_actions)
     if (checked) {
-      _dispatch(ruleEditActionsReplace({
-        _id: makeTmpId(),
-        actionType: actionTypes.omit.name
-      }))
+      _dispatch(
+        ruleEditActionsReplace({
+          _id: makeTmpId(),
+          actionType: actionTypes.omit.name
+        })
+      )
     } else {
       if (!isNilOrEmpty(_prevActions)) {
         _dispatch(ruleEditActionsReplace(_prevActions))
