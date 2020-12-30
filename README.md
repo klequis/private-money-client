@@ -12,5 +12,8 @@ Setup instructions are in [the project's wiki](https://github.com/klequis/privat
 
 ## Contributing
 
-I am actively looking for contributors and currently have time to offer support to contributors. If you would like to contribute, please open an issue labeled 'question' and let me know what you would like to do.
+I am actively looking for contributors and currently have time to offer support to contributors. If you would like to contribute, pick an issue and discuss.
 
+You can also chat with me on Slack [Private Money Workspace](https://join.slack.com/t/private-money/shared_invite/zt-ksgt8qbk-df~cStAXQX1F8X76_GP6AA).
+
+_Slack links are only good for a limited time. This on expires on Jan 30, 2020._
