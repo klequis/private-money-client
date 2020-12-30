@@ -97,6 +97,18 @@ export const ruleCreate = createAsyncThunk(
   }
 )
 
+export const ruleDelete = createAsyncThunk(
+  'rules/rule-deleete',
+  async (ruleId, thunkApi) => {
+    await api.rules.delete(ruleId)
+    const { dispatch } = thunkApi
+    dispatch(txFetchStatusSetRefresh())
+    dispatch(rulesRefreshSet())
+    dispatch(txActiveIdClear())
+    dispatch(ruleEditClear())
+  }
+)
+
 export const ruleEditSave = createAsyncThunk(
   'rules/rule-edit-save',
   async (noRulePassed, thunkApi) => {
