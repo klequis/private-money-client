@@ -20,4 +20,4 @@ I am actively looking for contributors and currently have time to offer support 
 
 You can also chat with me on Slack [Private Money Workspace](https://join.slack.com/t/private-money/shared_invite/zt-ksgt8qbk-df~cStAXQX1F8X76_GP6AA).
 
-_Slack links are only good for a limited time. This on expires on Jan 30, 2020._
+_Slack links are only good for a limited time. This one expires on Jan 30, 2020._
