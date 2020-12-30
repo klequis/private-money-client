@@ -2,9 +2,13 @@
 
 ## About
 
-Private Money is a browser based app that allows you to import, categorize & export you financial transaction data without involving a 3rd party. Only you and your financial institution have your data.
+Private Money is a browser based app that allows you to import, categorize & export your financial transaction data without involving a 3rd party. Only you and your financial institution have your data.
 
 > Currently, due to setup requirements, Private Money is only useable by folks with developer skills
+
+## Stack
+
+React, MongoDB, Express, Ramda, Styled Components, date-fns
 
 ## Setup
 
