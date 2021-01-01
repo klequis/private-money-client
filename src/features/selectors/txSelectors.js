@@ -21,11 +21,11 @@ import { blue, grpStart, grpEnd } from 'logger'
  */
 export const selectTxItems = (state) => {
   // return R.path(pathTxItems, state)
-  return getStateValue(wdTx, pathTxItems, state)
+  return getStateValue(pathTxItems, state)
 }
 
 const _getTx = (txId, state) => {
-  const tItems = getStateValue(wdTx, pathTxItems, state)
+  const tItems = getStateValue(pathTxItems, state)
   if (isNilOrEmpty(tItems)) {
     return tItems
   }
@@ -49,7 +49,7 @@ export const selectOneTx = (txId, state) => {
  * @returns {string} _id of active Tx
  */
 export const selectActiveTxId = (state) => {
-  return getStateValue(wdTx, pathTxActiveId, state)
+  return getStateValue(pathTxActiveId, state)
 }
 
 /**
@@ -58,7 +58,7 @@ export const selectActiveTxId = (state) => {
  * @returns {string} a request status word from appWords.js
  */
 export const selectTxFetchStatus = (state) =>
-  getStateValue(wdTx, pathTxFetchStatus, state)
+  getStateValue(pathTxFetchStatus, state)
 
 /**
  *

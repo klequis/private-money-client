@@ -27,7 +27,7 @@ import { green, blue, red, purple, grpStart, grpEnd, yellow } from 'logger'
  * @returns {object} txTbl.filters
  */
 const _selectTxFilters = (state) => {
-  return getStateValue(wdTxTbl, pathTxTblFilters, state)
+  return getStateValue(pathTxTblFilters, state)
 }
 
 /**
