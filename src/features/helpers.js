@@ -86,7 +86,7 @@ export const getStateValue = (root, path, state) => {
  * @param {object} state current state with or without root property
  * @returns {any} returns the passed in state modified with the specified value modified
  */
-export const setStateValue = R.curry((root, path, newValue, state) => {
+export const createNewState = R.curry((path, newValue, state) => {
   // const isPath = _isPath(path)
   // if (isPath) {
   //   grpStart('setStateValue')
@@ -95,10 +95,10 @@ export const setStateValue = R.curry((root, path, newValue, state) => {
   //   blue('newValue', newValue)
   //   blue('state', state)
   // }
-
-  // TODO: comment here why actualPath is needed
+  const root = path[0]
   const actualPath = R.has(root)(state) ? path : R.tail(path)
 
+  // if (isPath) blue('actualPath', actualPath)
   const ret = R.assocPath(actualPath, newValue, state)
   // red('ret', ret)
   // if (isPath) console.assert(ret.ruleEdit.actions.length === 1, 'should be 1 action')
