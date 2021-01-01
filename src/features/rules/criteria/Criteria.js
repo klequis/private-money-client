@@ -62,6 +62,7 @@ export const Criteria = () => {
       <ButtonRowDiv id="Criteria.Row">
         <H4>Criteria</H4>
         <Btn onClick={_criterionAdd}>Add</Btn>
+        // TODO: #39 - add button
       </ButtonRowDiv>
 
       {_criteria.map((c) => (
