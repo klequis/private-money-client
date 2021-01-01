@@ -44,7 +44,7 @@ import {
   wdError,
   wdMessage
 } from 'appWords'
-import { setStateValue } from 'features/helpers'
+import { createNewState } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
 import { isTmpRule } from 'lib/isTmpRule'
 import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
@@ -143,59 +143,58 @@ export const ruleUpdate = createAsyncThunk(
 )
 
 const _ruleEditSet = R.curry((value, state) => {
-  return setStateValue(wdRules, pathRuleEdit, value, state)
+  return createNewState(pathRuleEdit, value, state)
 })
 
 const _actionsSet = R.curry((newActions, state) => {
-  return setStateValue(wdRules, pathRuleEditActions, newActions, state)
+  return createNewState(pathRuleEditActions, newActions, state)
 })
 
 const _criteriaSet = R.curry((newCriteria, state) => {
-  return setStateValue(wdRules, pathRuleEditCritera, newCriteria, state)
+  return createNewState(pathRuleEditCritera, newCriteria, state)
 })
 
 const _fetchStatusSet = R.curry((status, state) => {
-  return setStateValue(wdRules, pathRulesFetchStatus, status, state)
+  return createNewState(pathRulesFetchStatus, status, state)
 })
 
 const _itemsSet = R.curry((items, state) => {
-  return setStateValue(wdRules, pathRulesItems, items, state)
+  return createNewState(pathRulesItems, items, state)
 })
 
 const _fetchErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(wdRules, pathRulesFetchError, errorMessage, state)
+  return createNewState(pathRulesFetchError, errorMessage, state)
 })
 
 const _createStatusFetchSet = R.curry((status, state) => {
-  return setStateValue(wdRules, pathRulesCreateStatus, status, state)
+  return createNewState(pathRulesCreateStatus, status, state)
 })
 
 const _createStatusErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(wdRules, pathRulesCreateError, errorMessage, state)
+  return createNewState(pathRulesCreateError, errorMessage, state)
 })
 
 const _updateStatusSet = R.curry((status, state) => {
-  return setStateValue(wdRules, pathRulesUpdateStatus, status, state)
+  return createNewState(pathRulesUpdateStatus, status, state)
 })
 
 const _updateErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(wdRules, pathRulesUpdateError, errorMessage, state)
+  return createNewState(pathRulesUpdateError, errorMessage, state)
 })
 
 const _isDirtySet = R.curry((value, state) => {
-  return setStateValue(wdRules, pathRuleEditIsDirty, value, state)
+  return createNewState(pathRuleEditIsDirty, value, state)
 })
 
 const _hasActionTypeOmitSet = R.curry((state) => {
   const actions = R.path([wdRuleEdit, wdActions], state)
   const hasOmit =
     R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
-  return setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state)
+  return createNewState(pathRuleEditHasActionTypeOmit, hasOmit, state)
 })
 
 const _isTmpRuleSet = R.curry((state) => {
-  return setStateValue(
-    wdRules,
+  return createNewState(
     pathRuleEditIsTmpRule,
     isTmpRule(selectRuleEditId(state)),
     state

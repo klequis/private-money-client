@@ -1,9 +1,7 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import {
-  wdId
-} from 'appWords'
+import { wdId } from 'appWords'
 import { dataTypes } from 'lib/dataTypes'
 
 // eslint-disable-next-line
@@ -88,7 +86,7 @@ export const getStateValue = (root, path, state) => {
  * @param {object} state current state with or without root property
  * @returns {any} returns the past in state with the specified value modified
  */
-export const setStateValue = R.curry((root, path, newValue, state) => {
+export const createNewState = R.curry((path, newValue, state) => {
   // const isPath = _isPath(path)
   // if (isPath) {
   //   grpStart('setStateValue')
@@ -97,8 +95,9 @@ export const setStateValue = R.curry((root, path, newValue, state) => {
   //   blue('newValue', newValue)
   //   blue('state', state)
   // }
-
+  const root = path[0]
   const actualPath = R.has(root)(state) ? path : R.tail(path)
+
   // if (isPath) blue('actualPath', actualPath)
   const ret = R.assocPath(actualPath, newValue, state)
   // red('ret', ret)

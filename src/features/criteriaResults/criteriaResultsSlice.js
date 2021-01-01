@@ -11,7 +11,7 @@ import {
   pathCriteriaResultsFetchError
 } from 'appWords'
 import * as R from 'ramda'
-import { setStateValue } from 'features/helpers'
+import { createNewState } from 'features/helpers'
 
 /* eslint-disable */
 import { blue, yellow } from 'logger'
@@ -35,30 +35,15 @@ export const criteriaResultsFetch = createAsyncThunk(
 )
 
 const _itemsSet = R.curry((items, state) => {
-  return setStateValue(
-    wdCriteriaResults,
-    pathCriteriaResultsItems,
-    items,
-    state
-  )
+  return createNewState(pathCriteriaResultsItems, items, state)
 })
 
 const _fetchStatusSet = R.curry((status, state) => {
-  return setStateValue(
-    wdCriteriaResults,
-    pathCriteriaResultsFetchStatus,
-    status,
-    state
-  )
+  return createNewState(pathCriteriaResultsFetchStatus, status, state)
 })
 
 const _fetchErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(
-    wdCriteriaResults,
-    pathCriteriaResultsFetchError,
-    errorMessage,
-    state
-  )
+  return createNewState(pathCriteriaResultsFetchError, errorMessage, state)
 })
 
 const criteriaResultsSlice = createSlice({
