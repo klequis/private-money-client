@@ -1,9 +1,7 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import {
-  wdId
-} from 'appWords'
+import { wdId } from 'appWords'
 import { dataTypes } from 'lib/dataTypes'
 
 // eslint-disable-next-line
@@ -86,7 +84,7 @@ export const getStateValue = (root, path, state) => {
  * @param {Array} path full path to desirec values
  * @param {any} newValue the new value to set for the specified path state
  * @param {object} state current state with or without root property
- * @returns {any} returns the past in state with the specified value modified
+ * @returns {any} returns the passed in state modified with the specified value modified
  */
 export const setStateValue = R.curry((root, path, newValue, state) => {
   // const isPath = _isPath(path)
@@ -98,8 +96,9 @@ export const setStateValue = R.curry((root, path, newValue, state) => {
   //   blue('state', state)
   // }
 
+  // TODO: comment here why actualPath is needed
   const actualPath = R.has(root)(state) ? path : R.tail(path)
-  // if (isPath) blue('actualPath', actualPath)
+
   const ret = R.assocPath(actualPath, newValue, state)
   // red('ret', ret)
   // if (isPath) console.assert(ret.ruleEdit.actions.length === 1, 'should be 1 action')

@@ -290,6 +290,40 @@ const rulesSlice = createSlice({
     },
     /**
      *
+     * @param {object} state the rulesSlice
+     * @param {object} action a Criterion { payload: { ... }}
+     * @returns {object} the new state
+     */
+    ruleEditCriterionAdd(state, action) {
+      // TODO: #39
+      /*
+          - State will be the rules prop/branch of Redux state
+          - There will be no action.payload as you will create a new/default Criterion
+      */
+      /*
+          - Get new Criterion from criterionNewMake.js
+          - Get .criteria from state : const { criteria } = state
+          - Add the new Criterion to criteria R.append: https://ramdajs.com/docs/#append
+          - use _actionsSet to 
+
+      */
+      //
+      //
+      //
+      // Use R.mergeRight to merge into current(state)
+      // return the new state
+    },
+    /**
+     *
+     * @param {object} state the rulesSlice
+     * @param {object} action a Criterion { payload: { _id: 12345 }}
+     * @returns {object} the new state
+     */
+    ruleEdiCriterionDelete(state, action) {
+      // TODO: #39
+    },
+    /**
+     *
      * @param {object} state state
      * @param {object} action payload: { ruleId: ruleId: string }
      * @returns {object} the new state

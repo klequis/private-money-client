@@ -32,8 +32,19 @@ export const Criteria = () => {
 
   const _criteria = useSelector(selectRuleEditCriteria)
 
-  const _handleButtonClick = () => {
-    // TODO: not implemented yet
+  const _criterionAdd = () => {
+    // TODO: #39
+    // call ruleEditCriterionAdd to add a new Criterion
+    /* hint
+       ruleEditCriterionAdd is an action. See other event
+       handlers in app for how to use actiosn
+    */
+  }
+
+  const _criterionDelete = () => {
+    // TODO: #39
+    // call ruleEditCriterionDelete
+    // you must pass it the criterions _id
   }
 
   if (!_criteria) {
@@ -50,7 +61,7 @@ export const Criteria = () => {
       />
       <ButtonRowDiv id="Criteria.Row">
         <H4>Criteria</H4>
-        <Btn onClick={_handleButtonClick}>Add</Btn>
+        <Btn onClick={_criterionAdd}>Add</Btn>
       </ButtonRowDiv>
 
       {_criteria.map((c) => (
