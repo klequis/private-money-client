@@ -68,20 +68,6 @@ export const valueOrEmptyString = (value) => {
  *
  * @param {string} root name of path root such as 'tx' or 'rules'
  * @param {Array} path full path to desirec values
- * @param {state} state current state with or without root property
- * @returns {any} returns whatever is in state
- */
-export const getStateValue = (root, path, state) => {
-  const ret = R.has(root)(state)
-    ? R.path(path, state)
-    : R.path(R.tail(path), state)
-  return ret
-}
-
-/**
- *
- * @param {string} root name of path root such as 'tx' or 'rules'
- * @param {Array} path full path to desirec values
  * @param {any} newValue the new value to set for the specified path state
  * @param {object} state current state with or without root property
  * @returns {any} returns the past in state with the specified value modified
@@ -109,3 +95,22 @@ export const createNewState = R.curry((path, newValue, state) => {
   // if (isPath) grpEnd()
   return ret
 })
+
+/**
+ *
+ * @param {string} root name of path root such as 'tx' or 'rules'
+ * @param {Array} path full path to desirec values
+ * @param {state} state current state with or without root property
+ * @returns {any} returns whatever is in state
+ */
+export const getStateValue = (path, state) => {
+  grpStart('getStateValue')
+  blue('path', path)
+  blue('state', state)
+  grpEnd()
+  const root = path[0]
+  const ret = R.has(root)(state)
+    ? R.path(path, state)
+    : R.path(R.tail(path), state)
+  return ret
+}
