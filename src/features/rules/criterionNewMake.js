@@ -1,3 +1,14 @@
+import { makeTmpId } from 'lib/makeTmpId'
+import { operatorFields } from 'features/rules'
+import { txFields } from 'features/tx'
+import {
+  wdActive,
+  wdField,
+  wdOperator,
+  wdValue,
+  wdId
+} from 'appWords'
+
 /**
  * @returns {object} a Criterion with defaults
  */
@@ -9,4 +20,16 @@ export const criterionNewMake = () => {
       It creates two default Criterion.
       Have .active === true
   */
+  return {
+    [wdId]: makeTmpId(),
+    criteria: [
+      {
+        [wdId]: makeTmpId(),
+        [wdField]: txFields.description.name,
+        [wdOperator]: operatorFields.equals.name,
+        [wdValue]: '',
+        [wdActive]: true
+      },
+    ]
+  }
 }

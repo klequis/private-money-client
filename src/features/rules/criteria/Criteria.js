@@ -1,9 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { CriterionEdit } from './CriterionEdit'
 import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { selectRuleEditCriteria } from 'features/selectors'
+import { ruleEditCriterionAdd } from 'features/rules'
 
 /* eslint-disable */
 import { green, redf, yellow, purple } from 'logger'
@@ -31,8 +32,10 @@ export const Criteria = () => {
   countTotal = countTotal + 1
 
   const _criteria = useSelector(selectRuleEditCriteria)
+  const _dispatch = useDispatch()
 
   const _criterionAdd = () => {
+    _dispatch(ruleEditCriterionAdd())
     // TODO: #39
     // call ruleEditCriterionAdd to add a new Criterion
     /* hint
