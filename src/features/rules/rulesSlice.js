@@ -315,6 +315,8 @@ const rulesSlice = createSlice({
             - _isDirtySet(true)
       */
       // I think that is all of it
+
+      return state
     },
     /**
      *
@@ -440,6 +442,7 @@ export const {
   ruleEditActionUpdate,
   ruleEditClear,
   ruleEditCriterionUpdate,
+  ruleEditCriterionAdd,
   ruleEditActionsReplace,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
