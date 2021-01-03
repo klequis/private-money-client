@@ -36,19 +36,10 @@ export const Criteria = () => {
 
   const _criterionAdd = () => {
     _dispatch(ruleEditCriterionAdd())
-    // TODO: #39
-    // call ruleEditCriterionAdd to add a new Criterion
-    /* hint
-       ruleEditCriterionAdd is an action. See other event
-       handlers in app for how to use actiosn
-    */
   }
 
   const _criterionDelete = e => {
     _dispatch(ruleEditCriterionDelete({ ruleId: e.target.id }))
-    // TODO: #39
-    // call ruleEditCriterionDelete
-    // you must pass it the criterions _id
   }
 
   if (!_criteria) {
