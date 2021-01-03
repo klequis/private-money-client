@@ -22,14 +22,9 @@ export const criterionNewMake = () => {
   */
   return {
     [wdId]: makeTmpId(),
-    criteria: [
-      {
-        [wdId]: makeTmpId(),
-        [wdField]: txFields.description.name,
-        [wdOperator]: operatorFields.equals.name,
-        [wdValue]: '',
-        [wdActive]: true
-      },
-    ]
+    [wdField]: txFields.description.name,
+    [wdOperator]: operatorFields.equals.name,
+    [wdValue]: 'Description value',
+    [wdActive]: true
   }
 }
