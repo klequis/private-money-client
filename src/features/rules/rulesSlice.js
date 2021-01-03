@@ -48,6 +48,7 @@ import { createNewState } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
 import { isTmpRule } from 'lib/isTmpRule'
 import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
+import { criterionNewMake } from 'features/rules/criterionNewMake';
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -315,8 +316,11 @@ const rulesSlice = createSlice({
             - _isDirtySet(true)
       */
       // I think that is all of it
-
-      return state
+      const newCriterion = criterionNewMake()
+      const currCriteria = selectRuleEditCriteria(state)
+      const newCriteria = R.append(newCriterion, currCriteria)
+      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
+      // return state
     },
     /**
      *
@@ -324,7 +328,7 @@ const rulesSlice = createSlice({
      * @param {object} action a Criterion { payload: { ruleId: 12345 }}
      * @returns {object} the new state
      */
-    ruleEdiCriterionDelete(state, action) {
+    ruleEditCriterionDelete(state, action) {
       // TODO: #39
       // Do ruleEditCriterionAdd first as i gave the explanation a lot more thought there.
       // Once done, try this one. It should be somewhat similar
@@ -335,6 +339,9 @@ const rulesSlice = createSlice({
           - Remove the one that matches the passed in id
           - Repeat as above _criteriaSet() _isDirtySet()
       */
+      const currCriteria = selectRuleEditCriteria(state)
+      const newCriteria = R.reject(rule => rule._id === action.payload.ruleId, currCriteria)
+      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
     },
     /**
      *
@@ -443,6 +450,7 @@ export const {
   ruleEditClear,
   ruleEditCriterionUpdate,
   ruleEditCriterionAdd,
+  ruleEditCriterionDelete,
   ruleEditActionsReplace,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
