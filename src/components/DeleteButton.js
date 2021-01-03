@@ -2,15 +2,19 @@ import React from 'react'
 import { Trash } from 'react-bootstrap-icons'
 import styled from 'styled-components'
 
-const Btn = styled(Trash)`
-  cursor: pointer
+const DeleteButtonDiv = styled.div`
+    cursor: pointer;
+`
+
+const DeleteButtonIcon = styled(Trash)`
+    pointer-events: none;
 `
 
 const DeleteButton = ({ id, onClick }) => {
     return (
-        <>
-            <Btn size={18} id={id} onClick={onClick} />
-        </>
+        <DeleteButtonDiv id={id} onClick={onClick}>
+            <DeleteButtonIcon />
+        </DeleteButtonDiv>
     )
 }
 
