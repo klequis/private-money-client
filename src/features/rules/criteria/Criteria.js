@@ -4,7 +4,7 @@ import { CriterionEdit } from './CriterionEdit'
 import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { selectRuleEditCriteria } from 'features/selectors'
-import { ruleEditCriterionAdd } from 'features/rules'
+import { ruleEditCriterionAdd, ruleEditCriterionDelete } from 'features/rules'
 
 /* eslint-disable */
 import { green, redf, yellow, purple } from 'logger'
@@ -44,7 +44,8 @@ export const Criteria = () => {
     */
   }
 
-  const _criterionDelete = () => {
+  const _criterionDelete = e => {
+    _dispatch(ruleEditCriterionDelete({ ruleId: e.target.id }))
     // TODO: #39
     // call ruleEditCriterionDelete
     // you must pass it the criterions _id
@@ -65,11 +66,10 @@ export const Criteria = () => {
       <ButtonRowDiv id="Criteria.Row">
         <H4>Criteria</H4>
         <Btn onClick={_criterionAdd}>Add</Btn>
-        // TODO: #39 - add button
       </ButtonRowDiv>
 
       {_criteria.map((c) => (
-        <CriterionEdit key={c._id} criterion={c} />
+        <CriterionEdit key={c._id} criterion={c} _criterionDelete={_criterionDelete} />
       ))}
     </div>
   )
