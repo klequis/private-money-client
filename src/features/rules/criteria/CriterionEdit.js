@@ -20,6 +20,7 @@ import {
   wdOperator,
   wdValue
 } from 'appWords'
+import DeleteButton from 'components/DeleteButton'
 
 /* eslint-disable */
 import { yellow, green, redf, purple, grpStart, grpEnd } from 'logger'
@@ -97,13 +98,13 @@ const _guessOperator = (a, b, currentOperator) => {
   return currentOperator
 }
 
-export const CriterionEdit = ({ criterion }) => {
+export const CriterionEdit = ({ criterion, _criterionDelete }) => {
   countTotal = countTotal + 1
 
   const [_valueErrorLevel, _setValueErrorLevel] = useState(errorLevelNone)
   const [_shouldGuessOperator, _setShouldGuessOperator] = useState(true)
 
-  const { operator, field, value, active } = criterion
+  const { operator, field, value, active, _id } = criterion
   // eslint-disable-next-line
   const [_origValue, _setOrigValue] = useState(value)
   const [_operator, _setOperator] = useState(operator)
@@ -122,9 +123,9 @@ export const CriterionEdit = ({ criterion }) => {
     }
     const newCriterion = _shouldGuessOperator
       ? R.mergeRight(criterion, {
-          [wdValue]: value,
-          [wdOperator]: guessedOperator
-        })
+        [wdValue]: value,
+        [wdOperator]: guessedOperator
+      })
       : R.mergeRight(criterion, { [wdValue]: value })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
@@ -224,11 +225,13 @@ export const CriterionEdit = ({ criterion }) => {
           value={_value}
           width={450}
         />
+        <DeleteButton id={_id} onClick={_criterionDelete} />
       </RowDiv>
     </>
   )
 }
 
 CriterionEdit.propTypes = {
-  criterion: PropTypes.object.isRequired
+  criterion: PropTypes.object.isRequired,
+  _criterionDelete: PropTypes.func.isRequired,
 }

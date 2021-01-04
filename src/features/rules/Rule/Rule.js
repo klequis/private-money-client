@@ -1,6 +1,6 @@
 import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
-import { ruleEditSave, ruleEditClear } from 'features/rules'
+import { ruleDelete, ruleEditClear, ruleEditSave } from 'features/rules'
 import { txActiveIdClear } from 'features/tx'
 import { RuleToolbar } from './RuleToolbar'
 import { RuleId } from './RuleId'
@@ -36,6 +36,8 @@ export const Rule = () => {
   const _ruleEdit = useSelector(selectRuleEdit)
   const _dispatch = useDispatch()
 
+  const { dirty, _id: ruleId } = _ruleEdit
+
   const _handleSaveClick = async () => {
     _dispatch(ruleEditSave())
   }
@@ -46,10 +48,8 @@ export const Rule = () => {
   }
 
   const _handleDeleteClick = () => {
-    // TODO: not implemented yet
+    _dispatch(ruleDelete(ruleId))
   }
-
-  const { dirty, _id: ruleId } = _ruleEdit
 
   countReturn = countReturn + 1
   return (

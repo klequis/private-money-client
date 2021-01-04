@@ -1,9 +1,7 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import {
-  wdId
-} from 'appWords'
+import { wdId } from 'appWords'
 import { dataTypes } from 'lib/dataTypes'
 
 // eslint-disable-next-line
@@ -70,25 +68,11 @@ export const valueOrEmptyString = (value) => {
  *
  * @param {string} root name of path root such as 'tx' or 'rules'
  * @param {Array} path full path to desirec values
- * @param {state} state current state with or without root property
- * @returns {any} returns whatever is in state
- */
-export const getStateValue = (root, path, state) => {
-  const ret = R.has(root)(state)
-    ? R.path(path, state)
-    : R.path(R.tail(path), state)
-  return ret
-}
-
-/**
- *
- * @param {string} root name of path root such as 'tx' or 'rules'
- * @param {Array} path full path to desirec values
  * @param {any} newValue the new value to set for the specified path state
  * @param {object} state current state with or without root property
- * @returns {any} returns the past in state with the specified value modified
+ * @returns {any} returns the passed in state modified with the specified value modified
  */
-export const setStateValue = R.curry((root, path, newValue, state) => {
+export const createNewState = R.curry((path, newValue, state) => {
   // const isPath = _isPath(path)
   // if (isPath) {
   //   grpStart('setStateValue')
@@ -97,8 +81,9 @@ export const setStateValue = R.curry((root, path, newValue, state) => {
   //   blue('newValue', newValue)
   //   blue('state', state)
   // }
-
+  const root = path[0]
   const actualPath = R.has(root)(state) ? path : R.tail(path)
+
   // if (isPath) blue('actualPath', actualPath)
   const ret = R.assocPath(actualPath, newValue, state)
   // red('ret', ret)
@@ -110,3 +95,22 @@ export const setStateValue = R.curry((root, path, newValue, state) => {
   // if (isPath) grpEnd()
   return ret
 })
+
+/**
+ *
+ * @param {string} root name of path root such as 'tx' or 'rules'
+ * @param {Array} path full path to desirec values
+ * @param {state} state current state with or without root property
+ * @returns {any} returns whatever is in state
+ */
+export const getStateValue = (path, state) => {
+  grpStart('getStateValue')
+  blue('path', path)
+  blue('state', state)
+  grpEnd()
+  const root = path[0]
+  const ret = R.has(root)(state)
+    ? R.path(path, state)
+    : R.path(R.tail(path), state)
+  return ret
+}

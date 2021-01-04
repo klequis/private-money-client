@@ -40,6 +40,8 @@ const TableHead = () => {
         <th>Amount</th>
         <th>Category 1</th>
         <th>Category 2</th>
+        <th>Original Description</th>
+        <th>Existing Rules</th>
       </tr>
     </thead>
   )

@@ -1,4 +1,5 @@
 import React from 'react'
+import PropTypes from 'prop-types'
 import { useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Button } from 'components/Button'
@@ -25,4 +26,10 @@ export const RuleToolbar = ({ save, cancel, deleteRule }) => {
       <Btn onClick={deleteRule}>Delete</Btn>
     </RuleToolbarDiv>
   )
+}
+
+RuleToolbar.propTypes = {
+  save: PropTypes.func.isRequired,
+  cancel: PropTypes.func.isRequired,
+  deleteRule: PropTypes.func.isRequired
 }

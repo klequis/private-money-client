@@ -3,12 +3,17 @@ import {
   wdBeginsWith,
   wdContains,
   wdDoesNotContain,
-  wdEquals
+  wdEquals,
+  wdSelect
 } from 'appWords'
 //eslint-disable-next-line
 import { blue } from 'logger'
 
 export const operatorFields = {
+  select: {
+    name: wdSelect,
+    description: 'Select'
+  },
   beginsWith: {
     name: wdBeginsWith,
     description: 'Begins with'

@@ -19,7 +19,7 @@ import {
   wdMessage,
   wdError
 } from 'appWords'
-import { setStateValue } from 'features/helpers'
+import { createNewState } from 'features/helpers'
 import {
   selectTxFetchStatus,
   selectCheckboxShowOmittedValue
@@ -65,19 +65,19 @@ export const txFetch = createAsyncThunk(
 )
 
 const _itemsSet = R.curry((items, state) => {
-  return setStateValue(wdTx, pathTxItems, items, state)
+  return createNewState(pathTxItems, items, state)
 })
 
 const _txFetchStatusSet = R.curry((status, state) => {
-  return setStateValue(wdTx, pathTxFetchStatus, status, state)
+  return createNewState(pathTxFetchStatus, status, state)
 })
 
 const _txFetchErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(wdTx, pathTxFetchError, errorMessage, state)
+  return createNewState(pathTxFetchError, errorMessage, state)
 })
 
 const _activeIdSet = R.curry((id, state) => {
-  return setStateValue(wdTx, pathTxActiveId, id, state)
+  return createNewState(pathTxActiveId, id, state)
 })
 
 const txSlice = createSlice({

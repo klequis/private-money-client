@@ -1,9 +1,10 @@
 import React from 'react'
-import { useSelector } from 'react-redux'
+import { useSelector, useDispatch } from 'react-redux'
 import { CriterionEdit } from './CriterionEdit'
 import { Button } from 'components/Button'
 import styled from 'styled-components'
 import { selectRuleEditCriteria } from 'features/selectors'
+import { ruleEditCriterionAdd, ruleEditCriterionDelete } from 'features/rules'
 
 /* eslint-disable */
 import { green, redf, yellow, purple } from 'logger'
@@ -31,9 +32,14 @@ export const Criteria = () => {
   countTotal = countTotal + 1
 
   const _criteria = useSelector(selectRuleEditCriteria)
+  const _dispatch = useDispatch()
 
-  const _handleButtonClick = () => {
-    // TODO: not implemented yet
+  const _criterionAdd = () => {
+    _dispatch(ruleEditCriterionAdd())
+  }
+
+  const _criterionDelete = e => {
+    _dispatch(ruleEditCriterionDelete({ ruleId: e.target.id }))
   }
 
   if (!_criteria) {
@@ -50,11 +56,11 @@ export const Criteria = () => {
       />
       <ButtonRowDiv id="Criteria.Row">
         <H4>Criteria</H4>
-        <Btn onClick={_handleButtonClick}>Add</Btn>
+        <Btn onClick={_criterionAdd}>Add</Btn>
       </ButtonRowDiv>
 
       {_criteria.map((c) => (
-        <CriterionEdit key={c._id} criterion={c} />
+        <CriterionEdit key={c._id} criterion={c} _criterionDelete={_criterionDelete} />
       ))}
     </div>
   )
