@@ -1,5 +1,5 @@
 import { format } from 'date-fns'
-import { 
+import {
   isArray,
   isBoolean,
   isDate,
@@ -23,7 +23,8 @@ import {
   wdOrigDescription,
   wdRuleIds,
   wdTaxDeduct,
-  wdType
+  wdType,
+  wdSelect
 } from 'appWords'
 
 export const txFields = {
@@ -115,6 +116,13 @@ export const txFields = {
   type: {
     name: wdType,
     description: 'Type',
+    isCriteriaField: true,
+    validate: isString,
+    dataType: dataTypes.String
+  },
+  select: {
+    name: wdSelect,
+    description: 'Select',
     isCriteriaField: true,
     validate: isString,
     dataType: dataTypes.String
