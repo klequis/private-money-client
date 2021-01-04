@@ -94,6 +94,7 @@ export const wdRulesUpdateError = 'rulesUpdateError'
 export const wdReplaceAll = 'replaceAll'
 export const wdReplaceWithValue = 'replaceWithValue'
 // S
+export const wdSelect = 'select'
 export const wdShowExpenseOnly = 'showExpenseOnly'
 export const wdShowIncomeOnly = 'showIncomeOnly'
 export const wdSort = 'sort'
