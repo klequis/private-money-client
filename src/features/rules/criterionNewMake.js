@@ -1,6 +1,4 @@
 import { makeTmpId } from 'lib/makeTmpId'
-import { operatorFields } from 'features/rules'
-import { txFields } from 'features/tx'
 import {
   wdActive,
   wdField,
@@ -15,9 +13,9 @@ import {
 export const criterionNewMake = () => {
   return {
     [wdId]: makeTmpId(),
-    [wdField]: txFields.description.name,
-    [wdOperator]: operatorFields.equals.name,
-    [wdValue]: 'Description value',
+    [wdField]: 'select',
+    [wdOperator]: 'select',
+    [wdValue]: '',
     [wdActive]: true
   }
 }
