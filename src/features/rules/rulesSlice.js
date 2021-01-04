@@ -48,6 +48,7 @@ import { createNewState } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
 import { isTmpRule } from 'lib/isTmpRule'
 import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
+import { criterionNewMake } from 'features/rules/criterionNewMake';
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -294,29 +295,10 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     ruleEditCriterionAdd(state /*, action */) {
-      // TODO: #39
-      /*  Notes
-          - state will be the rules prop/branch of Redux state.
-          - There will be no action.payload as you will create a new/default Criterion.
-          - I'm not sure you will need action at all so I commented it out for now.
-      */
-      /*  Basic flow
-          - Get new Criterion from criterionNewMake.js
-          - Get the existing criteria from state using selectRuleEditCriteria(state)
-          - Add the new criterion to the existing criteria using R.append
-      */
-      /*  Set dirty
-          - If the rule having changes made to it isn't dirty it will be now so set dirty to true
-          - So there are two changes needed to state
-            1. state.ruleEdit.criteria - needs to be your new criteria
-            2. state.ruleEdit.isDirty - needs to be set to true
-          - Use a pipe to perform the 2 criteria (see examples elsewhere in this module)
-            - _criteriaSet(newCriteria)
-            - _isDirtySet(true)
-      */
-      // I think that is all of it
-
-      return state
+      const newCriterion = criterionNewMake()
+      const currCriteria = selectRuleEditCriteria(state)
+      const newCriteria = R.append(newCriterion, currCriteria)
+      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
     },
     /**
      *
@@ -324,17 +306,10 @@ const rulesSlice = createSlice({
      * @param {object} action a Criterion { payload: { ruleId: 12345 }}
      * @returns {object} the new state
      */
-    ruleEdiCriterionDelete(state, action) {
-      // TODO: #39
-      // Do ruleEditCriterionAdd first as i gave the explanation a lot more thought there.
-      // Once done, try this one. It should be somewhat similar
-      /*
-          - action.payload needs to be an object that has an id. The exact shape will be what you
-            decide to pass in from the Criteria component
-          - Get all the actions
-          - Remove the one that matches the passed in id
-          - Repeat as above _criteriaSet() _isDirtySet()
-      */
+    ruleEditCriterionDelete(state, action) {
+      const currCriteria = selectRuleEditCriteria(state)
+      const newCriteria = R.reject(rule => rule._id === action.payload.ruleId, currCriteria)
+      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
     },
     /**
      *
@@ -443,6 +418,7 @@ export const {
   ruleEditClear,
   ruleEditCriterionUpdate,
   ruleEditCriterionAdd,
+  ruleEditCriterionDelete,
   ruleEditActionsReplace,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,
