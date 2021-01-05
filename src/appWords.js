@@ -43,6 +43,7 @@ export const wdExpense = 'expense'
 // F
 export const wdFetch = 'fetch'
 export const wdField = 'field'
+export const wdFeildsComplete = 'fieldsComplete'
 export const wdFieldName = 'fieldName'
 export const wdFilters = 'filters'
 export const wdFindValue = 'findValue'
