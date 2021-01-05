@@ -4,7 +4,9 @@ import {
   wdField,
   wdOperator,
   wdValue,
-  wdId
+  wdId,
+  wdSelect,
+  wdFeildsComplete
 } from 'appWords'
 
 /**
@@ -13,9 +15,10 @@ import {
 export const criterionNewMake = () => {
   return {
     [wdId]: makeTmpId(),
-    [wdField]: 'select',
-    [wdOperator]: 'select',
+    [wdField]: wdSelect,
+    [wdOperator]: wdSelect,
     [wdValue]: '',
-    [wdActive]: true
+    [wdActive]: true,
+    [wdFeildsComplete]: false,
   }
 }
