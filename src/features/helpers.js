@@ -19,7 +19,7 @@ export const getRule = (ruleId, state) => {
 }
 
 export const getActiveCriteria = (criteria) => {
-  return criteria === null ? [] : criteria.filter((c) => c.active === true)
+  return criteria === null ? [] : criteria.filter((c) => c.active === true && c.fieldsComplete === true)
 }
 
 export const removeInactiveCriteria = (rule) => {
@@ -104,10 +104,10 @@ export const createNewState = R.curry((path, newValue, state) => {
  * @returns {any} returns whatever is in state
  */
 export const getStateValue = (path, state) => {
-  grpStart('getStateValue')
-  blue('path', path)
-  blue('state', state)
-  grpEnd()
+  // grpStart('getStateValue')
+  // blue('path', path)
+  // blue('state', state)
+  // grpEnd()
   const root = path[0]
   const ret = R.has(root)(state)
     ? R.path(path, state)
