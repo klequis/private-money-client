@@ -37,11 +37,10 @@ export const api = {
   transactions: {
     async read(criteria) {
       // orange('transactions.read: criteria', criteria)
-      const filteredCriteria = R.reject(item => item.field === 'select' || item.operator === 'select' || item.value === '', criteria)
       const url = '/api/criteria/criteria-test/'
       const data = await fetchJson(url, {
         method: 'POST',
-        body: JSON.stringify(filteredCriteria)
+        body: JSON.stringify(criteria)
       })
       // orange('transactions.read: data', data)
       return data
