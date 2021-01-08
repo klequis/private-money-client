@@ -44,8 +44,6 @@ export const TableRow = ({ data, isOriginalData, diffs }) => {
     origDescription
   } = data
 
-  green('data', data)
-
   const _changeColor = isOriginalData ? '#e74c3c' : '#00bc8c'
 
   return (
