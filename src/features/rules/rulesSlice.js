@@ -48,7 +48,7 @@ import { createNewState } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
 import { isTmpRule } from 'lib/isTmpRule'
 import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
-import { criterionNewMake } from 'features/rules/criterionNewMake';
+import { criterionNewMake } from 'features/rules/criterionNewMake'
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -298,7 +298,10 @@ const rulesSlice = createSlice({
       const newCriterion = criterionNewMake()
       const currCriteria = selectRuleEditCriteria(state)
       const newCriteria = R.append(newCriterion, currCriteria)
-      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
+      return R.pipe(
+        _criteriaSet(newCriteria),
+        _isDirtySet(true)
+      )(current(state))
     },
     /**
      *
@@ -308,8 +311,14 @@ const rulesSlice = createSlice({
      */
     ruleEditCriterionDelete(state, action) {
       const currCriteria = selectRuleEditCriteria(state)
-      const newCriteria = R.reject(rule => rule._id === action.payload.ruleId, currCriteria)
-      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
+      const newCriteria = R.reject(
+        (rule) => rule._id === action.payload.ruleId,
+        currCriteria
+      )
+      return R.pipe(
+        _criteriaSet(newCriteria),
+        _isDirtySet(true)
+      )(current(state))
     },
     /**
      *
