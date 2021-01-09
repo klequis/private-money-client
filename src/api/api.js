@@ -36,7 +36,7 @@ export const api = {
   },
   transactions: {
     async read(criteria) {
-      // orange('transactions.read: criteria', criteria)
+      orange('transactions.read: criteria', criteria)
       const url = '/api/criteria/criteria-test/'
       const data = await fetchJson(url, {
         method: 'POST',
