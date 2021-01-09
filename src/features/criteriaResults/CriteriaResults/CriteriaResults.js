@@ -9,7 +9,7 @@ import * as R from 'ramda'
 import { TableBody } from './TableBody'
 import styled from 'styled-components'
 import {
-  selectRuleEditActiveCriteria,
+  selectRuleEditActiveAndCompleteCriteria,
   selectRuleEditCriteria,
   selectRuleEditActions,
   selectCriteriaResults,
@@ -59,13 +59,14 @@ export const CriteriaResults = () => {
   )
   const _criteria = useSelector(selectRuleEditCriteria)
   const _actions = useSelector(selectRuleEditActions)
-  const _activeCriteria = useSelector(selectRuleEditActiveCriteria)
+  const _activeAndCompleteCriteria = useSelector(selectRuleEditActiveAndCompleteCriteria)
+
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria
     // const valid = isCriteriaValid(activeCriteria)
-    if (!R.isEmpty(_activeCriteria)) {
-      _dispatch(criteriaResultsFetch(_activeCriteria))
+    if (!R.isEmpty(_activeAndCompleteCriteria)) {
+      _dispatch(criteriaResultsFetch(_activeAndCompleteCriteria))
     }
     // eslint-disable-next-line
   }, [_criteria])

@@ -29,6 +29,7 @@ const initialState = {
 export const criteriaResultsFetch = createAsyncThunk(
   'criteriaResult/get',
   async (criteria) => {
+    blue('criteria', criteria)
     const r = await api.transactions.read(criteria)
     return r
   }
