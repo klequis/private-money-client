@@ -32,13 +32,14 @@ export const Criteria = () => {
   countTotal = countTotal + 1
 
   const _criteria = useSelector(selectRuleEditCriteria)
+
   const _dispatch = useDispatch()
 
   const _criterionAdd = () => {
     _dispatch(ruleEditCriterionAdd())
   }
 
-  const _criterionDelete = e => {
+  const _criterionDelete = (e) => {
     _dispatch(ruleEditCriterionDelete({ ruleId: e.target.id }))
   }
 
@@ -60,7 +61,11 @@ export const Criteria = () => {
       </ButtonRowDiv>
 
       {_criteria.map((c) => (
-        <CriterionEdit key={c._id} criterion={c} _criterionDelete={_criterionDelete} />
+        <CriterionEdit
+          key={c._id}
+          criterion={c}
+          _criterionDelete={_criterionDelete}
+        />
       ))}
     </div>
   )

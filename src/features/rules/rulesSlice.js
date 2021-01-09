@@ -50,7 +50,7 @@ import { createNewState } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
 import { isTmpRule } from 'lib/isTmpRule'
 import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
-import { criterionNewMake } from 'features/rules/criterionNewMake';
+import { criterionNewMake } from 'features/rules/criterionNewMake'
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -269,27 +269,19 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     ruleEditCriterionUpdate(state, action) {
-      // grpStart('ruleEditCriterionUpdate')
       const currState = current(state)
-      // blue('currState', currState)
       const newCriterion = R.path([wdPayload], action)
-      // blue('newCriterion', newCriterion)
       const newCriterionId = R.prop(wdId, newCriterion)
-      // blue('newCriterionId', newCriterionId)
       const currCriteria = selectRuleEditCriteria(currState)
-      // blue('currCriteria', currCriteria)
       const idxOfCriteriaToReplace = R.findIndex(
         R.propEq(wdId, newCriterionId)
       )(currCriteria)
-      // blue('idxOfCriteriaToReplace', idxOfCriteriaToReplace)
 
       const newCriteria = R.update(
         idxOfCriteriaToReplace,
         newCriterion,
         currCriteria
       )
-      // blue('newCriteria', newCriteria)
-      // grpEnd()
       return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(currState)
     },
     /**
@@ -302,7 +294,10 @@ const rulesSlice = createSlice({
       const newCriterion = criterionNewMake()
       const currCriteria = selectRuleEditCriteria(state)
       const newCriteria = R.append(newCriterion, currCriteria)
-      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
+      return R.pipe(
+        _criteriaSet(newCriteria),
+        _isDirtySet(true)
+      )(current(state))
     },
     /**
      *
@@ -312,8 +307,14 @@ const rulesSlice = createSlice({
      */
     ruleEditCriterionDelete(state, action) {
       const currCriteria = selectRuleEditCriteria(state)
-      const newCriteria = R.reject(rule => rule._id === action.payload.ruleId, currCriteria)
-      return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(current(state))
+      const newCriteria = R.reject(
+        (rule) => rule._id === action.payload.ruleId,
+        currCriteria
+      )
+      return R.pipe(
+        _criteriaSet(newCriteria),
+        _isDirtySet(true)
+      )(current(state))
     },
     /**
      *
