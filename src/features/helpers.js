@@ -53,6 +53,12 @@ export const removeUIProperties = (rule) => {
   return R.mergeRight(rule, { criteria: completeCriteria })
 }
 
+export const setCriteriaUIProps = (criteria) => {
+  return criteria.map(c => {
+    return { active: true, fieldsComplete: true, ...c }
+  })
+}
+
 /**
  *
  * @param {any} value should be array, empty array, null, undefined but also '' or {}
