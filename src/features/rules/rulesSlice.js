@@ -7,7 +7,8 @@ import {
   removeInactiveCriteria,
   removeTmpIdField,
   removeIncompleteCriteria,
-  removeUIProperties
+  removeUIProperties,
+  setCriteriaUIProps
 } from 'features/helpers'
 import {
   selectRuleEditActions,
@@ -44,7 +45,8 @@ import {
   wdRuleId,
   wdData,
   wdError,
-  wdMessage
+  wdMessage,
+  pathRuleEditSetCriteriaUI
 } from 'appWords'
 import { createNewState } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
@@ -122,11 +124,9 @@ export const ruleEditSave = createAsyncThunk(
       const isTmp = selectRuleEditIsTmpRule(state)
       if (isTmp) {
         const newRule = R.pipe(removeInactiveCriteria, removeIncompleteCriteria, removeTmpIdField, removeUIProperties)(rule)
-        console.log(newRule);
         await api.rules.create(newRule)
       } else {
         const newRule = R.pipe(removeInactiveCriteria, removeIncompleteCriteria, removeUIProperties)(rule)
-        console.log(newRule);
         await api.rules.update(rule._id, newRule)
       }
       dispatch(txFetchStatusSetRefresh())
@@ -204,6 +204,10 @@ const _isTmpRuleSet = R.curry((state) => {
     isTmpRule(selectRuleEditId(state)),
     state
   )
+})
+
+const _criteriaSetUIProps = R.curry((criteria, state) => {
+  return createNewState(pathRuleEditSetCriteriaUI, criteria, state)
 })
 
 const rulesSlice = createSlice({
@@ -326,11 +330,14 @@ const rulesSlice = createSlice({
       const currState = current(state)
       const ruleId = R.path([wdPayload, wdRuleId], action)
       const rule = getRule(ruleId, currState)
+      const { criteria } = rule
+      const newCriteria = setCriteriaUIProps(criteria)
       return R.pipe(
         _ruleEditSet(rule),
         _hasActionTypeOmitSet,
         _isDirtySet(false),
-        _isTmpRuleSet
+        _isTmpRuleSet,
+        _criteriaSetUIProps(newCriteria)
       )(currState)
     },
     /**
