@@ -1,5 +1,5 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { getActiveCriteria } from 'features/helpers'
+import { getActiveCriteria, getCompleteCriteria } from 'features/helpers'
 import * as R from 'ramda'
 import { valueOrEmptyArray, valueOrEmptyObject } from 'features/helpers'
 import {
@@ -170,12 +170,13 @@ export const selectRuleUpdateStatus = (state) => {
  * @returns {Array} of Criteria objects
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
-export const selectRuleEditActiveCriteria = (state) => {
+export const selectRuleEditActiveAndCompleteCriteria = (state) => {
   const criteria = getStateValue(pathRuleEditCritera, state)
   if (isNilOrEmpty(criteria)) {
     return []
   }
-  const activeCriteria = getActiveCriteria(criteria)
+  const completeCriteria = getCompleteCriteria(criteria)
+  const activeCriteria = getActiveCriteria(completeCriteria)
   return valueOrEmptyArray(activeCriteria)
 }
 
