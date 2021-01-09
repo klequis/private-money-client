@@ -58,8 +58,10 @@ export const CriteriaResults = () => {
     selectRequestStatus([wdCriteriaResultsFetchStatus], state)
   )
   const _criteria = useSelector(selectRuleEditCriteria)
+  green('_criteria', _criteria)
   const _actions = useSelector(selectRuleEditActions)
   const _activeCriteria = useSelector(selectRuleEditActiveCriteria)
+  green('_activeCriteria', _activeCriteria)
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria
