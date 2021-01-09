@@ -19,7 +19,7 @@ export const getRule = (ruleId, state) => {
 }
 
 export const getActiveCriteria = (criteria) => {
-  return criteria === null ? [] : criteria.filter((c) => c.active === true && c.fieldsComplete === true)
+  return criteria === null ? [] : criteria.filter((c) => c.active === true)
 }
 
 export const removeInactiveCriteria = (rule) => {
@@ -30,6 +30,27 @@ export const removeInactiveCriteria = (rule) => {
 
 export const removeTmpIdField = (rule) => {
   return R.has(wdId) ? R.dissoc(wdId, rule) : rule
+}
+
+export const getCompleteCriteria = (criteria) => {
+  return criteria === null ? [] : criteria.filter((c) => c.fieldsComplete === true)
+}
+
+export const removeIncompleteCriteria = (rule) => {
+  const { criteria } = rule
+  const completeCriteria = getCompleteCriteria(criteria)
+  return R.mergeRight(rule, { criteria: completeCriteria })
+}
+
+export const removeUIProperties = (rule) => {
+  const { criteria } = rule
+  const completeCriteria = criteria === null
+    ? []
+    : criteria.map((c) => {
+      const { active, fieldsComplete, ...rest } = c
+      return rest
+    })
+  return R.mergeRight(rule, { criteria: completeCriteria })
 }
 
 /**

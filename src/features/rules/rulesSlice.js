@@ -5,7 +5,9 @@ import { ruleTmpMake, defaultActions } from './ruleTmpMake'
 import {
   getRule,
   removeInactiveCriteria,
-  removeTmpIdField
+  removeTmpIdField,
+  removeIncompleteCriteria,
+  removeUIProperties
 } from 'features/helpers'
 import {
   selectRuleEditActions,
@@ -119,10 +121,12 @@ export const ruleEditSave = createAsyncThunk(
       const rule = selectRuleEdit(state)
       const isTmp = selectRuleEditIsTmpRule(state)
       if (isTmp) {
-        const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
+        const newRule = R.pipe(removeInactiveCriteria, removeIncompleteCriteria, removeTmpIdField, removeUIProperties)(rule)
+        console.log(newRule);
         await api.rules.create(newRule)
       } else {
-        const newRule = removeInactiveCriteria(rule)
+        const newRule = R.pipe(removeInactiveCriteria, removeIncompleteCriteria, removeUIProperties)(rule)
+        console.log(newRule);
         await api.rules.update(rule._id, newRule)
       }
       dispatch(txFetchStatusSetRefresh())
