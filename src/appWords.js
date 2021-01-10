@@ -145,7 +145,6 @@ export const pathRuleEditHasActionTypeOmit = [
 export const pathRuleEditId = [wdRules, wdRuleEdit, wdId]
 export const pathRuleEditIsDirty = [wdRules, wdRuleEdit, wdIsDirty]
 export const pathRuleEditIsTmpRule = [wdRules, wdRuleEdit, wdIsTmpRule]
-export const pathRuleEditSetCriteriaUI = [wdRules, wdRuleEdit, wdCriteria]
 
 // rules
 export const pathRules = [wdRules]
