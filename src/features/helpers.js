@@ -1,7 +1,7 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { wdId } from 'appWords'
+import { wdActive, wdFeildsComplete, wdId, wdIsDirty, wdIsTmpRule, wdHasActionTypeOmit } from 'appWords'
 import { dataTypes } from 'lib/dataTypes'
 
 // eslint-disable-next-line
@@ -30,6 +30,32 @@ export const removeInactiveCriteria = (rule) => {
 
 export const removeTmpIdField = (rule) => {
   return R.has(wdId) ? R.dissoc(wdId, rule) : rule
+}
+
+export const getCompleteCriteria = (criteria) => {
+  return criteria === null ? [] : criteria.filter((c) => c.fieldsComplete === true)
+}
+
+export const removeIncompleteCriteria = (rule) => {
+  const { criteria } = rule
+  const completeCriteria = getCompleteCriteria(criteria)
+  return R.mergeRight(rule, { criteria: completeCriteria })
+}
+
+export const removeCriterionUIProperties = (rule) => {
+  const { criteria } = rule
+  const completeCriteria = criteria === null ? [] : criteria.map((c) => R.omit([wdActive, wdFeildsComplete], c))
+  return R.mergeRight(rule, { criteria: completeCriteria })
+}
+
+export const removeRuleUIProperties = (rule) => {
+  return R.omit([wdIsTmpRule, wdHasActionTypeOmit, wdIsDirty], rule)
+}
+
+export const setCriteriaUIProps = (criteria) => {
+  return criteria.map(c => {
+    return { active: true, fieldsComplete: true, ...c }
+  })
 }
 
 /**

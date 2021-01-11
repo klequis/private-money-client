@@ -5,7 +5,11 @@ import { ruleTmpMake, defaultActions } from './ruleTmpMake'
 import {
   getRule,
   removeInactiveCriteria,
-  removeTmpIdField
+  removeTmpIdField,
+  removeIncompleteCriteria,
+  removeCriterionUIProperties,
+  setCriteriaUIProps,
+  removeRuleUIProperties
 } from 'features/helpers'
 import {
   selectRuleEditActions,
@@ -119,10 +123,21 @@ export const ruleEditSave = createAsyncThunk(
       const rule = selectRuleEdit(state)
       const isTmp = selectRuleEditIsTmpRule(state)
       if (isTmp) {
-        const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
+        const newRule = R.pipe(
+          removeInactiveCriteria,
+          removeIncompleteCriteria,
+          removeTmpIdField,
+          removeCriterionUIProperties,
+          removeRuleUIProperties
+        )(rule)
         await api.rules.create(newRule)
       } else {
-        const newRule = removeInactiveCriteria(rule)
+        const newRule = R.pipe(
+          removeInactiveCriteria,
+          removeIncompleteCriteria,
+          removeCriterionUIProperties,
+          removeRuleUIProperties
+        )(rule)
         await api.rules.update(rule._id, newRule)
       }
       dispatch(txFetchStatusSetRefresh())
@@ -200,6 +215,10 @@ const _isTmpRuleSet = R.curry((state) => {
     isTmpRule(selectRuleEditId(state)),
     state
   )
+})
+
+const _criteriaSetUIProps = R.curry((criteria, state) => {
+  return createNewState(pathRuleEditCritera, criteria, state)
 })
 
 const rulesSlice = createSlice({
@@ -324,11 +343,14 @@ const rulesSlice = createSlice({
       blue('currState', currState)
       const ruleId = R.path([wdPayload, wdRuleId], action)
       const rule = getRule(ruleId, currState)
+      const { criteria } = rule
+      const newCriteria = setCriteriaUIProps(criteria)
       return R.pipe(
         _ruleEditSet(rule),
         _hasActionTypeOmitSet,
         _isDirtySet(false),
-        _isTmpRuleSet
+        _isTmpRuleSet,
+        _criteriaSetUIProps(newCriteria)
       )(currState)
     },
     /**
