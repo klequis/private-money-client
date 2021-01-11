@@ -338,7 +338,9 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     ruleEditSetExistingRule(state, action) {
+      purple('ruleEditSetExistingRule', 'called')
       const currState = current(state)
+      blue('currState', currState)
       const ruleId = R.path([wdPayload, wdRuleId], action)
       const rule = getRule(ruleId, currState)
       const { criteria } = rule
@@ -358,12 +360,14 @@ const rulesSlice = createSlice({
      * @returns {object} the new sate
      */
     ruleEditSetNewRule(state, action) {
+      purple('ruleEditSetNewRule', 'called')
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
       blue('ruleEditSetNewRule: rule', rule)
       // new rule always has hasActionTypeOmit === false so
       // no need to set
+      blue('state', state)
       return R.pipe(
         _ruleEditSet(rule),
         _hasActionTypeOmitSet,
