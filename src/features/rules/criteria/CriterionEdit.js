@@ -18,8 +18,10 @@ import {
   wdEquals,
   wdField,
   wdOperator,
-  wdValue
+  wdValue,
+  wdFeildsComplete
 } from 'appWords'
+import DeleteButton from 'components/DeleteButton'
 
 /* eslint-disable */
 import { yellow, green, redf, purple, grpStart, grpEnd } from 'logger'
@@ -76,6 +78,20 @@ const _validateDate = (dateString) => {
   return errorLevelNone
 }
 
+/**
+ *
+ * @param {string} field current field as a string
+ * @param {string} operator current operator as a string
+ * @param {string} value current value as a string
+ * @returns {boolean} returns true if all fields are filled in
+ */
+const _criterionFieldsFilled = (field, operator, value) => {
+  if (field === 'select' || operator === 'select' || value === '') {
+    return false
+  }
+  return true
+}
+
 const _guessOperator = (a, b, currentOperator) => {
   if (a === b) {
     yellow('a===b', wdEquals)
@@ -97,13 +113,13 @@ const _guessOperator = (a, b, currentOperator) => {
   return currentOperator
 }
 
-export const CriterionEdit = ({ criterion }) => {
+export const CriterionEdit = ({ criterion, _criterionDelete }) => {
   countTotal = countTotal + 1
 
   const [_valueErrorLevel, _setValueErrorLevel] = useState(errorLevelNone)
   const [_shouldGuessOperator, _setShouldGuessOperator] = useState(true)
 
-  const { operator, field, value, active } = criterion
+  const { operator, field, value, active, _id } = criterion
   // eslint-disable-next-line
   const [_origValue, _setOrigValue] = useState(value)
   const [_operator, _setOperator] = useState(operator)
@@ -116,16 +132,18 @@ export const CriterionEdit = ({ criterion }) => {
   const _onValueChange = (event) => {
     const { value } = event.target
     _setValue(value)
+    const fieldsFilled = _criterionFieldsFilled(_field, _operator, value)
     const guessedOperator = _guessOperator(_origValue, value, _operator)
     if (_shouldGuessOperator) {
       _setOperator(guessedOperator)
     }
     const newCriterion = _shouldGuessOperator
       ? R.mergeRight(criterion, {
-          [wdValue]: value,
-          [wdOperator]: guessedOperator
-        })
-      : R.mergeRight(criterion, { [wdValue]: value })
+        [wdValue]: value,
+        [wdOperator]: guessedOperator,
+        [wdFeildsComplete]: fieldsFilled
+      })
+      : R.mergeRight(criterion, { [wdValue]: value, [wdFeildsComplete]: fieldsFilled })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
@@ -140,8 +158,8 @@ export const CriterionEdit = ({ criterion }) => {
   const _onFieldChange = (event) => {
     const { value } = event.target
     _setField(value)
-
-    const newCriterion = R.mergeRight(criterion, { [wdField]: value })
+    const fieldsFilled = _criterionFieldsFilled(value, _operator, _value)
+    const newCriterion = R.mergeRight(criterion, { [wdField]: value, [wdFeildsComplete]: fieldsFilled })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
@@ -149,7 +167,8 @@ export const CriterionEdit = ({ criterion }) => {
     const { value } = event.target
     _setOperator(value)
     _setShouldGuessOperator(false)
-    const newCriterion = R.mergeRight(criterion, { [wdOperator]: value })
+    const fieldsFilled = _criterionFieldsFilled(_field, value, _value)
+    const newCriterion = R.mergeRight(criterion, { [wdOperator]: value, [wdFeildsComplete]: fieldsFilled })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
@@ -224,11 +243,13 @@ export const CriterionEdit = ({ criterion }) => {
           value={_value}
           width={450}
         />
+        <DeleteButton id={_id} onClick={_criterionDelete} />
       </RowDiv>
     </>
   )
 }
 
 CriterionEdit.propTypes = {
-  criterion: PropTypes.object.isRequired
+  criterion: PropTypes.object.isRequired,
+  _criterionDelete: PropTypes.func.isRequired,
 }

@@ -1,6 +1,6 @@
 import { fetchJson } from './apiHelpers'
 // import { isEmpty } from 'validator'
-// import * as R from 'ramda'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
@@ -36,20 +36,14 @@ export const api = {
   },
   transactions: {
     async read(criteria) {
-      // orange('transactions.read: criteria', criteria)
-      try {
-        const url = '/api/criteria/criteria-test/'
-        const data = await fetchJson(url, {
-          method: 'POST',
-          body: JSON.stringify(criteria)
-        })
-        orange('transactions.read: data', data)
-        return data
-      } catch (e) {
-        throw e
-        // redf('api.transactions.read ERROR', e.message)
-        // console.log(e)
-      }
+      orange('transactions.read: criteria', criteria)
+      const url = '/api/criteria/criteria-test/'
+      const data = await fetchJson(url, {
+        method: 'POST',
+        body: JSON.stringify(criteria)
+      })
+      // orange('transactions.read: data', data)
+      return data
     }
   },
   rules: {

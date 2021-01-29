@@ -5,7 +5,11 @@ import { ruleTmpMake, defaultActions } from './ruleTmpMake'
 import {
   getRule,
   removeInactiveCriteria,
-  removeTmpIdField
+  removeTmpIdField,
+  removeIncompleteCriteria,
+  removeCriterionUIProperties,
+  setCriteriaUIProps,
+  removeRuleUIProperties
 } from 'features/helpers'
 import {
   selectRuleEditActions,
@@ -44,10 +48,11 @@ import {
   wdError,
   wdMessage
 } from 'appWords'
-import { setStateValue } from 'features/helpers'
+import { createNewState } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'
 import { isTmpRule } from 'lib/isTmpRule'
 import { txActiveIdClear, txFetchStatusSetRefresh } from 'features/tx'
+import { criterionNewMake } from 'features/rules/criterionNewMake'
 
 /* eslint-disable */
 import { yellow, blue, red, purple, grpStart, grpEnd } from 'logger'
@@ -97,6 +102,18 @@ export const ruleCreate = createAsyncThunk(
   }
 )
 
+export const ruleDelete = createAsyncThunk(
+  'rules/rule-deleete',
+  async (ruleId, thunkApi) => {
+    await api.rules.delete(ruleId)
+    const { dispatch } = thunkApi
+    dispatch(txFetchStatusSetRefresh())
+    dispatch(rulesRefreshSet())
+    dispatch(txActiveIdClear())
+    dispatch(ruleEditClear())
+  }
+)
+
 export const ruleEditSave = createAsyncThunk(
   'rules/rule-edit-save',
   async (noRulePassed, thunkApi) => {
@@ -106,10 +123,21 @@ export const ruleEditSave = createAsyncThunk(
       const rule = selectRuleEdit(state)
       const isTmp = selectRuleEditIsTmpRule(state)
       if (isTmp) {
-        const newRule = R.pipe(removeInactiveCriteria, removeTmpIdField)(rule)
+        const newRule = R.pipe(
+          removeInactiveCriteria,
+          removeIncompleteCriteria,
+          removeTmpIdField,
+          removeCriterionUIProperties,
+          removeRuleUIProperties
+        )(rule)
         await api.rules.create(newRule)
       } else {
-        const newRule = removeInactiveCriteria(rule)
+        const newRule = R.pipe(
+          removeInactiveCriteria,
+          removeIncompleteCriteria,
+          removeCriterionUIProperties,
+          removeRuleUIProperties
+        )(rule)
         await api.rules.update(rule._id, newRule)
       }
       dispatch(txFetchStatusSetRefresh())
@@ -131,63 +159,66 @@ export const ruleUpdate = createAsyncThunk(
 )
 
 const _ruleEditSet = R.curry((value, state) => {
-  return setStateValue(wdRules, pathRuleEdit, value, state)
+  return createNewState(pathRuleEdit, value, state)
 })
 
 const _actionsSet = R.curry((newActions, state) => {
-  return setStateValue(wdRules, pathRuleEditActions, newActions, state)
+  return createNewState(pathRuleEditActions, newActions, state)
 })
 
 const _criteriaSet = R.curry((newCriteria, state) => {
-  return setStateValue(wdRules, pathRuleEditCritera, newCriteria, state)
+  return createNewState(pathRuleEditCritera, newCriteria, state)
 })
 
 const _fetchStatusSet = R.curry((status, state) => {
-  return setStateValue(wdRules, pathRulesFetchStatus, status, state)
+  return createNewState(pathRulesFetchStatus, status, state)
 })
 
 const _itemsSet = R.curry((items, state) => {
-  return setStateValue(wdRules, pathRulesItems, items, state)
+  return createNewState(pathRulesItems, items, state)
 })
 
 const _fetchErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(wdRules, pathRulesFetchError, errorMessage, state)
+  return createNewState(pathRulesFetchError, errorMessage, state)
 })
 
 const _createStatusFetchSet = R.curry((status, state) => {
-  return setStateValue(wdRules, pathRulesCreateStatus, status, state)
+  return createNewState(pathRulesCreateStatus, status, state)
 })
 
 const _createStatusErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(wdRules, pathRulesCreateError, errorMessage, state)
+  return createNewState(pathRulesCreateError, errorMessage, state)
 })
 
 const _updateStatusSet = R.curry((status, state) => {
-  return setStateValue(wdRules, pathRulesUpdateStatus, status, state)
+  return createNewState(pathRulesUpdateStatus, status, state)
 })
 
 const _updateErrorSet = R.curry((errorMessage, state) => {
-  return setStateValue(wdRules, pathRulesUpdateError, errorMessage, state)
+  return createNewState(pathRulesUpdateError, errorMessage, state)
 })
 
 const _isDirtySet = R.curry((value, state) => {
-  return setStateValue(wdRules, pathRuleEditIsDirty, value, state)
+  return createNewState(pathRuleEditIsDirty, value, state)
 })
 
 const _hasActionTypeOmitSet = R.curry((state) => {
   const actions = R.path([wdRuleEdit, wdActions], state)
   const hasOmit =
     R.find(R.propEq(wdActionType, wdOmit), actions) === undefined ? false : true
-  return setStateValue(wdRules, pathRuleEditHasActionTypeOmit, hasOmit, state)
+  return createNewState(pathRuleEditHasActionTypeOmit, hasOmit, state)
 })
 
 const _isTmpRuleSet = R.curry((state) => {
-  return setStateValue(
-    wdRules,
+  return createNewState(
     pathRuleEditIsTmpRule,
     isTmpRule(selectRuleEditId(state)),
     state
   )
+})
+
+const _criteriaSetUIProps = R.curry((criteria, state) => {
+  return createNewState(pathRuleEditCritera, criteria, state)
 })
 
 const rulesSlice = createSlice({
@@ -253,28 +284,52 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     ruleEditCriterionUpdate(state, action) {
-      // grpStart('ruleEditCriterionUpdate')
       const currState = current(state)
-      // blue('currState', currState)
       const newCriterion = R.path([wdPayload], action)
-      // blue('newCriterion', newCriterion)
       const newCriterionId = R.prop(wdId, newCriterion)
-      // blue('newCriterionId', newCriterionId)
       const currCriteria = selectRuleEditCriteria(currState)
-      // blue('currCriteria', currCriteria)
       const idxOfCriteriaToReplace = R.findIndex(
         R.propEq(wdId, newCriterionId)
       )(currCriteria)
-      // blue('idxOfCriteriaToReplace', idxOfCriteriaToReplace)
 
       const newCriteria = R.update(
         idxOfCriteriaToReplace,
         newCriterion,
         currCriteria
       )
-      // blue('newCriteria', newCriteria)
-      // grpEnd()
       return R.pipe(_criteriaSet(newCriteria), _isDirtySet(true))(currState)
+    },
+    /**
+     *
+     * @param {object} state the rulesSlice
+     * @param {object} action a Criterion { payload: { ... }}
+     * @returns {object} the new state
+     */
+    ruleEditCriterionAdd(state /*, action */) {
+      const newCriterion = criterionNewMake()
+      const currCriteria = selectRuleEditCriteria(state)
+      const newCriteria = R.append(newCriterion, currCriteria)
+      return R.pipe(
+        _criteriaSet(newCriteria),
+        _isDirtySet(true)
+      )(current(state))
+    },
+    /**
+     *
+     * @param {object} state the rulesSlice
+     * @param {object} action a Criterion { payload: { ruleId: 12345 }}
+     * @returns {object} the new state
+     */
+    ruleEditCriterionDelete(state, action) {
+      const currCriteria = selectRuleEditCriteria(state)
+      const newCriteria = R.reject(
+        (rule) => rule._id === action.payload.ruleId,
+        currCriteria
+      )
+      return R.pipe(
+        _criteriaSet(newCriteria),
+        _isDirtySet(true)
+      )(current(state))
     },
     /**
      *
@@ -283,14 +338,19 @@ const rulesSlice = createSlice({
      * @returns {object} the new state
      */
     ruleEditSetExistingRule(state, action) {
+      purple('ruleEditSetExistingRule', 'called')
       const currState = current(state)
+      blue('currState', currState)
       const ruleId = R.path([wdPayload, wdRuleId], action)
       const rule = getRule(ruleId, currState)
+      const { criteria } = rule
+      const newCriteria = setCriteriaUIProps(criteria)
       return R.pipe(
         _ruleEditSet(rule),
         _hasActionTypeOmitSet,
         _isDirtySet(false),
-        _isTmpRuleSet
+        _isTmpRuleSet,
+        _criteriaSetUIProps(newCriteria)
       )(currState)
     },
     /**
@@ -300,12 +360,14 @@ const rulesSlice = createSlice({
      * @returns {object} the new sate
      */
     ruleEditSetNewRule(state, action) {
+      purple('ruleEditSetNewRule', 'called')
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
       blue('ruleEditSetNewRule: rule', rule)
       // new rule always has hasActionTypeOmit === false so
       // no need to set
+      blue('state', state)
       return R.pipe(
         _ruleEditSet(rule),
         _hasActionTypeOmitSet,
@@ -382,6 +444,8 @@ export const {
   ruleEditActionUpdate,
   ruleEditClear,
   ruleEditCriterionUpdate,
+  ruleEditCriterionAdd,
+  ruleEditCriterionDelete,
   ruleEditActionsReplace,
   ruleEditSetExistingRule,
   ruleEditSetNewRule,

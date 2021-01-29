@@ -11,7 +11,8 @@ import {
   wdId,
   wdOperator,
   wdReplaceWithValue,
-  wdValue
+  wdValue,
+  wdFeildsComplete
 } from 'appWords'
 
 export const defaultActions = (origDescription) => {
@@ -46,14 +47,16 @@ export const ruleTmpMake = (origDescription, date) => {
         [wdField]: txFields.description.name,
         [wdOperator]: operatorFields.equals.name,
         [wdValue]: origDescription,
-        [wdActive]: true
+        [wdActive]: true,
+        [wdFeildsComplete]: true
       },
       {
         [wdId]: makeTmpId(),
         [wdField]: txFields.date.name,
         [wdOperator]: operatorFields.equals.name,
         [wdValue]: date,
-        [wdActive]: false
+        [wdActive]: false,
+        [wdFeildsComplete]: true
       }
     ],
     actions: defaultActions(origDescription)

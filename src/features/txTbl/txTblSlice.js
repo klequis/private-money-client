@@ -34,7 +34,7 @@ import {
   wdNoRule,
   wdNoCategory
 } from 'appWords'
-import { setStateValue, valueOrEmptyString } from 'features/helpers'
+import { createNewState, valueOrEmptyString } from 'features/helpers'
 import * as R from 'ramda'
 
 /* eslint-disable */
@@ -72,31 +72,31 @@ const initialState = {
 }
 
 const _radioHasRuleValueSet = R.curry((value, state) => {
-  return setStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, value, state)
+  return createNewState(pathTxTblRadioHasRuleValue, value, state)
 })
 
 const _radioCategorizedDisabledSet = R.curry((value, state) => {
-  return setStateValue(wdTxTbl, pathTxTblRadioHasCategoryDisabled, value, state)
+  return createNewState(pathTxTblRadioHasCategoryDisabled, value, state)
 })
 
 const _radioCategorizedValueSet = R.curry((value, state) => {
-  return setStateValue(wdTxTbl, pathTxTblRadioHasCategoryValue, value, state)
+  return createNewState(pathTxTblRadioHasCategoryValue, value, state)
 })
 
 const _radioShowIncomeOrExpenseSet = R.curry((value, state) => {
-  return setStateValue(wdTxTbl, pathRadioShowIncomeExpenseValue, value, state)
+  return createNewState(pathRadioShowIncomeExpenseValue, value, state)
 })
 
 const _filterUpdate = R.curry((value, path, state) => {
-  return setStateValue(wdTxTbl, path, value, state)
+  return createNewState(path, value, state)
 })
 
 const _checkboxShowOmittedSet = R.curry((value, state) => {
-  return setStateValue(wdTxTbl, pathTxTblCheckBoxShowOmitted, value, state)
+  return createNewState(pathTxTblCheckBoxShowOmitted, value, state)
 })
 
 const _sortSet = R.curry((fieldName, sortOrder, state) => {
-  return setStateValue(wdTxTbl, pathTxTblSort, { fieldName, sortOrder }, state)
+  return createNewState(pathTxTblSort, { fieldName, sortOrder }, state)
 })
 
 const txTblSlice = createSlice({

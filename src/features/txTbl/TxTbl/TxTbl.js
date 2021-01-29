@@ -15,6 +15,7 @@ import { RenderCount } from 'components/RenderCount'
 const NumRowsDiv = styled.div`
   margin-top: 1.25rem;
   margin-bottom: 1.25rem;
+  font-size: 2rem;
 `
 
 export const TxTbl = () => {
@@ -34,15 +35,3 @@ export const TxTbl = () => {
     </ContainerFluid>
   )
 }
-
-/*
-let countTotal = 0
-let countReturn = 0
-countTotal = countTotal + 1
-countReturn = countReturn + 1
-<RenderCount
-          componentName="TxTbl"
-          countTotal={{ actual: countTotal, min: 8, max: 14 }}
-          countReturn={{ actual: countReturn, min: 8, max: 10 }}
-        />
-*/

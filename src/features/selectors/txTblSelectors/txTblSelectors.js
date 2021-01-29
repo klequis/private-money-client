@@ -36,7 +36,7 @@ export const selectFilteredTxs = (state) => {
  * @returns {string} wdBoth | wdHasRule | wdDoesNotHaveRule
  */
 export const selectRadioHasRuleValue = (state) => {
-  return getStateValue(wdTxTbl, pathTxTblRadioHasRuleValue, state)
+  return getStateValue(pathTxTblRadioHasRuleValue, state)
 }
 
 /**
@@ -45,7 +45,7 @@ export const selectRadioHasRuleValue = (state) => {
  * @returns {boolean} value of checkbox
  */
 export const selectCheckboxShowOmittedValue = (state) => {
-  return getStateValue(wdTxTbl, pathTxTblCheckBoxShowOmitted, state)
+  return getStateValue(pathTxTblCheckBoxShowOmitted, state)
 }
 
 /**
@@ -54,7 +54,7 @@ export const selectCheckboxShowOmittedValue = (state) => {
  * @returns {string} wdBoth | wdHasCategory | wdNoCategory
  */
 export const selectRadioHasCategoryValue = (state) => {
-  return getStateValue(wdTxTbl, pathTxTblRadioHasCategoryValue, state)
+  return getStateValue(pathTxTblRadioHasCategoryValue, state)
 }
 
 /**
@@ -63,24 +63,24 @@ export const selectRadioHasCategoryValue = (state) => {
  * @returns {boolean} if disable true else false
  */
 export const selectRadioHasCategoryDisabled = (state) => {
-  return getStateValue(wdTxTbl, pathTxTblRadioHasCategoryDisabled, state)
+  return getStateValue(pathTxTblRadioHasCategoryDisabled, state)
 }
 
 export const selectTxTblSortFieldName = R.curry((state) => {
-  return getStateValue(wdTxTbl, pathTxTblSortFieldName, state)
+  return getStateValue(pathTxTblSortFieldName, state)
 })
 
 export const selectTxTblSortOrder = R.curry((state) => {
-  return getStateValue(wdTxTbl, pathTxTblSortOrder, state)
+  return getStateValue(pathTxTblSortOrder, state)
 })
 
 export const selectTxTblFilterValue = (filterName, state) => {
   // The omit field does not have a filter
   return filterName === wdOmit
     ? ''
-    : getStateValue(wdTxTbl, pathTxTblFilterProps[filterName], state)
+    : getStateValue(pathTxTblFilterProps[filterName], state)
 }
 
 export const selectRadioShowIncomeExpenseValue = (state) => {
-  return getStateValue(wdTxTbl, pathRadioShowIncomeExpenseValue, state)
+  return getStateValue(pathRadioShowIncomeExpenseValue, state)
 }

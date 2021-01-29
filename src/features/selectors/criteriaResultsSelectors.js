@@ -18,11 +18,7 @@ import { red } from 'logger'
  * @returns {object|Array} of transactions objects
  */
 export const selectCriteriaResultsX = (state) => {
-  const criteriaResults = getStateValue(
-    wdCriteriaResults,
-    pathCriteriaResultsItems,
-    state
-  )
+  const criteriaResults = getStateValue(pathCriteriaResultsItems, state)
   return valueOrEmptyArray(criteriaResults)
 }
 
@@ -32,7 +28,7 @@ export const selectCriteriaResultsX = (state) => {
  * @returns {Array}  of transactions objects
  */
 export const selectCriteriaResults = (state) => {
-  const ids = getStateValue(wdCriteriaResults, pathCriteriaResultsItems, state)
+  const ids = getStateValue(pathCriteriaResultsItems, state)
   return selectTxItems(state).filter((t) => ids.includes(t._id))
 }
 
@@ -42,5 +38,5 @@ export const selectCriteriaResults = (state) => {
  * @returns {string} a request status word from appWords.js
  */
 export const selectCriteriaResultsFetchStatus = (state) => {
-  return getStateValue(wdCriteriaResults, pathCriteriaResultsFetchStatus, state)
+  return getStateValue(pathCriteriaResultsFetchStatus, state)
 }

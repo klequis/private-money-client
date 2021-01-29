@@ -1,5 +1,5 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { getActiveCriteria } from 'features/helpers'
+import { getActiveCriteria, getCompleteCriteria } from 'features/helpers'
 import * as R from 'ramda'
 import { valueOrEmptyArray, valueOrEmptyObject } from 'features/helpers'
 import {
@@ -23,8 +23,7 @@ import {
   wdField,
   wdDescription,
   wdActionType,
-  wdCategorize,
-
+  wdCategorize
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 
@@ -42,7 +41,7 @@ import { blue, yellow, grpStart, grpEnd } from 'logger'
  * @returns {object} state.ruleEdit
  */
 export const selectRuleEdit = (state) => {
-  const ruleEdit = getStateValue(wdRules, pathRuleEdit, state)
+  const ruleEdit = getStateValue(pathRuleEdit, state)
   return valueOrEmptyObject(ruleEdit)
 }
 
@@ -53,7 +52,7 @@ export const selectRuleEdit = (state) => {
  *
  */
 export const selectRuleEditActions = (state) => {
-  const actions = getStateValue(wdRules, pathRuleEditActions, state)
+  const actions = getStateValue(pathRuleEditActions, state)
   return valueOrEmptyArray(actions)
 }
 
@@ -63,21 +62,21 @@ export const selectRuleEditActions = (state) => {
  * @returns {Array} state.ruleEdit.criteria || []
  */
 export const selectRuleEditCriteria = (state) => {
-  const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
+  const criteria = getStateValue(pathRuleEditCritera, state)
   return valueOrEmptyArray(criteria)
 }
 
 /**
- * 
+ *
  * @param {object} state state
  * @returns {boolean} value of state prop
  */
 export const selectRuleEidtHasActionTypeOmit = (state) => {
-  return getStateValue(wdRules, pathRuleEditHasActionTypeOmit, state)
+  return getStateValue(pathRuleEditHasActionTypeOmit, state)
 }
 
 export const selectRuleEditId = (state) => {
-  return getStateValue(wdRules, pathRuleEditId, state)
+  return getStateValue(pathRuleEditId, state)
 }
 
 /**
@@ -86,7 +85,7 @@ export const selectRuleEditId = (state) => {
  * @returns {boolean} state.ruleEdit.isDirty
  */
 export const selectRuleEditIsDirty = (state) => {
-  return getStateValue(wdRules, pathRuleEditIsDirty, state)
+  return getStateValue(pathRuleEditIsDirty, state)
 }
 
 /**
@@ -95,10 +94,10 @@ export const selectRuleEditIsDirty = (state) => {
  * @returns {boolean} state.ruleEdit.isTmpRule
  */
 export const selectRuleEditIsTmpRule = (state) => {
-  return getStateValue(wdRules, pathRuleEditIsTmpRule, state)
+  return getStateValue(pathRuleEditIsTmpRule, state)
 }
 
-// export const selectRules = 
+// export const selectRules =
 
 /**
  *
@@ -106,7 +105,7 @@ export const selectRuleEditIsTmpRule = (state) => {
  * @returns {string} a request status word from appWords.js
  */
 export const selectRuleCreateError = (state) =>
-  getStateValue(wdRules, pathRulesCreateError, state)
+  getStateValue(pathRulesCreateError, state)
 
 /**
  *
@@ -114,7 +113,7 @@ export const selectRuleCreateError = (state) =>
  * @returns {string} a request status word from appWords.js
  */
 export const selectRuleCreateStatus = (state) =>
-  getStateValue(wdRules, pathRulesCreateStatus, state)
+  getStateValue(pathRulesCreateStatus, state)
 
 /**
  *
@@ -122,7 +121,7 @@ export const selectRuleCreateStatus = (state) =>
  * @returns {string} a request status word from appWords.js
  */
 export const selectRulesFetchError = (state) => {
-  return getStateValue(wdRules, pathRulesFetchError, state)
+  return getStateValue(pathRulesFetchError, state)
 }
 
 /**
@@ -131,7 +130,7 @@ export const selectRulesFetchError = (state) => {
  * @returns {string} a request status word from appWords.js
  */
 export const selectRulesFetchStatus = (state) => {
-  return getStateValue(wdRules, pathRulesFetchStatus, state)
+  return getStateValue(pathRulesFetchStatus, state)
 }
 
 /**
@@ -140,7 +139,7 @@ export const selectRulesFetchStatus = (state) => {
  * @returns {Array} state.rules.items
  */
 export const selectRulesItems = (state) => {
-  return getStateValue(wdRules, pathRulesItems, state)
+  return getStateValue(pathRulesItems, state)
 }
 
 /**
@@ -149,7 +148,7 @@ export const selectRulesItems = (state) => {
  * @returns {string} a request status word from appWords.js
  */
 export const selectRuleUpdateError = (state) => {
-  return getStateValue(wdRules, pathRulesUpdateError, state)
+  return getStateValue(pathRulesUpdateError, state)
 }
 
 /**
@@ -158,9 +157,8 @@ export const selectRuleUpdateError = (state) => {
  * @returns {string} a request status word from appWords.js
  */
 export const selectRuleUpdateStatus = (state) => {
-  return getStateValue(wdRules, pathRulesUpdateStatus, state)
+  return getStateValue(pathRulesUpdateStatus, state)
 }
-
 
 /*
  *  Other selectors
@@ -172,12 +170,13 @@ export const selectRuleUpdateStatus = (state) => {
  * @returns {Array} of Criteria objects
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
-export const selectRuleEditActiveCriteria = (state) => {
-  const criteria = getStateValue(wdRules, pathRuleEditCritera, state)
+export const selectRuleEditActiveAndCompleteCriteria = (state) => {
+  const criteria = getStateValue(pathRuleEditCritera, state)
   if (isNilOrEmpty(criteria)) {
     return []
   }
-  const activeCriteria = getActiveCriteria(criteria)
+  const completeCriteria = getCompleteCriteria(criteria)
+  const activeCriteria = getActiveCriteria(completeCriteria)
   return valueOrEmptyArray(activeCriteria)
 }
 
@@ -187,7 +186,7 @@ export const selectRuleEditActiveCriteria = (state) => {
  * @returns {object} state.ruleEdit.actions[fn]
  */
 export const selectRuleEditCategorizeAction = (state) => {
-  const actions = getStateValue(wdRules, pathRuleEditActions, state)
+  const actions = getStateValue(pathRuleEditActions, state)
   if (isNilOrEmpty(actions)) {
     return null
   }
@@ -200,7 +199,7 @@ export const selectRuleEditCategorizeAction = (state) => {
  * @returns {object} state.ruleEdit.actions[fn]
  */
 export const selectRuleEditRenameAction = (state) => {
-  const actions = getStateValue(wdRules, pathRuleEditActions, state)
+  const actions = getStateValue(pathRuleEditActions, state)
   if (isNilOrEmpty(actions)) {
     return null
   }
@@ -210,7 +209,3 @@ export const selectRuleEditRenameAction = (state) => {
 const getCategorizeAction = (actions) => {
   return R.find(R.propEq(wdActionType, wdCategorize), actions)
 }
-
-
-
-

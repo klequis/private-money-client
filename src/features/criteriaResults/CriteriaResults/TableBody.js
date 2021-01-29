@@ -2,9 +2,7 @@ import React from 'react'
 import { TableRow } from './TableRow'
 import styled from 'styled-components'
 import * as R from 'ramda'
-import {
-  wdOmit
-} from 'appWords'
+import { wdOmit } from 'appWords'
 
 // eslint-disable-next-line
 import { green } from 'logger'
@@ -19,7 +17,8 @@ const makeOldData = ({
   origDescription,
   amount,
   category1,
-  category2
+  category2,
+  ruleIds
 }) => {
   return {
     date,
@@ -27,7 +26,8 @@ const makeOldData = ({
     origDescription,
     amount,
     category1,
-    category2
+    category2,
+    ruleIds
   }
 }
 
@@ -35,14 +35,16 @@ const makeNewData = (actions, transaction) => {
   const { replaceWithValue } = actions[0]
   const { category1, category2 } = actions[1]
 
-  const { date, amount } = transaction
+  const { date, amount, origDescription, ruleIds } = transaction
 
   return {
     date: date,
     description: replaceWithValue,
+    origDescription: origDescription,
     amount: amount,
     category1: category1,
-    category2: category2
+    category2: category2,
+    ruleIds: ruleIds
   }
 }
 

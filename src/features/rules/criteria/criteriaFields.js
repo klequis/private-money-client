@@ -10,6 +10,7 @@ import { green, redf, yellow, blue, purple } from 'logger'
  * 
  */
 export const criteriaFields = {
+  select: txFields.select,
   acctId: txFields.acctId,
   amount: txFields.amount,
   date: txFields.date,
