@@ -2,7 +2,7 @@ import { configureStore } from '@reduxjs/toolkit'
 import { txReducer } from 'features/tx'
 import { rulesReducer } from 'features/rules'
 import { criteriaResultsReducer } from 'features/criteriaResults'
-import { txTblReducer } from 'features/txTbl'
+import { txTblReducer } from 'features/transactions'
 
 export const store = configureStore({
   reducer: {

@@ -1,6 +1,4 @@
 import { fetchJson } from './apiHelpers'
-// import { isEmpty } from 'validator'
-import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
@@ -117,6 +115,13 @@ export const api = {
   },
   async importData() {
     const data = await fetchJson('api/import', {
+      method: 'GET'
+    })
+    // orange('importData: data', data)
+    return data
+  },
+  async exportData() {
+    const data = await fetchJson('api/export', {
       method: 'GET'
     })
     // orange('importData: data', data)

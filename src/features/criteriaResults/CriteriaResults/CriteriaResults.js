@@ -41,6 +41,7 @@ const TableHead = () => {
         <th>Category 1</th>
         <th>Category 2</th>
         <th>Original Description</th>
+        <th>Type</th>
         <th>Existing Rules</th>
       </tr>
     </thead>
@@ -60,7 +61,9 @@ export const CriteriaResults = () => {
   const _criteria = useSelector(selectRuleEditCriteria)
   green('_criteria', _criteria)
   const _actions = useSelector(selectRuleEditActions)
-  const _activeAndCompleteCriteria = useSelector(selectRuleEditActiveAndCompleteCriteria)
+  const _activeAndCompleteCriteria = useSelector(
+    selectRuleEditActiveAndCompleteCriteria
+  )
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria

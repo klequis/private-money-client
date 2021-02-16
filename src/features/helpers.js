@@ -1,7 +1,14 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { wdActive, wdFeildsComplete, wdId, wdIsDirty, wdIsTmpRule, wdHasActionTypeOmit } from 'appWords'
+import {
+  wdActive,
+  wdFeildsComplete,
+  wdId,
+  wdIsDirty,
+  wdIsTmpRule,
+  wdHasActionTypeOmit
+} from 'appWords'
 import { dataTypes } from 'lib/dataTypes'
 
 // eslint-disable-next-line
@@ -18,42 +25,89 @@ export const getRule = (ruleId, state) => {
   return items.find((r) => r._id === ruleId)
 }
 
+/**
+ *
+ * @param {Array} criteria an array of one or more criterion
+ * @returns {Array} of criteria where `active: true`
+ */
 export const getActiveCriteria = (criteria) => {
   return criteria === null ? [] : criteria.filter((c) => c.active === true)
 }
 
+/**
+ *
+ * @param {object} rule a rule
+ * @returns {object } the passed rule with inactive criterion removed
+ */
 export const removeInactiveCriteria = (rule) => {
   const { criteria } = rule
   const activeCriteria = getActiveCriteria(criteria)
   return R.mergeRight(rule, { criteria: activeCriteria })
 }
 
+/**
+ *
+ * @param {object} rule  a rule
+ * @returns {object} the passed rul with tmpId removed from the rule
+ */
 export const removeTmpIdField = (rule) => {
   return R.has(wdId) ? R.dissoc(wdId, rule) : rule
 }
 
+/**
+ *
+ * @param {Array} criteria array of one or more criterion
+ * @returns {Array} array of criterion where `fieldsComplete: true`
+ */
 export const getCompleteCriteria = (criteria) => {
-  return criteria === null ? [] : criteria.filter((c) => c.fieldsComplete === true)
+  return criteria === null
+    ? []
+    : criteria.filter((c) => c.fieldsComplete === true)
 }
 
+/**
+ *
+ * @param {object} rule a rule
+ * @returns {object} the pass rule with only criterion having `fieldsComplete: true`
+ */
 export const removeIncompleteCriteria = (rule) => {
   const { criteria } = rule
   const completeCriteria = getCompleteCriteria(criteria)
   return R.mergeRight(rule, { criteria: completeCriteria })
 }
 
+/**
+ *
+ * @param {object} rule a rule
+ * @returns {object} the passed rule with criterion props that should not be saved to the
+ * database removed
+ */
 export const removeCriterionUIProperties = (rule) => {
   const { criteria } = rule
-  const completeCriteria = criteria === null ? [] : criteria.map((c) => R.omit([wdActive, wdFeildsComplete], c))
+  const completeCriteria =
+    criteria === null
+      ? []
+      : criteria.map((c) => R.omit([wdActive, wdFeildsComplete], c))
   return R.mergeRight(rule, { criteria: completeCriteria })
 }
 
+/**
+ *
+ * @param {object} rule  a rule
+ * @returns {object} the passed rule with props that should not be saved to the
+ * database removed
+ */
 export const removeRuleUIProperties = (rule) => {
   return R.omit([wdIsTmpRule, wdHasActionTypeOmit, wdIsDirty], rule)
 }
 
+/**
+ *
+ * @param {Array} criteria an array of criterion
+ * @returns {Array} the passed criteria with UI related props added to each criterion
+ */
 export const setCriteriaUIProps = (criteria) => {
-  return criteria.map(c => {
+  return criteria.map((c) => {
     return { active: true, fieldsComplete: true, ...c }
   })
 }
@@ -92,7 +146,6 @@ export const valueOrEmptyString = (value) => {
 
 /**
  *
- * @param {string} root name of path root such as 'tx' or 'rules'
  * @param {Array} path full path to desirec values
  * @param {any} newValue the new value to set for the specified path state
  * @param {object} state current state with or without root property
@@ -124,7 +177,6 @@ export const createNewState = R.curry((path, newValue, state) => {
 
 /**
  *
- * @param {string} root name of path root such as 'tx' or 'rules'
  * @param {Array} path full path to desirec values
  * @param {state} state current state with or without root property
  * @returns {any} returns whatever is in state

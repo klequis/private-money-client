@@ -18,7 +18,6 @@ import {
   pathRulesItems,
   pathRulesUpdateError,
   pathRulesUpdateStatus,
-  wdRules,
   pathRuleEditId,
   wdField,
   wdDescription,

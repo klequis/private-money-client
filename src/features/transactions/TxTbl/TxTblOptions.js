@@ -26,7 +26,7 @@ import {
   updateRadioHasRule,
   updateRadioHasCategory,
   updateRadioShowIncomeOrExpense
-} from 'features/txTbl'
+} from 'features/transactions'
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'
