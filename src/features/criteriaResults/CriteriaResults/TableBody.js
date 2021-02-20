@@ -1,4 +1,3 @@
-import React from 'react'
 import { TableRow } from './TableRow'
 import styled from 'styled-components'
 import * as R from 'ramda'

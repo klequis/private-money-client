@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import { ruleDelete, ruleEditClear, ruleEditSave } from 'features/rules'
 import { txActiveIdClear } from 'features/tx'

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector } from 'react-redux'
 import { selectRuleEditActions } from 'features/rules'
 import { ActionEdit } from './ActionEdit'

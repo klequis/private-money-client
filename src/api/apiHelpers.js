@@ -123,12 +123,6 @@ const rejectErrors = (res) => {
 }
 
 export const fetchUploadImage = (url, options = {}) =>
-  fetch(url, {
-    ...options,
-    headers: {
-      ...options.headers,
-      Accept: 'application/json'
-    }
-  })
+  fetch(url, options)
     .then(rejectErrors)
     .then((res) => res.json())

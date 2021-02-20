@@ -1,4 +1,5 @@
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
+import * as R from 'ramda'
 import { Link } from 'react-router-dom'
 import { api } from 'api'
 
@@ -6,28 +7,36 @@ import { api } from 'api'
 import { orange, green, redf, purple } from 'logger'
 
 export const FileUpload = () => {
-  const [_file, _setFile] = useState('')
-  const [_data, _getFile] = useState({ name: '', path: '' })
-  const [_progress, _setProgess] = useState(0)
+  const [_files, _setFiles] = useState()
+
+  const [_result, _setResult] = useState({
+    dirname: '',
+    fields: {},
+    uploadedFiles: [],
+    uploadsDir: ''
+  })
+
   const _el = useRef()
 
   const _onFileChange = (e) => {
-    _setProgess(0)
-    const file = e.target.files[0]
-    console.log(file)
-    _setFile(file)
+    const files = Array.from(e.target.files)
+    _setFiles(files)
   }
 
-  const uploadFile = async () => {
+  const _uploadFiles = async () => {
     let formData = new FormData()
-    formData.append('upload', _file)
+
+    _files.forEach((f) => {
+      formData.append('uploadedFiles', f)
+    })
+
     // const r = await api.uploadFiles({ message: 'hi up' })
     const r = await api.uploadFiles(formData)
-    green('r', r)
-  }
+    const j = await r.json()
 
-  const test = async () => {
-    api.test()
+    const { dirname, fields, files, uploadsDir } = j
+    const { uploadedFiles } = files
+    _setResult({ dirname, fields, uploadedFiles, uploadsDir })
   }
 
   return (
@@ -36,11 +45,14 @@ export const FileUpload = () => {
         <Link to="/">Home</Link>
       </nav>
       <div className="file-upload">
-        <input type="file" ref={_el} onChange={_onFileChange} />
-        <button onClick={uploadFile}>upload</button>
-      </div>
-      <div>
-        <button onClick={test}>Test</button>
+        <input
+          type="file"
+          ref={_el}
+          onChange={_onFileChange}
+          name="filesInput"
+          multiple
+        />
+        <button onClick={_uploadFiles}>upload</button>
       </div>
     </div>
   )

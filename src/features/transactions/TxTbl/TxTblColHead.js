@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { txFields } from 'features/tx'
 import styled from 'styled-components'

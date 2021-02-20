@@ -1,4 +1,3 @@
-import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'

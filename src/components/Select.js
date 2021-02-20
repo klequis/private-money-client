@@ -1,4 +1,3 @@
-import React from 'react'
 import styled from 'styled-components'
 import { ErrorLabel } from './ErrorLabel'
 import classNames from 'classnames'

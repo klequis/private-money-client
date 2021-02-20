@@ -1,5 +1,5 @@
-import React from 'react'
 // import { requestStatusStates } from 'globalConstants'
+import React from 'react'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import {
   wdRequestStatusError,
@@ -11,9 +11,7 @@ import {
 import { green, yellow } from 'logger'
 
 export const RenderWhenReady = ({ status, children }) => {
-
   // ! Component is dependent upon order of if statements ! //
-
 
   if (status === wdRequestStatusFulfilled) {
     // yellow('RenderWhenReady', wdRequestStatusFulfilled)

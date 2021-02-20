@@ -1,4 +1,3 @@
-import React from 'react'
 import { Transactions } from 'features/transactions'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { FileUpload } from 'features/importData'

@@ -128,23 +128,11 @@ export const api = {
     return data
   },
   async uploadFiles(formData) {
-    // orange('api.uploadFiles, file', formData.get('file'))
-    const data = fetchJson('api/upload-files/upload', {
+    const data = fetchUploadImage('api/upload-files/upload', {
       method: 'POST',
       body: formData
     })
     return data
-    // return fetchJson('api/upload-files/upload', {
-    //   method: 'POST',
-    //   body: formData
-    // })
-    // .then((data) => {
-    //   return data
-    // })
-    // .catch((e) => {
-    //   const error = e.error
-    //   throw error
-    // })
   },
   async test() {
     const data = await fetchJson('api/upload-files/test', {
