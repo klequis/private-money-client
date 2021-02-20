@@ -1,7 +1,7 @@
 import React from 'react'
 import { Transactions } from 'features/transactions'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
-import { ImportData } from 'features/importData'
+import { FileUpload } from 'features/importData'
 import { Home } from './Home'
 import { ExportData } from 'features/exportData'
 
@@ -18,7 +18,7 @@ export const App = () => {
           <Home />
         </Route>
         <Route path="/import">
-          <ImportData />
+          <FileUpload />
         </Route>
         <Route path="/export">
           <ExportData />

@@ -1,1 +1,1 @@
-export { ImportData } from './ImportData'
+export { FileUpload } from './FileUpload'

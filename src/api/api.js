@@ -1,4 +1,4 @@
-import { fetchJson } from './apiHelpers'
+import { fetchJson, fetchUploadImage } from './apiHelpers'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
@@ -125,6 +125,31 @@ export const api = {
       method: 'GET'
     })
     // orange('importData: data', data)
+    return data
+  },
+  async uploadFiles(formData) {
+    // orange('api.uploadFiles, file', formData.get('file'))
+    const data = fetchJson('api/upload-files/upload', {
+      method: 'POST',
+      body: formData
+    })
+    return data
+    // return fetchJson('api/upload-files/upload', {
+    //   method: 'POST',
+    //   body: formData
+    // })
+    // .then((data) => {
+    //   return data
+    // })
+    // .catch((e) => {
+    //   const error = e.error
+    //   throw error
+    // })
+  },
+  async test() {
+    const data = await fetchJson('api/upload-files/test', {
+      method: 'GET'
+    })
     return data
   }
 }

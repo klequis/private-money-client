@@ -1,9 +1,12 @@
 import fetch from 'cross-fetch'
 // import { getTokenSilently } from 'react-auth0-spa'
 import { config } from 'config'
+import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { orange, red, redf, purple } from 'logger'
+import { green } from 'logger'
+import { yellow } from 'logger'
 
 // const logApiError = (from = 'not specified', e) => {
 //   console.group(`API Error from: ${from}`)
@@ -52,16 +55,15 @@ const getFullUri = (nodeEnv, route) => {
   return r
 }
 
-const getIt = async (url, options = {}) => {
+const performFetch = async (url, options = {}) => {
   try {
-    // const token = await getToken()
-
     let headers = {
       ...options.headers,
       Accept: 'application/json',
-      'Content-Type': 'application/json'
-      // Authorization: `Bearer ${token}`
+      // 'Content-Type': 'application/json'
+      'Content-Type': 'text/csv'
     }
+    orange('headers', headers)
 
     const env = process.env.NODE_ENV
     const fullUrl = getFullUri(env, url)
@@ -77,7 +79,6 @@ const getIt = async (url, options = {}) => {
       ...options,
       headers
     })
-    // purple('apiHelpers.getIt: r1', r1)
     logResponse({ from: 'getIt', res: r1 })
     return r1
   } catch (e) {
@@ -91,22 +92,43 @@ export const fetchJson = async (url, options = {}) => {
     url: url,
     options
   })
-  const r = await getIt(url, options)
-  // purple('apiHelpers.fetchJson: r', r)
+  const r = await performFetch(url, options)
   const { status /*, statusText ,  url: resUrl */ } = r
   const json = await r.json()
-  // purple('apiHelpers.fetchJson: json', json)
   if (status >= 200 && status < 300) {
     return json
   }
+  // TODO: This coul just return error json instead of throwing an error
   if (status >= 400 && status < 500) {
-    // purple('apiHelpers.fetchJson: 4xx json', json)
     throw new Error(json.error)
   } else if (status >= 400 && status < 500) {
-    // purple('apiHelpers.fetchJson: 4xx json', json)
     throw new Error(json.error)
   } else {
-    // purple('apiHelpers.fetchJson: >500 json', json)
     throw new Error(json.error)
   }
 }
+
+const rejectErrors = (res) => {
+  const { status } = res
+
+  if (status >= 200 && status < 300) {
+    return res
+  }
+
+  return Promise.reject({
+    statusText: res.statusText,
+    status: res.status,
+    error: res.json()
+  })
+}
+
+export const fetchUploadImage = (url, options = {}) =>
+  fetch(url, {
+    ...options,
+    headers: {
+      ...options.headers,
+      Accept: 'application/json'
+    }
+  })
+    .then(rejectErrors)
+    .then((res) => res.json())
