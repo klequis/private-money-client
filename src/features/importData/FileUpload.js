@@ -1,7 +1,5 @@
 import { useRef, useState } from 'react'
 import * as R from 'ramda'
-import { Link } from 'react-router-dom'
-import { api } from 'api'
 import { ResultTable } from './ResultTable'
 
 // eslint-disable-next-line
@@ -46,20 +44,15 @@ export const FileUpload = () => {
 
   return (
     <>
-      <div>
-        <nav>
-          <Link to="/">Home</Link>
-        </nav>
-        <div className="file-upload">
-          <input
-            type="file"
-            ref={_el}
-            onChange={_onFileChange}
-            name="filesInput"
-            multiple
-          />
-          <button onClick={_uploadFiles}>upload</button>
-        </div>
+      <div className="file-upload">
+        <input
+          type="file"
+          ref={_el}
+          onChange={_onFileChange}
+          name="filesInput"
+          multiple
+        />
+        <button onClick={_uploadFiles}>upload</button>
       </div>
       {_result.uploadedFiles.length > 0
         ? R.map(

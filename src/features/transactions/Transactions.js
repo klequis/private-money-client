@@ -20,8 +20,6 @@ import {
   wdTxFetchStatus
 } from 'appWords'
 
-import { Link } from 'react-router-dom'
-
 /* eslint-disable */
 import { green, yellow, red, purple } from 'logger'
 import { RenderCount } from 'components/RenderCount'
@@ -54,10 +52,6 @@ export const Transactions = () => {
 
   return (
     <>
-      <nav>
-        <Link to="/">Home</Link>
-      </nav>
-
       <RenderWhenReady status={_status} className="container-fluid">
         <>
           <RenderCount

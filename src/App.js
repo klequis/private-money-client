@@ -1,7 +1,7 @@
 import { Transactions } from 'features/transactions'
 import { BrowserRouter as Router, Route, Switch } from 'react-router-dom'
 import { FileUpload } from 'features/importData'
-import { Home } from './Home'
+import { Nav } from './Nav'
 import { ExportData } from 'features/exportData'
 
 /* eslint-disable */
@@ -12,20 +12,20 @@ import { RenderCount } from 'components/RenderCount'
 export const App = () => {
   return (
     <Router>
-      <Switch>
-        <Route exact path="/">
-          <Home />
-        </Route>
-        <Route path="/import">
-          <FileUpload />
-        </Route>
-        <Route path="/export">
-          <ExportData />
-        </Route>
-        <Route path="/transactions">
-          <Transactions />
-        </Route>
-      </Switch>
+      <Nav />
+      <main>
+        <Switch>
+          <Route path="/import">
+            <FileUpload />
+          </Route>
+          <Route path="/export">
+            <ExportData />
+          </Route>
+          <Route path="/transactions">
+            <Transactions />
+          </Route>
+        </Switch>
+      </main>
     </Router>
   )
 }
