@@ -1,12 +1,11 @@
-import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { StopIcon } from 'components/StopIcon'
-
-// eslint-disable-next-line
-import { green } from 'logger'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+
+/* eslint-disable */
+import { green } from 'logger'
+/* eslint-enable */
 
 const DescriptionTD = styled.td`
   border: 1px solid white;
@@ -41,7 +40,8 @@ export const TableRow = ({ data, isOriginalData, diffs }) => {
     category1,
     category2,
     ruleIds,
-    origDescription
+    origDescription,
+    type
   } = data
 
   const _changeColor = isOriginalData ? '#e74c3c' : '#00bc8c'
@@ -60,6 +60,7 @@ export const TableRow = ({ data, isOriginalData, diffs }) => {
         {diffs.category2 ? (R.isEmpty(category2) ? '(blank)' : category2) : ''}
       </CategoryTD>
       <td>{origDescription}</td>
+      <td>{type}</td>
       <td>
         {isNilOrEmpty(ruleIds)
           ? null

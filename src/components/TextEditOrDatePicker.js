@@ -1,11 +1,7 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import { TextEdit } from 'components/TextEdit'
 import { DatePicker } from 'components/DatePicker'
-import {
-  txFields,
-  txFieldNames
-} from 'features/tx'
+import { txFields, txFieldNames } from 'features/tx'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
@@ -48,7 +44,6 @@ export const TextEditOrDatePicker = ({
   }
   return (
     <>
-
       <TextEdit
         disabled={disabled}
         errorLevel={errorLevel}

@@ -7,7 +7,7 @@ import { green, redf, yellow, blue, purple } from 'logger'
 /**
  * @returns {object}
  * @description List of fields appropriate for use with Critera
- * 
+ *
  */
 export const criteriaFields = {
   select: txFields.select,
@@ -26,8 +26,4 @@ export const criteriaFieldList = R.values(criteriaFields)
 /**
  * @returns {Array} A list containing the 'name' props from criteria.fields
  */
-export const criteriaFieldNames = R.map(
-  (f) => f.name,
-  criteriaFields
-)
-
+export const criteriaFieldNames = R.map((f) => f.name, criteriaFields)

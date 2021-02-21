@@ -302,10 +302,9 @@ const rulesSlice = createSlice({
     /**
      *
      * @param {object} state the rulesSlice
-     * @param {object} action a Criterion { payload: { ... }}
      * @returns {object} the new state
      */
-    ruleEditCriterionAdd(state /*, action */) {
+    ruleEditCriterionAdd(state) {
       const newCriterion = criterionNewMake()
       const currCriteria = selectRuleEditCriteria(state)
       const newCriteria = R.append(newCriterion, currCriteria)

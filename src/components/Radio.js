@@ -1,4 +1,3 @@
-import React from 'react'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import styled from 'styled-components'
 

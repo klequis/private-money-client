@@ -1,11 +1,10 @@
-import React from 'react'
 import { Select } from 'components/Select'
 import { TextEdit } from 'components/TextEdit'
 import { txFields } from 'features/tx'
+import { wdField, wdFindValue, wdNumAdditionalChars } from 'appWords'
 
 // eslint-disable-next-line
 import { green, redf, purple } from 'logger'
-import { wdField, wdFindValue, wdNumAdditionalChars } from 'appWords'
 
 export const Strip = ({ action, onChange }) => {
   return (

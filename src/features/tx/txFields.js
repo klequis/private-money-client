@@ -129,4 +129,4 @@ export const txFields = {
   }
 }
 
-export const txFieldNames = R.values(R.map(x => x.name, txFields))
+export const txFieldNames = R.values(R.map((x) => x.name, txFields))

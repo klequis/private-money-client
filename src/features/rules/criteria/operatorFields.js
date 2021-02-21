@@ -34,7 +34,4 @@ export const operatorFields = {
 
 export const operatorList = R.values(operatorFields)
 
-export const operatorNames = R.map(
-  (f) => f.name,
-  operatorFields
-)
+export const operatorNames = R.map((f) => f.name, operatorFields)

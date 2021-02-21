@@ -7,8 +7,7 @@ import {
   wdHasCategory,
   wdHasRule,
   wdShowExpenseOnly,
-  wdShowIncomeOnly,
-  wdTxTbl
+  wdShowIncomeOnly
 } from 'appWords'
 import {
   selectRadioHasRuleValue,

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useSelector, useDispatch } from 'react-redux'
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
@@ -12,7 +11,7 @@ import {
   wdNoCategory,
   wdHasCategory
 } from 'appWords'
-import { updateRadioCategorized } from 'features/txTbl'
+import { updateRadioCategorized } from 'features/transactions'
 
 const RowDiv = styled.div`
   display: flex;
@@ -27,7 +26,7 @@ export const IsCategorizedOptions = () => {
   const _dispatch = useDispatch()
 
   const _radioCategorizedChange = (event) => {
-    const { name, value } = event.target
+    const { value } = event.target
     _dispatch(updateRadioCategorized({ value })) //TODO: what is the action value that must be passed?
   }
 

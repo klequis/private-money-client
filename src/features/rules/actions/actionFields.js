@@ -1,6 +1,6 @@
 import * as R from 'ramda'
 import {
-  wdOmit, 
+  wdOmit,
   wdReplaceAll,
   wdCategorize,
   wdStrip,

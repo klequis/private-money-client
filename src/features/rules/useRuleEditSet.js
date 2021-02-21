@@ -3,13 +3,8 @@ import { useSelector, useDispatch } from 'react-redux'
 import { ruleEditSetNewRule, ruleEditSetExistingRule } from 'features/rules'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 import * as R from 'ramda'
-import {
-  selectOneTx,
-} from 'features/selectors'
-import {
-  wdHasRule,
-  wdRuleIds
-} from 'appWords'
+import { selectOneTx } from 'features/selectors'
+import { wdHasRule, wdRuleIds } from 'appWords'
 
 // eslint-disable-next-line
 import { blue, green, yellow, grpStart, grpEnd } from 'logger'
@@ -26,13 +21,11 @@ const _getRuleId = (transaction) => R.prop(wdRuleIds)(transaction)
 export const useRuleEditSet = (transactionId) => {
   const _dispatch = useDispatch()
 
-  const _transaction = useSelector((state) =>
-    selectOneTx(transactionId, state)
-  )
+  const _transaction = useSelector((state) => selectOneTx(transactionId, state))
   useEffect(() => {
     if (!isNilOrEmpty(_transaction)) {
       if (_hasRule(_transaction)) {
-        // While the front-end assumes each transaction has on ruleId, the 
+        // While the front-end assumes each transaction has on ruleId, the
         // server still assumes a transaction can have multiple ruleIds
         // therefore, ruleIds is always an array of 1
         const _ruleId = _getRuleId(_transaction)[0]

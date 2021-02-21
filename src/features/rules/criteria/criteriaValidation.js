@@ -11,7 +11,9 @@ const hasValue = R.has(wdValue)
 export const validateCriterion = (criterion) => {
   const newCriterion = R.pick(wdField, wdOperator, wdValue)
   if (!R.allPass([hasField, hasOperator, hasValue])(newCriterion)) {
-    throw new Error('Criterion is missing a field. Each criterion must have the fields "field", "operator" and "value"')
+    throw new Error(
+      'Criterion is missing a field. Each criterion must have the fields "field", "operator" and "value"'
+    )
   }
   if (!R.includes(R.prop(wdField)(newCriterion), criteriaFields)) {
     return false
@@ -33,8 +35,6 @@ export const validateCriterion = (criterion) => {
 //   const all = R.map(validateCriterion, criteria)
 //   return R.all(all)
 // }
-
-
 
 // const isValidCriteriaField = (fieldName) =>
 //   R.includes(fieldName, criteriaFields)

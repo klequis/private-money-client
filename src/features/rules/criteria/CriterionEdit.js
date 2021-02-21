@@ -139,11 +139,14 @@ export const CriterionEdit = ({ criterion, _criterionDelete }) => {
     }
     const newCriterion = _shouldGuessOperator
       ? R.mergeRight(criterion, {
-        [wdValue]: value,
-        [wdOperator]: guessedOperator,
-        [wdFeildsComplete]: fieldsFilled
-      })
-      : R.mergeRight(criterion, { [wdValue]: value, [wdFeildsComplete]: fieldsFilled })
+          [wdValue]: value,
+          [wdOperator]: guessedOperator,
+          [wdFeildsComplete]: fieldsFilled
+        })
+      : R.mergeRight(criterion, {
+          [wdValue]: value,
+          [wdFeildsComplete]: fieldsFilled
+        })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
@@ -159,7 +162,10 @@ export const CriterionEdit = ({ criterion, _criterionDelete }) => {
     const { value } = event.target
     _setField(value)
     const fieldsFilled = _criterionFieldsFilled(value, _operator, _value)
-    const newCriterion = R.mergeRight(criterion, { [wdField]: value, [wdFeildsComplete]: fieldsFilled })
+    const newCriterion = R.mergeRight(criterion, {
+      [wdField]: value,
+      [wdFeildsComplete]: fieldsFilled
+    })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
@@ -168,7 +174,10 @@ export const CriterionEdit = ({ criterion, _criterionDelete }) => {
     _setOperator(value)
     _setShouldGuessOperator(false)
     const fieldsFilled = _criterionFieldsFilled(_field, value, _value)
-    const newCriterion = R.mergeRight(criterion, { [wdOperator]: value, [wdFeildsComplete]: fieldsFilled })
+    const newCriterion = R.mergeRight(criterion, {
+      [wdOperator]: value,
+      [wdFeildsComplete]: fieldsFilled
+    })
     _dispatch(ruleEditCriterionUpdate(newCriterion))
   }
 
@@ -251,5 +260,5 @@ export const CriterionEdit = ({ criterion, _criterionDelete }) => {
 
 CriterionEdit.propTypes = {
   criterion: PropTypes.object.isRequired,
-  _criterionDelete: PropTypes.func.isRequired,
+  _criterionDelete: PropTypes.func.isRequired
 }

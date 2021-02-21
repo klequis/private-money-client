@@ -1,14 +1,11 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 import classNames from 'classnames'
 import styled from 'styled-components'
-// import { errorLevels } from 'globalConstants'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { green, redf, purple } from 'logger'
-// import * as R from 'ramda'
-// eslint-disable-next-line
 import { RenderCount } from 'components/RenderCount'
+/* eslint-enable */
 
 let countTotal = 0
 let countReturn = 0

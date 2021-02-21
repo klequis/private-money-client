@@ -1,7 +1,10 @@
 import { blue } from 'logger'
 
 export class ApiError extends Error {
-  constructor({status: statusNumber, statusText, resUrl='', errors=[]}, ...params) {
+  constructor(
+    { status: statusNumber, statusText, resUrl = '', errors = [] },
+    ...params
+  ) {
     super(...params)
 
     console.group('ApiError')
@@ -13,7 +16,7 @@ export class ApiError extends Error {
 
     this.message = `${statusNumber} - ${statusText}`
     this.name = 'ApiError'
-    // 
+    //
     this.statusNumber = statusNumber
     this.statusText = statusText
     this.url = resUrl

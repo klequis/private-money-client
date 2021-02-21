@@ -1,4 +1,3 @@
-import React from 'react'
 import PropTypes from 'prop-types'
 
 // eslint-disable-next-line
@@ -23,5 +22,5 @@ export const TableRow = ({ data }) => {
 }
 
 TableRow.propTypes = {
-  data: PropTypes.object.isRequired,
+  data: PropTypes.object.isRequired
 }

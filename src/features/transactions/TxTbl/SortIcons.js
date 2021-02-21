@@ -2,11 +2,7 @@ import React, { useState } from 'react'
 import styled from 'styled-components'
 import { SortAscTriangle } from 'components/SortAscTriangle'
 import { SortDescTriangle } from 'components/SortDescTriangle'
-import {
-  wdAsc,
-  wdDesc,
-  wdNone
-} from 'appWords'
+import { wdAsc, wdDesc, wdNone } from 'appWords'
 // eslint-disable-next-line
 import { green, purple, grpStart, grpEnd } from 'logger'
 
@@ -27,7 +23,7 @@ export const SortIcons = ({ fieldName, onChange }) => {
 
   const _click = (fieldName) => {
     green('fieldName', fieldName)
-    
+
     if (_currentOrder === wdNone) {
       _setCurrentOrder(wdAsc)
       onChange({ fieldName, sortOrder: wdAsc })
@@ -41,14 +37,14 @@ export const SortIcons = ({ fieldName, onChange }) => {
   }
   return (
     <SortIconDiv onClick={() => _click(fieldName)}>
-      <SortAscTriangle 
-        width={15} 
-        fillColor={ _currentOrder === wdAsc ? _activeColor : _inactiveColor }
+      <SortAscTriangle
+        width={15}
+        fillColor={_currentOrder === wdAsc ? _activeColor : _inactiveColor}
       />
       <SpacerDiv></SpacerDiv>
-      <SortDescTriangle 
-        width={15} 
-        fillColor={ _currentOrder === wdDesc ? _activeColor : _inactiveColor }
+      <SortDescTriangle
+        width={15}
+        fillColor={_currentOrder === wdDesc ? _activeColor : _inactiveColor}
       />
     </SortIconDiv>
   )

@@ -1,4 +1,3 @@
-import React from 'react'
 import { TableRow } from './TableRow'
 import styled from 'styled-components'
 import * as R from 'ramda'
@@ -18,6 +17,7 @@ const makeOldData = ({
   amount,
   category1,
   category2,
+  type,
   ruleIds
 }) => {
   return {
@@ -27,6 +27,7 @@ const makeOldData = ({
     amount,
     category1,
     category2,
+    type,
     ruleIds
   }
 }
@@ -35,7 +36,7 @@ const makeNewData = (actions, transaction) => {
   const { replaceWithValue } = actions[0]
   const { category1, category2 } = actions[1]
 
-  const { date, amount, origDescription, ruleIds } = transaction
+  const { date, amount, origDescription, ruleIds, type } = transaction
 
   return {
     date: date,
@@ -44,6 +45,7 @@ const makeNewData = (actions, transaction) => {
     amount: amount,
     category1: category1,
     category2: category2,
+    type: type,
     ruleIds: ruleIds
   }
 }

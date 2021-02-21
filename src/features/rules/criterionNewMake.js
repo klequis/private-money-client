@@ -19,6 +19,6 @@ export const criterionNewMake = () => {
     [wdOperator]: wdSelect,
     [wdValue]: '',
     [wdActive]: true,
-    [wdFeildsComplete]: false,
+    [wdFeildsComplete]: false
   }
 }

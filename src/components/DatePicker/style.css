@@ -46,7 +46,7 @@
   background-position: center;
   background-size: 50%;
   background-repeat: no-repeat;
-  color: #8B9898;
+  color: #8b9898;
   cursor: pointer;
 }
 
@@ -91,7 +91,7 @@
 .DayPicker-Weekday {
   display: table-cell;
   padding: 0.5em;
-  color: #8B9898;
+  color: #8b9898;
   text-align: center;
   font-size: 0.875em;
 }
@@ -122,8 +122,8 @@
   display: table-cell;
   padding: 0.5em;
   min-width: 1em;
-  border-right: 1px solid #EAECEC;
-  color: #8B9898;
+  border-right: 1px solid #eaecec;
+  color: #8b9898;
   vertical-align: middle;
   text-align: right;
   font-size: 0.75em;
@@ -143,7 +143,7 @@
   background-color: transparent;
   background-image: none;
   box-shadow: none;
-  color: #4A90E2;
+  color: #4a90e2;
   font-size: 0.875em;
   cursor: pointer;
 }
@@ -151,44 +151,44 @@
 /* Default modifiers */
 
 .DayPicker-Day--today {
-  color: #D0021B;
+  color: #d0021b;
   font-weight: 700;
 }
 
 .DayPicker-Day--outside {
-  color: #8B9898;
+  color: #8b9898;
   cursor: default;
 }
 
 .DayPicker-Day--disabled {
-  color: #DCE0E0;
+  color: #dce0e0;
   cursor: default;
 }
 
 /* Example modifiers */
 
 .DayPicker-Day--sunday {
-  background-color: #F7F8F8;
+  background-color: #f7f8f8;
 }
 
 .DayPicker-Day--sunday:not(.DayPicker-Day--today) {
-  color: #DCE0E0;
+  color: #dce0e0;
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside) {
   position: relative;
 
-  background-color: #4A90E2;
-  color: #F0F8FF;
+  background-color: #4a90e2;
+  color: #f0f8ff;
 }
 
 .DayPicker-Day--selected:not(.DayPicker-Day--disabled):not(.DayPicker-Day--outside):hover {
-  background-color: #51A0FA;
+  background-color: #51a0fa;
 }
 
 .DayPicker:not(.DayPicker--interactionDisabled)
   .DayPicker-Day:not(.DayPicker-Day--disabled):not(.DayPicker-Day--selected):not(.DayPicker-Day--outside):hover {
-  background-color: #F0F8FF;
+  background-color: #f0f8ff;
 }
 
 /* DayPickerInput */
@@ -211,19 +211,20 @@
   background-clip: padding-box;
   border: 1px solid #222;
   border-radius: 0.25rem;
-  -webkit-transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
-  transition: border-color 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  -webkit-transition: border-color 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
   transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out;
-  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out, -webkit-box-shadow 0.15s ease-in-out;
+  transition: border-color 0.15s ease-in-out, box-shadow 0.15s ease-in-out,
+    -webkit-box-shadow 0.15s ease-in-out;
   /* << form-control-sm >> */
   height: calc(1.5em + 0.5rem + 2px);
   padding: 0.25rem 0.5rem;
   font-size: 0.8203125rem;
   line-height: 1.5;
   border-radius: 0.2rem;
- 
 }
-
 
 .DayPickerInput-OverlayWrapper {
   position: relative;

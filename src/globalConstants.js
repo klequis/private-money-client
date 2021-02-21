@@ -1,4 +1,3 @@
-
 export const errorLevels = {
   errorLevelNone: {
     name: 'errorLevelNone',

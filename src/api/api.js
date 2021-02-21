@@ -1,6 +1,4 @@
-import { fetchJson } from './apiHelpers'
-// import { isEmpty } from 'validator'
-import * as R from 'ramda'
+import { fetchJson, fetchUploadImage } from './apiHelpers'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
@@ -120,6 +118,27 @@ export const api = {
       method: 'GET'
     })
     // orange('importData: data', data)
+    return data
+  },
+  async exportData() {
+    const data = await fetchJson('api/export', {
+      method: 'GET'
+    })
+    // orange('importData: data', data)
+    return data
+  },
+  async uploadFiles(formData) {
+    orange('formData', formData.get('uploadedFiles'))
+    const data = fetch('http://localhost:3030/api/upload-files/upload', {
+      method: 'POST',
+      body: formData
+    })
+    return data
+  },
+  async test() {
+    const data = await fetchJson('api/upload-files/test', {
+      method: 'GET'
+    })
     return data
   }
 }

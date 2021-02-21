@@ -4,11 +4,10 @@ import PropTypes from 'prop-types'
 // eslint-disable-next-line
 import { green, yellow, red } from 'logger'
 
-
 // const RenderResult = ({ title, count }) => {
 //   const { actual, min, max } = count
 //   return (
-    
+
 //     <span>
 //       <span>{title}:</span> (<span>actual=<b>{actual}</b></span>, <span>min=<b>{min}</b></span>, <span>max=<b>{max}</b></span>)
 //     </span>
@@ -27,7 +26,11 @@ import { green, yellow, red } from 'logger'
 //   return r
 // }
 
-export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
+export const RenderCount = ({
+  componentName,
+  countTotal = {},
+  countReturn = {}
+}) => {
   return null
   // return (
   //   <div>
@@ -36,7 +39,6 @@ export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }
   //   </div>
   // )
 }
-
 
 // export const RenderCount = ({ componentName, countTotal = {}, countReturn = {} }) => {
 //   // if (isInRange(countTotal, countReturn)) {
@@ -71,5 +73,4 @@ RenderCount.propTypes = {
     min: PropTypes.number.isRequired,
     max: PropTypes.number.isRequired
   }).isRequired
-  
 }

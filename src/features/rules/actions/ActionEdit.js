@@ -32,7 +32,7 @@ export const ActionEdit = ({ action }) => {
       return null
     }
   }
-  
+
   return (
     <div>
       <div>

@@ -1,4 +1,3 @@
-import React from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import styled from 'styled-components'
 import { Radio } from 'components/Radio'
@@ -26,7 +25,7 @@ import {
   updateRadioHasRule,
   updateRadioHasCategory,
   updateRadioShowIncomeOrExpense
-} from 'features/txTbl'
+} from 'features/transactions'
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'

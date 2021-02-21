@@ -1,4 +1,3 @@
-
 import React, { useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { ruleEditActionUpdate } from 'features/rules'
@@ -16,7 +15,9 @@ const RenameDescriptionInput = styled.input`
 `
 
 export const RenameDescription = () => {
-  const [_action, _setAction] = useState(useSelector(selectRuleEditRenameAction))
+  const [_action, _setAction] = useState(
+    useSelector(selectRuleEditRenameAction)
+  )
   const { replaceWithValue, _id: actionId } = _action
 
   const _dispatch = useDispatch()
@@ -37,7 +38,7 @@ export const RenameDescription = () => {
         value={replaceWithValue}
         name={wdReplaceWithValue}
         onChange={_onChange}
-        placeholder='new description'
+        placeholder="new description"
       />
     </div>
   )

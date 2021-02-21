@@ -16,10 +16,8 @@ module.exports = {
         named: 'never',
         asyncArrow: 'always'
       }
-    ]
-  },
-  parser: 'babel-eslint',
-  rules: {
+    ],
     'jsdoc/require-jsdoc': 1
-  }
+  },
+  parser: 'babel-eslint'
 }
