@@ -1,6 +1,8 @@
 import { useRef, useState } from 'react'
 import * as R from 'ramda'
 import { ResultTable } from './ResultTable'
+import { ChooseFiles } from './ChooseFiles'
+import { AssociateAccounts } from './AssciateAccounts'
 
 // eslint-disable-next-line
 import { orange, green, redf, purple } from 'logger'
@@ -14,13 +16,6 @@ export const FileUpload = () => {
     uploadedFiles: [],
     uploadsDir: ''
   })
-
-  const _el = useRef()
-
-  const _onFileChange = (e) => {
-    const files = Array.from(e.target.files)
-    _setFiles(files)
-  }
 
   const _uploadFiles = async () => {
     let formData = new FormData()
@@ -45,21 +40,16 @@ export const FileUpload = () => {
   return (
     <>
       <div className="file-upload">
-        <input
-          type="file"
-          ref={_el}
-          onChange={_onFileChange}
-          name="filesInput"
-          multiple
-        />
+        <ChooseFiles setFiles={_setFiles} />
         <button onClick={_uploadFiles}>upload</button>
       </div>
-      {_result.uploadedFiles.length > 0
+      <AssociateAccounts files={_files} />
+      {/* {_result.uploadedFiles.length > 0
         ? R.map(
             (f) => <ResultTable key={f.name} file={f} />,
             _result.uploadedFiles
           )
-        : null}
+        : null} */}
     </>
   )
 }
