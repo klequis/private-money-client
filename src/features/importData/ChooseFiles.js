@@ -33,12 +33,12 @@ const TitleH1 = styled.h1`
   margin-bottom: 20px;
 `
 
-export const FilesFromEvent = (props) => {
+export const ChooseFiles = ({ setFiles }) => {
   const [_accepted, _setAccepted] = useState([])
   const [_rejected, _setRejected] = useState([])
 
   const { acceptedFiles, getRootProps, getInputProps } = useDropzone({
-    getFilesFromEvent: (event) => myCustomFileGetter(event)
+    getFilesFromEvent: (event) => customFileGetter(event)
   })
 
   useEffect(() => {
@@ -47,10 +47,9 @@ export const FilesFromEvent = (props) => {
         ? _setAccepted(R.append(f, _accepted))
         : _setRejected(R.append(f, _rejected))
     })
+    setFiles(_accepted)
     // eslint-disable-next-line
   }, [acceptedFiles /*, _accepted, _rejected */])
-
-  console.log('_accepted', _accepted)
 
   return (
     <section className="container">
@@ -91,7 +90,12 @@ export const FilesFromEvent = (props) => {
   )
 }
 
-async function myCustomFileGetter(event) {
+/**
+ *
+ * @param {event} event fileDrop event
+ * @returns {Array} array of accepted files
+ */
+async function customFileGetter(event) {
   const files = []
   const fileList = event.dataTransfer
     ? event.dataTransfer.files

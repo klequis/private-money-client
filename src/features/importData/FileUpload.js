@@ -24,13 +24,20 @@ export const FileUpload = () => {
       formData.append('uploadedFiles', f)
     })
 
-    // const r = await api.uploadFiles({ message: 'hi up' })
-    // const r = await api.uploadFiles(formData)
+    // ||  for pm-merge server   ||
+    // via api.js: const r = await api.uploadFiles(formData)
+    // const r = await fetch('http://localhost:3030/api/uploadFiles/upload', {
+    //   method: 'POST',
+    //   body: formData
+    // })
+
+    // ||  for --ex server   ||
     const r = await fetch('http://localhost:3030/api/upload', {
       method: 'POST',
       body: formData
     })
     const j = await r.json()
+    green('j', j)
 
     const { dirname, fields, files, uploadsDir } = j
     const { uploadedFiles } = files
