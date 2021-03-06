@@ -54,11 +54,13 @@ export const ChooseFiles = ({ setFiles }) => {
   return (
     <section className="container">
       <TitleH1>React Dropzone Example</TitleH1>
+
       <Container {...getRootProps({ className: 'dropzone' })}>
         <input {...getInputProps()} />
         <p>Drag 'n' drop some files here, or click to select files</p>
         <small>Only .csv files accepted</small>
       </Container>
+
       <aside>
         <AcceptedDiv>
           {_accepted.length > 0 ? (

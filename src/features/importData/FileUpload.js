@@ -1,6 +1,6 @@
 import { useRef, useState } from 'react'
 import * as R from 'ramda'
-import { ResultTable } from './ResultTable'
+// import { ResultTable } from './ResultTable'
 import { ChooseFiles } from './ChooseFiles'
 import { AssociateAccounts } from './AssciateAccounts'
 
@@ -26,16 +26,16 @@ export const FileUpload = () => {
 
     // ||  for pm-merge server   ||
     // via api.js: const r = await api.uploadFiles(formData)
-    // const r = await fetch('http://localhost:3030/api/uploadFiles/upload', {
-    //   method: 'POST',
-    //   body: formData
-    // })
-
-    // ||  for --ex server   ||
-    const r = await fetch('http://localhost:3030/api/upload', {
+    const r = await fetch('http://localhost:3030/api/uploadFiles/upload', {
       method: 'POST',
       body: formData
     })
+
+    // ||  for --ex server   ||
+    // const r = await fetch('http://localhost:3030/api/upload', {
+    //   method: 'POST',
+    //   body: formData
+    // })
     const j = await r.json()
     green('j', j)
 
