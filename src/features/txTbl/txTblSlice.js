@@ -5,6 +5,8 @@ import {
   pathTxTblRadioHasCategoryDisabled,
   pathTxTblRadioHasCategoryValue,
   pathTxTblRadioHasRuleValue,
+  pathTxTblSelectMonth,
+  pathTxTblSelectYear,
   pathTxTblSort,
   wdAcctId,
   wdBoth,
@@ -68,6 +70,12 @@ const initialState = {
   [wdSort]: {
     [wdFieldName]: '',
     [wdSortOrder]: ''
+  },
+  selectYear: {
+    [wdValue]: 'jan'
+  },
+  selectMonth: {
+    [wdValue]: '2021'
   }
 }
 
@@ -98,6 +106,14 @@ const _checkboxShowOmittedSet = R.curry((value, state) => {
 const _sortSet = R.curry((fieldName, sortOrder, state) => {
   return createNewState(pathTxTblSort, { fieldName, sortOrder }, state)
 })
+
+const _selectMonthSet = (value, state) => {
+  return createNewState(pathTxTblSelectMonth, value, state)
+}
+
+const _selectYearSet = (value, state) => {
+  return createNewState(pathTxTblSelectYear, value, state)
+}
 
 const txTblSlice = createSlice({
   name: wdTxTbl,
@@ -168,6 +184,16 @@ const txTblSlice = createSlice({
       const { checked } = action.payload
       return _checkboxShowOmittedSet(checked, current(state))
     },
+    updateSelectMonth(state, action) {
+      const { value } = action.payload
+      // blue('updateSelectMonth: value', value)
+      return _selectMonthSet(value, current(state))
+    },
+    updateSelectYear(state, action) {
+      const { value } = action.payload
+      // blue('updateSelectYear: value', value)
+      return _selectYearSet(value, current(state))
+    },
     updateSort(state, action) {
       const { fieldName, sortOrder } = action.payload
       return _sortSet(fieldName, sortOrder, current(state))
@@ -184,5 +210,7 @@ export const {
   updateRadioShowIncomeOrExpense,
   updateRadioState,
   updateRadioHasRule,
+  updateSelectMonth,
+  updateSelectYear,
   updateRadioHasCategory
 } = txTblSlice.actions

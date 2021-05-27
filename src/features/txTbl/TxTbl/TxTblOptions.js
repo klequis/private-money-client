@@ -19,14 +19,20 @@ import {
   selectRadioHasRuleValue,
   selectRadioHasCategoryValue,
   selectRadioHasCategoryDisabled,
-  selectRadioShowIncomeExpenseValue
+  selectRadioShowIncomeExpenseValue,
+  selectSelectMonthValue,
+  selectSelectYearValue
 } from 'features/selectors'
 
 import {
   updateRadioHasRule,
   updateRadioHasCategory,
-  updateRadioShowIncomeOrExpense
+  updateRadioShowIncomeOrExpense,
+  updateSelectYear,
+  updateSelectMonth
 } from 'features/txTbl'
+
+import { Select } from 'components/Select'
 
 // eslint-disable-next-line
 import { purple, green } from 'logger'
@@ -50,6 +56,9 @@ export const TxTblOptions = () => {
   const _radioShowIncomeOrExpenseValue = useSelector(
     selectRadioShowIncomeExpenseValue
   )
+  const _selectMonthValue = useSelector(selectSelectMonthValue)
+  const _selectYearValue = useSelector(selectSelectYearValue)
+
   const _radioChange = (event) => {
     const { name, value } = event.target
     if (name === wdRadioHasRule) {
@@ -59,6 +68,18 @@ export const TxTblOptions = () => {
     } else {
       _dispatch(updateRadioShowIncomeOrExpense({ value }))
     }
+  }
+
+  const _selectYearChange = (event) => {
+    const { value } = event.target
+    green('_selectYearChange: value', value)
+    _dispatch(updateSelectYear({ value }))
+  }
+
+  const _selectMonthChange = (event) => {
+    const { value } = event.target
+    green('_selectMonthChange: value', value)
+    _dispatch(updateSelectMonth({ value }))
   }
 
   return (
@@ -144,6 +165,37 @@ export const TxTblOptions = () => {
             onChange={_radioChange}
             value={wdShowExpenseOnly}
           />
+        </ColumnDiv>
+        <ColumnDiv>
+          <Select
+            name="year"
+            value={_selectYearValue}
+            onChange={_selectYearChange}
+            maxWidth={100}
+          >
+            <option value="2019">2019</option>
+            <option value="2020">2020</option>
+            <option value="2021">2021</option>
+          </Select>
+          <Select
+            name="month"
+            value={_selectMonthValue}
+            onChange={_selectMonthChange}
+            maxWidth={100}
+          >
+            <option value="jan">Jan</option>
+            <option value="feb">Feb</option>
+            <option value="mar">Mar</option>
+            <option value="apr">Apr</option>
+            <option value="may">May</option>
+            <option value="jun">Jun</option>
+            <option value="jul">Jul</option>
+            <option value="aug">Aug</option>
+            <option value="sep">Sep</option>
+            <option value="oct">Oct</option>
+            <option value="nov">Nov</option>
+            <option value="dec">Dec</option>
+          </Select>
         </ColumnDiv>
       </OptionsDiv>
     </>

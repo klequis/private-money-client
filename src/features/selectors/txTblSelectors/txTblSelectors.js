@@ -9,7 +9,9 @@ import {
   wdTxTbl,
   pathTxTblSortFieldName,
   pathTxTblSortOrder,
-  pathRadioShowIncomeExpenseValue
+  pathRadioShowIncomeExpenseValue,
+  pathTxTblSelectMonth,
+  pathTxTblSelectYear
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { filterTxs } from './filterTxs'
@@ -83,4 +85,12 @@ export const selectTxTblFilterValue = (filterName, state) => {
 
 export const selectRadioShowIncomeExpenseValue = (state) => {
   return getStateValue(pathRadioShowIncomeExpenseValue, state)
+}
+
+export const selectSelectMonthValue = (state) => {
+  return getStateValue(pathTxTblSelectMonth, state)
+}
+
+export const selectSelectYearValue = (state) => {
+  return getStateValue(pathTxTblSelectYear, state)
 }
