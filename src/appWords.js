@@ -220,5 +220,5 @@ export const pathRadioShowIncomeExpenseValue = [
   wdRadioShowIncomeExpense,
   wdValue
 ]
-export const pathTxTblSelectYear = [wdTxTbl, wdSelectYear]
-export const pathTxTblSelectMonth = [wdTxTbl, wdSelectMonth]
+export const pathTxTblSelectYear = [wdTxTbl, wdSelectYear, wdValue]
+export const pathTxTblSelectMonth = [wdTxTbl, wdSelectMonth, wdValue]
