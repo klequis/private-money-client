@@ -92,44 +92,42 @@ export const selectSelectYearValue = (state) => {
 }
 
 const _filterYearAndMonth = (state, txItems) => {
-  const selectedYear = selectSelectYearValue(state)
-  green('selectedYear', selectedYear)
-  const selectedMonth = selectSelectMonthValue(state)
+  const selectedYearValue = selectSelectYearValue(state)
+  green('selectedYear', selectedYearValue)
+  const selectedMonthValue = selectSelectMonthValue(state)
   // green('selectedMonth', selectedMonth)
 
-  if (isNilOrEmpty(selectedYear) && isNilOrEmpty(selectedMonth)) {
+  if (isNilOrEmpty(selectedYearValue) && isNilOrEmpty(selectedMonthValue)) {
     green('!')
     return txItems
   }
-  if (notNilOrEmpty(selectedYear) && notNilOrEmpty(selectedMonth)) {
+  if (notNilOrEmpty(selectedYearValue) && notNilOrEmpty(selectedMonthValue)) {
     green('yr, mo')
     return txItems.filter((t) => {
       const d = new Date(t.date)
       // console.log('d', d)
       const y = d.getFullYear()
-      console.log('y', y)
+      // console.log('y', y)
       const m = d.getMonth()
       // console.log('m', m)
-      return (
-        y === selectedYear.value && m === getMonthIndex(selectedMonth.value)
-      )
+      return y === selectedYearValue && m === getMonthIndex(selectedMonthValue)
     })
   }
-  if (notNilOrEmpty(selectedYear) && isNilOrEmpty(selectedMonth)) {
+  if (notNilOrEmpty(selectedYearValue) && isNilOrEmpty(selectedMonthValue)) {
     green('yr')
     return txItems.filter((t) => {
       const d = new Date(t.date)
       const y = d.getFullYear()
-      return y === selectedYear
+      return y === selectedYearValue
     })
   }
 
-  if (isNilOrEmpty(selectedYear) && notNilOrEmpty(selectedMonth)) {
+  if (isNilOrEmpty(selectedYearValue) && notNilOrEmpty(selectedMonthValue)) {
     green('mo')
     return txItems.filter((t) => {
       const d = new Date(t.date)
       const m = d.getMonth()
-      return m === selectedMonth
+      return m === selectedMonthValue
     })
   }
 }
@@ -138,7 +136,7 @@ export const selectFilteredTxs = (state) => {
   const txItems = selectTxItems(state)
   // green('txItems', txItems)
   const a = _filterYearAndMonth(state, txItems)
-  green('a', a)
+  // green('a', a)
   const b = filterTxs(state, a)
   const c = sortTxs(state, b)
   return c
