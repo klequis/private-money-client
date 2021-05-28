@@ -57,7 +57,9 @@ export const TxTblOptions = () => {
     selectRadioShowIncomeExpenseValue
   )
   const _selectMonthValue = useSelector(selectSelectMonthValue)
+  // green('_selectMonthValue', _selectMonthValue)
   const _selectYearValue = useSelector(selectSelectYearValue)
+  // green('_selectYearValue', _selectYearValue)
 
   const _radioChange = (event) => {
     const { name, value } = event.target

@@ -23,14 +23,10 @@ import { green, blue, red, purple } from 'logger'
 import { grpStart } from 'logger'
 import { grpEnd } from 'logger'
 import { yellow } from 'logger'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { notNilOrEmpty } from 'lib/notNilOrEmpty'
+import { getMonthIndex } from 'lib/getMonthIndex'
 /* eslint-enable */
-
-export const selectFilteredTxs = (state) => {
-  const txItems = selectTxItems(state)
-  const a = filterTxs(state, txItems)
-  const b = sortTxs(state, a)
-  return b
-}
 
 /**
  *
@@ -93,4 +89,57 @@ export const selectSelectMonthValue = (state) => {
 
 export const selectSelectYearValue = (state) => {
   return getStateValue(pathTxTblSelectYear, state)
+}
+
+const _filterYearAndMonth = (state, txItems) => {
+  const selectedYear = selectSelectYearValue(state)
+  green('selectedYear', selectedYear)
+  const selectedMonth = selectSelectMonthValue(state)
+  // green('selectedMonth', selectedMonth)
+
+  if (isNilOrEmpty(selectedYear) && isNilOrEmpty(selectedMonth)) {
+    green('!')
+    return txItems
+  }
+  if (notNilOrEmpty(selectedYear) && notNilOrEmpty(selectedMonth)) {
+    green('yr, mo')
+    return txItems.filter((t) => {
+      const d = new Date(t.date)
+      // console.log('d', d)
+      const y = d.getFullYear()
+      console.log('y', y)
+      const m = d.getMonth()
+      // console.log('m', m)
+      return (
+        y === selectedYear.value && m === getMonthIndex(selectedMonth.value)
+      )
+    })
+  }
+  if (notNilOrEmpty(selectedYear) && isNilOrEmpty(selectedMonth)) {
+    green('yr')
+    return txItems.filter((t) => {
+      const d = new Date(t.date)
+      const y = d.getFullYear()
+      return y === selectedYear
+    })
+  }
+
+  if (isNilOrEmpty(selectedYear) && notNilOrEmpty(selectedMonth)) {
+    green('mo')
+    return txItems.filter((t) => {
+      const d = new Date(t.date)
+      const m = d.getMonth()
+      return m === selectedMonth
+    })
+  }
+}
+
+export const selectFilteredTxs = (state) => {
+  const txItems = selectTxItems(state)
+  // green('txItems', txItems)
+  const a = _filterYearAndMonth(state, txItems)
+  green('a', a)
+  const b = filterTxs(state, a)
+  const c = sortTxs(state, b)
+  return c
 }

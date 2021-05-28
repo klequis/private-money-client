@@ -34,7 +34,9 @@ import {
   wdHasCategory,
   wdRadioHasCategory,
   wdNoRule,
-  wdNoCategory
+  wdNoCategory,
+  wdSelectYear,
+  wdSelectMonth
 } from 'appWords'
 import { createNewState, valueOrEmptyString } from 'features/helpers'
 import * as R from 'ramda'
@@ -71,11 +73,11 @@ const initialState = {
     [wdFieldName]: '',
     [wdSortOrder]: ''
   },
-  selectYear: {
-    [wdValue]: 'jan'
+  [wdSelectYear]: {
+    [wdValue]: 2020
   },
-  selectMonth: {
-    [wdValue]: '2021'
+  [wdSelectMonth]: {
+    [wdValue]: 'jan'
   }
 }
 
