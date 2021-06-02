@@ -194,7 +194,7 @@ const txTblSlice = createSlice({
     updateSelectYear(state, action) {
       const { value } = action.payload
       // blue('updateSelectYear: value', value)
-      return _selectYearSet(value, current(state))
+      return _selectYearSet(Number(value), current(state))
     },
     updateSort(state, action) {
       const { fieldName, sortOrder } = action.payload

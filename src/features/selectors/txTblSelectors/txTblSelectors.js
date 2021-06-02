@@ -93,28 +93,21 @@ export const selectSelectYearValue = (state) => {
 
 const _filterYearAndMonth = (state, txItems) => {
   const selectedYearValue = selectSelectYearValue(state)
-  green('selectedYear', selectedYearValue)
   const selectedMonthValue = selectSelectMonthValue(state)
-  // green('selectedMonth', selectedMonth)
 
   if (isNilOrEmpty(selectedYearValue) && isNilOrEmpty(selectedMonthValue)) {
     green('!')
     return txItems
   }
   if (notNilOrEmpty(selectedYearValue) && notNilOrEmpty(selectedMonthValue)) {
-    green('yr, mo')
     return txItems.filter((t) => {
       const d = new Date(t.date)
-      // console.log('d', d)
       const y = d.getFullYear()
-      // console.log('y', y)
       const m = d.getMonth()
-      // console.log('m', m)
       return y === selectedYearValue && m === getMonthIndex(selectedMonthValue)
     })
   }
   if (notNilOrEmpty(selectedYearValue) && isNilOrEmpty(selectedMonthValue)) {
-    green('yr')
     return txItems.filter((t) => {
       const d = new Date(t.date)
       const y = d.getFullYear()

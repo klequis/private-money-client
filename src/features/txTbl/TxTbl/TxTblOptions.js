@@ -34,8 +34,10 @@ import {
 
 import { Select } from 'components/Select'
 
-// eslint-disable-next-line
+/* eslint-disable */
 import { purple, green } from 'logger'
+import * as R from 'ramda'
+/* eslint-enable */
 
 const OptionsDiv = styled.div`
   display: flex;
@@ -57,9 +59,7 @@ export const TxTblOptions = () => {
     selectRadioShowIncomeExpenseValue
   )
   const _selectMonthValue = useSelector(selectSelectMonthValue)
-  green('_selectMonthValue', _selectMonthValue)
   const _selectYearValue = useSelector(selectSelectYearValue)
-  green('_selectYearValue', _selectYearValue)
 
   const _radioChange = (event) => {
     const { name, value } = event.target
@@ -74,13 +74,11 @@ export const TxTblOptions = () => {
 
   const _selectYearChange = (event) => {
     const { value } = event.target
-    green('_selectYearChange: value', value)
     _dispatch(updateSelectYear({ value }))
   }
 
   const _selectMonthChange = (event) => {
     const { value } = event.target
-    green('_selectMonthChange: value', value)
     _dispatch(updateSelectMonth({ value }))
   }
 
