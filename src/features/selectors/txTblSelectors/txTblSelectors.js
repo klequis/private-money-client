@@ -9,7 +9,9 @@ import {
   wdTxTbl,
   pathTxTblSortFieldName,
   pathTxTblSortOrder,
-  pathRadioShowIncomeExpenseValue
+  pathRadioShowIncomeExpenseValue,
+  pathTxTblSelectMonth,
+  pathTxTblSelectYear
 } from 'appWords'
 import { getStateValue } from 'features/helpers'
 import { filterTxs } from './filterTxs'
@@ -21,14 +23,10 @@ import { green, blue, red, purple } from 'logger'
 import { grpStart } from 'logger'
 import { grpEnd } from 'logger'
 import { yellow } from 'logger'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { notNilOrEmpty } from 'lib/notNilOrEmpty'
+import { getMonthIndex } from 'lib/getMonthIndex'
 /* eslint-enable */
-
-export const selectFilteredTxs = (state) => {
-  const txItems = selectTxItems(state)
-  const a = filterTxs(state, txItems)
-  const b = sortTxs(state, a)
-  return b
-}
 
 /**
  *
@@ -83,4 +81,56 @@ export const selectTxTblFilterValue = (filterName, state) => {
 
 export const selectRadioShowIncomeExpenseValue = (state) => {
   return getStateValue(pathRadioShowIncomeExpenseValue, state)
+}
+
+export const selectSelectMonthValue = (state) => {
+  return getStateValue(pathTxTblSelectMonth, state)
+}
+
+export const selectSelectYearValue = (state) => {
+  return getStateValue(pathTxTblSelectYear, state)
+}
+
+const _filterYearAndMonth = (state, txItems) => {
+  const selectedYearValue = selectSelectYearValue(state)
+  const selectedMonthValue = selectSelectMonthValue(state)
+
+  if (isNilOrEmpty(selectedYearValue) && isNilOrEmpty(selectedMonthValue)) {
+    green('!')
+    return txItems
+  }
+  if (notNilOrEmpty(selectedYearValue) && notNilOrEmpty(selectedMonthValue)) {
+    return txItems.filter((t) => {
+      const d = new Date(t.date)
+      const y = d.getFullYear()
+      const m = d.getMonth()
+      return y === selectedYearValue && m === getMonthIndex(selectedMonthValue)
+    })
+  }
+  if (notNilOrEmpty(selectedYearValue) && isNilOrEmpty(selectedMonthValue)) {
+    return txItems.filter((t) => {
+      const d = new Date(t.date)
+      const y = d.getFullYear()
+      return y === selectedYearValue
+    })
+  }
+
+  if (isNilOrEmpty(selectedYearValue) && notNilOrEmpty(selectedMonthValue)) {
+    green('mo')
+    return txItems.filter((t) => {
+      const d = new Date(t.date)
+      const m = d.getMonth()
+      return m === selectedMonthValue
+    })
+  }
+}
+
+export const selectFilteredTxs = (state) => {
+  const txItems = selectTxItems(state)
+  // green('txItems', txItems)
+  const a = _filterYearAndMonth(state, txItems)
+  // green('a', a)
+  const b = filterTxs(state, a)
+  const c = sortTxs(state, b)
+  return c
 }

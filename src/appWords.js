@@ -59,6 +59,21 @@ export const wdIsTmpRule = 'isTmpRule'
 export const wdItems = 'items'
 // M
 export const wdMessage = 'message'
+export const wdMonths = {
+  wdJan: 'Jan',
+  wdFeb: 'Feb',
+  wdMar: 'Mar',
+  wdApr: 'Apr',
+  wdMay: 'May',
+  wdJun: 'Jun',
+  wdJul: 'Jul',
+  wdAug: 'Aug',
+  wdSep: 'Sep',
+  wdOct: 'Oct',
+  wdNov: 'Nov',
+  wdDec: 'Dec'
+}
+
 // N
 export const wdNoCategory = 'noCategory'
 export const wdNone = 'none'
@@ -96,6 +111,8 @@ export const wdReplaceAll = 'replaceAll'
 export const wdReplaceWithValue = 'replaceWithValue'
 // S
 export const wdSelect = 'select'
+export const wdSelectMonth = 'selectMonth'
+export const wdSelectYear = 'selectYear'
 export const wdShowExpenseOnly = 'showExpenseOnly'
 export const wdShowIncomeOnly = 'showIncomeOnly'
 export const wdSort = 'sort'
@@ -163,7 +180,6 @@ export const pathTxFetchStatus = [wdTx, wdFetch, wdStatus]
 export const pathTxItems = [wdTx, wdItems]
 
 // txTbl
-export const pathTxTblmlters = [wdTxTbl, wdFilters]
 // export const pathTxTblFiltersAcctId = [wdTxTbl, wdFilters, wdAcctId]
 // export const pathTxTblFiltersCategory1 = [wdTxTbl, wdFilters, wdCategory1]
 // export const pathTxTblFiltersCategory2 = [wdTxTbl, wdFilters, wdCategory2]
@@ -204,3 +220,5 @@ export const pathRadioShowIncomeExpenseValue = [
   wdRadioShowIncomeExpense,
   wdValue
 ]
+export const pathTxTblSelectYear = [wdTxTbl, wdSelectYear, wdValue]
+export const pathTxTblSelectMonth = [wdTxTbl, wdSelectMonth, wdValue]

@@ -2,6 +2,7 @@ import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
+import { getMonthIndex } from 'lib/getMonthIndex'
 import {
   wdRequestStatusPending,
   wdRequestStatusFulfilled,
@@ -60,6 +61,24 @@ export const txFetch = createAsyncThunk(
     const showOmitted = selectCheckboxShowOmittedValue(state)
     const r = await api.views.read(_viewName, showOmitted)
     const { data } = r
+
+    // // start timer
+    // const s2 = new Date().getTime()
+    // //////////////
+
+    // const y = data.filter((t) => {
+    //   const d = new Date(t.date)
+    //   const y = d.getFullYear()
+    //   const m = d.getMonth()
+    //   return y === 2020 && m === getMonthIndex('apr')
+    // })
+
+    // // end timer
+    // const e2 = new Date().getTime()
+    // const t2 = e2 - s2
+    // red('t2', t2)
+    // //////////////
+
     return R.mergeRight(r, { data: _addFields(data) })
   }
 )
