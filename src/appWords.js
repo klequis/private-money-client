@@ -2,6 +2,8 @@
    WORDS 
    ----- */
 // A
+export const wdAcct = 'acct'
+export const wdAcctFetchStatus = 'acctFetchStatus'
 export const wdAcctId = 'acctId'
 export const wdActionType = 'actionType'
 export const wdActions = 'actions'
@@ -129,6 +131,7 @@ export const wdTxFetchError = 'txFetchError'
 export const wdTxTbl = 'txTbl'
 // U
 export const wdUpdate = 'update'
+export const wdUpload = 'upload'
 // V
 export const wdValue = 'value'
 
@@ -179,13 +182,12 @@ export const pathTxFetchError = [wdTx, wdFetch, wdError]
 export const pathTxFetchStatus = [wdTx, wdFetch, wdStatus]
 export const pathTxItems = [wdTx, wdItems]
 
+// upload
+export const pathAcctFetchError = [wdAcct, wdFetch, wdError]
+export const pathAcctFetchStatus = [wdAcct, wdFetch, wdStatus]
+export const pathAcctItems = [wdAcct, wdItems]
+
 // txTbl
-// export const pathTxTblFiltersAcctId = [wdTxTbl, wdFilters, wdAcctId]
-// export const pathTxTblFiltersCategory1 = [wdTxTbl, wdFilters, wdCategory1]
-// export const pathTxTblFiltersCategory2 = [wdTxTbl, wdFilters, wdCategory2]
-// export const pathTxTblFiltersDate = [wdTxTbl, wdFilters, wdDate]
-// export const pathTxTblFiltersDescription = [wdTxTbl, wdFilters, wdDescription]
-// export const pathTxTblFiltersType = [wdTxTbl, wdFilters, wdType]
 export const pathTxTblFilterProps = {
   acctId: [wdTxTbl, wdFilters, wdAcctId],
   amount: [wdTxTbl, wdFilters, wdAmount],

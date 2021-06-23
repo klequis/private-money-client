@@ -4,6 +4,7 @@ import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
+import { read } from 'fs'
 
 /*
     [description] && [true || false]
@@ -32,6 +33,15 @@ export const api = {
         redf('api.duplicates.read ERROR', e.message)
         console.log(e)
       }
+    }
+  },
+  accounts: {
+    async read() {
+      const url = '/api/accounts'
+      const data = await fetchJson(url, {
+        method: 'GET'
+      })
+      return data
     }
   },
   transactions: {

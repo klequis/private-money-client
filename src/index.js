@@ -5,7 +5,6 @@ import { store } from './store'
 import { Provider } from 'react-redux'
 import { ThemeProvider } from 'react-jss'
 import * as serviceWorker from './serviceWorker'
-
 import './bootstrap/bootstrap.css'
 
 const _theme = {

@@ -2,14 +2,15 @@ import React, { useEffect } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
 import { RenderWhenReady } from 'components/RenderWhenReady'
 // import { ContainerFluid } from 'components/ContainerFluid'
-import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { useRuleEditSet } from 'features/rules/useRuleEditSet'
-import { RuleCreate, rulesFetch } from 'features/rules'
+
+import { rulesFetch } from 'features/rules'
 import { txFetch } from 'features/tx'
-import { TxTbl } from 'features/txTbl'
+import { acctFetch } from 'features/acct'
+
+import { Home } from './Home'
 
 import {
-  selectActiveTxId,
+  selectAcctFetchStatus,
   selectTxFetchStatus,
   selectRulesFetchStatus,
   selectRequestStatus
@@ -18,7 +19,8 @@ import {
 import {
   wdRequestStatusFetch,
   wdRulesFetchStatus,
-  wdTxFetchStatus
+  wdTxFetchStatus,
+  wdAcctFetchStatus
 } from 'appWords'
 
 /* eslint-disable */
@@ -32,12 +34,16 @@ let countReturn = 0
 export const App = () => {
   countTotal = countTotal + 1
   const _dispatch = useDispatch()
-  const _activeTransactionId = useSelector(selectActiveTxId)
+
   const _status = useSelector((state) =>
-    selectRequestStatus([wdRulesFetchStatus, wdTxFetchStatus], state)
+    selectRequestStatus(
+      [wdRulesFetchStatus, wdTxFetchStatus, wdAcctFetchStatus],
+      state
+    )
   )
   const _transactionsFetchStatus = useSelector(selectTxFetchStatus)
   const _rulesFetchStatus = useSelector(selectRulesFetchStatus)
+  const _acctFetchStatus = useSelector(selectAcctFetchStatus)
 
   useEffect(() => {
     if (_transactionsFetchStatus === wdRequestStatusFetch) {
@@ -46,9 +52,11 @@ export const App = () => {
     if (_rulesFetchStatus === wdRequestStatusFetch) {
       _dispatch(rulesFetch())
     }
-  }, [_dispatch, _transactionsFetchStatus, _rulesFetchStatus])
+    if (_acctFetchStatus === wdRequestStatusFetch) {
+      _dispatch(acctFetch())
+    }
+  }, [_dispatch, _acctFetchStatus, _transactionsFetchStatus, _rulesFetchStatus])
 
-  useRuleEditSet(_activeTransactionId)
   countReturn = countReturn + 1
 
   return (
@@ -59,7 +67,7 @@ export const App = () => {
           countTotal={{ actual: countTotal, min: 8, max: 14 }}
           countReturn={{ actual: countReturn, min: 8, max: 10 }}
         />
-        {isNilOrEmpty(_activeTransactionId) ? <TxTbl /> : <RuleCreate />}
+        <Home />
       </>
     </RenderWhenReady>
   )

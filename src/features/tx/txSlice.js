@@ -29,6 +29,7 @@ import {
 /* eslint-disable */
 import { blue, yellow, red, purple } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
+import { orange } from 'logger'
 /* eslint-enable */
 
 const initialState = {
@@ -146,6 +147,6 @@ const txSlice = createSlice({
 export const txReducer = txSlice.reducer
 export const {
   txActiveIdClear,
-  txActiveIdSet,
+  txActiveIdSet: txActiveIdSet,
   txFetchStatusSetRefresh
 } = txSlice.actions
