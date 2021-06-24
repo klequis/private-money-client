@@ -31,6 +31,10 @@ import { grpStart, grpEnd, blue, yellow, red } from 'logger'
  * @param {*} state state
  * @returns {Array} of status state values
  */
+// 1. iterate slices
+// 2. check if it has 'fetch' prop
+// or
+// 2. get slice name && -> fetch path from it?
 const _statusStateValues = (statusNames, state) => {
   const values = {
     [wdCriteriaResultsFetchStatus]: selectCriteriaResultsFetchStatus(state),
@@ -49,6 +53,7 @@ const _all = (statusNames, matchStatusState, state) => {
 
 const _any = (statusNames, matchStatusState, state) => {
   const values = _statusStateValues(statusNames, state)
+  // yellow('_any: values', values)
   return R.any(R.equals(R.__, matchStatusState))(values)
 }
 
@@ -71,5 +76,9 @@ export const selectRequestStatus = (statusNames, state) => {
   if (_all(statusNames, wdRequestStatusFulfilled, state)) {
     return wdRequestStatusFulfilled
   }
+  grpStart('selectRequestStatus')
+  yellow('statusNames', statusNames)
+  yellow('state', state)
+  grpEnd()
   return wdRequestStatusError
 }
