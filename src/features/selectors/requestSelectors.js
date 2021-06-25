@@ -35,7 +35,7 @@ import { grpStart, grpEnd, blue, yellow, red } from 'logger'
 // 2. check if it has 'fetch' prop
 // or
 // 2. get slice name && -> fetch path from it?
-const _statusStateValues = (statusNames, state) => {
+const _statusStateValuesOld = (statusNames, state) => {
   const values = {
     [wdCriteriaResultsFetchStatus]: selectCriteriaResultsFetchStatus(state),
     [wdTxFetchStatus]: selectTxFetchStatus(state),
@@ -44,6 +44,17 @@ const _statusStateValues = (statusNames, state) => {
     [wdRulesUpdateStatus]: selectRuleUpdateStatus(state)
   }
   return R.map((name) => values[name], statusNames)
+}
+
+const _statusStateValues = (state) => {
+  return (objs) => {
+    return objs.reduce((accum, curVal) => {
+      if (R.has('fetch')(curVal)) {
+        accum.push(curVal)
+      }
+      return accum
+    }, [])
+  }
 }
 
 const _all = (statusNames, matchStatusState, state) => {
@@ -62,8 +73,10 @@ const _any = (statusNames, matchStatusState, state) => {
  * @param {Array} statusNames a status name
  * @param {object} state state
  * @returns {string} wdRequestStatusError | wdRequestStatusPending | wdRequestStatusFetch | wdRequestStatusFulfilled
+ *
+ * statusNames are: wdRulesFetchStatus ('rulesFetchStatus'), wdTxFetchStatus ('txFetchStatus)
  */
-export const selectRequestStatus = (statusNames, state) => {
+export const selectRequestStatusOld = (statusNames, state) => {
   if (_any(statusNames, wdRequestStatusError, state)) {
     return wdRequestStatusError
   }
@@ -81,4 +94,19 @@ export const selectRequestStatus = (statusNames, state) => {
   yellow('state', state)
   grpEnd()
   return wdRequestStatusError
+}
+
+const hasFetchProp = (state) => R.filter((x) => R.has('fetch')(x))
+
+// const getFetchStatus = arrObj => { sliceName: }
+
+export const selectRequestStatus = (sliceNames = null, state) => {
+  const x = R.filter(hasFetchProp, state)
+  console.log('x', x)
+  // const status = R.map(getFetchStatus, x)
+
+  // const fetchStatus = state.filter() state.map(slice => {
+
+  // })
+  return 'a'
 }
