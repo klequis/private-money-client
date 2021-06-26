@@ -24,6 +24,7 @@ import {
 
 // eslint-disable-next-line
 import { grpStart, grpEnd, blue, yellow, red } from 'logger'
+import { green } from 'logger'
 
 /**
  *
@@ -76,37 +77,51 @@ const _any = (statusNames, matchStatusState, state) => {
  *
  * statusNames are: wdRulesFetchStatus ('rulesFetchStatus'), wdTxFetchStatus ('txFetchStatus)
  */
-export const selectRequestStatusOld = (statusNames, state) => {
-  if (_any(statusNames, wdRequestStatusError, state)) {
-    return wdRequestStatusError
-  }
-  if (_any(statusNames, wdRequestStatusPending, state)) {
-    return wdRequestStatusPending
-  }
-  if (_any(statusNames, wdRequestStatusFetch, state)) {
-    return wdRequestStatusFetch
-  }
-  if (_all(statusNames, wdRequestStatusFulfilled, state)) {
-    return wdRequestStatusFulfilled
-  }
-  grpStart('selectRequestStatus')
-  yellow('statusNames', statusNames)
-  yellow('state', state)
-  grpEnd()
-  return wdRequestStatusError
-}
+// export const selectRequestStatusOld = (statusNames, state) => {
+//   if (_any(statusNames, wdRequestStatusError, state)) {
+//     return wdRequestStatusError
+//   }
+//   if (_any(statusNames, wdRequestStatusPending, state)) {
+//     return wdRequestStatusPending
+//   }
+//   if (_any(statusNames, wdRequestStatusFetch, state)) {
+//     return wdRequestStatusFetch
+//   }
+//   if (_all(statusNames, wdRequestStatusFulfilled, state)) {
+//     return wdRequestStatusFulfilled
+//   }
+//   grpStart('selectRequestStatus')
+//   yellow('statusNames', statusNames)
+//   yellow('state', state)
+//   grpEnd()
+//   return wdRequestStatusError
+// }
 
-const hasFetchProp = (state) => R.filter((x) => R.has('fetch')(x))
+const allEqual = (testValue, matchArray) =>
+  R.all(R.equals(R.__, testValue), matchArray)
 
-// const getFetchStatus = arrObj => { sliceName: }
+const anyEqual = (testValue, matchArray) =>
+  R.any(R.equals(R.__, testValue), matchArray)
 
+/**
+ *
+ * @param {Array} sliceNames one or more slice names
+ * @param {*} state Redux state
+ * @returns {string} wdRequestStatusError | wdRequestStatusPending | wdRequestStatusFulfilled
+ */
 export const selectRequestStatus = (sliceNames = null, state) => {
-  const x = R.filter(hasFetchProp, state)
-  console.log('x', x)
-  // const status = R.map(getFetchStatus, x)
+  // get current fetch status for each slice in sliceNames
+  const fetchStatuses = R.map(
+    (sliceName) => state[sliceName]['fetch']['status'],
+    sliceNames
+  )
 
-  // const fetchStatus = state.filter() state.map(slice => {
-
-  // })
-  return 'a'
+  if (anyEqual(wdRequestStatusError, fetchStatuses))
+    return wdRequestStatusPending
+  if (anyEqual(wdRequestStatusPending, fetchStatuses))
+    return wdRequestStatusPending
+  if (anyEqual(wdRequestStatusFetch, fetchStatuses)) return wdRequestStatusFetch
+  if (allEqual(wdRequestStatusFulfilled, fetchStatuses))
+    return wdRequestStatusFulfilled
+  return 'unknown'
 }

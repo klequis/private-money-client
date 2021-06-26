@@ -16,12 +16,7 @@ import {
   selectRequestStatus
 } from 'features/selectors'
 
-import {
-  wdRequestStatusFetch,
-  wdRulesFetchStatus,
-  wdTxFetchStatus,
-  wdAcctFetchStatus
-} from 'appWords'
+import { wdRequestStatusFetch, wdAcct, wdTx, wdRules } from 'appWords'
 
 /* eslint-disable */
 import { green, yellow, red, purple } from 'logger'
@@ -36,11 +31,9 @@ export const App = () => {
   const _dispatch = useDispatch()
 
   const _status = useSelector((state) =>
-    selectRequestStatus(
-      [wdRulesFetchStatus, wdTxFetchStatus, wdAcctFetchStatus],
-      state
-    )
+    selectRequestStatus([wdRules, wdTx, wdAcct], state)
   )
+  green('_status', _status)
   const _transactionsFetchStatus = useSelector(selectTxFetchStatus)
   const _rulesFetchStatus = useSelector(selectRulesFetchStatus)
   const _acctFetchStatus = useSelector(selectAcctFetchStatus)
@@ -59,6 +52,7 @@ export const App = () => {
 
   countReturn = countReturn + 1
 
+  green('App.render')
   return (
     <RenderWhenReady status={_status} className="container-fluid">
       <>
