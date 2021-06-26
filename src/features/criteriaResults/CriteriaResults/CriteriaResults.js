@@ -16,7 +16,7 @@ import {
   selectRequestStatus
 } from 'features/selectors'
 import { RenderWhenReady } from 'components/RenderWhenReady'
-import { wdCriteriaResultsFetchStatus } from 'appWords'
+import { wdCriteria } from 'appWords'
 /* eslint-disable */
 import { green, redf, yellow, purple, grpStart, grpEnd } from 'logger'
 import { RenderCount } from 'components/RenderCount'
@@ -55,12 +55,14 @@ export const CriteriaResults = () => {
   const _dispatch = useDispatch()
 
   const _status = useSelector((state) =>
-    selectRequestStatus([wdCriteriaResultsFetchStatus], state)
+    selectRequestStatus([wdCriteria], state)
   )
   const _criteria = useSelector(selectRuleEditCriteria)
   green('_criteria', _criteria)
   const _actions = useSelector(selectRuleEditActions)
-  const _activeAndCompleteCriteria = useSelector(selectRuleEditActiveAndCompleteCriteria)
+  const _activeAndCompleteCriteria = useSelector(
+    selectRuleEditActiveAndCompleteCriteria
+  )
   useEffect(() => {
     // TODO: make use of 'valid'. There is a criteriaValidation
     //       in rules/criteria
