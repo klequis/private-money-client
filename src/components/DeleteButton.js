@@ -1,5 +1,5 @@
 import React from 'react'
-import { Trash } from 'react-bootstrap-icons'
+import { Trash } from 'icons/Trash'
 import styled from 'styled-components'
 
 const DeleteButtonDiv = styled.div`
