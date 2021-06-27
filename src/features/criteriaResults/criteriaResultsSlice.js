@@ -8,7 +8,11 @@ import {
   wdCriteriaResults,
   pathCriteriaResultsItems,
   pathCriteriaResultsFetchStatus,
-  pathCriteriaResultsFetchError
+  pathCriteriaResultsFetchError,
+  wdPayload,
+  wdData,
+  wdError,
+  wdMessage
 } from 'appWords'
 import * as R from 'ramda'
 import { createNewState } from 'features/helpers'
@@ -29,9 +33,7 @@ const initialState = {
 export const criteriaResultsFetch = createAsyncThunk(
   'criteriaResult/get',
   async (criteria) => {
-    blue('criteria', criteria)
-    const r = await api.transactions.read(criteria)
-    return r
+    return await api.transactions.read(criteria)
   }
 )
 
@@ -64,14 +66,14 @@ const criteriaResultsSlice = createSlice({
       )(current(state))
     },
     [criteriaResultsFetch.fulfilled]: (state, action) => {
-      const newItems = R.path(['payload', 'data'], action)
+      const newItems = R.path([wdPayload, wdData], action)
       return R.pipe(
         _fetchStatusSet(wdRequestStatusFulfilled),
         _itemsSet(newItems)
       )(current(state))
     },
     [criteriaResultsFetch.rejected]: (state, action) => {
-      const error = R.path(['error', 'message'], action)
+      const error = R.path([wdError, wdMessage], action)
       return R.pipe(
         _fetchStatusSet(wdRequestStatusError),
         _fetchErrorSet(error),

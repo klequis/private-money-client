@@ -33,7 +33,6 @@ export const App = () => {
   const _status = useSelector((state) =>
     selectRequestStatus([wdRules, wdTx, wdAcct], state)
   )
-  green('_status', _status)
   const _transactionsFetchStatus = useSelector(selectTxFetchStatus)
   const _rulesFetchStatus = useSelector(selectRulesFetchStatus)
   const _acctFetchStatus = useSelector(selectAcctFetchStatus)
@@ -52,7 +51,6 @@ export const App = () => {
 
   countReturn = countReturn + 1
 
-  green('App.render')
   return (
     <RenderWhenReady status={_status} className="container-fluid">
       <>

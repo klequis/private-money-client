@@ -1,22 +1,7 @@
 import { fetchJson } from './apiHelpers'
-// import { isEmpty } from 'validator'
-import * as R from 'ramda'
 
 // eslint-disable-next-line
 import { orange, green, redf } from 'logger'
-import { read } from 'fs'
-
-/*
-    [description] && [true || false]
-
-    '' && true
-
-    someVale && true
-
-    '' && false
-
-    someVale && false
-*/
 
 // Errors are handled by fetchJson()
 export const api = {
@@ -41,18 +26,19 @@ export const api = {
       const data = await fetchJson(url, {
         method: 'GET'
       })
+      orange('api.accounts.read: data', data)
       return data
     }
   },
   transactions: {
     async read(criteria) {
-      orange('transactions.read: criteria', criteria)
+      // orange('transactions.read: criteria', criteria)
       const url = '/api/criteria/criteria-test/'
       const data = await fetchJson(url, {
         method: 'POST',
         body: JSON.stringify(criteria)
       })
-      // orange('transactions.read: data', data)
+      orange('transactions.read: data', data)
       return data
     }
   },
@@ -76,6 +62,7 @@ export const api = {
       const data = await fetchJson(url, {
         method: 'GET'
       })
+      orange('api.rules.readsRuleById: data', data)
       return data
     },
     async create(rule) {
@@ -85,7 +72,7 @@ export const api = {
         method: 'POST',
         body: JSON.stringify(rule)
       })
-      // orange('rules.create: data', data)
+      orange('rules.create: data', data)
       return data
     },
     async delete(ruleId) {
@@ -93,7 +80,7 @@ export const api = {
       const data = await fetchJson(url, {
         method: 'DELETE'
       })
-      // orange('rules.delete: data', data)
+      orange('rules.delete: data', data)
       return data
     },
     async update(_id, rule) {
@@ -103,7 +90,7 @@ export const api = {
         method: 'PATCH',
         body: JSON.stringify(rule)
       })
-      // orange('api.rules.update: data', data)
+      orange('api.rules.update: data', data)
       return data
     }
   },
@@ -129,7 +116,7 @@ export const api = {
     const data = await fetchJson('api/import', {
       method: 'GET'
     })
-    // orange('importData: data', data)
+    orange('importData: data', data)
     return data
   }
 }

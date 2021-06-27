@@ -19,7 +19,7 @@ import {
   selectRuleEdit
 } from 'features/selectors'
 import {
-  pathRuleEditCritera,
+  pathRuleEditCriteria,
   pathRuleEditIsDirty,
   pathRuleEdit,
   pathRulesFetchStatus,
@@ -82,7 +82,9 @@ const initialState = {
 }
 
 export const rulesFetch = createAsyncThunk('rules/get', async () => {
-  return await api.rules.read()
+  const r = await api.rules.read()
+  // blue('rulesSlice.rulesFetch: r', r)
+  return r
 })
 
 export const ruleCreate = createAsyncThunk(
@@ -167,7 +169,7 @@ const _actionsSet = R.curry((newActions, state) => {
 })
 
 const _criteriaSet = R.curry((newCriteria, state) => {
-  return createNewState(pathRuleEditCritera, newCriteria, state)
+  return createNewState(pathRuleEditCriteria, newCriteria, state)
 })
 
 const _fetchStatusSet = R.curry((status, state) => {
@@ -218,7 +220,7 @@ const _isTmpRuleSet = R.curry((state) => {
 })
 
 const _criteriaSetUIProps = R.curry((criteria, state) => {
-  return createNewState(pathRuleEditCritera, criteria, state)
+  return createNewState(pathRuleEditCriteria, criteria, state)
 })
 
 const rulesSlice = createSlice({
@@ -340,7 +342,7 @@ const rulesSlice = createSlice({
     ruleEditSetExistingRule(state, action) {
       purple('ruleEditSetExistingRule', 'called')
       const currState = current(state)
-      blue('currState', currState)
+      // blue('currState', currState)
       const ruleId = R.path([wdPayload, wdRuleId], action)
       const rule = getRule(ruleId, currState)
       const { criteria } = rule
@@ -364,10 +366,10 @@ const rulesSlice = createSlice({
       const { payload } = action
       const { origDescription, date } = payload
       const rule = ruleTmpMake(origDescription, date)
-      blue('ruleEditSetNewRule: rule', rule)
+      // blue('ruleEditSetNewRule: rule', rule)
       // new rule always has hasActionTypeOmit === false so
       // no need to set
-      blue('state', state)
+      // blue('state', state)
       return R.pipe(
         _ruleEditSet(rule),
         _hasActionTypeOmitSet,
@@ -393,6 +395,7 @@ const rulesSlice = createSlice({
       )(current(state))
     },
     [rulesFetch.fulfilled]: (state, action) => {
+      // blue('rulessSlice.fulfilled: action', action)
       const newItems = R.path([wdPayload, wdData], action)
       return R.pipe(
         _fetchStatusSet(wdRequestStatusFulfilled),

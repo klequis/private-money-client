@@ -1,6 +1,6 @@
 import React from 'react'
 import { BrowserRouter as Router, Switch, Route, Link } from 'react-router-dom'
-import { ImportData } from './ImportData'
+import { Upload } from 'features/upload'
 import { Transactions } from './Transactions'
 export const Home = () => {
   return (
@@ -17,7 +17,7 @@ export const Home = () => {
       </nav>
       <Switch>
         <Route path="/import-data">
-          <ImportData />
+          <Upload />
         </Route>
         <Route path="/transactions">
           <Transactions />

@@ -23,14 +23,16 @@ import { blue, yellow, red, purple } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
 /* eslint-enable */
 
-export const acctFetch = createAsyncThunk(
-  'accounts/get',
-  async (noValuePassed, thunkApi) => {
-    const r = await api.accounts.read()
-    const { data } = r
-    return data
-  }
-)
+export const acctFetch = createAsyncThunk('accounts/get', async () => {
+  // blue('acctFetch')
+  const r = await api.accounts.read()
+  // blue('acctSlice.acctFetch: r', r)
+  return r
+})
+
+export const rulesFetch = createAsyncThunk('rules/get', async () => {
+  return await api.rules.read()
+})
 
 const initialState = {
   items: [],
@@ -65,6 +67,7 @@ const acctSlice = createSlice({
     },
     [acctFetch.fulfilled]: (state, action) => {
       const items = R.path([wdPayload, wdData], action)
+      // blue('acctSlice.fulfilled: action', action)
       return R.pipe(
         _acctFetchStatusSet(wdRequestStatusFulfilled),
         _itemsSet(items)

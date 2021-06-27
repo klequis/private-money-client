@@ -1,7 +1,14 @@
 import * as R from 'ramda'
 import { selectRulesItems } from 'features/selectors'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { wdActive, wdFeildsComplete, wdId, wdIsDirty, wdIsTmpRule, wdHasActionTypeOmit } from 'appWords'
+import {
+  wdActive,
+  wdFeildsComplete,
+  wdId,
+  wdIsDirty,
+  wdIsTmpRule,
+  wdHasActionTypeOmit
+} from 'appWords'
 import { dataTypes } from 'lib/dataTypes'
 
 // eslint-disable-next-line
@@ -33,7 +40,9 @@ export const removeTmpIdField = (rule) => {
 }
 
 export const getCompleteCriteria = (criteria) => {
-  return criteria === null ? [] : criteria.filter((c) => c.fieldsComplete === true)
+  return criteria === null
+    ? []
+    : criteria.filter((c) => c.fieldsComplete === true)
 }
 
 export const removeIncompleteCriteria = (rule) => {
@@ -44,7 +53,10 @@ export const removeIncompleteCriteria = (rule) => {
 
 export const removeCriterionUIProperties = (rule) => {
   const { criteria } = rule
-  const completeCriteria = criteria === null ? [] : criteria.map((c) => R.omit([wdActive, wdFeildsComplete], c))
+  const completeCriteria =
+    criteria === null
+      ? []
+      : criteria.map((c) => R.omit([wdActive, wdFeildsComplete], c))
   return R.mergeRight(rule, { criteria: completeCriteria })
 }
 
@@ -53,7 +65,7 @@ export const removeRuleUIProperties = (rule) => {
 }
 
 export const setCriteriaUIProps = (criteria) => {
-  return criteria.map(c => {
+  return criteria.map((c) => {
     return { active: true, fieldsComplete: true, ...c }
   })
 }
@@ -91,8 +103,6 @@ export const valueOrEmptyString = (value) => {
 }
 
 /**
- *
- * @param {string} root name of path root such as 'tx' or 'rules'
  * @param {Array} path full path to desirec values
  * @param {any} newValue the new value to set for the specified path state
  * @param {object} state current state with or without root property
@@ -101,13 +111,14 @@ export const valueOrEmptyString = (value) => {
 export const createNewState = R.curry((path, newValue, state) => {
   // const isPath = _isPath(path)
   // if (isPath) {
-  //   grpStart('setStateValue')
-  //   blue('root', root)
-  //   blue('path', path)
-  //   blue('newValue', newValue)
-  //   blue('state', state)
+  // grpStart('setStateValue')
+  // blue('path', path)
+  // blue('newValue', newValue)
+  // blue('state', state)
+  // grpEnd()
   // }
   const root = path[0]
+  // purple('root', root)
   const actualPath = R.has(root)(state) ? path : R.tail(path)
 
   // if (isPath) blue('actualPath', actualPath)

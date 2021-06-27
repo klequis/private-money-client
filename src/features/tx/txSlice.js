@@ -61,7 +61,9 @@ export const txFetch = createAsyncThunk(
     const state = getState()
     const showOmitted = selectCheckboxShowOmittedValue(state)
     const r = await api.views.read(_viewName, showOmitted)
-    const { data } = r
+    // blue('txSlice.txFetch: r', r)
+    const { data, error } = r
+    // blue('txSlice.txFetch: data', data)
 
     // // start timer
     // const s2 = new Date().getTime()
@@ -79,8 +81,7 @@ export const txFetch = createAsyncThunk(
     // const t2 = e2 - s2
     // red('t2', t2)
     // //////////////
-
-    return R.mergeRight(r, { data: _addFields(data) })
+    return { data: _addFields(data), error }
   }
 )
 
@@ -127,6 +128,7 @@ const txSlice = createSlice({
       )(current(state))
     },
     [txFetch.fulfilled]: (state, action) => {
+      // blue('txSlice.fulfilled: action', action)
       const items = R.path([wdPayload, wdData], action)
       return R.pipe(
         _txFetchStatusSet(wdRequestStatusFulfilled),

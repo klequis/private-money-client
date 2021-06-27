@@ -26,8 +26,6 @@ export const wdCriteria = 'criteria'
 export const wdCriteriaResults = 'criteriaResults'
 export const wdCheckbox = 'checkbox'
 export const wdCheckboxShowOmitted = 'checkboxShowOmitted'
-// export const wdCriteriaResultsFetchStatus = 'criteriaResultsFetchStatus'
-export const wdCriteriaResultsFetchError = 'criteriaResultsFetchError'
 // D
 export const wdData = 'data'
 export const wdDate = 'date'
@@ -104,8 +102,6 @@ export const wdRuleEdit = 'ruleEdit'
 export const wdRenameAction = 'renameAction'
 export const wdRulesCreateStatus = 'rulesCreateStatus'
 export const wdRulesCreateError = 'rulesCreateError'
-// export const wdRulesFetchStatus = 'rulesFetchStatus'
-export const wdRulesFetchError = 'rulesFetchError'
 export const wdRulesUpdateStatus = 'rulesUpdateStatus'
 export const wdRulesUpdateError = 'rulesUpdateError'
 export const wdReplaceAll = 'replaceAll'
@@ -153,7 +149,7 @@ export const pathCriteriaResultsItems = [wdCriteriaResults, wdItems]
 // rules.ruleEdit
 export const pathRuleEdit = [wdRules, wdRuleEdit]
 export const pathRuleEditActions = [wdRules, wdRuleEdit, wdActions]
-export const pathRuleEditCritera = [wdRules, wdRuleEdit, wdCriteria]
+export const pathRuleEditCriteria = [wdRules, wdRuleEdit, wdCriteria]
 export const pathRuleEditHasActionTypeOmit = [
   wdRules,
   wdRuleEdit,

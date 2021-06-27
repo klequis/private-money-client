@@ -1,7 +1,6 @@
 import { valueOrEmptyArray } from 'features/helpers'
 import {
   pathCriteriaResultsFetchStatus,
-  wdCriteriaResults,
   pathCriteriaResultsItems
 } from 'appWords'
 import { getStateValue } from 'features/helpers'

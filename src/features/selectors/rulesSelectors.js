@@ -6,7 +6,7 @@ import {
   // ruleEdit
   pathRuleEdit,
   pathRuleEditActions,
-  pathRuleEditCritera,
+  pathRuleEditCriteria,
   pathRuleEditIsDirty,
   pathRuleEditIsTmpRule,
   pathRuleEditHasActionTypeOmit,
@@ -18,7 +18,6 @@ import {
   pathRulesItems,
   pathRulesUpdateError,
   pathRulesUpdateStatus,
-  wdRules,
   pathRuleEditId,
   wdField,
   wdDescription,
@@ -62,7 +61,7 @@ export const selectRuleEditActions = (state) => {
  * @returns {Array} state.ruleEdit.criteria || []
  */
 export const selectRuleEditCriteria = (state) => {
-  const criteria = getStateValue(pathRuleEditCritera, state)
+  const criteria = getStateValue(pathRuleEditCriteria, state)
   return valueOrEmptyArray(criteria)
 }
 
@@ -171,7 +170,7 @@ export const selectRuleUpdateStatus = (state) => {
  * @description Gets criteria from state.RuleEdit where criteria.active===true
  */
 export const selectRuleEditActiveAndCompleteCriteria = (state) => {
-  const criteria = getStateValue(pathRuleEditCritera, state)
+  const criteria = getStateValue(pathRuleEditCriteria, state)
   if (isNilOrEmpty(criteria)) {
     return []
   }

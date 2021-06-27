@@ -28,6 +28,7 @@ export const acctFetch = createAsyncThunk(
   'accounts/get',
   async (noValuePassed, thunkApi) => {
     const r = await api.accounts.read()
+    blue('uploadSlice.uploadFetch: r', r)
     const { data } = r
     return data
   }
