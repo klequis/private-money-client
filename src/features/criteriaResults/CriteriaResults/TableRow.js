@@ -2,11 +2,10 @@ import React from 'react'
 import * as R from 'ramda'
 import PropTypes from 'prop-types'
 import styled from 'styled-components'
-import { StopIcon } from 'components/StopIcon'
+import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 // eslint-disable-next-line
 import { green } from 'logger'
-import { isNilOrEmpty } from 'lib/isNilOrEmpty'
 
 const DescriptionTD = styled.td`
   border: 1px solid white;

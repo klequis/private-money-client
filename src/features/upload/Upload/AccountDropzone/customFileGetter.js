@@ -1,7 +1,6 @@
 import * as R from 'ramda'
 import { getFileExtension } from 'lib/getFileExtension'
 import { addDefinedProperty } from 'lib/addDefinedProperty'
-import path from 'path'
 
 const isDuplicate = (fileName, currentFileNames) =>
   R.any(R.equals(R.__, fileName), currentFileNames)
