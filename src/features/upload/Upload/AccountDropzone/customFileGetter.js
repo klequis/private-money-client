@@ -1,6 +1,7 @@
 import * as R from 'ramda'
 import { getFileExtension } from 'lib/getFileExtension'
 import { addDefinedProperty } from 'lib/addDefinedProperty'
+import path from 'path'
 
 const isDuplicate = (fileName, currentFileNames) =>
   R.any(R.equals(R.__, fileName), currentFileNames)
@@ -20,6 +21,7 @@ export async function customFileGetter(event, acctId, currentFiles) {
   const addProps = (file) => {
     const { name } = file
     const extension = getFileExtension(name)
+
     addDefinedProperty('extension', extension, file)
     const isCSVExtension = extension.toLowerCase() === 'csv'
     addDefinedProperty('hasCSVExtension', isCSVExtension, file)

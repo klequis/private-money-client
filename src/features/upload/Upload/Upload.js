@@ -65,7 +65,8 @@ export const Upload = () => {
         formData.append('uploadedFiles', f)
         formData.append(f.name, f.name)
         formData.append(f.name, f.acctId)
-        return axios.post('http://localhost:3030/api/upload', formData, options)
+        // return axios.post('http://localhost:3030/api/upload', formData, options)
+        return axios.post('http://localhost:3030/api/import', formData, options)
       })
     )
 

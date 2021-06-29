@@ -5,29 +5,7 @@ import { App } from './App'
 import { store } from './store'
 import { Provider } from 'react-redux'
 
-const _theme = {
-  colors: {
-    text: {
-      danger: '#e74c3c',
-      info: '#3498db',
-      muted: '#888',
-      primary: '#375a7f',
-      secondary: '#444',
-      success: '#00bc8c',
-      warning: '#f39c12'
-    },
-    background: {
-      danger: '#e74c3c',
-      dark: '#fff',
-      light: '#adb5bd',
-      info: '#3498db',
-      primary: '#375a7f',
-      secondary: '#444',
-      success: '00bc8c',
-      warning: '#f39c12'
-    }
-  }
-}
+import './style/bootstrap.min.css'
 
 ReactDOM.render(
   <React.StrictMode>

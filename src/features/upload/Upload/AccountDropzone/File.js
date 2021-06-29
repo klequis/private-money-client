@@ -1,12 +1,14 @@
 import { useEffect, useState } from 'react'
 import styled from 'styled-components'
-// import { CheckSquareFill, XSquareFill } from 'react-bootstrap-icons'
 import { getFileBaseName } from 'lib/getFileBaseName'
 import { Circle } from './Circle'
 import { CircleCheck } from './CircleCheck'
 import { CircleX } from './CircleX'
 import { FileEarmarkText } from './FileEarmarkText'
 import * as R from 'ramda'
+/* eslint-disable */
+import { green, yellow, red, purple } from 'logger'
+/* eslint-enable */
 
 const Row = styled.div`
   display: flex;
@@ -68,14 +70,15 @@ const FileAccepted = ({ file, progress }) => {
   // console.log('*** file', file)
   // console.log('4. File.FileAccepted: progress', progress)
   const { name, extension } = file
-  const baseFileName = getFileBaseName(name)
+  const baseFilename = getFileBaseName(name)
+
   return (
     <Row>
       <FileContainerDiv id="Container">
         <FileName id="FileName">
           {/* <GreenCheck /> */}
           <FileEarmarkText />
-          <FileNameBase id="FileNameBase">{baseFileName}</FileNameBase>
+          <FileNameBase id="FileNameBase">{baseFilename}</FileNameBase>
           <FileNameExtension id="FileNameExtension">
             .{extension}
           </FileNameExtension>
