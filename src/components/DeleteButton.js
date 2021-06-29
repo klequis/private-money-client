@@ -1,5 +1,5 @@
 import React from 'react'
-import { Trash } from 'icons/Trash'
+import { Trash } from 'svg/Trash'
 import styled from 'styled-components'
 
 const DeleteButtonDiv = styled.div`
