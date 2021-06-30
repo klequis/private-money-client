@@ -1,11 +1,5 @@
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import {
-  pathTxActiveId,
-  wdTx,
-  pathTxItems,
-  pathTxFetchStatus,
-  wdId
-} from 'appWords'
+import { pathTxActiveId, pathTxItems, pathTxFetchStatus, wdId } from 'appWords'
 import * as R from 'ramda'
 import { getStateValue } from 'features/helpers'
 import { dataTypes } from 'lib/dataTypes'

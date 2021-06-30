@@ -48,7 +48,6 @@ export const selectRuleEdit = (state) => {
  *
  * @param {object} state state
  * @returns {Array} state.ruleEdit.actions
- *
  */
 export const selectRuleEditActions = (state) => {
   const actions = getStateValue(pathRuleEditActions, state)

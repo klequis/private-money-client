@@ -6,7 +6,6 @@ import {
   pathTxTblRadioHasCategoryValue,
   pathTxTblRadioHasRuleValue,
   wdOmit,
-  wdTxTbl,
   pathTxTblSortFieldName,
   pathTxTblSortOrder,
   pathRadioShowIncomeExpenseValue,

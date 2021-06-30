@@ -4,10 +4,9 @@ import { Grid } from 'components/Grid'
 import { Button } from 'components/Button'
 import * as R from 'ramda'
 import { AccountDropzone } from './AccountDropzone'
-// import { selectRequestStatus } from 'features/selectors'
-import { useDispatch, useSelector } from 'react-redux'
-// import { wdAcct } from 'appWords'
+import { useSelector } from 'react-redux'
 import axios from 'axios'
+
 /* eslint-disable */
 import { green, purple, red } from 'logger'
 import { RenderCount } from 'components/RenderCount'
@@ -40,20 +39,15 @@ export const Upload = () => {
     if (_acceptedLength === 0) return
 
     const onProgress = (filename, progressNum) => {
-      // console.log('***** _progress', _progress)
-      // _setProgress(R.merge(_progress, { filename, progressNum }))
       _setProgress({ filename, progressNum })
     }
 
     const allAcceptedFiles = _fileList.filter((f) => f.accepted)
-    // options
 
-    // promise.all
     const result = await Promise.all(
       allAcceptedFiles.map((f) => {
         const options = {
           onUploadProgress: ({ total, loaded }) => {
-            // console.log('----------------------------------------------')
             return onProgress(
               f.name,
               Math.round((loaded / total) * 100).toFixed(2)
@@ -65,13 +59,11 @@ export const Upload = () => {
         formData.append('uploadedFiles', f)
         formData.append(f.name, f.name)
         formData.append(f.name, f.acctId)
-        // return axios.post('http://localhost:3030/api/upload', formData, options)
         return axios.post('http://localhost:3030/api/import', formData, options)
       })
     )
 
     const uploadedFileNames = result.map((x) => x.data.result)
-    // console.log('uploadedFileNames', uploadedFileNames)
 
     const newFileList = R.map(
       (f) => setWasUploaded(f, uploadedFileNames),
@@ -80,7 +72,6 @@ export const Upload = () => {
     _setFileList(newFileList)
   }
 
-  console.log('accounts', accounts)
   return (
     <div>
       <Button onClick={_uploadClick}>Upload</Button>

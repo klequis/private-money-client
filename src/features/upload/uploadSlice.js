@@ -16,12 +16,11 @@ import {
   wdMessage
 } from 'appWords'
 import { createNewState } from 'features/helpers'
-import { selectAcctItems, selectAcctFetchStatus } from 'features/selectors'
+import { selectAcctFetchStatus } from 'features/selectors'
 
 /* eslint-disable */
 import { blue, yellow, red, purple } from 'logger'
 import { logFetchResults } from 'lib/logFetchResults'
-
 /* eslint-enable */
 
 export const acctFetch = createAsyncThunk(
@@ -58,7 +57,8 @@ const uploadSlice = createSlice({
   initialState,
   reducers: {
     uploadProgressSet(state, action) {
-      const payload = R.path([wdUpload], action)
+      // TODO: uploadProgressSet - incomplete
+      // const payload = R.path([wdUpload], action)
       return state // tmp
     }
   },

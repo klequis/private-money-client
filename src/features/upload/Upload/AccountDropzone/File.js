@@ -57,9 +57,6 @@ const Progress = ({ file, progress }) => {
 
   // If progress is not for this file ignore / return
   if (file.name !== filename) return 'hi'
-  // console.log('5. File.Progress: progress', progress)
-  // console.log('File.Progress: a', a)
-
   if (progressNum === 0) return <Circle />
   if (progressNum === 100) return <CircleCheck />
   if (progressNum > 0 && progress < 100) return <span>{progress}</span>
@@ -67,8 +64,6 @@ const Progress = ({ file, progress }) => {
 }
 
 const FileAccepted = ({ file, progress }) => {
-  // console.log('*** file', file)
-  // console.log('4. File.FileAccepted: progress', progress)
   const { name, extension } = file
   const baseFilename = getFileBaseName(name)
 
@@ -76,7 +71,6 @@ const FileAccepted = ({ file, progress }) => {
     <Row>
       <FileContainerDiv id="Container">
         <FileName id="FileName">
-          {/* <GreenCheck /> */}
           <FileEarmarkText />
           <FileNameBase id="FileNameBase">{baseFilename}</FileNameBase>
           <FileNameExtension id="FileNameExtension">
@@ -84,7 +78,6 @@ const FileAccepted = ({ file, progress }) => {
           </FileNameExtension>
         </FileName>
         <Progress file={file} progress={progress} />
-        {/* {file.wasUploaded ? ' - yes' : ' - no'} */}
       </FileContainerDiv>
     </Row>
   )
@@ -133,18 +126,14 @@ const FileRejected = ({ file }) => {
 export const File = ({ file, progress }) => {
   const { accepted } = file
   const [_progress, _setProgress] = useState({})
-  // if (file.name === progress.filename)
 
-  // console.log('2. File: progress', progress)
   useEffect(() => {
-    // console.log('File: _progress', _progress)
     const { filename, progressNum } = progress
     if (filename !== undefined && progressNum !== undefined)
-      // console.log('setting progress')s
       _setProgress(R.merge(_progress, { filename, progressNum }))
+    // eslint-disable-next-line
   }, [progress])
 
-  // console.log('3. File: _progress', _progress)
   return accepted ? (
     <FileAccepted file={file} progress={_progress} />
   ) : (

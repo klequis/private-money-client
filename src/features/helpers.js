@@ -134,8 +134,6 @@ export const createNewState = R.curry((path, newValue, state) => {
 })
 
 /**
- *
- * @param {string} root name of path root such as 'tx' or 'rules'
  * @param {Array} path full path to desirec values
  * @param {state} state current state with or without root property
  * @returns {any} returns whatever is in state

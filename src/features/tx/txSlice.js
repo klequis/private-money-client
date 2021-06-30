@@ -2,7 +2,6 @@ import { createSlice, createAsyncThunk, current } from '@reduxjs/toolkit'
 import { api } from 'api'
 import * as R from 'ramda'
 import { isNilOrEmpty } from 'lib/isNilOrEmpty'
-import { getMonthIndex } from 'lib/getMonthIndex'
 import {
   wdRequestStatusPending,
   wdRequestStatusFulfilled,
@@ -147,8 +146,5 @@ const txSlice = createSlice({
 })
 
 export const txReducer = txSlice.reducer
-export const {
-  txActiveIdClear,
-  txActiveIdSet: txActiveIdSet,
-  txFetchStatusSetRefresh
-} = txSlice.actions
+export const { txActiveIdClear, txActiveIdSet, txFetchStatusSetRefresh } =
+  txSlice.actions
