@@ -43,6 +43,7 @@ export const Upload = () => {
     }
 
     const allAcceptedFiles = _fileList.filter((f) => f.accepted)
+    green('allAcceptedFiles', allAcceptedFiles)
 
     const result = await Promise.all(
       allAcceptedFiles.map((f) => {
@@ -63,6 +64,7 @@ export const Upload = () => {
       })
     )
 
+    green('result', result)
     const uploadedFileNames = result.map((x) => x.data.result)
 
     const newFileList = R.map(
