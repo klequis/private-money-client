@@ -10,13 +10,25 @@ import axios from 'axios'
 /* eslint-disable */
 import { green, purple, red } from 'logger'
 import { RenderCount } from 'components/RenderCount'
+import { blue } from 'logger'
 /* eslint-enable */
 
-const setWasUploaded = (file, names) => {
-  const { name } = file
-  const a = R.any((n) => n === name)(names)
-  file.wasUploaded = a
-  return file
+const updateFileProps = (newData, files) => {
+  const updateFile = (newFileData) => {
+    const { error } = newFileData
+    const { data } = newFileData
+    const { originalFilename, filePath, newFilename } = data
+    const file = R.find(R.propEq('name', originalFilename))(files)
+    file.error = error !== null ? error : null
+    file.wasUploaded = error === null
+    green('error', error)
+    if (error === null) {
+      file.newFilename = newFilename
+      file.filePath = filePath
+    }
+    return file
+  }
+  return R.map(updateFile, newData)
 }
 
 /*
@@ -45,7 +57,7 @@ export const Upload = () => {
     const allAcceptedFiles = _fileList.filter((f) => f.accepted)
     green('allAcceptedFiles', allAcceptedFiles)
 
-    const result = await Promise.all(
+    const results = await Promise.all(
       allAcceptedFiles.map((f) => {
         const options = {
           onUploadProgress: ({ total, loaded }) => {
@@ -63,16 +75,15 @@ export const Upload = () => {
         return axios.post('http://localhost:3030/api/import', formData, options)
       })
     )
+    // get just data part of result
+    const results1 = results.map((f) => f.data)
+    const newFileList = updateFileProps(results1, _fileList)
 
-    green('result', result)
-    const uploadedFileNames = result.map((x) => x.data.result)
-
-    const newFileList = R.map(
-      (f) => setWasUploaded(f, uploadedFileNames),
-      _fileList
-    )
+    // green('newFileList', newFileList)
     _setFileList(newFileList)
   }
+
+  green('_fileList', _fileList)
 
   return (
     <div>
