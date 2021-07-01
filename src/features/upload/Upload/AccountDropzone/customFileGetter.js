@@ -33,6 +33,7 @@ export async function customFileGetter(event, acctId, currentFiles) {
     //
 
     addDefinedProperty('wasUploaded', false, file, true)
+    addDefinedProperty('error', null, file)
     return file
   }
 
