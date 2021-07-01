@@ -18,7 +18,7 @@ const Row = styled.div`
   align-items: stretch;
   border-top: 1px solid white;
 
-  /* border-bottom needs to be last child */
+  /* TODO: border-bottom needs to be last child */
 
   border-bottom: 1px solid white;
   padding: 5px 0;
